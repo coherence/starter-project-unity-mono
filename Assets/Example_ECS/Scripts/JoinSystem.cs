@@ -38,8 +38,8 @@ class JoinSystem : SystemBase
         // Detect remotely simulated Player entities and instantiate a proper Prefab for them.
         Entities.WithNone<RenderMesh>().ForEach((Entity networkEntity, in Player player) =>
         {
-            var playerPrefabEntity = PrefabHolder.Get().playerPrefabEntity;
-            var newPlayerEntity = World.EntityManager.Instantiate(playerPrefabEntity);
+            var otherPlayerPrefabEntity = PrefabHolder.Get().otherPlayerPrefabEntity;
+            var newPlayerEntity = World.EntityManager.Instantiate(otherPlayerPrefabEntity);
             CoherenceUtil.ReplaceEntity(EntityManager, networkEntity, newPlayerEntity);
         }).WithStructuralChanges().WithoutBurst().Run();
     }

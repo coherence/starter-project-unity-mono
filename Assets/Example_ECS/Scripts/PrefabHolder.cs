@@ -10,14 +10,19 @@ public class PrefabHolder : MonoBehaviour, IDeclareReferencedPrefabs, IConvertGa
     public GameObject playerPrefab;
     public Entity playerPrefabEntity;
 
+    public GameObject otherPlayerPrefab;
+    public Entity otherPlayerPrefabEntity;
+
     public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)
     {
         referencedPrefabs.Add(playerPrefab);
+        referencedPrefabs.Add(otherPlayerPrefab);
     }
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         playerPrefabEntity = conversionSystem.GetPrimaryEntity(playerPrefab);
+        otherPlayerPrefabEntity = conversionSystem.GetPrimaryEntity(otherPlayerPrefab);
     }
 
     public static PrefabHolder Get()
