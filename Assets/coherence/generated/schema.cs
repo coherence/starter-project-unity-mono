@@ -2,7 +2,7 @@
 // Generated file. DO NOT EDIT!
 // Generated from schema 'FirstProject' [0xB1775CC]
 // File created by coherence-code-generator 
-// Generated at time 2020-08-28T09:36:19Z
+// Generated at time 2020-09-08T07:18:00Z
 // </auto-generated>
 
 
@@ -786,7 +786,7 @@ namespace Coherence.Generated.Internal.FirstProject
         void BootUp()
         {
             Debug.Log($"created messageChannels");
-            var netSys = World.GetOrCreateSystem<NetworkConnectSystem>();
+            var netSys = World.GetOrCreateSystem<NetworkSystem>();
             var wrapper = new SerializeComponentUpdatesWrapper();
             sender = new Sender(World, netSys.Connector, netSys.Mapper, wrapper, netSys.SentPacketsCache, netSys.Log);
             destroyedEntities = netSys.DestroyedEntities;
@@ -1270,7 +1270,7 @@ namespace Coherence.Generated.Internal.FirstProject
 	        simGroup = World.GetExistingSystem<CoherenceSimulationSystemGroup>();
             var skipper = new DeserializeComponentsAndSkipWrapper();
             var deserializeComponents = new ComponentDeserializeWrapper();
-            var netSys = World.GetOrCreateSystem<NetworkConnectSystem>();
+            var netSys = World.GetOrCreateSystem<NetworkSystem>();
             var commandPerform = new PerformCommands();
             var receiveUpdate = new ReceiveUpdate(deserializeComponents, skipper, netSys.Mapper, netSys.DestroyedEntities, netSys.Log);
             receiver = new Receiver(World, netSys.Mapper, netSys.Connector, receiveUpdate, commandPerform, netSys.SentPacketsCache, netSys.Log);
@@ -1966,21 +1966,18 @@ public static class MessageDeserializers
 namespace Coherence.Generated.Internal.FirstProject
 {
 	using global::Coherence.Generated.FirstProject;
-    using Piot.Log;
-    using Unity.Entities;
+	using Piot.Log;
+	using Unity.Entities;
 	using Replication.Client.Unity.Ecs;
 
-    
-    public class PerformCommands : IPerformCommand
-    {
-        public void PerformCommand(EntityManager mgr, Entity entity, uint commandTypeID, Coherence.Replication.Protocol.Definition.IInBitStream bitStream, ILog log)
-        {
-            switch (commandTypeID)
-            {
 
-            }
-        }
-    }
+	public class PerformCommands : IPerformCommand
+	{
+		public void PerformCommand(EntityManager mgr, Entity entity, uint commandTypeID, Coherence.Replication.Protocol.Definition.IInBitStream bitStream, ILog log)
+		{
+
+		}
+	}
 }
 
 
@@ -1996,113 +1993,46 @@ namespace Coherence.Generated.Internal.FirstProject
 			
 namespace Coherence.Sdk.Unity
 {
-    using Coherence.Generated.Internal.FirstProject;
-    using global::Unity.Entities;
-    using global::Unity.Transforms;
-    using Piot.Log;
-    using Replication.Client.Unity.Ecs;
-    using Coherence.Replication.Client.Connection;
-    using global::Coherence.Generated.FirstProject;
+	using Coherence.Generated.Internal.FirstProject;
+	using global::Unity.Entities;
+	using global::Unity.Transforms;
+	using Piot.Log;
+	using Replication.Client.Unity.Ecs;
+	using global::Coherence.Generated.FirstProject;
 
-    [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class CoherenceRuntimeSystem : ComponentSystem
-    {
-        private bool offline;
-        private NetworkConnectSystem connectSystem;
-        private ILog log;
-
-        public void Connect(string hostname, ConnectionType connectionType)
-        {
-            offline = hostname == "offline"; // HACK
-
-            log = World.GetOrCreateSystem<NetworkConnectSystem>().Log;
-
-            var commandBuffer = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>().CreateCommandBuffer()
-                .AsParallelWriter();
-
-            World.GetOrCreateSystem<OfflineEntityDetectorSystem>().Enabled = offline;
-            World.GetOrCreateSystem<SyncSendSystem>().Enabled = !offline;
-            World.GetOrCreateSystem<SyncReceiveSystem>().Enabled = !offline;
-            World.GetOrCreateSystem<NetworkConnectSystem>().Enabled = !offline;
-
-            if (!offline)
-            {
-                connectSystem = World.GetOrCreateSystem<NetworkConnectSystem>();
-                ConnectionHelper.Connect(connectSystem.Connector, hostname, connectionType);
-            }
-        }
-
-        protected override void OnCreate()
-        {
-            #region Register all known component types and their enums
-                       GlobalLookups.Register<Translation>(TypeEnums.InternalWorldPositionComponent);
+	[UpdateInGroup(typeof(SimulationSystemGroup))]
+	public class CoherenceRuntimeSystem : ComponentSystem
+	{
+		protected override void OnCreate()
+		{
+			#region Register all known component types and their enums
+			           GlobalLookups.Register<Translation>(TypeEnums.InternalWorldPositionComponent);
            GlobalLookups.Register<LocalUser>(TypeEnums.InternalLocalUser);
            GlobalLookups.Register<WorldPositionQuery>(TypeEnums.InternalWorldPositionQuery);
            GlobalLookups.Register<CoherenceSessionComponent>(TypeEnums.InternalCoherenceSessionComponent);
            GlobalLookups.Register<Player>(TypeEnums.InternalPlayer);
 
-            #endregion
+			#endregion
 
-            #region Register all known component types and their component type id
-                       GlobalTypeIdLookups.Register<Translation>(TypeIds.InternalWorldPositionComponent);
+			#region Register all known component types and their component type id
+			           GlobalTypeIdLookups.Register<Translation>(TypeIds.InternalWorldPositionComponent);
            GlobalTypeIdLookups.Register<LocalUser>(TypeIds.InternalLocalUser);
            GlobalTypeIdLookups.Register<WorldPositionQuery>(TypeIds.InternalWorldPositionQuery);
            GlobalTypeIdLookups.Register<CoherenceSessionComponent>(TypeIds.InternalCoherenceSessionComponent);
            GlobalTypeIdLookups.Register<Player>(TypeIds.InternalPlayer);
 
-            #endregion
+			#endregion
 
-            base.OnCreate();
-        }
+			base.OnCreate();
+		}
 
-        protected override void OnUpdate()
-        {
-        }
-
-        public bool IsConnected => offline || connectSystem.IsConnected;
-    }
+		protected override void OnUpdate()
+		{
+		}
+	}
 }
 
 // ------------------ end of RuntimeSystem.cs -----------------
-#endregion
-
-
-
-#region OfflineSystem
-// -----------------------------------
-//  OfflineSystem.cs
-// -----------------------------------
-			
-namespace Coherence.Generated.Internal.FirstProject
-{
-    using global::Coherence.Generated.FirstProject;
-    using global::Unity.Entities;
-    using global::Unity.Transforms;
-    using Replication.Unity;
-	using Replication.Client.Unity.Ecs;
-	
-    [AlwaysUpdateSystem]
-    public class OfflineEntityDetectorSystem : SystemBase
-    {
-        private bool hasSpawnedLocalUser;
-
-        protected override void OnUpdate()
-        {
-            if (!hasSpawnedLocalUser)
-            {
-                var mgr = World.EntityManager;
-
-                var localUserEntity = mgr.CreateEntity();
-                mgr.AddComponentData(localUserEntity, new LocalUser { localIndex = 0 });
-                hasSpawnedLocalUser = true;
-            }
-
-            Dependency.Complete();
-        }
-    }
-}
-
-// ------------------ end of OfflineSystem.cs -----------------
 #endregion
 
 

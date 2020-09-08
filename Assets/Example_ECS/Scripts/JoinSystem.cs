@@ -3,37 +3,26 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Coherence.Replication.Client.Unity.Ecs;
-using Coherence.Replication.Client.Connection;
 using Coherence.Generated.FirstProject;
 using Coherence.Sdk.Unity;
 
 [AlwaysUpdateSystem]
 class JoinSystem : SystemBase
 {
-    CoherenceRuntimeSystem coherenceRuntime;
-    Entity localUserAuthority;
-
     protected override void OnStartRunning()
     {
-        coherenceRuntime = World.GetOrCreateSystem<CoherenceRuntimeSystem>();
-        coherenceRuntime.Connect("127.0.0.1:12345", ConnectionType.Client);
+        var networkSystem = World.GetExistingSystem<NetworkSystem>();
+        networkSystem.Connect("127.0.0.1:12345");
     }
 
     protected override void OnUpdate()
     {
-        // When we are connected we try to get hold of our LocalUser entity,
-        // which allows us to create a WorldPositionQuery and Player.
-        if (coherenceRuntime.IsConnected && localUserAuthority.Equals(Entity.Null))
+        // Are we connected yet?
+        Entities.ForEach((in ConnectedEvent connected) =>
         {
-            var localUserQuery = EntityManager.CreateEntityQuery(typeof(LocalUser));
-
-            if (localUserQuery.CalculateEntityCount() > 0)
-            {
-                localUserAuthority = localUserQuery.GetSingletonEntity();
-                CreateWorldPositionQuery(localUserAuthority);
-                CreateLocalPlayer(localUserAuthority);
-            }
-        }
+            CreateWorldPositionQuery();
+            CreateLocalPlayer();
+        }).WithStructuralChanges().WithoutBurst().Run();
 
         // Detect remotely simulated Player entities and instantiate a proper Prefab for them.
         Entities.WithNone<RenderMesh>().ForEach((Entity networkEntity, in Player player) =>
@@ -44,13 +33,13 @@ class JoinSystem : SystemBase
         }).WithStructuralChanges().WithoutBurst().Run();
     }
 
-    void CreateWorldPositionQuery(Entity authority)
+    void CreateWorldPositionQuery()
     {
         var worldQueryEntity = EntityManager.CreateEntity();
 
         EntityManager.AddComponentData(worldQueryEntity, new CoherenceSimulateComponent
         {
-            Authority = authority
+
         });
 
         EntityManager.AddComponentData(worldQueryEntity, new WorldPositionQuery
@@ -59,7 +48,7 @@ class JoinSystem : SystemBase
         });
     }
 
-    private Entity CreateLocalPlayer(Entity authority)
+    private Entity CreateLocalPlayer()
     {
         var playerPrefabEntity = PrefabHolder.Get().playerPrefabEntity;
         var newPlayerEntity = World.EntityManager.Instantiate(playerPrefabEntity);
@@ -73,7 +62,7 @@ class JoinSystem : SystemBase
         // This component makes us responsible for the simulation of the Entity.
         EntityManager.AddComponentData(newPlayerEntity, new CoherenceSimulateComponent
         {
-            Authority = authority,
+
         });
 
         // This component makes the Entity disappear if we log out or disconnect.
