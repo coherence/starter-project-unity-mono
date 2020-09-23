@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using Coherence.Replication.Client.Unity.Ecs;
 using Coherence.Generated.FirstProject;
-using Coherence.Sdk.Unity;
+using Coherence.Generated.Internal.FirstProject;
 
 [AlwaysUpdateSystem]
 class JoinSystem : SystemBase
@@ -29,7 +29,7 @@ class JoinSystem : SystemBase
         {
             var otherPlayerPrefabEntity = PrefabHolder.Get().otherPlayerPrefabEntity;
             var newPlayerEntity = World.EntityManager.Instantiate(otherPlayerPrefabEntity);
-            CoherenceUtil.ReplaceEntity(EntityManager, networkEntity, newPlayerEntity);
+            EntityReplacer.Replace(EntityManager, networkEntity, newPlayerEntity);
         }).WithStructuralChanges().WithoutBurst().Run();
     }
 
