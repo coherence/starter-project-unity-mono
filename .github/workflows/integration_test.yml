@@ -72,4 +72,6 @@ jobs:
       - uses: Ilshidur/action-slack@2.0.2
         if: env.WORKFLOW_CONCLUSION == 'failure'
         with:
-          args: Build failed for https://github.com/${{ github.repository }}
+          args: |
+            Repo: *${{ github.repository }}*
+            Link: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
