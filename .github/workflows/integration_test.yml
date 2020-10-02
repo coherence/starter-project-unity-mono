@@ -21,8 +21,8 @@ jobs:
         unityVersion:
           - 2020.1.3f1
         targetPlatform:
-          # - StandaloneOSX
-          # - StandaloneWindows64
+          - StandaloneOSX
+          - StandaloneWindows64
           - StandaloneLinux64
     steps:
       - uses: actions/setup-go@v1
@@ -47,7 +47,7 @@ jobs:
           ./coherence-protocol-code-generator generate --code csharp --ecs unity --schema ../Assets/coherence/coherence.schema > ../Assets/coherence/generated/schema.cs
 
       - name: Inject SDK dependencies
-        uses: coherence/action-unity-inject-deps@master
+        uses: coherence/action-unity-inject-deps@v1
 
       - uses: actions/cache@v1.1.0
         with:
