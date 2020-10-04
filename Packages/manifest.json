@@ -42,7 +42,7 @@
         "com.unity.modules.vr": "1.0.0",
         "com.unity.modules.wind": "1.0.0",
         "com.unity.modules.xr": "1.0.0",
-        "io.coherence.sdk.client.unity": "2020.1.0-a30"
+        "io.coherence.sdk.client.unity": "2020.1.0-a33"
     },
     "scopedRegistries": [
         {

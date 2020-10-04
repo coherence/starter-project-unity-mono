@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
+[DisableAutoCreation]
 class InputSystem : SystemBase
 {
     protected override void OnUpdate()

@@ -3,6 +3,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 [AlwaysUpdateSystem]
+[DisableAutoCreation]
 class MovementSystem : SystemBase
 {
     const float speed = 5.0f;
