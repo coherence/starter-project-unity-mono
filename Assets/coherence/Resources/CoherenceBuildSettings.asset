@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd74e15039565d6475cc6a6229974a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 92b6f43ed121949c7b82b4bb3d7f2851, type: 3}
   m_Name: CoherenceBuildSettings
   m_EditorClassIdentifier: 
   LogLevel: 3

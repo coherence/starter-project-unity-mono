@@ -1,9 +1,9 @@
+using Coherence.Generated.FirstProject;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Coherence.Replication.Client.Unity.Ecs;
-using Coherence.Generated.FirstProject;
 using Coherence.Generated.Internal.Schema;
 
 [AlwaysUpdateSystem]

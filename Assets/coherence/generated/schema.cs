@@ -2,7 +2,7 @@
 // Generated file. DO NOT EDIT!
 // Generated from schema 'Schema' [0x82BEB27C]
 // File created by coherence-code-generator v0.0.4-a13
-// Generated at time 2020-10-04T19:03:11Z
+// Generated at time 2020-10-04T19:17:07Z
 // </auto-generated>
 
 
