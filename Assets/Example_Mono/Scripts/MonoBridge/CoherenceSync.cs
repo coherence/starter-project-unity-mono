@@ -107,6 +107,7 @@ namespace Coherence.MonoBridge
                 }
                 
                 entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
+                entityManager.AddComponent(entity, typeof(Player));
             }
         }
 
@@ -455,7 +456,6 @@ namespace Coherence.MonoBridge
                         }
                     }
                 }
-            
             }
         }
     }
