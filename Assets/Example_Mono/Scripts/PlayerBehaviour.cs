@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public enum State
+    public enum StateType
     {
         Default = 0,
         Red,
@@ -16,7 +16,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     public float movementSpeed = 3f;
     
-    public State state = State.Default;
+    private StateType state = StateType.Default;
+
+    public int State
+    {
+        get
+        {
+            return (int) state;
+        }
+        set
+        {
+            state = (StateType) value;
+        }
+    }
 
     private Material material;
 
@@ -57,12 +69,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void CycleState()
     {
-        var values = Enum.GetValues(typeof(State));
+        var values = Enum.GetValues(typeof(StateType));
         var maxValue = (int) values.GetValue(values.Length - 1);
         int cst = (int) state;
         cst += 1;
         if (cst > maxValue) cst = 0;
-        state = (State) cst;
+        state = (StateType) cst;
 
         RenderState();
     }
@@ -71,19 +83,19 @@ public class PlayerBehaviour : MonoBehaviour
     {
         switch (state)
         {
-            case State.Default:
+            case StateType.Default:
                 material.color = Color.white;
                 break;
-            case State.Red:
+            case StateType.Red:
                 material.color = Color.red;
                 break;
-            case State.Yellow:
+            case StateType.Yellow:
                 material.color = Color.yellow;
                 break;
-            case State.Green:
+            case StateType.Green:
                 material.color = Color.green;
                 break;
-            case State.Blue:
+            case StateType.Blue:
                 material.color = Color.blue;
                 break;
             default:

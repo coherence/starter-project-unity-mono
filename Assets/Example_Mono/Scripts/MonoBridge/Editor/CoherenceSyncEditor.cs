@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
-using Coherence.MonoBridge;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 using System.Reflection;
 
 namespace Coherence.MonoBridge
@@ -13,21 +10,15 @@ namespace Coherence.MonoBridge
     [CanEditMultipleObjects]
     public class CoherenceSyncEditor : UnityEditor.Editor
     {
-        [SerializeField]
-        private Hashtable typeToggles;
         
-        [SerializeField]
-        private Hashtable componentToggles;
-
+        
         private Type[] supportedTypes =
-            {typeof(Vector3), typeof(Quaternion), typeof(float), typeof(int), typeof(uint), typeof(Enum)};
+            {typeof(Vector3), typeof(Quaternion), typeof(float), typeof(int), typeof(uint)};
 
         private Texture2D texture;
         
         void OnEnable()
         {
-            typeToggles = new Hashtable();
-            componentToggles = new Hashtable();
             texture = (Texture2D)Resources.Load("Coherence_Main_Logotype_Positive");
         }
 
@@ -43,14 +34,12 @@ namespace Coherence.MonoBridge
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update ();
-
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.BeginVertical();
-            GUI.DrawTexture(new Rect(20, 5, 150, 42), texture, ScaleMode.ScaleToFit);
+            GUI.DrawTexture(new Rect(20, 5, 180, 51), texture, ScaleMode.ScaleToFit);
             
-            for(int i=0; i<8; i++)EditorGUILayout.Space();
+            for(int i=0; i<9; i++)EditorGUILayout.Space();
             
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -68,8 +57,10 @@ namespace Coherence.MonoBridge
             EditorGUILayout.LabelField("Warning! Using reflection (slow). Bake network components for more performance.");
             GUI.color = prevColor;
             GUILayout.Button("Bake network components");
-            
-            serializedObject.ApplyModifiedProperties ();
+            if (GUILayout.Button("Reset"))
+            {
+                (target as CoherenceSync)?.Reset();
+            }
         }
         
         public Type GetUnderlyingType(MemberInfo member)
@@ -96,6 +87,8 @@ namespace Coherence.MonoBridge
         {
             CoherenceSync coherenceSync = (CoherenceSync)target;
 
+            if (target == null) return;
+            
             Type monoBehaviourType = typeof(MonoBehaviour);
             const BindingFlags monoBindingFlags = BindingFlags.Public | BindingFlags.Instance;
             MemberInfo[] monoMembers = monoBehaviourType.GetFields(monoBindingFlags).Cast<MemberInfo>()
@@ -111,15 +104,15 @@ namespace Coherence.MonoBridge
                 if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter)) continue;
                 if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync)) continue;
                 if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider)) continue;
-                EditorGUILayout.Space();
+               // EditorGUILayout.Space();
                 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
                 
                 var compTypeString = compType.ToString();
-                bool compTypeIncluded = EditorGUILayout.Toggle( typeToggles[compTypeString] != null && (bool)typeToggles[compTypeString]);
+                bool compTypeIncluded = EditorGUILayout.Toggle( coherenceSync.GetScriptToggle(compTypeString));
 
-                typeToggles[compTypeString] = compTypeIncluded;
+                coherenceSync.SetScriptToggle(compTypeString, compTypeIncluded);
 
                 EditorGUILayout.EndHorizontal();
                 
@@ -131,6 +124,11 @@ namespace Coherence.MonoBridge
                 
                 foreach (var variable in members)
                 {
+                    if (compType == typeof(UnityEngine.Transform))
+                    {
+                        if (variable.Name != "rotation" && variable.Name != "position") continue;
+                    }
+                    
                     bool doProceed = true;
                     // Remove those inherited from MonoBehaviour (de-clutter)
                     foreach (var monoVariable in monoMembers)
@@ -152,11 +150,12 @@ namespace Coherence.MonoBridge
                     EditorGUI.indentLevel++;
                     try
                     {
-                        var varString = compTypeString + "." + variable;
+                        var varString = compTypeString + CoherenceSync.Delimiter + variable.Name;
 
                         EditorGUILayout.LabelField($"{variable.Name} [{fieldType}]");
-                        bool varIncluded = EditorGUILayout.Toggle( componentToggles[varString] != null && (bool)componentToggles[varString]);
-                        componentToggles[varString] = varIncluded;
+                        bool varIncluded = EditorGUILayout.Toggle( coherenceSync.GetFieldToggle(varString));
+                        coherenceSync.SetFieldToggle(varString, varIncluded);
+                        coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
                     }
                     catch (Exception e)
                     {
