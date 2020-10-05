@@ -61,6 +61,10 @@ namespace Coherence.MonoBridge
             {
                 (target as CoherenceSync)?.Reset();
             }
+
+            
+            EditorGUILayout.LabelField($"Linked entity: {(target as CoherenceSync)?.LinkedEntity}");
+            EditorGUILayout.LabelField($"IsSimulated: {(target as CoherenceSync)?.IsSimulated}");
         }
         
         public Type GetUnderlyingType(MemberInfo member)
@@ -108,8 +112,8 @@ namespace Coherence.MonoBridge
                 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
-                
-                var compTypeString = compType.ToString();
+
+                var compTypeString = compType.AssemblyQualifiedName;
                 bool compTypeIncluded = EditorGUILayout.Toggle( coherenceSync.GetScriptToggle(compTypeString));
 
                 coherenceSync.SetScriptToggle(compTypeString, compTypeIncluded);

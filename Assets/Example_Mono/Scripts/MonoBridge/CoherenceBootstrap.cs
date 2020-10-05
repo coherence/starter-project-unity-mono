@@ -1,7 +1,10 @@
-﻿using Coherence.Generated.FirstProject;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Coherence.Generated.FirstProject;
 using Coherence.Replication.Client.Unity.Ecs;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace Coherence.MonoBridge
@@ -16,39 +19,55 @@ namespace Coherence.MonoBridge
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQuery = entityManager.CreateEntityQuery(typeof(Player), ComponentType.Exclude<CoherenceSimulateComponent>());
+            entityQuery = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
+
+            StartCoroutine(CheckForNewEntities());
         }
         
-        void Update()
+        IEnumerator CheckForNewEntities()
         {
-            NativeArray<Entity> entities = entityQuery.ToEntityArray(Allocator.TempJob);
-
-            for (int i = 0; i < entities.Length; i++)
+            while (true)
             {
-                bool entityAlreadyExists = false;
-                
-                var gameObjects = GameObject.FindObjectsOfType<CoherenceSync>();
+                yield return new WaitForSeconds(1);
+                NativeArray<Entity> entities = entityQuery.ToEntityArray(Allocator.TempJob);
 
-                foreach (var go in gameObjects)
+                for (int i = 0; i < entities.Length; i++)
                 {
-                    var entity = go.entity;
-
-                    if (entity == entities[i])
+                    if (entityManager.HasComponent<CoherenceSimulateComponent>(entities[i]))
                     {
-                        entityAlreadyExists = true;
+                        continue;
+                    }
+                    
+                    bool entityAlreadyExists = false;
+
+                    var gameObjects = GameObject.FindObjectsOfType<CoherenceSync>();
+
+                    foreach (var go in gameObjects)
+                    {
+                        var entity = go.LinkedEntity;
+
+                        if (entity == entities[i])
+                        {
+                            entityAlreadyExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!entityAlreadyExists)
+                    {
+                        Debug.Log("Creating mono representation for remote entity " + entities[i]);
+
+                        var newEntity = GameObject.Instantiate(prefab);
+                        newEntity.name = "Network: " + entities[i].ToString();
+                        var sync = newEntity.GetComponent<CoherenceSync>();
+                        sync.IsSimulated = false;
+                        sync.LinkedEntity = entities[i];
                         break;
                     }
                 }
 
-                if (!entityAlreadyExists)
-                {
-                    var newEntity = GameObject.Instantiate(prefab);
-                    var sync = prefab.GetComponent<CoherenceSync>();
-                    sync.entity = entities[i];
-                }
+                entities.Dispose();
             }
-
-            entities.Dispose();
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public bool LocalPlayer = false;
     public enum StateType
     {
         Default = 0,
@@ -41,7 +42,8 @@ public class PlayerBehaviour : MonoBehaviour
     
     public void Update()
     {
-        ProcessInput();
+        if(LocalPlayer)ProcessInput();
+        RenderState();
     }
 
     private void ProcessInput()
@@ -75,8 +77,6 @@ public class PlayerBehaviour : MonoBehaviour
         cst += 1;
         if (cst > maxValue) cst = 0;
         state = (StateType) cst;
-
-        RenderState();
     }
 
     private void RenderState()

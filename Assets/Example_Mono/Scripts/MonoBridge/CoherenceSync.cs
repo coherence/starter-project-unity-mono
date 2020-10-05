@@ -7,6 +7,8 @@ using Unity.Entities;
 using UnityEngine;
 using Coherence.Generated.Internal.Schema;
 using Coherence.Replication.Client.Unity.Ecs;
+using Unity.Mathematics;
+using Unity.Transforms;
 
 namespace Coherence.MonoBridge
 {
@@ -19,9 +21,15 @@ namespace Coherence.MonoBridge
         
         private EntityManager entityManager;
         
-        [NonSerialized] public bool IsSimulated = true; 
+        public bool IsSimulated = true; 
         
-        [NonSerialized] public Entity entity = Entity.Null;
+        private Entity entity;
+
+        public Entity LinkedEntity
+        {
+            set => entity = value;
+            get => entity;
+        }
         
         [SerializeField] private bool usingReflection = true;
         
@@ -86,12 +94,11 @@ namespace Coherence.MonoBridge
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         }
 
-        void Start()
-        { 
-            if (entity == Entity.Null)
+        IEnumerator Start()
+        {
+            yield return null;
+            if (entity == Entity.Null && IsSimulated)
             {
-                if (!IsSimulated) return;
-
                 entity = entityManager.CreateEntity();
                 
                 for (int i = 0; i < fieldLinksValues.Count; i++)
@@ -105,7 +112,10 @@ namespace Coherence.MonoBridge
                     //Debug.Log("adding type " + type);
                     entityManager.AddComponent(entity, type);
                 }
-                
+
+                entityManager.AddComponent(entity, typeof(Translation));
+                entityManager.AddComponent(entity, typeof(Rotation));
+                entityManager.AddComponent(entity, typeof(CoherenceSessionComponent));
                 entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
                 entityManager.AddComponent(entity, typeof(Player));
             }
@@ -327,24 +337,33 @@ namespace Coherence.MonoBridge
                         Type script = GetComponentFromKey(fieldLinksKeys[i]);
 
                         string fieldTypeString = GetFieldType(fieldLinksKeys[i]);
-
+                        Type networkedType = Type.GetType(AssemblyPrefix + (string)fieldLinksValues[i]);
                         Type fieldType = Type.GetType(fieldTypeString);
 
                         if (fieldType == null)
                         {
-                            fieldType = Type.GetType("UnityEngine." + fieldTypeString + ", UnityEngine", true);
+                            if (fieldTypeString.Contains("Vector3"))
+                            {
+                                fieldType = typeof(Vector3);
+                                networkedType = typeof(Translation);
+                            }
+
+                            if (fieldTypeString.Contains("Quaternion"))
+                            {
+                                fieldType = typeof(Quaternion);
+                                networkedType = typeof(Rotation);
+                            }
                         }
 
                         if (script == null) script = typeof(Transform);
                         
                         string fieldName = GetFieldNameFromKey(fieldLinksKeys[i]);
                         
-                        Type networkedType = Type.GetType(AssemblyPrefix + (string)fieldLinksValues[i]);
-                        
                         var cmp = script == null ? gameObject.GetComponent(typeof(Transform)) : gameObject.GetComponent(script);
 
                         var field = script.GetField(fieldName);
-
+                        var property = script.GetProperty(fieldName);
+                        
                         object currentMonoValue;
                         
                         if (field != null)
@@ -353,7 +372,7 @@ namespace Coherence.MonoBridge
                         }
                         else
                         {
-                            var property = script.GetProperty(fieldName);
+                            
                             currentMonoValue = property.GetValue(cmp);
                         }
 
@@ -364,15 +383,14 @@ namespace Coherence.MonoBridge
                             MethodInfo method = typeof(EntityManager).GetMethod("SetComponentData");
                             MethodInfo generic = method.MakeGenericMethod(networkedType);
                             
+                            Debug.Log("Processing field type " + fieldType);
+                            
                             if (CmpType(fieldType, typeof(Vector3)))
                             {
-                                var fieldX = networkedType.GetField("x");
-                                var fieldY = networkedType.GetField("y");
-                                var fieldZ = networkedType.GetField("z");
+                                var fieldX = networkedType.GetField("Value");
                                 Vector3 val = (Vector3) currentMonoValue;
-                                fieldX.SetValue(inst, val.x);
-                                fieldY.SetValue(inst, val.y);
-                                fieldZ.SetValue(inst, val.z);
+                                fieldX.SetValue(inst, new float3(val.x, val.y, val.z));
+                            
                             }
 
                             if (CmpType(fieldType, typeof(float)))
@@ -398,7 +416,9 @@ namespace Coherence.MonoBridge
             
                             if (CmpType(fieldType, typeof(Quaternion)))
                             {
-                               
+                                var fieldX = networkedType.GetField("Value");
+                                Quaternion val = (Quaternion) currentMonoValue;
+                                fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
                             }
                            
                             generic.Invoke(entityManager, new object[] {entity, inst});
@@ -413,16 +433,11 @@ namespace Coherence.MonoBridge
                             
                             if (CmpType(fieldType, typeof(Vector3)))
                             {
-                                var fx = networkedType.GetField("x");
-                                float vfx = (float)fx.GetValue(inst);
+                                var fx = networkedType.GetField("Value");
+                                float3 vfx = (float3)fx.GetValue(inst);
                                 
-                                var fy = networkedType.GetField("y");
-                                float vfy = (float)fy.GetValue(inst);
-
-                                var fz = networkedType.GetField("z");
-                                float vfz = (float)fz.GetValue(inst);
-
-                                field.SetValue(cmp, new Vector3(vfx, vfy, vfz));
+                                if(field != null)field.SetValue(cmp, new Vector3(vfx.x, vfx.y, vfx.z));
+                                else if(property != null)property.SetValue(cmp,  new Vector3(vfx.x, vfx.y, vfx.z));
                             }
 
                             if (CmpType(fieldType, typeof(float)))
@@ -430,7 +445,8 @@ namespace Coherence.MonoBridge
                                 var fx = networkedType.GetField("number");
                                 float vfx = (float)fx.GetValue(inst);
                               
-                                field.SetValue(cmp, vfx);
+                                if(field != null)field.SetValue(cmp, vfx);
+                                else if(property != null)property.SetValue(cmp, vfx);
                             }
             
                             if (CmpType(fieldType, typeof(int)) || CmpType(script, typeof(uint)))
@@ -438,7 +454,8 @@ namespace Coherence.MonoBridge
                                 var fx = networkedType.GetField("number");
                                 int vfx = (int)fx.GetValue(inst);
                               
-                                field.SetValue(cmp, vfx);
+                                if(field != null)field.SetValue(cmp, vfx);
+                                else if(property != null)property.SetValue(cmp, vfx);
                             }
             
                             if (CmpType(fieldType, typeof(string)))
@@ -446,12 +463,17 @@ namespace Coherence.MonoBridge
                                 var fx = networkedType.GetField("name");
                                 string vfx = (string)fx.GetValue(inst);
                               
-                                field.SetValue(cmp, vfx);
+                                if(field != null)field.SetValue(cmp, vfx);
+                                else if(property != null)property.SetValue(cmp, vfx);
                             }
             
                             if (CmpType(fieldType, typeof(Quaternion)))
                             {
-                               
+                                var fx = networkedType.GetField("Value");
+                                Unity.Mathematics.quaternion quat = (quaternion)fx.GetValue(inst);
+                                
+                                if(field != null)field.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
+                                else if(property != null)property.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
                             }
                         }
                     }
