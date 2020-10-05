@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = System.Random;
 
-public class PlayerBehaviour : MonoBehaviour
+public class NPCBehaviour : MonoBehaviour
 {
-    public bool LocalPlayer = false;
-
     public string PlayerName = "Bot";
+
+    private Vector3 targetPos;
+
+    private Random random;
+    
     public enum StateType
     {
         Default = 0,
@@ -47,38 +51,35 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Awake()
     {
+        random = new Random((int)(Time.time * 1000f));
         var renderer = GetComponent<Renderer>();
         material = renderer.material;
         RenderState();
+        StartCoroutine(AICoroutine());
+    }
+
+    IEnumerator AICoroutine()
+    {
+        yield return null;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1+ (float)random.NextDouble()*2f);
+
+            const float amplitude = 5f;
+            float dx = amplitude * (float)(random.NextDouble() - 0.5f);
+            float dz = amplitude * (float)(random.NextDouble() - 0.5f);
+
+            targetPos = new Vector3(dx, 0, dz);
+            
+            CycleState();
+        }
     }
     
     public void Update()
     {
-        if(LocalPlayer)ProcessInput();
         RenderState();
-    }
-
-    private void ProcessInput()
-    {
-        const float threshold = 0.001f;
-
-        float dx = UnityEngine.Input.GetAxis("Horizontal");
-        float dy = UnityEngine.Input.GetAxis("Vertical");
-
-        if (Mathf.Abs(dx) > threshold)
-        {
-            transform.position += Vector3.right * (movementSpeed * dx * Time.deltaTime);
-        }
-
-        if (Mathf.Abs(dy) > threshold)
-        {
-            transform.position += Vector3.forward * (movementSpeed * dy * Time.deltaTime);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-        {
-            CycleState();
-        }
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * movementSpeed);
     }
 
     private void CycleState()
@@ -96,13 +97,13 @@ public class PlayerBehaviour : MonoBehaviour
         switch (state)
         {
             case StateType.Default:
-                material.color = Color.white;
+                material.color = Color.grey;
                 break;
             case StateType.Red:
-                material.color = Color.red;
+                material.color = Color.cyan;
                 break;
             case StateType.Yellow:
-                material.color = Color.yellow;
+                material.color = Color.magenta;
                 break;
             case StateType.Green:
                 material.color = Color.green;

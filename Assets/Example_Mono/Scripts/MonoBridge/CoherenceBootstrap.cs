@@ -12,7 +12,6 @@ namespace Coherence.MonoBridge
     public class CoherenceBootstrap : MonoBehaviour
     {
         private EntityManager entityManager;
-        public Transform prefab;
         private EntityQuery entityQuery;
         
         void Awake()
@@ -22,6 +21,17 @@ namespace Coherence.MonoBridge
             entityQuery = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
 
             StartCoroutine(CheckForNewEntities());
+            StartCoroutine(CleanUpDeletedEntities());
+        }
+
+        IEnumerator CleanUpDeletedEntities()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+
+                // TODO: add functionality
+            }
         }
         
         IEnumerator CheckForNewEntities()
@@ -57,7 +67,11 @@ namespace Coherence.MonoBridge
                     {
                         Debug.Log("Creating mono representation for remote entity " + entities[i]);
 
-                        var newEntity = GameObject.Instantiate(prefab);
+                        var prefabName = entityManager.GetComponentData<Player>(entities[i]).prefab;
+                        Debug.Log("Instatiating prefab " + prefabName);
+                        var resource = Resources.Load(prefabName.ToString());
+
+                        var newEntity = (GameObject)GameObject.Instantiate(resource);
                         newEntity.name = "Network: " + entities[i].ToString();
                         var sync = newEntity.GetComponent<CoherenceSync>();
                         sync.IsSimulated = false;

@@ -7,8 +7,10 @@ using Unity.Entities;
 using UnityEngine;
 using Coherence.Generated.Internal.Schema;
 using Coherence.Replication.Client.Unity.Ecs;
+using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEditor;
 
 namespace Coherence.MonoBridge
 {
@@ -18,6 +20,8 @@ namespace Coherence.MonoBridge
         [NonSerialized] public const string Delimiter = "*";
         [NonSerialized] const string AssemblyPrefix = "Coherence.Generated.FirstProject.";
         [NonSerialized] private NetworkSystem networkSystem;
+        
+        public string prefabName = "MonoPlayer";
         
         private EntityManager entityManager;
         
@@ -118,6 +122,11 @@ namespace Coherence.MonoBridge
                 entityManager.AddComponent(entity, typeof(CoherenceSessionComponent));
                 entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
                 entityManager.AddComponent(entity, typeof(Player));
+                
+                entityManager.SetComponentData(entity, new Player()
+                {
+                    prefab = new FixedString64(prefabName)
+                });
             }
         }
 
@@ -383,7 +392,7 @@ namespace Coherence.MonoBridge
                             MethodInfo method = typeof(EntityManager).GetMethod("SetComponentData");
                             MethodInfo generic = method.MakeGenericMethod(networkedType);
                             
-                            Debug.Log("Processing field type " + fieldType);
+//                            Debug.Log("Processing field type " + fieldType);
                             
                             if (CmpType(fieldType, typeof(Vector3)))
                             {
@@ -410,7 +419,7 @@ namespace Coherence.MonoBridge
                             if (CmpType(fieldType, typeof(string)))
                             {
                                 var f = networkedType.GetField("name");
-                                string val = (string) currentMonoValue;
+                                FixedString64 val = (FixedString64)(string) currentMonoValue;
                                 f.SetValue(inst, val);
                             }
             
@@ -461,10 +470,10 @@ namespace Coherence.MonoBridge
                             if (CmpType(fieldType, typeof(string)))
                             {
                                 var fx = networkedType.GetField("name");
-                                string vfx = (string)fx.GetValue(inst);
-                              
-                                if(field != null)field.SetValue(cmp, vfx);
-                                else if(property != null)property.SetValue(cmp, vfx);
+                                FixedString64 vfx = (FixedString64)fx.GetValue(inst);
+                                
+                                if(field != null)field.SetValue(cmp, vfx.ToString());
+                                else if(property != null)property.SetValue(cmp, vfx.ToString());
                             }
             
                             if (CmpType(fieldType, typeof(Quaternion)))

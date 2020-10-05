@@ -3,6 +3,7 @@ name Schema
 namespace Coherence.Generated.FirstProject
 
 component Player
+  prefab String64
 
 component GenericFieldInt0
   number Int

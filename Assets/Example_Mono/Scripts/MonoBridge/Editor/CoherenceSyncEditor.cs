@@ -10,10 +10,8 @@ namespace Coherence.MonoBridge
     [CanEditMultipleObjects]
     public class CoherenceSyncEditor : UnityEditor.Editor
     {
-        
-        
         private Type[] supportedTypes =
-            {typeof(Vector3), typeof(Quaternion), typeof(float), typeof(int), typeof(uint)};
+            {typeof(Vector3), typeof(Quaternion), typeof(float), typeof(int), typeof(uint), typeof(string)};
 
         private Texture2D texture;
         
@@ -34,6 +32,18 @@ namespace Coherence.MonoBridge
 
         public override void OnInspectorGUI()
         {
+            var cs = (target as CoherenceSync);
+            if (cs != null)
+            {
+                var prefabGameObject = PrefabUtility.GetCorrespondingObjectFromSource(cs.gameObject);
+                if (prefabGameObject)
+                {
+                    
+                    cs.prefabName = prefabGameObject.name;
+                    Debug.Log(cs.prefabName);
+                }
+            }
+
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.BeginVertical();
