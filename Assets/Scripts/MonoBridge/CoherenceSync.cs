@@ -141,7 +141,6 @@ namespace Coherence.MonoBridge
 
         public void EnableAndDisableScripts()
         {
-            Debug.Log($"EnableAndDisableScripts {enabledScriptTogglesKeys.Count}");
             for (int i = 0; i < enabledScriptTogglesKeys.Count; i++)
             {
                 string script = enabledScriptTogglesKeys[i];
@@ -149,8 +148,6 @@ namespace Coherence.MonoBridge
 
                 Type scriptType = Type.GetType(script);
 
-                Debug.Log($"Turning {scriptType} {en}");
-                
                 if (scriptType != null)
                 {
                     var cmp = gameObject.GetComponent(scriptType);
@@ -163,6 +160,17 @@ namespace Coherence.MonoBridge
             }
         }
 
+        public string GetDebugData()
+        {
+            var debugData = "";
+
+            debugData += $"({fieldLinksValues.Count}) ";
+            if(fieldLinksKeys.Count > 0)debugData += $"({fieldLinksKeys[0]}) ";
+            if(fieldLinksValues.Count > 0)debugData += $"({fieldLinksValues[0]}) ";
+            
+            return debugData;
+        }
+        
         IEnumerator Start()
         {
             yield return null;
@@ -172,7 +180,10 @@ namespace Coherence.MonoBridge
                 
                 for (int i = 0; i < fieldLinksValues.Count; i++)
                 {
-                    Type type = Type.GetType(AssemblyPrefix + (string)fieldLinksValues[i]);
+                    var val = (string) fieldLinksValues[i];
+                    if (val == null) continue;
+                    
+                    Type type = Type.GetType(AssemblyPrefix + val);
                     if (type == null)
                     {
                         Debug.LogWarning($"Type {fieldLinksValues[i]} could not be found.");
@@ -288,9 +299,9 @@ namespace Coherence.MonoBridge
             
             keyList.Add(key);
             valList.Add(val);
-        }  
-        
-        public void SetListValue(List<string> keyList, List<string> valList, string key, string val)
+        }
+
+        private void SetListValue(List<string> keyList, List<string> valList, string key, string val)
         {
             for (int i = 0; i < keyList.Count; i++)
             {
@@ -303,9 +314,9 @@ namespace Coherence.MonoBridge
             
             keyList.Add(key);
             valList.Add(val);
-        }  
-        
-        public void SetListValue(List<string> keyList, List<string> valList, string key, Type val)
+        }
+
+        private void SetListValue(List<string> keyList, List<string> valList, string key, Type val)
         {
             for (int i = 0; i < keyList.Count; i++)
             {
@@ -319,8 +330,8 @@ namespace Coherence.MonoBridge
             keyList.Add(key);
             valList.Add(val.ToString());
         }
-        
-        public bool GetListValue(List<string> keyList, List<bool> valList, string key)
+
+        private bool? GetListValue(List<string> keyList, List<bool> valList, string key)
         {
             for (int i = 0; i < keyList.Count; i++)
             {
@@ -330,10 +341,10 @@ namespace Coherence.MonoBridge
                 }
             }
 
-            return false;
+            return null;
         }
         
-        public string GetListValue(List<string> keyList, List<string> valList, string key)
+        private string GetListValue(List<string> keyList, List<string> valList, string key)
         {
             for (int i = 0; i < keyList.Count; i++)
             {
@@ -346,17 +357,17 @@ namespace Coherence.MonoBridge
             return null;
         }
 
-        public bool GetFieldToggle(string key)
+        public bool? GetFieldToggle(string key)
         {
             return GetListValue(fieldTogglesKeys, fieldTogglesValues, key);
         }
         
-        public bool GetScriptToggle(string key)
+        public bool? GetScriptToggle(string key)
         {
             return GetListValue(scriptTogglesKeys, scriptTogglesValues, key);
         }
         
-        public bool GetEnabledScriptToggle(string key)
+        public bool? GetEnabledScriptToggle(string key)
         {
             return GetListValue(enabledScriptTogglesKeys, enabledScriptTogglesValues, key);
         }
@@ -365,8 +376,8 @@ namespace Coherence.MonoBridge
         {
             SetListValue(enabledScriptTogglesKeys, enabledScriptTogglesValues, key, val);
         }
-        
-        public string GetFieldType(string key)
+
+        private string GetFieldType(string key)
         {
             return GetListValue(fieldTypesKeys, fieldTypesValues, key).Replace("UnityEngine.", "");
         }
@@ -382,8 +393,7 @@ namespace Coherence.MonoBridge
 
             if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
             {
-                SetListValue(fieldLinksKeys, fieldLinksValues, key,
-                    (string) (on ? GetNextAvailableGenericNetworkedField(val) : null));
+                SetListValue(fieldLinksKeys, fieldLinksValues, key, GetNextAvailableGenericNetworkedField(val));
             }
         }
 
@@ -410,7 +420,12 @@ namespace Coherence.MonoBridge
         
         void Update()
         {
-            if (entity == Entity.Null)
+            if (!isSimulated)
+            {
+//                Debug.Log(gameObject.name + " " + entity + " " + entityManager.HasComponent<Translation>(entity));
+            }
+            
+            if (!isSimulated && (entity == Entity.Null || !entityManager.HasComponent<Translation>(entity)))
             {
                 if (ecsEntitySet)
                 {
@@ -419,10 +434,13 @@ namespace Coherence.MonoBridge
                 return;
             }
 
-            if (Application.isPlaying)
+            if (Application.isPlaying && entity != Entity.Null)
             {
-                for (int i = 0; i < fieldLinksKeys.Count; i++)
+                for (int i = 0; i < fieldTogglesKeys.Count; i++)
                 {
+                    var on = fieldTogglesValues[i];
+                    if (!on) continue;
+                     
                     if (!String.IsNullOrEmpty(fieldLinksValues[i]))
                     {
                         Type script = GetComponentFromKey(fieldLinksKeys[i]);
@@ -508,9 +526,16 @@ namespace Coherence.MonoBridge
                                 Quaternion val = (Quaternion) currentMonoValue;
                                 fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
                             }
-                           
-                            generic.Invoke(entityManager, new object[] {entity, inst});
 
+                            try
+                            {
+                                generic.Invoke(entityManager, new object[] {entity, inst});
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogWarning($"{entity} {inst} {e.Message}");
+                                throw e;
+                            }
                         }
                         else
                         {

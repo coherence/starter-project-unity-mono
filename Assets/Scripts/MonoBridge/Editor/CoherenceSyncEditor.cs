@@ -75,15 +75,16 @@ namespace Coherence.MonoBridge
                 anyChangesMade = true;
             }
             
-            EditorGUILayout.LabelField($"Linked entity: {(target as CoherenceSync)?.LinkedEntity}");
-            EditorGUILayout.LabelField($"IsSimulated: {(target as CoherenceSync)?.isSimulated}");
-            EditorGUILayout.LabelField($"Network prefab: {(target as CoherenceSync)?.remoteVersionPrefabName}");
+            EditorGUILayout.LabelField($"Linked entity: {coherenceSync.LinkedEntity}");
+            EditorGUILayout.LabelField($"IsSimulated: {coherenceSync.isSimulated}");
+            EditorGUILayout.LabelField($"Network prefab: {coherenceSync.remoteVersionPrefabName}");
+/*            EditorGUILayout.LabelField($"Debug: [{coherenceSync.GetDebugData()}]");
 
             if (GUILayout.Button("Test enable/disable scripts"))
             {
                 coherenceSync.EnableAndDisableScripts();
             }
-            
+ */           
             if (anyChangesMade)
             {
                 Undo.RecordObject(target, "Changed selected scripts");
@@ -97,6 +98,7 @@ namespace Coherence.MonoBridge
             if (coherenceSync.remoteVersionPrefabName == null)
             {
                 coherenceSync.remoteVersionPrefabName = GetPrefabName(coherenceSync.gameObject);
+                anyChangesMade = true;
             }
             
             EditorGUILayout.LabelField("Network version of prefab to load:", EditorStyles.boldLabel);
@@ -141,11 +143,11 @@ namespace Coherence.MonoBridge
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
 
-                    bool oldVal = coherenceSync.GetEnabledScriptToggle(compTypeString);
-                    bool compTypeIncluded = EditorGUILayout.Toggle( oldVal );
+                    bool? oldVal = coherenceSync.GetEnabledScriptToggle(compTypeString);
+                    bool? compTypeIncluded = EditorGUILayout.Toggle( oldVal ?? false );
                     if (oldVal != compTypeIncluded)
                     {
-                        coherenceSync.SetEnabledScriptToggle(compTypeString, compTypeIncluded);
+                        coherenceSync.SetEnabledScriptToggle(compTypeString, (bool)compTypeIncluded);
                         anyChangesMade = true;
                     }
                     
@@ -230,7 +232,7 @@ namespace Coherence.MonoBridge
 
                 var compTypeString = compType.AssemblyQualifiedName;
                 var prevTypeIncluded = coherenceSync.GetScriptToggle(compTypeString);
-                bool compTypeIncluded = EditorGUILayout.Toggle( prevTypeIncluded );
+                bool compTypeIncluded = EditorGUILayout.Toggle( prevTypeIncluded ?? false );
 
                 if (compTypeIncluded != prevTypeIncluded)
                 {
@@ -278,7 +280,7 @@ namespace Coherence.MonoBridge
 
                         EditorGUILayout.LabelField($"{variable.Name} [{fieldType}]");
                         var prevVarIncluded = coherenceSync.GetFieldToggle(varString);
-                        bool varIncluded = EditorGUILayout.Toggle( prevVarIncluded );
+                        bool varIncluded = EditorGUILayout.Toggle( prevVarIncluded ?? false );
 
                         if (varIncluded != prevVarIncluded)
                         {

@@ -28,6 +28,7 @@
               <e p="CoherenceSyncEditor.cs" t="Include" />
             </e>
           </e>
+          <e p="MonoSpawner.cs" t="Include" />
           <e p="NPCBehaviour.cs" t="Include" />
           <e p="PlayerBehaviour.cs" t="Include" />
           <e p="RotationBehaviour.cs" t="Include" />
