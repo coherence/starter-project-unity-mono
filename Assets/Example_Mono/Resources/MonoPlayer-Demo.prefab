@@ -127,16 +127,32 @@ MonoBehaviour:
   prefabName: MonoPlayer
   IsSimulated: 1
   usingReflection: 1
-  scriptTogglesKeys: []
-  scriptTogglesValues: 
-  fieldTogglesKeys: []
-  fieldTogglesValues: 
-  fieldTypesKeys: []
-  fieldTypesValues: []
-  fieldLinksKeys: []
-  fieldLinksValues: []
+  scriptTogglesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  scriptTogglesValues: 0101
+  fieldTogglesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*movementSpeed
+  fieldTogglesValues: 0101
+  fieldTypesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*movementSpeed
+  fieldTypesValues:
+  - UnityEngine.Quaternion
+  - System.Single
+  fieldLinksKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*movementSpeed
+  fieldLinksValues:
+  - GenericFieldQuaternion0
+  - GenericFieldFloat0
   genericFieldCounter_Vector: 0
-  genericFieldCounter_Float: 0
+  genericFieldCounter_Float: 1
   genericFieldCounter_Int: 0
   genericFieldCounter_String: 0
-  genericFieldCounter_Quaternion: 0
+  genericFieldCounter_Quaternion: 1
