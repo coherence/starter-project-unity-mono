@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2458160888634212602}
   - component: {fileID: 2458160888634212603}
   - component: {fileID: 4915086890072158736}
-  - component: {fileID: 3621507011231052015}
+  - component: {fileID: 8013377215228916817}
   m_Layer: 0
   m_Name: MonoPlayer-Demo
   m_TagString: Untagged
@@ -112,7 +112,7 @@ MonoBehaviour:
   LocalPlayer: 0
   PlayerName: Player
   movementSpeed: 3
---- !u!114 &3621507011231052015
+--- !u!114 &8013377215228916817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,16 +127,45 @@ MonoBehaviour:
   prefabName: MonoPlayer
   IsSimulated: 1
   usingReflection: 1
-  scriptTogglesKeys: []
-  scriptTogglesValues: 
-  fieldTogglesKeys: []
-  fieldTogglesValues: 
-  fieldTypesKeys: []
-  fieldTypesValues: []
-  fieldLinksKeys: []
-  fieldLinksValues: []
-  genericFieldCounter_Vector: 0
+  scriptTogglesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  scriptTogglesValues: 0101
+  fieldTogglesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*position
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  fieldTogglesValues: 01010101
+  fieldTypesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*position
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  fieldTypesValues:
+  - UnityEngine.Vector3
+  - UnityEngine.Quaternion
+  - System.Int32
+  - System.String
+  fieldLinksKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*position
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  fieldLinksValues:
+  - GenericFieldVector0
+  - GenericFieldQuaternion0
+  - GenericFieldInt0
+  - GenericFieldString0
+  genericFieldCounter_Vector: 1
   genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
-  genericFieldCounter_String: 0
-  genericFieldCounter_Quaternion: 0
+  genericFieldCounter_Int: 1
+  genericFieldCounter_String: 1
+  genericFieldCounter_Quaternion: 1

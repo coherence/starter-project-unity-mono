@@ -199,6 +199,7 @@ namespace Coherence.MonoBridge
             if (anyChangesMade)
             {
                 Undo.RecordObject(target, "Changed selected scripts");
+                EditorUtility.SetDirty(target);
             }
         }
     }
