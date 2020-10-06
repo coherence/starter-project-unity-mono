@@ -32,6 +32,7 @@ namespace Coherence.MonoBridge
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update ();
             var cs = (target as CoherenceSync);
             if (cs != null)
             {
@@ -40,7 +41,6 @@ namespace Coherence.MonoBridge
                 {
                     
                     cs.prefabName = prefabGameObject.name;
-                    Debug.Log(cs.prefabName);
                 }
             }
 
@@ -71,10 +71,11 @@ namespace Coherence.MonoBridge
             {
                 (target as CoherenceSync)?.Reset();
             }
-
             
             EditorGUILayout.LabelField($"Linked entity: {(target as CoherenceSync)?.LinkedEntity}");
             EditorGUILayout.LabelField($"IsSimulated: {(target as CoherenceSync)?.IsSimulated}");
+            
+            serializedObject.ApplyModifiedProperties ();
         }
         
         public Type GetUnderlyingType(MemberInfo member)
@@ -102,6 +103,8 @@ namespace Coherence.MonoBridge
             CoherenceSync coherenceSync = (CoherenceSync)target;
 
             if (target == null) return;
+
+            bool anyChangesMade = false;
             
             Type monoBehaviourType = typeof(MonoBehaviour);
             const BindingFlags monoBindingFlags = BindingFlags.Public | BindingFlags.Instance;
@@ -124,10 +127,15 @@ namespace Coherence.MonoBridge
                 EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
 
                 var compTypeString = compType.AssemblyQualifiedName;
-                bool compTypeIncluded = EditorGUILayout.Toggle( coherenceSync.GetScriptToggle(compTypeString));
+                var prevTypeIncluded = coherenceSync.GetScriptToggle(compTypeString);
+                bool compTypeIncluded = EditorGUILayout.Toggle( prevTypeIncluded );
 
-                coherenceSync.SetScriptToggle(compTypeString, compTypeIncluded);
-
+                if (compTypeIncluded != prevTypeIncluded)
+                {
+                    anyChangesMade = true;
+                    coherenceSync.SetScriptToggle(compTypeString, compTypeIncluded);
+                }
+                
                 EditorGUILayout.EndHorizontal();
                 
                 if (!compTypeIncluded) continue;
@@ -167,9 +175,16 @@ namespace Coherence.MonoBridge
                         var varString = compTypeString + CoherenceSync.Delimiter + variable.Name;
 
                         EditorGUILayout.LabelField($"{variable.Name} [{fieldType}]");
-                        bool varIncluded = EditorGUILayout.Toggle( coherenceSync.GetFieldToggle(varString));
-                        coherenceSync.SetFieldToggle(varString, varIncluded);
-                        coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
+                        var prevVarIncluded = coherenceSync.GetFieldToggle(varString);
+                        bool varIncluded = EditorGUILayout.Toggle( prevVarIncluded );
+
+                        if (varIncluded != prevVarIncluded)
+                        {
+                            anyChangesMade = true;
+                            coherenceSync.SetFieldToggle(varString, varIncluded);
+                            coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
+                        }
+                      
                     }
                     catch (Exception e)
                     {
@@ -179,6 +194,11 @@ namespace Coherence.MonoBridge
                     EditorGUI.indentLevel--;
                     EditorGUILayout.EndHorizontal();
                 }
+            }
+
+            if (anyChangesMade)
+            {
+                Undo.RecordObject(target, "Changed selected scripts");
             }
         }
     }
