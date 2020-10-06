@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="664cfea5-dda5-4538-8f7c-f2c3adcca724" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/MonoNPC-Demo.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MonoNPC-Demo.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/MonoPlayer-Demo.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MonoPlayer-Demo.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/Editor/CoherenceBuildSettings.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/Editor/CoherenceBuildSettings.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/Resources/CoherenceBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/Resources/CoherenceBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/Resources/CoherenceBuildSettings.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/Resources/CoherenceBuildSettings.asset.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,13 +42,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Example_Mono/Scripts/MonoBridge/CoherenceBootstrap.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Example_Mono/Scripts/PlayerBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Example_Mono/Scripts/MonoBridge/CoherenceSync.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Example_Mono/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Packages/manifest.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Example_Mono/Scripts/MonoBridge/CoherenceLiveQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -31,20 +58,32 @@
         <option value="$PROJECT_DIR$/Assets/Example_Mono/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" />
         <option value="$PROJECT_DIR$/Packages/manifest.json" />
         <option value="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ShowName.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" />
       </list>
     </option>
   </component>
   <component name="ProjectId" id="1iVdh2ZpNWr2g0DZrFVnFtHcgww" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34995976" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.30008045" />
     <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TWShift.4" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -53,24 +92,12 @@
       <option name="pid" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="68640">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="68640" />
       <method v="2" />
     </configuration>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -83,11 +110,12 @@
       <option name="presentableId" value="Default" />
       <updated>1601996809524</updated>
       <workItem from="1601996814173" duration="1915000" />
+      <workItem from="1602003901242" duration="16391000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
@@ -101,5 +129,87 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="455" height="464" key="DebuggerActiveHint" timestamp="1602015593288">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="455" height="464" key="DebuggerActiveHint/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602015593288" />
+    <state width="2517" height="162" key="GridCell.Tab.0.bottom" timestamp="1602016069337">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.0.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069337" />
+    <state width="2517" height="162" key="GridCell.Tab.0.center" timestamp="1602016069337">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.0.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069337" />
+    <state width="2517" height="162" key="GridCell.Tab.0.left" timestamp="1602016069337">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.0.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069337" />
+    <state width="2517" height="162" key="GridCell.Tab.0.right" timestamp="1602016069337">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.0.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069337" />
+    <state width="2517" height="162" key="GridCell.Tab.1.bottom" timestamp="1602016106517">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.1.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016106517" />
+    <state width="2517" height="162" key="GridCell.Tab.1.center" timestamp="1602016106517">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.1.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016106517" />
+    <state width="2517" height="162" key="GridCell.Tab.1.left" timestamp="1602016106517">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.1.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016106517" />
+    <state width="2517" height="162" key="GridCell.Tab.1.right" timestamp="1602016106517">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.1.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016106517" />
+    <state width="2517" height="162" key="GridCell.Tab.2.bottom" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.2.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.2.center" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.2.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.2.left" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.2.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.2.right" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.2.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.3.bottom" timestamp="1602016069256">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.3.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069256" />
+    <state width="2517" height="162" key="GridCell.Tab.3.center" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.3.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.3.left" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.3.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state width="2517" height="162" key="GridCell.Tab.3.right" timestamp="1602016069255">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="162" key="GridCell.Tab.3.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602016069255" />
+    <state x="782" y="386" key="SettingsEditor" timestamp="1602011062346">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state x="782" y="386" key="SettingsEditor/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602011062346" />
+    <state width="1287" height="707" key="XDebugger.FullValuePopup" timestamp="1602015573836">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state width="1287" height="707" key="XDebugger.FullValuePopup/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602015573836" />
   </component>
 </project>

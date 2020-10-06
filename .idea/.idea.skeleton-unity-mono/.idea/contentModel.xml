@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\tadej\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\tadej\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_skeleton-unity-mono.-880918016.00" t="ExcludeRecursive" />
-    <e p="C:\work\coherence\skeleton-unity-mono" t="IncludeRecursive">
+    <e p="C:\Users\tadej\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\tadej\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_skeleton-unity-mono.1752710516.00" t="ExcludeRecursive" />
+    <e p="C:\Users\tadej\Desktop\work\coherence\skeleton-unity-mono" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
@@ -19,29 +19,20 @@
             </e>
           </e>
         </e>
-        <e p="Example_ECS" t="Include">
-          <e p="Scripts" t="Include">
-            <e p="Input.cs" t="Include" />
-            <e p="InputSystem.cs" t="Include" />
-            <e p="JoinSystem.cs" t="Include" />
-            <e p="MovementSystem.cs" t="Include" />
-            <e p="PrefabHolder.cs" t="Include" />
-          </e>
-        </e>
-        <e p="Example_Mono" t="Include">
-          <e p="Scripts" t="Include">
-            <e p="MonoBridge" t="Include">
-              <e p="CoherenceBootstrap.cs" t="Include" />
-              <e p="CoherenceLiveQuery.cs" t="Include" />
-              <e p="CoherenceSync.cs" t="Include" />
-              <e p="Editor" t="Include">
-                <e p="CoherenceSyncEditor.cs" t="Include" />
-              </e>
+        <e p="Scripts" t="Include">
+          <e p="MonoBridge" t="Include">
+            <e p="CoherenceBootstrap.cs" t="Include" />
+            <e p="CoherenceLiveQuery.cs" t="Include" />
+            <e p="CoherenceSync.cs" t="Include" />
+            <e p="Editor" t="Include">
+              <e p="CoherenceSyncEditor.cs" t="Include" />
             </e>
-            <e p="NPCBehaviour.cs" t="Include" />
-            <e p="PlayerBehaviour.cs" t="Include" />
-            <e p="RotationBehaviour.cs" t="Include" />
           </e>
+          <e p="MonoSpawner.cs" t="Include" />
+          <e p="NPCBehaviour.cs" t="Include" />
+          <e p="PlayerBehaviour.cs" t="Include" />
+          <e p="RotationBehaviour.cs" t="Include" />
+          <e p="ShowNameAndState.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
