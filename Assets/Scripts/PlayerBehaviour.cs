@@ -51,7 +51,7 @@ public class PlayerBehaviour : MonoBehaviour
         var coherenceSync = other.gameObject.GetComponent<CoherenceSync>();
         if (coherenceSync != null)
         {
-            coherenceSync.SendNetworkCommand("Collided with", gameObject.name + " " + ConnectDialog.GetPlayerName());
+            coherenceSync.SendNetworkCommand("Dear Sir or Madam, you have collided with", gameObject.name + " " + ConnectDialog.GetPlayerName());
         }
     }
 
