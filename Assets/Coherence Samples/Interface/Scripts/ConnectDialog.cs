@@ -18,10 +18,19 @@
         public UnityEvent onConnect;
         public UnityEvent onDisconnect;
 
+        private static ConnectDialog instance;
+
+        public static string GetPlayerName()
+        {
+            return instance.PlayerName;
+        }
+        
         public string PlayerName => nameInput.text;
 
         private void Awake()
         {
+            instance = this;
+            
             nameInput.text = System.Environment.UserName;
             connectButton.onClick.AddListener(OnConnectClicked);
             nameInput.onEndEdit.AddListener(OnInputEnd);

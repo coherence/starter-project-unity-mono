@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Coherence.MonoBridge;
+using Coherence.Samples;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -40,6 +42,23 @@ public class PlayerBehaviour : MonoBehaviour
         {
             CycleState();
         }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (!isActiveAndEnabled) return;
+        Debug.Log("I've collided with " + other.gameObject);
+        var coherenceSync = other.gameObject.GetComponent<CoherenceSync>();
+        if (coherenceSync != null)
+        {
+            coherenceSync.SendNetworkCommand("Collided with", gameObject.name + " " + ConnectDialog.GetPlayerName());
+        }
+    }
+
+    public void NetworkCommand(object args)
+    {
+        CoherenceSync.NetworkCommandArgs nargs = (CoherenceSync.NetworkCommandArgs) args;
+        Debug.Log(gameObject.name + " received command: " + args.ToString());
     }
 
     private void CycleState()

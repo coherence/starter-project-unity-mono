@@ -10,6 +10,7 @@ using Coherence.Replication.Client.Unity.Ecs;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Unity.Entities;
 
 namespace Coherence.MonoBridge
 {
@@ -19,6 +20,8 @@ namespace Coherence.MonoBridge
         [NonSerialized] public const string KeyDelimiter = "*";
         [NonSerialized] const string AssemblyPrefix = "Coherence.Generated.FirstProject.";
         [NonSerialized] private NetworkSystem networkSystem;
+
+        private CoherenceBootstrap bootstrap;
 
         public enum SynchronizedPrefabOptions
         {
@@ -128,6 +131,8 @@ namespace Coherence.MonoBridge
         void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+            bootstrap = GameObject.FindObjectOfType<CoherenceBootstrap>();
         }
 
         public void SpawnFromNetwork(Entity linkedEntity, string name)
@@ -151,10 +156,16 @@ namespace Coherence.MonoBridge
                 if (scriptType != null)
                 {
                     var cmp = gameObject.GetComponent(scriptType);
-
-                    if (cmp != null)
+                    try
                     {
-                        ((Behaviour) cmp).enabled = en;
+                        if (cmp != null)
+                        {
+                            ((Behaviour) cmp).enabled = en;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning(e.Message);
                     }
                 }
             }
@@ -198,12 +209,105 @@ namespace Coherence.MonoBridge
                 entityManager.AddComponent(entity, typeof(CoherenceSessionComponent));
                 entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
                 entityManager.AddComponent(entity, typeof(Player));
+                entityManager.AddComponent(entity, typeof(GenericCommand));
                 
                 entityManager.SetComponentData(entity, new Player()
                 {
                     prefab = new FixedString64(remoteVersionPrefabName)
                 });
             }
+        }
+
+        void ReceiveNetworkCommands()
+        {
+            if (LinkedEntity == Entity.Null) return;
+            
+            DynamicBuffer<GenericCommand> buffer = entityManager.GetBuffer<GenericCommand>(LinkedEntity);
+            if (buffer.Length > 0)
+            {
+                foreach (GenericCommand cmd in buffer)
+                {
+                    ProcessNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+                }
+            }
+
+            buffer.Clear();
+        }
+
+        public class NetworkCommandArgs : EventArgs
+        {
+            public string Name { get; set; }
+            public string ParamString { get; set; }
+            
+            public int ParamInt1 { get; set; }
+            public int ParamInt2 { get; set; }
+            public int ParamInt3 { get; set; }
+            public int ParamInt4 { get; set; }
+            
+            public float ParamFloat1 { get; set; }
+            public float ParamFloat2 { get; set; }
+            public float ParamFloat3 { get; set; }
+            public float ParamFloat4 { get; set; }
+
+            public override string ToString()
+            {
+                return
+                    $"{Name}: {ParamString} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4}";
+            }
+        }
+
+        public delegate void NetworkCommandHandler(object sender, NetworkCommandArgs e);
+        public event NetworkCommandHandler NetworkCommandReceived;
+        public void ProcessNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1,
+            float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        {
+            var args = new NetworkCommandArgs()
+            {
+                Name = name,
+                ParamInt1 = paramInt1,
+                ParamInt2 = paramInt2,
+                ParamInt3 = paramInt3,
+                ParamInt4 = paramInt4,
+                ParamFloat1 = paramFloat1,
+                ParamFloat2 = paramFloat2,
+                ParamFloat3 = paramFloat3,
+                ParamFloat4 = paramFloat4,
+                ParamString = paramString
+            };
+
+            NetworkCommandReceived?.Invoke(this, args);
+
+            gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
+        }
+
+        public void SendNetworkCommand(string name, string paramString)
+        {
+            SendNetworkCommand(name, 0, 0, 0, 0, 0, 0, 0, 0, paramString);
+        }
+
+        public void SendNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        {
+            if (LinkedEntity == Entity.Null) return;
+
+            if(name != null) name = name.Substring(0, name.Length > 64 ? 64 : name.Length);
+            if(paramString != null) paramString = paramString.Substring(0, paramString.Length > 64 ? 64 : paramString.Length);
+
+            var cmd = new GenericCommand
+            {
+                name = name,
+                paramInt1 = paramInt1,
+                paramInt2 = paramInt2,
+                paramInt3 = paramInt3,
+                paramInt4 = paramInt4,
+                paramFloat1 = paramFloat1,
+                paramFloat2 = paramFloat2,
+                paramFloat3 = paramFloat3,
+                paramFloat4 = paramFloat4,
+                paramString = paramString
+            };
+            
+            var cmdRequestBuffer = entityManager.GetBuffer<GenericCommand>(LinkedEntity);
+            _ = cmdRequestBuffer.Add(cmd);
         }
 
         bool CmpType(Type type, Type a)
@@ -423,6 +527,10 @@ namespace Coherence.MonoBridge
             if (!isSimulated)
             {
 //                Debug.Log(gameObject.name + " " + entity + " " + entityManager.HasComponent<Translation>(entity));
+            }
+            else
+            {
+                ReceiveNetworkCommands();
             }
             
             if (!isSimulated && (entity == Entity.Null || !entityManager.HasComponent<Translation>(entity)))

@@ -136,8 +136,8 @@ namespace Coherence.MonoBridge
                     if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer)) continue;
                     if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter)) continue;
                     if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync)) continue;
-                    if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider)) continue;
                     if (compType.IsSubclassOf(typeof(Transform)) || compType == typeof(Transform)) continue;
+
                     // EditorGUILayout.Space();
 
                     EditorGUILayout.BeginHorizontal();
@@ -225,6 +225,10 @@ namespace Coherence.MonoBridge
                 if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter)) continue;
                 if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync)) continue;
                 if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider)) continue;
+                if (compType.IsSubclassOf(typeof(Rigidbody)) || compType == typeof(Rigidbody)) continue;
+                if (compType.IsSubclassOf(typeof(Rigidbody2D)) || compType == typeof(Rigidbody2D)) continue;
+                if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider)) continue;
+                if (compType.IsSubclassOf(typeof(Collider2D)) || compType == typeof(Collider2D)) continue;
                // EditorGUILayout.Space();
                 
                 EditorGUILayout.BeginHorizontal();

@@ -4,6 +4,18 @@ namespace Coherence.Generated.FirstProject
 
 component Player
   prefab String64
+  
+command GenericCommand
+  name String64
+  paramInt1 Int
+  paramInt2 Int
+  paramInt3 Int
+  paramInt4 Int
+  paramFloat1 Float
+  paramFloat2 Float
+  paramFloat3 Float
+  paramFloat4 Float
+  paramString String64
 
 component GenericFieldInt0
   number Int
@@ -89,6 +101,19 @@ component GenericFieldQuaternion0
   x Float
   y Float
   z Float
+  w Float
+
+component GenericFieldQuaternion1
+  x Float
+  y Float
+  z Float
+  w Float
+  
+component GenericFieldQuaternion2
+  x Float
+  y Float
+  z Float
+  w Float
 
 component GenericFieldString0
   name String64

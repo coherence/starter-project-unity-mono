@@ -63,8 +63,6 @@ namespace Coherence.MonoBridge
 
                 for (int i = 0; i < entities.Length; i++)
                 {
-                    bool entityAlreadyExists = false;
-
                     var gameObjects = GameObject.FindObjectsOfType<CoherenceSync>();
 
                     foreach (var go in gameObjects)
