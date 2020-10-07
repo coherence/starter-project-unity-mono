@@ -50,7 +50,7 @@ public class NPCBehaviour : MonoBehaviour
         var coherenceSync = gameObject.GetComponent<CoherenceSync>();
         if (coherenceSync != null)
         {
-            coherenceSyncOther.SendNetworkCommand(coherenceSync, gameObject.name + " " + ConnectDialog.GetPlayerName(), "NPCBehaviour");
+            coherenceSyncOther.SendNetworkCommand(coherenceSync, 1024);
         }
     }
 

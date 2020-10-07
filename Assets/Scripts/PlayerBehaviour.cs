@@ -51,7 +51,7 @@ public class PlayerBehaviour : MonoBehaviour
         var coherenceSync = gameObject.GetComponent<CoherenceSync>();
         if (coherenceSync != null)
         {
-            coherenceSyncOther.SendNetworkCommand(coherenceSync, gameObject.name + " " + ConnectDialog.GetPlayerName(), "PlayerBehaviour");
+            coherenceSyncOther.SendNetworkCommand(coherenceSync, 13);
         }
     }
 

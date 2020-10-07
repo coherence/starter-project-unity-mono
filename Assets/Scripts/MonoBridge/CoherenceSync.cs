@@ -223,8 +223,8 @@ namespace Coherence.MonoBridge
             }
             
             foreach (GenericCommand cmd in buffer)
-            {
-                ProcessNetworkCommand(cmd.paramInt1/*, cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString()*/);
+            { 
+                ProcessNetworkCommand(cmd.paramInt1, 0, null);
             }
         
             buffer.Clear();
@@ -232,7 +232,6 @@ namespace Coherence.MonoBridge
 
         public class NetworkCommandArgs : EventArgs
         {
-            public string Name { get; set; }
             public string ParamString { get; set; }
             
             public int ParamInt1 { get; set; }
@@ -248,27 +247,19 @@ namespace Coherence.MonoBridge
             public override string ToString()
             {
                 return
-                    $"{Name}: {ParamString} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4}";
+                    $"{ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
             }
         }
 
         public delegate void NetworkCommandHandler(object sender, NetworkCommandArgs e);
         public event NetworkCommandHandler NetworkCommandReceived;
-        public void ProcessNetworkCommand(int paramInt1/*, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1,
-            float paramFloat2, float paramFloat3, float paramFloat4, string paramString*/)
+        public void ProcessNetworkCommand(int paramInt1, float paramFloat1, string paramString)
         {
             var args = new NetworkCommandArgs()
             {
-                //Name = name,
-                ParamInt1 = paramInt1/*
-                ParamInt2 = paramInt2,
-                ParamInt3 = paramInt3,
-                ParamInt4 = paramInt4,
+                ParamInt1 = paramInt1,
                 ParamFloat1 = paramFloat1,
-                ParamFloat2 = paramFloat2,
-                ParamFloat3 = paramFloat3,
-                ParamFloat4 = paramFloat4,
-                ParamString = paramString*/
+                ParamString = paramString
             };
 
             NetworkCommandReceived?.Invoke(this, args);
@@ -276,12 +267,17 @@ namespace Coherence.MonoBridge
             gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
         }
 
-        public void SendNetworkCommand(CoherenceSync sender, string name, string paramString)
+        public void SendNetworkCommand(CoherenceSync sender, string paramString)
         {
-            SendNetworkCommand(sender, name, 0, 0, 0, 0, 0, 0, 0, 0, paramString);
+            SendNetworkCommand(sender, 0, 0, 0, 0, 0, 0, 0, 0, paramString);
+        }
+        
+        public void SendNetworkCommand(CoherenceSync sender, int paramInt1)
+        {
+            SendNetworkCommand(sender, paramInt1, 0, 0, 0, 0, 0, 0, 0, null);
         }
 
-        public void SendNetworkCommand(CoherenceSync sender, string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        public void SendNetworkCommand(CoherenceSync sender, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
         {
             if (entity == Entity.Null) return;
             
@@ -291,16 +287,9 @@ namespace Coherence.MonoBridge
 
             var cmd = new GenericCommandRequest
             {
-                //name = name,
-                paramInt1 = paramInt1,/*
-                paramInt2 = paramInt2,
-                paramInt3 = paramInt3,
-                paramInt4 = paramInt4,
-                paramFloat1 = paramFloat1,
-                paramFloat2 = paramFloat2,
-                paramFloat3 = paramFloat3,
-                paramFloat4 = paramFloat4,
-                paramString = paramString*/
+                paramInt1 = paramInt1,
+                //paramFloat1 = paramFloat1,
+                //paramString = paramString
             };
 
             //Debug.Log($"Sending command from {sender.gameObject.name} to {gameObject.name}");
@@ -312,8 +301,8 @@ namespace Coherence.MonoBridge
             }
             else
             {
-                Debug.Log("GenericCommandRequest missing from " + gameObject.name);
-                ProcessNetworkCommand(cmd.paramInt1/*, cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString()*/);
+                
+                // TODO: re-enable ProcessNetworkCommand(cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
             }
         }
 

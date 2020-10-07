@@ -39,15 +39,17 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Packages/manifest.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42D70C7E-98FC-4200-94B1-531AE11D016B/57/1b1d27f8/UdpClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@0.11.0-preview.17/Unity.Collections/FixedString.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Coherence Samples/Interface/Scripts/ConnectDialog.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.13.0-preview.24/Unity.Entities/EntityComponentStoreDebug.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -62,9 +64,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/Coherence Samples/Interface/Scripts/ConnectDialog.cs" />
         <option value="$PROJECT_DIR$/Assets/coherence/coherence.schema" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" />
       </list>
     </option>
   </component>
@@ -91,10 +93,10 @@
       <option name="pid" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="68640">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="83344">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="68640" />
+      <option name="pid" value="83344" />
       <method v="2" />
     </configuration>
   </component>
@@ -109,7 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1601996809524</updated>
       <workItem from="1601996814173" duration="1915000" />
-      <workItem from="1602003901242" duration="30798000" />
+      <workItem from="1602003901242" duration="36599000" />
     </task>
     <servers />
   </component>
@@ -134,74 +136,74 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="455" height="464" key="DebuggerActiveHint" timestamp="1602015593288">
+    <state width="473" height="464" key="DebuggerActiveHint" timestamp="1602078913296">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="455" height="464" key="DebuggerActiveHint/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602015593288" />
-    <state width="2517" height="162" key="GridCell.Tab.0.bottom" timestamp="1602026039022">
+    <state width="473" height="464" key="DebuggerActiveHint/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078913296" />
+    <state width="2517" height="162" key="GridCell.Tab.0.bottom" timestamp="1602078723462">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.0.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026039022" />
-    <state width="2517" height="162" key="GridCell.Tab.0.center" timestamp="1602026039022">
+    <state width="2517" height="162" key="GridCell.Tab.0.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723462" />
+    <state width="2517" height="162" key="GridCell.Tab.0.center" timestamp="1602078723462">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.0.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026039022" />
-    <state width="2517" height="162" key="GridCell.Tab.0.left" timestamp="1602026039022">
+    <state width="2517" height="162" key="GridCell.Tab.0.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723462" />
+    <state width="2517" height="162" key="GridCell.Tab.0.left" timestamp="1602078723462">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.0.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026039022" />
-    <state width="2517" height="162" key="GridCell.Tab.0.right" timestamp="1602026039022">
+    <state width="2517" height="162" key="GridCell.Tab.0.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723462" />
+    <state width="2517" height="162" key="GridCell.Tab.0.right" timestamp="1602078723462">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.0.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026039022" />
-    <state width="2517" height="162" key="GridCell.Tab.1.bottom" timestamp="1602026351262">
+    <state width="2517" height="162" key="GridCell.Tab.0.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723462" />
+    <state width="2517" height="162" key="GridCell.Tab.1.bottom" timestamp="1602078796408">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.1.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026351262" />
-    <state width="2517" height="162" key="GridCell.Tab.1.center" timestamp="1602026351262">
+    <state width="2517" height="162" key="GridCell.Tab.1.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078796408" />
+    <state width="2517" height="162" key="GridCell.Tab.1.center" timestamp="1602078796408">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.1.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026351262" />
-    <state width="2517" height="162" key="GridCell.Tab.1.left" timestamp="1602026351262">
+    <state width="2517" height="162" key="GridCell.Tab.1.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078796408" />
+    <state width="2517" height="162" key="GridCell.Tab.1.left" timestamp="1602078796408">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.1.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026351262" />
-    <state width="2517" height="162" key="GridCell.Tab.1.right" timestamp="1602026351262">
+    <state width="2517" height="162" key="GridCell.Tab.1.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078796408" />
+    <state width="2517" height="162" key="GridCell.Tab.1.right" timestamp="1602078796408">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.1.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026351262" />
-    <state width="2517" height="162" key="GridCell.Tab.2.bottom" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.1.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078796408" />
+    <state width="2517" height="162" key="GridCell.Tab.2.bottom" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.2.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.2.center" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.2.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.2.center" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.2.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.2.left" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.2.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.2.left" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.2.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.2.right" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.2.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.2.right" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.2.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.3.bottom" timestamp="1602026038942">
+    <state width="2517" height="162" key="GridCell.Tab.2.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.3.bottom" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.3.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038942" />
-    <state width="2517" height="162" key="GridCell.Tab.3.center" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.3.bottom/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.3.center" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.3.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.3.left" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.3.center/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.3.left" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.3.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
-    <state width="2517" height="162" key="GridCell.Tab.3.right" timestamp="1602026038941">
+    <state width="2517" height="162" key="GridCell.Tab.3.left/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
+    <state width="2517" height="162" key="GridCell.Tab.3.right" timestamp="1602078723368">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
-    <state width="2517" height="162" key="GridCell.Tab.3.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602026038941" />
+    <state width="2517" height="162" key="GridCell.Tab.3.right/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602078723368" />
     <state x="782" y="386" key="SettingsEditor" timestamp="1602011062346">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
@@ -214,5 +216,37 @@
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
     <state width="1287" height="707" key="XDebugger.FullValuePopup/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602015573836" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs</url>
+          <line>10548</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" initialLine="10675">
+            <startOffsets>
+              <option value="342473" />
+            </startOffsets>
+            <endOffsets>
+              <option value="342537" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs</url>
+          <line>10543</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" initialLine="10670">
+            <startOffsets>
+              <option value="342392" />
+            </startOffsets>
+            <endOffsets>
+              <option value="342414" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

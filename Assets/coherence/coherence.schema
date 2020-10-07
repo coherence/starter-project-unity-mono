@@ -7,7 +7,7 @@ component Player
   
 command GenericCommand
   paramInt1 Int
-
+  
 component GenericFieldInt0
   number Int
 
