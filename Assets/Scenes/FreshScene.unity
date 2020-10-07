@@ -692,6 +692,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonoNPC-Demo
       objectReference: {fileID: 0}
+    - target: {fileID: 2458160888634212600, guid: 2e768ad0936c2aa4c8eae31d83e5631c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e768ad0936c2aa4c8eae31d83e5631c, type: 3}
 --- !u!1001 &798389861

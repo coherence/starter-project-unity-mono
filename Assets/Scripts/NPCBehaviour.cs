@@ -46,12 +46,11 @@ public class NPCBehaviour : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (!isActiveAndEnabled) return;
-        
-        Debug.Log("I've collided with " + other.gameObject);
-        var coherenceSync = other.gameObject.GetComponent<CoherenceSync>();
+        var coherenceSyncOther = other.gameObject.GetComponent<CoherenceSync>();
+        var coherenceSync = gameObject.GetComponent<CoherenceSync>();
         if (coherenceSync != null)
         {
-            coherenceSync.SendNetworkCommand("Collided with", gameObject.name + " " + ConnectDialog.GetPlayerName());
+            coherenceSyncOther.SendNetworkCommand(coherenceSync, gameObject.name + " " + ConnectDialog.GetPlayerName(), "NPCBehaviour");
         }
     }
 

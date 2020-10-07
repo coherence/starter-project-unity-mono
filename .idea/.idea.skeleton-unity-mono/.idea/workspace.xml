@@ -19,7 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="664cfea5-dda5-4538-8f7c-f2c3adcca724" name="Default Changelist" comment="" />
+    <list default="true" id="664cfea5-dda5-4538-8f7c-f2c3adcca724" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/coherence.schema" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/coherence.schema" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +41,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@0.11.0-preview.17/Unity.Collections/FixedString.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
@@ -50,9 +59,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceBootstrap.cs" />
-        <option value="$PROJECT_DIR$/Assets/coherence/coherence.schema" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/Coherence Samples/Interface/Scripts/ConnectDialog.cs" />
+        <option value="$PROJECT_DIR$/Assets/coherence/coherence.schema" />
         <option value="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" />
@@ -100,7 +109,7 @@
       <option name="presentableId" value="Default" />
       <updated>1601996809524</updated>
       <workItem from="1601996814173" duration="1915000" />
-      <workItem from="1602003901242" duration="24484000" />
+      <workItem from="1602003901242" duration="30798000" />
     </task>
     <servers />
   </component>
@@ -197,6 +206,10 @@
       <screen x="0" y="40" width="2560" height="1400" />
     </state>
     <state x="782" y="386" key="SettingsEditor/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602011062346" />
+    <state x="93" y="133" width="2375" height="1215" key="VCS.FileHistoryDialog" timestamp="1602059059116">
+      <screen x="0" y="40" width="2560" height="1400" />
+    </state>
+    <state x="93" y="133" width="2375" height="1215" key="VCS.FileHistoryDialog/-2160.-660.1440.2520/0.40.2560.1400@0.40.2560.1400" timestamp="1602059059116" />
     <state width="1287" height="707" key="XDebugger.FullValuePopup" timestamp="1602015573836">
       <screen x="0" y="40" width="2560" height="1400" />
     </state>

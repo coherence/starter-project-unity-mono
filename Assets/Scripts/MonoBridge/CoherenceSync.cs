@@ -165,7 +165,7 @@ namespace Coherence.MonoBridge
                     }
                     catch (Exception e)
                     {
-                        Debug.LogWarning(e.Message);
+                        Debug.Log(cmp.ToString() + " " + e.Message);
                     }
                 }
             }
@@ -187,7 +187,7 @@ namespace Coherence.MonoBridge
             yield return null;
             if (entity == Entity.Null && isSimulated)
             {
-                entity = entityManager.CreateEntity();
+                entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation), typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(Player), typeof(GenericCommand));
                 
                 for (int i = 0; i < fieldLinksValues.Count; i++)
                 {
@@ -203,14 +203,7 @@ namespace Coherence.MonoBridge
                     //Debug.Log("adding type " + type);
                     entityManager.AddComponent(entity, type);
                 }
-
-                entityManager.AddComponent(entity, typeof(Translation));
-                entityManager.AddComponent(entity, typeof(Rotation));
-                entityManager.AddComponent(entity, typeof(CoherenceSessionComponent));
-                entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
-                entityManager.AddComponent(entity, typeof(Player));
-                entityManager.AddComponent(entity, typeof(GenericCommand));
-                
+  
                 entityManager.SetComponentData(entity, new Player()
                 {
                     prefab = new FixedString64(remoteVersionPrefabName)
@@ -220,17 +213,20 @@ namespace Coherence.MonoBridge
 
         void ReceiveNetworkCommands()
         {
-            if (LinkedEntity == Entity.Null) return;
+            if (entity == Entity.Null) return;
             
-            DynamicBuffer<GenericCommand> buffer = entityManager.GetBuffer<GenericCommand>(LinkedEntity);
+            DynamicBuffer<GenericCommand> buffer = entityManager.GetBuffer<GenericCommand>(entity);
+
             if (buffer.Length > 0)
             {
-                foreach (GenericCommand cmd in buffer)
-                {
-                    ProcessNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
-                }
+                Debug.LogWarning("Buffer size " + buffer.Length);
             }
-
+            
+            foreach (GenericCommand cmd in buffer)
+            {
+                ProcessNetworkCommand(cmd.paramInt1/*, cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString()*/);
+            }
+        
             buffer.Clear();
         }
 
@@ -258,13 +254,13 @@ namespace Coherence.MonoBridge
 
         public delegate void NetworkCommandHandler(object sender, NetworkCommandArgs e);
         public event NetworkCommandHandler NetworkCommandReceived;
-        public void ProcessNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1,
-            float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        public void ProcessNetworkCommand(int paramInt1/*, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1,
+            float paramFloat2, float paramFloat3, float paramFloat4, string paramString*/)
         {
             var args = new NetworkCommandArgs()
             {
-                Name = name,
-                ParamInt1 = paramInt1,
+                //Name = name,
+                ParamInt1 = paramInt1/*
                 ParamInt2 = paramInt2,
                 ParamInt3 = paramInt3,
                 ParamInt4 = paramInt4,
@@ -272,7 +268,7 @@ namespace Coherence.MonoBridge
                 ParamFloat2 = paramFloat2,
                 ParamFloat3 = paramFloat3,
                 ParamFloat4 = paramFloat4,
-                ParamString = paramString
+                ParamString = paramString*/
             };
 
             NetworkCommandReceived?.Invoke(this, args);
@@ -280,22 +276,23 @@ namespace Coherence.MonoBridge
             gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
         }
 
-        public void SendNetworkCommand(string name, string paramString)
+        public void SendNetworkCommand(CoherenceSync sender, string name, string paramString)
         {
-            SendNetworkCommand(name, 0, 0, 0, 0, 0, 0, 0, 0, paramString);
+            SendNetworkCommand(sender, name, 0, 0, 0, 0, 0, 0, 0, 0, paramString);
         }
 
-        public void SendNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        public void SendNetworkCommand(CoherenceSync sender, string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
         {
-            if (LinkedEntity == Entity.Null) return;
+            if (entity == Entity.Null) return;
+            
+            const int maxLen = 32;
+            if(name != null) name = name.Substring(0, name.Length > maxLen ? maxLen : name.Length);
+            if(paramString != null) paramString = paramString.Substring(0, paramString.Length > maxLen ? maxLen : paramString.Length);
 
-            if(name != null) name = name.Substring(0, name.Length > 64 ? 64 : name.Length);
-            if(paramString != null) paramString = paramString.Substring(0, paramString.Length > 64 ? 64 : paramString.Length);
-
-            var cmd = new GenericCommand
+            var cmd = new GenericCommandRequest
             {
-                name = name,
-                paramInt1 = paramInt1,
+                //name = name,
+                paramInt1 = paramInt1,/*
                 paramInt2 = paramInt2,
                 paramInt3 = paramInt3,
                 paramInt4 = paramInt4,
@@ -303,11 +300,21 @@ namespace Coherence.MonoBridge
                 paramFloat2 = paramFloat2,
                 paramFloat3 = paramFloat3,
                 paramFloat4 = paramFloat4,
-                paramString = paramString
+                paramString = paramString*/
             };
+
+            //Debug.Log($"Sending command from {sender.gameObject.name} to {gameObject.name}");
             
-            var cmdRequestBuffer = entityManager.GetBuffer<GenericCommand>(LinkedEntity);
-            _ = cmdRequestBuffer.Add(cmd);
+            if (entityManager.HasComponent<GenericCommandRequest>(entity))
+            {
+                var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                _ = cmdRequestBuffer.Add(cmd);
+            }
+            else
+            {
+                Debug.Log("GenericCommandRequest missing from " + gameObject.name);
+                ProcessNetworkCommand(cmd.paramInt1/*, cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString()*/);
+            }
         }
 
         bool CmpType(Type type, Type a)
@@ -528,11 +535,7 @@ namespace Coherence.MonoBridge
             {
 //                Debug.Log(gameObject.name + " " + entity + " " + entityManager.HasComponent<Translation>(entity));
             }
-            else
-            {
-                ReceiveNetworkCommands();
-            }
-            
+           
             if (!isSimulated && (entity == Entity.Null || !entityManager.HasComponent<Translation>(entity)))
             {
                 if (ecsEntitySet)
@@ -544,6 +547,8 @@ namespace Coherence.MonoBridge
 
             if (Application.isPlaying && entity != Entity.Null)
             {
+                ReceiveNetworkCommands();
+                
                 for (int i = 0; i < fieldTogglesKeys.Count; i++)
                 {
                     var on = fieldTogglesValues[i];
