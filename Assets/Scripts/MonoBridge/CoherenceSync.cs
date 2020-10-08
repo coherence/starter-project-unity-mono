@@ -10,6 +10,7 @@ using Coherence.Replication.Client.Unity.Ecs;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Unity.Entities;
 
 namespace Coherence.MonoBridge
 {
@@ -19,6 +20,8 @@ namespace Coherence.MonoBridge
         [NonSerialized] public const string KeyDelimiter = "*";
         [NonSerialized] const string AssemblyPrefix = "Coherence.Generated.FirstProject.";
         [NonSerialized] private NetworkSystem networkSystem;
+
+        private CoherenceBootstrap bootstrap;
 
         public enum SynchronizedPrefabOptions
         {
@@ -128,6 +131,8 @@ namespace Coherence.MonoBridge
         void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+            bootstrap = GameObject.FindObjectOfType<CoherenceBootstrap>();
         }
 
         public void SpawnFromNetwork(Entity linkedEntity, string name)
@@ -151,10 +156,16 @@ namespace Coherence.MonoBridge
                 if (scriptType != null)
                 {
                     var cmp = gameObject.GetComponent(scriptType);
-
-                    if (cmp != null)
+                    try
                     {
-                        ((Behaviour) cmp).enabled = en;
+                        if (cmp != null)
+                        {
+                            ((Behaviour) cmp).enabled = en;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(cmp.ToString() + " " + e.Message);
                     }
                 }
             }
@@ -176,7 +187,7 @@ namespace Coherence.MonoBridge
             yield return null;
             if (entity == Entity.Null && isSimulated)
             {
-                entity = entityManager.CreateEntity();
+                entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation), typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(Player), typeof(GenericCommand));
                 
                 for (int i = 0; i < fieldLinksValues.Count; i++)
                 {
@@ -192,17 +203,123 @@ namespace Coherence.MonoBridge
                     //Debug.Log("adding type " + type);
                     entityManager.AddComponent(entity, type);
                 }
-
-                entityManager.AddComponent(entity, typeof(Translation));
-                entityManager.AddComponent(entity, typeof(Rotation));
-                entityManager.AddComponent(entity, typeof(CoherenceSessionComponent));
-                entityManager.AddComponent(entity, typeof(CoherenceSimulateComponent));
-                entityManager.AddComponent(entity, typeof(Player));
-                
+  
                 entityManager.SetComponentData(entity, new Player()
                 {
                     prefab = new FixedString64(remoteVersionPrefabName)
                 });
+            }
+        }
+
+        void ReceiveNetworkCommands()
+        {
+            if (entity == Entity.Null) return;
+            
+            DynamicBuffer<GenericCommand> buffer = entityManager.GetBuffer<GenericCommand>(entity);
+
+            if (buffer.Length > 0)
+            {
+                Debug.LogWarning("Buffer size " + buffer.Length);
+            }
+            
+            foreach (GenericCommand cmd in buffer)
+            { 
+                 ProcessNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+            }
+        
+            buffer.Clear();
+        }
+
+        public class NetworkCommandArgs : EventArgs
+        {
+            public string Name { get; set; }
+            public string ParamString { get; set; }
+            
+            public int ParamInt1 { get; set; }
+            public int ParamInt2 { get; set; }
+            public int ParamInt3 { get; set; }
+            public int ParamInt4 { get; set; }
+            
+            public float ParamFloat1 { get; set; }
+            public float ParamFloat2 { get; set; }
+            public float ParamFloat3 { get; set; }
+            public float ParamFloat4 { get; set; }
+
+            public override string ToString()
+            {
+                return
+                    $"{Name} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
+            }
+        }
+
+        public delegate void NetworkCommandHandler(object sender, NetworkCommandArgs e);
+        public event NetworkCommandHandler NetworkCommandReceived;
+        public void ProcessNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        {
+            var args = new NetworkCommandArgs()
+            {
+                Name = name,
+                ParamInt1 = paramInt1,
+                ParamInt2 = paramInt2,
+                ParamInt3 = paramInt3,
+                ParamInt4 = paramInt4,
+                ParamFloat1 = paramFloat1,
+                ParamFloat2 = paramFloat2,
+                ParamFloat3 = paramFloat3,
+                ParamFloat4 = paramFloat4,
+                ParamString = paramString
+            };
+
+            NetworkCommandReceived?.Invoke(this, args);
+
+            gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
+        }
+
+        public void SendNetworkCommand(CoherenceSync sender, string name)
+        {
+            SendNetworkCommand(sender, name, 0, 0, 0, 0, 0, 0, 0, 0, null);
+        }
+        
+        public void SendNetworkCommand(CoherenceSync sender, int paramInt1)
+        {
+            SendNetworkCommand(sender, null, paramInt1, 0, 0, 0, 0, 0, 0, 0, null);
+        }
+
+        public void SendNetworkCommand(CoherenceSync sender, string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        {
+            if (entity == Entity.Null) return;
+            
+            const int maxLen = 32;
+            if(name != null) name = name.Substring(0, name.Length > maxLen ? maxLen : name.Length);
+            if(paramString != null) paramString = paramString.Substring(0, paramString.Length > maxLen ? maxLen : paramString.Length);
+
+            var cmd = new GenericCommandRequest
+            {
+                name = name,
+                paramInt1 = paramInt1,
+                paramInt2 = paramInt2,
+                paramInt3 = paramInt3,
+                paramInt4 = paramInt4,
+                
+                paramFloat1 = paramFloat1,
+                paramFloat2 = paramFloat2,
+                paramFloat3 = paramFloat3,
+                paramFloat4 = paramFloat4,
+                
+                paramString = paramString,
+            };
+
+            //Debug.Log($"Sending command from {sender.gameObject.name} to {gameObject.name}");
+            
+            if (entityManager.HasComponent<GenericCommandRequest>(entity))
+            {
+                var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                _ = cmdRequestBuffer.Add(cmd);
+            }
+            else
+            {
+                
+                // TODO: re-enable ProcessNetworkCommand(cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
             }
         }
 
@@ -424,7 +541,7 @@ namespace Coherence.MonoBridge
             {
 //                Debug.Log(gameObject.name + " " + entity + " " + entityManager.HasComponent<Translation>(entity));
             }
-            
+           
             if (!isSimulated && (entity == Entity.Null || !entityManager.HasComponent<Translation>(entity)))
             {
                 if (ecsEntitySet)
@@ -436,6 +553,8 @@ namespace Coherence.MonoBridge
 
             if (Application.isPlaying && entity != Entity.Null)
             {
+                ReceiveNetworkCommands();
+                
                 for (int i = 0; i < fieldTogglesKeys.Count; i++)
                 {
                     var on = fieldTogglesValues[i];

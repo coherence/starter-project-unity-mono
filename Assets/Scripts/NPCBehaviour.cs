@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = System.Random;
 
-public class NPCBehaviour : MonoBehaviour
+public class NPCBehaviour : CharacterBehaviour
 {
     private Vector3 targetPos;
 
     private Random random;
     
-    public float movementSpeed = 3f;
-    
-    private ShowNameAndState showNameAndState;
-
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         random = new Random((int)(Time.time * 1000f));
-        showNameAndState = GetComponent<ShowNameAndState>();
         StartCoroutine(AICoroutine());
     }
 
@@ -43,15 +36,5 @@ public class NPCBehaviour : MonoBehaviour
     public void Update()
     {
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * movementSpeed);
-    }
-
-    private void CycleState()
-    {
-        var values = Enum.GetValues(typeof(ShowNameAndState.StateType));
-        var maxValue = (int) values.GetValue(values.Length - 1);
-        int cst = (int) showNameAndState.State;
-        cst += 1;
-        if (cst > maxValue) cst = 0;
-        showNameAndState.State = cst;
     }
 }
