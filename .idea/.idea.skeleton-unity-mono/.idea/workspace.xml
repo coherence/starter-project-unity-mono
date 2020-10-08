@@ -20,6 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="664cfea5-dda5-4538-8f7c-f2c3adcca724" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterBehaviour.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterBehaviour.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.skeleton-unity-mono/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FreshScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" afterDir="false" />
@@ -27,6 +30,7 @@
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/coherence/coherence.schema" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/coherence.schema" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/run-server.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bin/run-server.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +44,7 @@
     <setting file="file://$PROJECT_DIR$/Packages/manifest.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShowNameAndState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42D70C7E-98FC-4200-94B1-531AE11D016B/57/1b1d27f8/UdpClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@0.11.0-preview.17/Unity.Collections/FixedString.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" root0="FORCE_HIGHLIGHTING" />
@@ -47,8 +52,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoSpawner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/DebugPanel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Coherence Samples/Interface/Scripts/ConnectDialog.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Unity/Hub/Editor/2020.1.7f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.13.0-preview.24/Unity.Entities/EntityComponentStoreDebug.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -64,9 +71,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/Editor/CoherenceSyncEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/Coherence Samples/Interface/Scripts/ConnectDialog.cs" />
         <option value="$PROJECT_DIR$/Assets/coherence/coherence.schema" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/DebugPanel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerBehaviour.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/NPCBehaviour.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoBridge/CoherenceSync.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CharacterBehaviour.cs" />
       </list>
     </option>
   </component>
@@ -222,26 +231,26 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs</url>
-          <line>10548</line>
+          <line>10692</line>
           <properties documentPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" initialLine="10675">
             <startOffsets>
-              <option value="342473" />
+              <option value="346398" />
             </startOffsets>
             <endOffsets>
-              <option value="342537" />
+              <option value="346462" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/coherence/generated/schema.cs</url>
-          <line>10543</line>
+          <line>10687</line>
           <properties documentPath="$PROJECT_DIR$/Assets/coherence/generated/schema.cs" initialLine="10670">
             <startOffsets>
-              <option value="342392" />
+              <option value="346317" />
             </startOffsets>
             <endOffsets>
-              <option value="342414" />
+              <option value="346339" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="12" />

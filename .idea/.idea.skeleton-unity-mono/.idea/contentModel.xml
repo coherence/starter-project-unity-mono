@@ -20,6 +20,8 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="CharacterBehaviour.cs" t="Include" />
+          <e p="DebugPanel.cs" t="Include" />
           <e p="MonoBridge" t="Include">
             <e p="CoherenceBootstrap.cs" t="Include" />
             <e p="CoherenceLiveQuery.cs" t="Include" />

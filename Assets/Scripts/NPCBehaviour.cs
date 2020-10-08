@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Coherence.MonoBridge;
-using Coherence.Samples;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Network = Coherence.Network;
 using Random = System.Random;
 
-public class NPCBehaviour : MonoBehaviour
+public class NPCBehaviour : CharacterBehaviour
 {
     private Vector3 targetPos;
 
     private Random random;
     
-    public float movementSpeed = 3f;
-    
-    private ShowNameAndState showNameAndState;
-
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         random = new Random((int)(Time.time * 1000f));
-        showNameAndState = GetComponent<ShowNameAndState>();
         StartCoroutine(AICoroutine());
     }
 
@@ -43,35 +33,8 @@ public class NPCBehaviour : MonoBehaviour
         }
     }
     
-    public void OnTriggerEnter(Collider other)
-    {
-        if (!isActiveAndEnabled) return;
-        var coherenceSyncOther = other.gameObject.GetComponent<CoherenceSync>();
-        var coherenceSync = gameObject.GetComponent<CoherenceSync>();
-        if (coherenceSync != null)
-        {
-            coherenceSyncOther.SendNetworkCommand(coherenceSync, 1024);
-        }
-    }
-
-    public void NetworkCommand(object args)
-    {
-        CoherenceSync.NetworkCommandArgs nargs = (CoherenceSync.NetworkCommandArgs) args;
-        Debug.Log(gameObject.name + " received command: " + args.ToString());
-    }
-    
     public void Update()
     {
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * movementSpeed);
-    }
-
-    private void CycleState()
-    {
-        var values = Enum.GetValues(typeof(ShowNameAndState.StateType));
-        var maxValue = (int) values.GetValue(values.Length - 1);
-        int cst = (int) showNameAndState.State;
-        cst += 1;
-        if (cst > maxValue) cst = 0;
-        showNameAndState.State = cst;
     }
 }
