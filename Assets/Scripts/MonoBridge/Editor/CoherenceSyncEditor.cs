@@ -23,7 +23,7 @@
 
         private void OnEnable()
         {
-            texture = (Texture2D)Resources.Load("Coherence_Main_Logotype_Positive");
+            texture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Coherence Samples/Interface/Textures/Logo.png");
         }
 
         private bool IsTypeSupported(Type type)
@@ -51,49 +51,42 @@
             serializedObject.Update();
 
             _ = EditorGUILayout.BeginHorizontal();
-            _ = EditorGUILayout.BeginVertical();
-            GUI.DrawTexture(new Rect(20, 5, 180, 51), texture, ScaleMode.ScaleToFit);
-
-            for (int i = 0; i < 9; i++)
+            if (GUILayout.Button("Select none", EditorStyles.miniButtonLeft))
             {
-                EditorGUILayout.Space();
+                (target as CoherenceSync)?.Reset();
+                anyChangesMade = true;
             }
-
-            EditorGUILayout.EndVertical();
+            EditorGUI.BeginDisabledGroup(true);
+            if (GUILayout.Button("Select all", EditorStyles.miniButtonRight))
+            {
+            }
+            EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.LabelField("Select the components you want to sync over the network:");
 
             EditorGUI.indentLevel++;
             CycleThroughPublicVariables();
             EditorGUI.indentLevel--;
 
             EditorGUILayout.Space();
-            EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("When this object is synchronized over the network:");
+            EditorGUILayout.LabelField("Instantiation on non-simulators", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             anyChangesMade = SynchronizedPrefabDropdown(coherenceSync, anyChangesMade);
             EditorGUI.indentLevel--;
 
             EditorGUILayout.Space();
+
+            EditorGUI.BeginDisabledGroup(true);
+            _ = GUILayout.Button("Bake network components");
+            EditorGUILayout.HelpBox("Syncing data using reflection. Bake network components for additional performance.", MessageType.Warning);
+            EditorGUI.EndDisabledGroup();
+
             EditorGUILayout.Space();
 
-            Color prevColor = GUI.color;
-            GUI.color = Color.red;
-            EditorGUILayout.LabelField("Warning! Using reflection (slow). Bake network components for more performance.");
-            GUI.color = prevColor;
-            _ = GUILayout.Button("Bake network components");
-            if (GUILayout.Button("Reset"))
-            {
-                (target as CoherenceSync)?.Reset();
-                anyChangesMade = true;
-            }
-
-            EditorGUILayout.LabelField($"Linked entity: {coherenceSync.LinkedEntity}");
-            EditorGUILayout.LabelField($"IsSimulated: {coherenceSync.isSimulated}");
-            EditorGUILayout.LabelField($"Network prefab: {coherenceSync.remoteVersionPrefabName}");
-            // EditorGUILayout.LabelField($"Debug: [{coherenceSync.GetDebugData()}]");
+            EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
+            EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
+            EditorGUILayout.LabelField("Simulated", coherenceSync.isSimulated.ToString());
+            // EditorGUILayout.LabelField("Debug", coherenceSync.GetDebugData().ToString());
 
             // if (GUILayout.Button("Test enable/disable scripts"))
             // {
@@ -117,86 +110,74 @@
                 anyChangesMade = true;
             }
 
-            EditorGUILayout.LabelField("Network version of prefab to load:", EditorStyles.boldLabel);
-            _ = EditorGUILayout.BeginHorizontal();
-            int selection = EditorGUILayout.Popup((int)coherenceSync.SelectedSynchronizedPrefabOption, Enum
-                .GetNames(typeof(CoherenceSync.SynchronizedPrefabOptions))
-                .ToArray());
-
-            if (selection != (int)coherenceSync.SelectedSynchronizedPrefabOption)
+            EditorGUI.BeginChangeCheck();
+            CoherenceSync.SynchronizedPrefabOptions selection = (CoherenceSync.SynchronizedPrefabOptions)EditorGUILayout.EnumPopup("Instantiate", coherenceSync.SelectedSynchronizedPrefabOption);
+            if (EditorGUI.EndChangeCheck())
             {
-                coherenceSync.SelectedSynchronizedPrefabOption = (CoherenceSync.SynchronizedPrefabOptions)selection;
+                if (selection == CoherenceSync.SynchronizedPrefabOptions.Self)
+                {
+                    coherenceSync.remoteVersionPrefabName = GetPrefabName(coherenceSync.gameObject);
+                }
+                coherenceSync.SelectedSynchronizedPrefabOption = selection;
                 anyChangesMade = true;
             }
 
-            if (coherenceSync.SelectedSynchronizedPrefabOption == CoherenceSync.SynchronizedPrefabOptions.This)
+            EditorGUI.BeginDisabledGroup(selection != CoherenceSync.SynchronizedPrefabOptions.Other);
+            EditorGUI.BeginChangeCheck();
+            string newFieldContent = EditorGUILayout.TextField("Resource name path", coherenceSync.remoteVersionPrefabName);
+            if (EditorGUI.EndChangeCheck())
             {
-                coherenceSync.remoteVersionPrefabName = GetPrefabName(coherenceSync.gameObject);
-
-                EditorGUI.BeginDisabledGroup(true);
-                _ = EditorGUILayout.TextField(coherenceSync.remoteVersionPrefabName);
-                EditorGUI.EndDisabledGroup();
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.Space();
-
-                EditorGUILayout.LabelField("Scripts left enabled:", EditorStyles.boldLabel);
-                EditorGUI.indentLevel++;
-                Component[] components = coherenceSync.gameObject.GetComponents(typeof(Component));
-
-                _ = EditorGUILayout.BeginVertical();
-                foreach (Component myComp in components)
-                {
-                    Type compType = myComp.GetType();
-                    string compTypeString = compType.AssemblyQualifiedName;
-                    if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
-                    {
-                        continue;
-                    }
-
-                    if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter))
-                    {
-                        continue;
-                    }
-
-                    if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync))
-                    {
-                        continue;
-                    }
-
-                    if (compType.IsSubclassOf(typeof(Transform)) || compType == typeof(Transform))
-                    {
-                        continue;
-                    }
-
-                    // EditorGUILayout.Space();
-
-                    _ = EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
-
-                    bool? oldVal = coherenceSync.GetEnabledScriptToggle(compTypeString);
-                    bool? compTypeIncluded = EditorGUILayout.Toggle(oldVal ?? false);
-                    if (oldVal != compTypeIncluded)
-                    {
-                        coherenceSync.SetEnabledScriptToggle(compTypeString, (bool)compTypeIncluded);
-                        anyChangesMade = true;
-                    }
-
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUI.indentLevel--;
-                EditorGUILayout.EndVertical();
+                coherenceSync.remoteVersionPrefabName = newFieldContent;
+                anyChangesMade = true;
             }
-            else
+            if (newFieldContent != coherenceSync.remoteVersionPrefabName)
             {
-                string newFieldContent = EditorGUILayout.TextField(coherenceSync.remoteVersionPrefabName);
-                EditorGUILayout.EndHorizontal();
-                if (newFieldContent != coherenceSync.remoteVersionPrefabName)
+                coherenceSync.remoteVersionPrefabName = newFieldContent;
+                anyChangesMade = true;
+            }
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.HelpBox("GameObjects are loaded using Resources.Load.", MessageType.None);
+
+            EditorGUI.BeginDisabledGroup(selection != CoherenceSync.SynchronizedPrefabOptions.Self);
+            EditorGUILayout.LabelField("Components enabled", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+            Component[] components = coherenceSync.gameObject.GetComponents<Component>();
+
+            foreach (Component myComp in components)
+            {
+                Type compType = myComp.GetType();
+                string compTypeString = compType.AssemblyQualifiedName;
+                if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
                 {
-                    coherenceSync.remoteVersionPrefabName = newFieldContent;
+                    continue;
+                }
+
+                if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter))
+                {
+                    continue;
+                }
+
+                if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync))
+                {
+                    continue;
+                }
+
+                if (compType.IsSubclassOf(typeof(Transform)) || compType == typeof(Transform))
+                {
+                    continue;
+                }
+
+                bool? oldVal = coherenceSync.GetEnabledScriptToggle(compTypeString);
+                EditorGUI.BeginChangeCheck();
+                bool compTypeIncluded = EditorGUILayout.ToggleLeft(compType.ToString(), oldVal ?? false);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    coherenceSync.SetEnabledScriptToggle(compTypeString, compTypeIncluded);
                     anyChangesMade = true;
                 }
             }
+            EditorGUI.indentLevel--;
+            EditorGUI.EndDisabledGroup();
 
             return anyChangesMade;
         }
@@ -299,27 +280,18 @@
                 {
                     continue;
                 }
-                // EditorGUILayout.Space();
-
-                _ = EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(compType.ToString(), EditorStyles.boldLabel);
 
                 string compTypeString = compType.AssemblyQualifiedName;
                 bool? prevTypeIncluded = coherenceSync.GetScriptToggle(compTypeString);
-                bool compTypeIncluded = EditorGUILayout.Toggle(prevTypeIncluded ?? false);
-
-                if (compTypeIncluded != prevTypeIncluded)
+                EditorGUI.BeginChangeCheck();
+                bool compTypeIncluded = EditorGUILayout.ToggleLeft(compType.ToString(), prevTypeIncluded ?? false);
+                if (EditorGUI.EndChangeCheck())
                 {
                     anyChangesMade = true;
                     coherenceSync.SetScriptToggle(compTypeString, compTypeIncluded);
                 }
 
-                EditorGUILayout.EndHorizontal();
-
-                if (!compTypeIncluded)
-                {
-                    continue;
-                }
+                EditorGUI.BeginDisabledGroup(!compTypeIncluded);
 
                 const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
                 MemberInfo[] members = compType.GetFields(bindingFlags).Cast<MemberInfo>()
@@ -358,23 +330,21 @@
                         continue;
                     }
 
-                    _ = EditorGUILayout.BeginHorizontal();
                     EditorGUI.indentLevel++;
                     try
                     {
                         string varString = compTypeString + CoherenceSync.KeyDelimiter + variable.Name;
 
-                        EditorGUILayout.LabelField($"{variable.Name} [{fieldType}]");
                         bool? prevVarIncluded = coherenceSync.GetFieldToggle(varString);
-                        bool varIncluded = EditorGUILayout.Toggle(prevVarIncluded ?? false);
 
-                        if (varIncluded != prevVarIncluded)
+                        EditorGUI.BeginChangeCheck();
+                        bool varIncluded = EditorGUILayout.ToggleLeft($"{variable.Name} [{fieldType.Name}]", prevVarIncluded ?? false);
+                        if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;
                             coherenceSync.SetFieldToggle(varString, varIncluded);
                             coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
                         }
-
                     }
                     catch (Exception e)
                     {
@@ -382,13 +352,14 @@
                     }
 
                     EditorGUI.indentLevel--;
-                    EditorGUILayout.EndHorizontal();
                 }
+
+                EditorGUI.EndDisabledGroup();
             }
 
             if (anyChangesMade)
             {
-                Undo.RecordObject(target, "Changed selected scripts");
+                Undo.RecordObject(target, "Coherence Sync");
                 EditorUtility.SetDirty(target);
             }
         }

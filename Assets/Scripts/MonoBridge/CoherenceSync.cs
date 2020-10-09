@@ -20,12 +20,12 @@
 
         public enum SynchronizedPrefabOptions
         {
-            This = 0,
-            Another = 1
+            Self = 0,
+            Other = 1
         }
 
         [SerializeField]
-        private SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.This;
+        private SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.Self;
 
         public SynchronizedPrefabOptions SelectedSynchronizedPrefabOption
         {
@@ -97,8 +97,6 @@
         [SerializeField] private int genericFieldCounter_String = 0;
 
         [SerializeField] private int genericFieldCounter_Quaternion = 0;
-
-        private Hashtable lastComponentValue = new Hashtable();
 
         public void Reset()
         {
