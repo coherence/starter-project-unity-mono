@@ -4,25 +4,19 @@ using UnityEngine;
 public class ShowNameAndState : MonoBehaviour
 {
     public string PlayerName = "Bot";
-    
+
     private StateType state = StateType.Default;
     private Material material;
 
     public int State
     {
-        get
-        {
-            return (int) state;
-        }
-        set
-        {
-            state = (StateType) value;
-        }
+        get => (int)state;
+        set => state = (StateType)value;
     }
 
     public void Awake()
     {
-        var renderer = GetComponent<Renderer>();
+        Renderer renderer = GetComponent<Renderer>();
         material = renderer.material;
         RenderState();
     }
@@ -31,7 +25,7 @@ public class ShowNameAndState : MonoBehaviour
     {
         RenderState();
     }
-    
+
     private void RenderState()
     {
         switch (state)
@@ -64,12 +58,15 @@ public class ShowNameAndState : MonoBehaviour
         Green,
         Blue
     }
-    void OnGUI()
+
+    private void OnGUI()
     {
-        var p = Camera.main.WorldToScreenPoint(transform.position);
-        var centeredStyle = new GUIStyle(GUI.skin.label);
-        centeredStyle.alignment = TextAnchor.MiddleCenter;
+        Vector3 p = Camera.main.WorldToScreenPoint(transform.position);
+        GUIStyle centeredStyle = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter
+        };
         centeredStyle.normal.textColor = Color.black;
-        GUI.Label(new Rect(p.x - 100, Screen.height-p.y, 200, 50), PlayerName, centeredStyle);
+        GUI.Label(new Rect(p.x - 100, Screen.height - p.y, 200, 50), PlayerName, centeredStyle);
     }
 }
