@@ -19,13 +19,6 @@
             typeof(string)
         };
 
-        private Texture2D texture;
-
-        private void OnEnable()
-        {
-            texture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Coherence Samples/Interface/Textures/Logo.png");
-        }
-
         private bool IsTypeSupported(Type type)
         {
             foreach (Type ct in supportedTypes)
