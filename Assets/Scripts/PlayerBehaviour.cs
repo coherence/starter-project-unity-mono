@@ -1,5 +1,4 @@
-﻿using System.Security.Permissions;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerBehaviour : CharacterBehaviour
 {
@@ -25,7 +24,7 @@ public class PlayerBehaviour : CharacterBehaviour
             transform.position += Vector3.forward * (movementSpeed * dy * Time.deltaTime);
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             CycleState();
         }

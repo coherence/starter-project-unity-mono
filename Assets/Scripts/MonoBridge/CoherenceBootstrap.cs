@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using Coherence.Generated.FirstProject;
-using Coherence.Replication.Client.Unity.Ecs;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Transforms;
-using UnityEngine;
-
-namespace Coherence.MonoBridge
+﻿namespace Coherence.MonoBridge
 {
+    using Coherence.Generated.FirstProject;
+    using Coherence.Replication.Client.Unity.Ecs;
+    using System.Collections;
+    using Unity.Collections;
+    using Unity.Entities;
+    using Unity.Transforms;
+    using UnityEngine;
+
     public class CoherenceBootstrap : MonoBehaviour
     {
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
-        
+
         private Hashtable entityMap = new Hashtable();
-        
-        void Awake()
+
+        private void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
             entityQueryRemote = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
             entityQueryLocal = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), typeof(CoherenceSimulateComponent));
 
-            StartCoroutine(CheckForNewNetworkedEntities());
-            StartCoroutine(CheckForNewLocalEntities());
-            StartCoroutine(CleanUpDeletedEntities());
+            _ = StartCoroutine(CheckForNewNetworkedEntities());
+            _ = StartCoroutine(CheckForNewLocalEntities());
+            _ = StartCoroutine(CleanUpDeletedEntities());
         }
 
-        IEnumerator CleanUpDeletedEntities()
+        private IEnumerator CleanUpDeletedEntities()
         {
             while (true)
             {
@@ -37,24 +37,24 @@ namespace Coherence.MonoBridge
                 ArrayList toDelete = new ArrayList();
                 foreach (DictionaryEntry entry in entityMap)
                 {
-                    var go = (GameObject)entry.Value;
+                    GameObject go = (GameObject)entry.Value;
 
                     if (go == null || !go.activeInHierarchy)
                     {
                         Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
                         entityManager.DestroyEntity((Entity)entry.Key);
-                        toDelete.Add((Entity) entry.Key);
+                        _ = toDelete.Add((Entity)entry.Key);
                     }
                 }
 
-                foreach (var td in toDelete)
+                foreach (object td in toDelete)
                 {
                     entityMap.Remove((Entity)td);
                 }
             }
         }
-        
-        IEnumerator CheckForNewLocalEntities()
+
+        private IEnumerator CheckForNewLocalEntities()
         {
             while (true)
             {
@@ -63,14 +63,21 @@ namespace Coherence.MonoBridge
 
                 for (int i = 0; i < entities.Length; i++)
                 {
-                    var gameObjects = GameObject.FindObjectsOfType<CoherenceSync>();
+                    CoherenceSync[] gameObjects = FindObjectsOfType<CoherenceSync>();
 
-                    foreach (var go in gameObjects)
+                    foreach (CoherenceSync go in gameObjects)
                     {
-                        var entity = go.LinkedEntity;
-                        if (entity == Entity.Null) continue;
-                        if (!go.isSimulated) continue;
-                        
+                        Entity entity = go.LinkedEntity;
+                        if (entity == Entity.Null)
+                        {
+                            continue;
+                        }
+
+                        if (!go.isSimulated)
+                        {
+                            continue;
+                        }
+
                         if (entity == entities[i])
                         {
                             if (!entityMap.Contains(entities[i]))
@@ -85,8 +92,8 @@ namespace Coherence.MonoBridge
                 entities.Dispose();
             }
         }
-        
-        IEnumerator CheckForNewNetworkedEntities()
+
+        private IEnumerator CheckForNewNetworkedEntities()
         {
             while (true)
             {
@@ -99,26 +106,26 @@ namespace Coherence.MonoBridge
                     {
                         continue;
                     }
-                    
+
                     bool entityAlreadyExists = false;
 
-                    var gameObjects = GameObject.FindObjectsOfType<CoherenceSync>();
+                    CoherenceSync[] gameObjects = FindObjectsOfType<CoherenceSync>();
 
-                    foreach (var go in gameObjects)
+                    foreach (CoherenceSync go in gameObjects)
                     {
-                        var entity = go.LinkedEntity;
- 
+                        Entity entity = go.LinkedEntity;
+
                         if (entity == entities[i])
                         {
                             entityAlreadyExists = true;
-                            
+
                             break;
                         }
                     }
 
                     if (!entityAlreadyExists)
                     {
-                        var ent = SpawnEntity(entities[i]);
+                        GameObject ent = SpawnEntity(entities[i]);
                         entityMap[entities[i]] = ent;
                         break;
                     }
@@ -132,12 +139,12 @@ namespace Coherence.MonoBridge
         {
             Debug.Log("Creating mono representation for remote entity " + entity);
 
-            var prefabName = entityManager.GetComponentData<Player>(entity).prefab;
+            FixedString64 prefabName = entityManager.GetComponentData<Player>(entity).prefab;
             Debug.Log("Instantiating prefab " + prefabName);
-            var resource = Resources.Load(prefabName.ToString());
+            Object resource = Resources.Load(prefabName.ToString());
 
-            var newEntity = (GameObject) GameObject.Instantiate(resource);
-            var sync = newEntity.GetComponent<CoherenceSync>();
+            GameObject newEntity = (GameObject)Instantiate(resource);
+            CoherenceSync sync = newEntity.GetComponent<CoherenceSync>();
             sync.SpawnFromNetwork(entity, "Network: " + entity);
 
             return newEntity;

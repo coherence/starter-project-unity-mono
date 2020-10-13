@@ -1,13 +1,11 @@
 ﻿namespace Coherence.Samples
 {
-    using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.UI;
     using ConnectionType = Replication.Client.Unity.Ecs.ConnectionType;
 
-    public class ConnectDialog : MonoBehaviour
+    public class ConnectDialog : Dialog
     {
-        public CanvasGroup canvasGroup;
         public InputField nameInput;
         public InputField serverInput;
         public Toggle clientToggle;
@@ -15,60 +13,60 @@
         public Button connectButton;
 
         public UnityEvent onAttemptConnection;
+        public UnityEvent onInvalidConnect;
         public UnityEvent onConnect;
         public UnityEvent onDisconnect;
 
-        private static ConnectDialog instance;
-
-        public static string GetPlayerName()
-        {
-            return instance.PlayerName;
-        }
-        
         public string PlayerName => nameInput.text;
 
-        private void Awake()
+        protected override void Awake()
         {
-            instance = this;
-            
+            base.Awake();
+
             nameInput.text = System.Environment.UserName;
             connectButton.onClick.AddListener(OnConnectClicked);
-            nameInput.onEndEdit.AddListener(OnInputEnd);
-            serverInput.onEndEdit.AddListener(OnInputEnd);
+            nameInput.onValueChanged.AddListener(OnValueChanged);
+            serverInput.onValueChanged.AddListener(OnValueChanged);
+            serverInput.text = Server.IP;
 
-            Coherence.Network.OnConnected += OnConnected;
-            Coherence.Network.OnDisconnected += OnDisconnected;
+            Network.OnConnected += OnConnected;
+            Network.OnDisconnected += OnDisconnected;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            Coherence.Network.OnConnected -= OnConnected;
-            Coherence.Network.OnDisconnected -= OnDisconnected;
-        }
+            base.OnDestroy();
 
-        private void OnConnectClicked()
-        {
-            canvasGroup.interactable = false;
-            Coherence.Network.Connect(serverInput.text, simulationToggle.isOn ? ConnectionType.Simulator : ConnectionType.Client);
-            onAttemptConnection.Invoke();
+            Network.OnConnected -= OnConnected;
+            Network.OnDisconnected -= OnDisconnected;
         }
 
         private void OnConnected()
         {
-            canvasGroup.interactable = true;
             onConnect.Invoke();
         }
 
         private void OnDisconnected()
         {
-            canvasGroup.interactable = true;
             onDisconnect.Invoke();
         }
 
-        private void OnInputEnd(string text)
+        private void OnConnectClicked()
+        {
+            if (Network.Connect(serverInput.text, simulationToggle.isOn ? ConnectionType.Simulator : ConnectionType.Client))
+            {
+                canvasGroup.interactable = false;
+                onAttemptConnection.Invoke();
+            }
+            else
+            {
+                onInvalidConnect.Invoke();
+            }
+        }
+
+        private void OnValueChanged(string text)
         {
             connectButton.interactable = !string.IsNullOrEmpty(nameInput.text) && !string.IsNullOrEmpty(serverInput.text);
         }
     }
 }
-

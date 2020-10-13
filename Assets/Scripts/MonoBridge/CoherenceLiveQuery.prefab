@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01949113041a4e3b81903219b3d14e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8.66
+  radius: 8
   gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.4392157}

@@ -154,7 +154,6 @@ MonoBehaviour:
   selectedSynchronizedPrefabOption: 0
   remoteVersionPrefabName: MonoNPC-Demo
   isSimulated: 1
-  usingReflection: 1
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null

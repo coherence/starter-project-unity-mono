@@ -1,24 +1,25 @@
-﻿using Coherence.Generated.FirstProject;
-using Coherence.Replication.Client.Unity.Ecs;
-using Unity.Entities;
-using UnityEngine;
-using Coherence.Generated.Internal.Schema;
-
-namespace Coherence.MonoBridge
+﻿namespace Coherence.MonoBridge
 {
+    using Coherence.Generated.FirstProject;
+    using Coherence.Replication.Client.Unity.Ecs;
+    using Unity.Entities;
+    using UnityEngine;
+    using Network = Network;
+
     public class CoherenceLiveQuery : MonoBehaviour
     {
         public float radius = 50f;
         public Color gizmoColor = Color.yellow;
-        
-        public void Awake()
+
+        private void Awake()
         {
             Network.OnConnected += OnConnected;
         }
 
         private void OnConnected()
         {
-            var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
             // Create live query
             Entity liveQuery = entityManager.CreateEntity(
                 typeof(CoherenceSimulateComponent),
@@ -27,10 +28,10 @@ namespace Coherence.MonoBridge
 
             entityManager.SetComponentData(liveQuery, new WorldPositionQuery()
             {
-                radius = this.radius
+                radius = radius
             });
         }
-        
+
         private void OnDrawGizmosSelected()
         {
             // Draw a yellow sphere at the transform's position
