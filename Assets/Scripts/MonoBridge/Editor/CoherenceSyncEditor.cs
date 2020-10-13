@@ -10,6 +10,8 @@
     [CanEditMultipleObjects]
     public class CoherenceSyncEditor : Editor
     {
+        private Texture2D logo;
+
         private readonly Type[] supportedTypes = {
             typeof(Vector3),
             typeof(Quaternion),
@@ -32,8 +34,20 @@
             return false;
         }
 
+        private void OnEnable()
+        {
+            if (logo == null)
+            {
+                logo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Scripts/MonoBridge/Editor/Textures/Logo.png");
+            }
+        }
+
         public override void OnInspectorGUI()
         {
+            Rect rect = EditorGUILayout.GetControlRect(false, 22.5f, GUILayout.Width(107.5f));
+            GUI.DrawTexture(rect, logo);
+            EditorGUILayout.Space();
+
             CoherenceSync coherenceSync = (CoherenceSync)target;
             if (coherenceSync == null)
             {
@@ -43,6 +57,7 @@
             bool anyChangesMade = false;
             serializedObject.Update();
 
+            EditorGUILayout.LabelField("Components you want to sync over the network", EditorStyles.boldLabel);
             _ = EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Select none", EditorStyles.miniButtonLeft))
             {
@@ -62,7 +77,7 @@
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("Instantiation on non-simulators", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("When this object is synchronized over the network", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             anyChangesMade = SynchronizedPrefabDropdown(coherenceSync, anyChangesMade);
             EditorGUI.indentLevel--;
@@ -71,7 +86,7 @@
 
             EditorGUI.BeginDisabledGroup(true);
             _ = GUILayout.Button("Bake network components");
-            EditorGUILayout.HelpBox("Syncing data using reflection. Bake network components for additional performance.", MessageType.Warning);
+            EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space();
