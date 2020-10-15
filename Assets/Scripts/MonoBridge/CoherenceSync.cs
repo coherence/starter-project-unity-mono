@@ -75,7 +75,8 @@ namespace Coherence.MonoBridge
         [SerializeField]
         protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.Self;
 
-        [SerializeField] public bool usingReflection = true;
+        [SerializeField]
+        public bool usingReflection = true;
 
         public SynchronizedPrefabOptions SelectedSynchronizedPrefabOption
         {
@@ -118,7 +119,13 @@ namespace Coherence.MonoBridge
             yield return null;
             if (entity != Entity.Null || !isSimulated) yield break;
 
-            InitialiseEntity();
+            entity = entityManager.CreateEntity();
+            entityManager.AddComponent<GenericPrefabReference>(entity);
+            
+            if (usingReflection)
+            {
+                InitializeComponents();
+            }
             
             entityManager.SetComponentData(entity, new GenericPrefabReference
             {
@@ -126,11 +133,13 @@ namespace Coherence.MonoBridge
             });
         }
 
-        protected virtual void InitialiseEntity()
+        protected void InitializeComponents()
         {
-            entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation),
-                typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(GenericPrefabReference),
-                typeof(GenericCommand));
+            entityManager.AddComponent<Translation>(entity);
+            entityManager.AddComponent<Rotation>(entity);
+            entityManager.AddComponent<CoherenceSessionComponent>(entity);
+            entityManager.AddComponent<CoherenceSimulateComponent>(entity);
+            entityManager.AddComponent<GenericCommand>(entity);
 
             foreach (var t in fieldLinksValues)
             {
@@ -166,7 +175,7 @@ namespace Coherence.MonoBridge
             EnableAndDisableScripts();
         }
 
-        protected void EnableAndDisableScripts()
+        private void EnableAndDisableScripts()
         {
             for (var i = 0; i < enabledScriptTogglesKeys.Count; i++)
             {
@@ -201,13 +210,11 @@ namespace Coherence.MonoBridge
             return debugData;
         }
 
-        protected virtual void ReceiveNetworkCommands()
+        private void ReceiveGenericNetworkCommands()
         {
             if (entity == Entity.Null) return;
 
             var buffer = entityManager.GetBuffer<GenericCommand>(entity);
-
-            if (buffer.Length > 0) Debug.LogWarning("Buffer size " + buffer.Length);
 
             foreach (var cmd in buffer)
                 ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3,
@@ -277,16 +284,15 @@ namespace Coherence.MonoBridge
             }
             else
             {
-                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3,
-                    cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
-                    cmd.paramString.ToString());
+                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
             }
         }
 
-        protected static string TrimString64(string cmdName)
+        public static string TrimString64(string cmdName)
         {
-            cmdName = TrimString64(cmdName);
-            return cmdName;
+            if (cmdName == null) return cmdName;
+            
+            return cmdName.Length > maxNetworkStringLength ? cmdName.Substring(0, maxNetworkStringLength) : cmdName;
         }
 
         protected bool CmpType(Type type, Type a)
@@ -338,23 +344,17 @@ namespace Coherence.MonoBridge
 
             if (Application.isPlaying && entity != Entity.Null)
             {
-                ReceiveNetworkCommands();
-
                 if (usingReflection)
+                {
+                    ReceiveGenericNetworkCommands();
                     SyncEcsWithReflection();
-                else
-                    SyncEcsBaked();
+                }
             }
         }
 
-        private bool EcsEntityExists()
+        public bool EcsEntityExists()
         {
-            return !(entity == Entity.Null || !entityManager.HasComponent<Translation>(entity));
-        }
-
-        protected virtual void SyncEcsBaked()
-        {
-            throw new Exception("Not implemented.");
+            return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
 
         private void SyncEcsWithReflection()

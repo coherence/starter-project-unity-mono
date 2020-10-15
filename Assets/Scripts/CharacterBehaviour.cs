@@ -40,7 +40,8 @@ public class CharacterBehaviour : MonoBehaviour
                 Debug.Log(debugPanel.log.text + "== text");
             }
 
-            coherenceSyncOther.SendNetworkCommand(coherenceSync, stringToSend, 8, 7, 6, 5, 100, 100, 100, 100, null);
+            coherenceSyncOther.SendNetworkCommand(coherenceSync, stringToSend, 8, 7, 6, 5, 100, 100, 100, 100,
+                    null);
         }
     }
 

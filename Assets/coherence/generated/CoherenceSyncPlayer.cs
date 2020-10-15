@@ -1,4 +1,5 @@
-﻿using Coherence.Generated.FirstProject;
+﻿using System;
+using Coherence.Generated.FirstProject;
 using Coherence.Replication.Client.Unity.Ecs;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Coherence.MonoBridge
 {
-    public class CoherenceSync_Player : CoherenceSync
+    public class CoherenceSyncPlayer : MonoBehaviour
     {
         /*
          *  This is sample generated sync code that should be used as a template when modifying
@@ -18,24 +19,73 @@ namespace Coherence.MonoBridge
          *  In the actual baked file, please use the concrete component and command names and values.
          * 
          */
-        
-        public delegate void CollisionCommandHandler(object sender, GenericNetworkCommandArgs e);
+
+        public class CollisionCommandArgs : EventArgs
+        {
+            public string Name { get; set; }
+            public int ParamInt1 { get; set; }
+            
+            public override string ToString()
+            {
+                {
+                    return "{Name} {ParamInt1}";
+                }
+            }
+        }
+
+        public delegate void CollisionCommandHandler(object sender, CoherenceSync.GenericNetworkCommandArgs e);
         public event CollisionCommandHandler CollisionCommandReceived;
 
+        private CoherenceSync coherenceSync;
         private ShowNameAndState showNameAndState;
+        private EntityManager entityManager;
 
-        protected override void InitialiseEntity()
+        private bool componentsInitialized = false;
+        
+        protected void Awake()
         {
-            entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation),
-                typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(GenericPrefabReference),
-                typeof(GenericCommand));
+            entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            showNameAndState = GetComponent<ShowNameAndState>();
+            coherenceSync = GetComponent<CoherenceSync>();
+            coherenceSync.usingReflection = false;
+        }
 
+        private void InitializeComponents()
+        {
+            if (!coherenceSync.isSimulated) return;
+            
+            var entity = coherenceSync.LinkedEntity;
+            
+            entityManager.AddComponent<Translation>(entity);
+            entityManager.AddComponent<Rotation>(entity);
+            entityManager.AddComponent<CoherenceSessionComponent>(entity);
+            entityManager.AddComponent<CoherenceSimulateComponent>(entity);
+            entityManager.AddComponent<GenericCommand>(entity);
             entityManager.AddComponent<GenericFieldInt0>(entity);
             entityManager.AddComponent<GenericFieldString0>(entity);
+            
+            componentsInitialized = true;
+        }
+        
+        void Update()
+        {
+            if (!coherenceSync.EcsEntityExists())
+            {
+                return;
+            }
+
+            if (!componentsInitialized)
+            {
+                InitializeComponents();
+            }
+            
+            ReceiveCollisionCommand();
+            SyncEcsBaked();
         }
 
         private void ReceiveCollisionCommand()
         {
+            var entity = coherenceSync.LinkedEntity;
             var buffer = entityManager.GetBuffer<GenericCommand>(entity);
 
             foreach (var cmd in buffer)
@@ -48,7 +98,7 @@ namespace Coherence.MonoBridge
 
         private void ProcessCollisionCommand(GenericCommand cmd)
         {
-            var args = new GenericNetworkCommandArgs
+            var args = new CoherenceSync.GenericNetworkCommandArgs
             {
                 Name = cmd.name.ToString(),
                 ParamInt1 = cmd.paramInt1,
@@ -59,6 +109,7 @@ namespace Coherence.MonoBridge
 
         public void SendCollisionCommand(CoherenceSync sender)
         {
+            var entity = coherenceSync.LinkedEntity;
             if (entity == Entity.Null) return;
 
             var cmd = new GenericCommandRequest
@@ -82,14 +133,11 @@ namespace Coherence.MonoBridge
             }
         }
 
-        protected override void ReceiveNetworkCommands()
+        private void SyncEcsBaked()
         {
-            ReceiveCollisionCommand();
-        }
-        
-        protected override void SyncEcsBaked()
-        {
-            if (isSimulated)
+            var entity = coherenceSync.LinkedEntity;
+            
+            if (coherenceSync.isSimulated)
             {
                 var position = transform.position;
                 entityManager.SetComponentData(entity, new Translation()
@@ -105,7 +153,7 @@ namespace Coherence.MonoBridge
                 
                 entityManager.SetComponentData(entity, new GenericFieldString0()
                 {
-                    name = TrimString64(showNameAndState.PlayerName)
+                    name = CoherenceSync.TrimString64(showNameAndState.PlayerName)
                 });
                 
                 entityManager.SetComponentData(entity, new GenericFieldInt0()
@@ -127,17 +175,6 @@ namespace Coherence.MonoBridge
                 showNameAndState.name = genericFieldString0.name.ToString();
                 showNameAndState.State = genericFieldInt0.number;
             }
-        }
-        
-        protected new void Awake()
-        {
-            base.Awake();
-            showNameAndState = GetComponent<ShowNameAndState>();
-        }
-
-        protected new void Update()
-        {
-            base.Update();
         }
     }
 }
