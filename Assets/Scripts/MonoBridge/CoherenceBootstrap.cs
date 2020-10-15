@@ -11,6 +11,7 @@
     public class CoherenceBootstrap : MonoBehaviour
     {
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
+        public bool debugMode = true;
         
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
@@ -40,12 +41,12 @@
                 {
                     GameObject go = (GameObject)entry.Value;
 
-                    if (go == null || !go.activeInHierarchy)
-                    {
-                        Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
-                        entityManager.DestroyEntity((Entity)entry.Key);
-                        _ = toDelete.Add((Entity)entry.Key);
-                    }
+                    if (go != null && go.activeInHierarchy) continue;
+                    
+                    if(debugMode) Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
+                    
+                    entityManager.DestroyEntity((Entity)entry.Key);
+                    _ = toDelete.Add((Entity)entry.Key);
                 }
 
                 foreach (object td in toDelete)
@@ -83,7 +84,7 @@
                         {
                             if (!entityMap.Contains(entities[i]))
                             {
-                                Debug.Log($"Found new entity locally: {entities[i]}->{go}");
+                                if(debugMode) Debug.Log($"Found new entity locally: {entities[i]}->{go}");
                                 entityMap[entities[i]] = go.gameObject;
                             }
                         }
@@ -138,10 +139,10 @@
 
         private GameObject SpawnEntity(Entity entity)
         {
-            Debug.Log("Creating mono representation for remote entity " + entity);
+            if(debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
 
             FixedString64 prefabName = entityManager.GetComponentData<Player>(entity).prefab;
-            Debug.Log("Instantiating prefab " + prefabName);
+            if(debugMode) Debug.Log("Instantiating prefab " + prefabName);
             Object resource = Resources.Load(prefabName.ToString());
 
             GameObject newEntity = (GameObject)Instantiate(resource);
