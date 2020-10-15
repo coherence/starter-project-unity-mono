@@ -10,10 +10,11 @@
 
     public class CoherenceBootstrap : MonoBehaviour
     {
+        public string schemaNamespace = "Coherence.Generated.FirstProject.";
+        
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
-
         private Hashtable entityMap = new Hashtable();
 
         private void Awake()

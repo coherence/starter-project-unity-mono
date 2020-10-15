@@ -637,8 +637,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2047781569}
   m_HandleRect: {fileID: 2047781568}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.6821453
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1322,7 +1322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2458160888634212600, guid: 2e768ad0936c2aa4c8eae31d83e5631c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e768ad0936c2aa4c8eae31d83e5631c, type: 3}
@@ -1479,6 +1479,118 @@ PrefabInstance:
     - target: {fileID: 2458160888634212600, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
       propertyPath: m_Name
       value: MonoPlayer-Demo
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: scriptTogglesKeys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: scriptTogglesValues.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: enabledScriptTogglesKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTogglesKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTogglesValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldLinksKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldLinksValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: genericFieldCounter_Vector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: genericFieldCounter_Int
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: genericFieldCounter_String
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: genericFieldCounter_Quaternion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesValues.Array.data[0]
+      value: UnityEngine.Vector3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesValues.Array.data[1]
+      value: System.Int32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTogglesValues.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTogglesValues.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: scriptTogglesValues.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: selectedSynchronizedPrefabOption
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: scriptTogglesKeys.Array.data[1]
+      value: ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: scriptTogglesValues.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTogglesKeys.Array.data[1]
+      value: ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*State
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesKeys.Array.data[1]
+      value: ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*State
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldLinksKeys.Array.data[1]
+      value: ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*State
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldLinksValues.Array.data[1]
+      value: GenericFieldInt0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175190587201700524, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
+      propertyPath: fieldTypesValues.Array.data[2]
+      value: System.String
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b52aba385601c5148aed6e7d1345337a, type: 3}
@@ -2081,7 +2193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000039515635}
+  m_AnchoredPosition: {x: 0, y: -0.0001373125}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1759725175

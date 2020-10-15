@@ -12,11 +12,10 @@
     using Unity.Transforms;
     using UnityEngine;
 
-    // [ExecuteInEditMode]
     public class CoherenceSync : MonoBehaviour
     {
         [NonSerialized] public const string KeyDelimiter = "*";
-        [NonSerialized] private const string AssemblyPrefix = "Coherence.Generated.FirstProject.";
+        [NonSerialized] protected string schemaNamespace = "Coherence.Generated.FirstProject.";
 
         public enum SynchronizedPrefabOptions
         {
@@ -25,7 +24,7 @@
         }
 
         [SerializeField]
-        private SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.Self;
+        protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.Self;
 
         public SynchronizedPrefabOptions SelectedSynchronizedPrefabOption
         {
@@ -33,16 +32,19 @@
             set => selectedSynchronizedPrefabOption = value;
         }
 
-        [SerializeField]
-        public string remoteVersionPrefabName = null;
+        [SerializeField] public string remoteVersionPrefabName = null;
 
-        private EntityManager entityManager;
+        [SerializeField] public bool usingReflection = true;
+
+        protected EntityManager entityManager;
+
+        protected CoherenceBootstrap coherenceBootstrap;
 
         public bool isSimulated = true;
 
-        private Entity entity;
+        protected Entity entity;
 
-        private bool ecsEntitySet = false;
+        protected bool ecsEntitySet = false;
 
         public Entity LinkedEntity
         {
@@ -118,9 +120,16 @@
             fieldLinksValues = new List<string>();
         }
 
-        private void Awake()
+        protected void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+            coherenceBootstrap = FindObjectOfType<CoherenceBootstrap>();
+
+            if (coherenceBootstrap != null)
+            {
+                schemaNamespace = coherenceBootstrap.schemaNamespace;
+            }
         }
 
         public void SpawnFromNetwork(Entity linkedEntity, string name)
@@ -132,14 +141,14 @@
             EnableAndDisableScripts();
         }
 
-        public void EnableAndDisableScripts()
+        protected void EnableAndDisableScripts()
         {
             for (int i = 0; i < enabledScriptTogglesKeys.Count; i++)
             {
-                string script = enabledScriptTogglesKeys[i];
-                bool en = enabledScriptTogglesValues[i];
+                var script = enabledScriptTogglesKeys[i];
+                var en = enabledScriptTogglesValues[i];
 
-                Type scriptType = Type.GetType(script);
+                var scriptType = Type.GetType(script);
 
                 if (scriptType != null)
                 {
@@ -161,7 +170,7 @@
 
         public string GetDebugData()
         {
-            string debugData = string.Empty;
+            var debugData = string.Empty;
 
             debugData += $"({fieldLinksValues.Count}) ";
             if (fieldLinksKeys.Count > 0)
@@ -184,21 +193,20 @@
             {
                 entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation), typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(Player), typeof(GenericCommand));
 
-                for (int i = 0; i < fieldLinksValues.Count; i++)
+                foreach (var t in fieldLinksValues)
                 {
-                    string val = fieldLinksValues[i];
+                    string val = t;
                     if (val == null)
                     {
                         continue;
                     }
 
-                    Type type = Type.GetType(AssemblyPrefix + val);
+                    Type type = Type.GetType(schemaNamespace + val);
                     if (type == null)
                     {
-                        Debug.LogWarning($"Type {fieldLinksValues[i]} could not be found.");
+                        Debug.LogWarning($"Type {t} could not be found.");
                         continue;
                     }
-                    //Debug.Log("adding type " + type);
                     _ = entityManager.AddComponent(entity, type);
                 }
 
@@ -209,7 +217,7 @@
             }
         }
 
-        private void ReceiveNetworkCommands()
+        protected void ReceiveNetworkCommands()
         {
             if (entity == Entity.Null)
             {
@@ -225,13 +233,14 @@
 
             foreach (GenericCommand cmd in buffer)
             {
-                ProcessNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4,
+                    cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
             }
 
             buffer.Clear();
         }
 
-        public class NetworkCommandArgs : EventArgs
+        public class GenericNetworkCommandArgs : EventArgs
         {
             public string Name { get; set; }
             public string ParamString { get; set; }
@@ -252,11 +261,12 @@
             }
         }
 
-        public delegate void NetworkCommandHandler(object sender, NetworkCommandArgs e);
+        public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
         public event NetworkCommandHandler NetworkCommandReceived;
-        public void ProcessNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        
+        protected void ProcessGenericNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
         {
-            NetworkCommandArgs args = new NetworkCommandArgs()
+            GenericNetworkCommandArgs args = new GenericNetworkCommandArgs()
             {
                 Name = name,
                 ParamInt1 = paramInt1,
@@ -275,17 +285,12 @@
             gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
         }
 
-        public void SendNetworkCommand(CoherenceSync sender, string name)
-        {
-            SendNetworkCommand(sender, name, 0, 0, 0, 0, 0, 0, 0, 0, null);
-        }
-
         public void SendNetworkCommand(CoherenceSync sender, int paramInt1)
         {
-            SendNetworkCommand(sender, null, paramInt1, 0, 0, 0, 0, 0, 0, 0, null);
+            SendNetworkCommand(sender, null, paramInt1);
         }
 
-        public void SendNetworkCommand(CoherenceSync sender, string name, int paramInt1, int paramInt2, int paramInt3, int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, string paramString)
+        public void SendNetworkCommand(CoherenceSync sender, string cmdName, int paramInt1 = 0, int paramInt2 = 0, int paramInt3 = 0, int paramInt4 = 0, float paramFloat1 = 0, float paramFloat2 = 0, float paramFloat3 = 0, float paramFloat4 = 0, string paramString = null)
         {
             if (entity == Entity.Null)
             {
@@ -293,19 +298,13 @@
             }
 
             const int maxLen = 32;
-            if (name != null)
-            {
-                name = name.Substring(0, name.Length > maxLen ? maxLen : name.Length);
-            }
+            cmdName = cmdName?.Substring(0, cmdName.Length > maxLen ? maxLen : cmdName.Length);
 
-            if (paramString != null)
-            {
-                paramString = paramString.Substring(0, paramString.Length > maxLen ? maxLen : paramString.Length);
-            }
+            paramString = paramString?.Substring(0, paramString.Length > maxLen ? maxLen : paramString.Length);
 
             GenericCommandRequest cmd = new GenericCommandRequest
             {
-                name = name,
+                name = cmdName,
                 paramInt1 = paramInt1,
                 paramInt2 = paramInt2,
                 paramInt3 = paramInt3,
@@ -319,20 +318,20 @@
                 paramString = paramString,
             };
 
-            // Debug.Log($"Sending command from {sender.gameObject.name} to {gameObject.name}");
-
             if (entityManager.HasComponent<GenericCommandRequest>(entity))
             {
-                DynamicBuffer<GenericCommandRequest> cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
                 _ = cmdRequestBuffer.Add(cmd);
             }
             else
             {
-                // TODO: re-enable ProcessNetworkCommand(cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3,
+                    cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
+                    cmd.paramString.ToString());
             }
         }
 
-        private bool CmpType(Type type, Type a)
+        protected bool CmpType(Type type, Type a)
         {
             return type != null && a != null && (type == a || type.IsSubclassOf(a));
         }
@@ -372,37 +371,37 @@
             return null;
         }
 
-        // TODO: move this to a centralized store (now only 1 gameobject/prefab can be synchronized)
         private string GetNextAvailableGenericNetworkedField(Type type)
         {
             if (CmpType(type, typeof(Vector3)))
             {
-                return "GenericFieldVector" + genericFieldCounter_Vector++.ToString();
+                return "GenericFieldVector" + genericFieldCounter_Vector++;
             }
 
             if (CmpType(type, typeof(float)))
             {
-                return "GenericFieldFloat" + genericFieldCounter_Float++.ToString();
+                return "GenericFieldFloat" + genericFieldCounter_Float++;
             }
 
             if (CmpType(type, typeof(int)) || CmpType(type, typeof(uint)))
             {
-                return "GenericFieldInt" + genericFieldCounter_Int++.ToString();
+                return "GenericFieldInt" + genericFieldCounter_Int++;
             }
 
             if (CmpType(type, typeof(string)))
             {
-                return "GenericFieldString" + genericFieldCounter_String++.ToString();
+                return "GenericFieldString" + genericFieldCounter_String++;
             }
 
             if (CmpType(type, typeof(Quaternion)))
             {
-                return "GenericFieldQuaternion" + genericFieldCounter_Quaternion++.ToString();
+                return "GenericFieldQuaternion" + genericFieldCounter_Quaternion++;
             }
 
             return null;
         }
 
+        #region ListManipulation
         public void SetListValue(List<string> keyList, List<bool> valList, string key, bool val)
         {
             for (int i = 0; i < keyList.Count; i++)
@@ -534,15 +533,12 @@
             string cmp = key.Substring(i + 1);
             return cmp;
         }
+        
+        #endregion
 
         private void Update()
         {
-            if (!isSimulated)
-            {
-                // Debug.Log(gameObject.name + " " + entity + " " + entityManager.HasComponent<Translation>(entity));
-            }
-
-            if (!isSimulated && (entity == Entity.Null || !entityManager.HasComponent<Translation>(entity)))
+            if (!isSimulated && !EcsEntityExists())
             {
                 if (ecsEntitySet)
                 {
@@ -555,193 +551,208 @@
             {
                 ReceiveNetworkCommands();
 
-                for (int i = 0; i < fieldTogglesKeys.Count; i++)
+                if (usingReflection)
                 {
-                    bool on = fieldTogglesValues[i];
-                    if (!on)
+                    SyncEcsWithReflection();    
+                }
+            }
+        }
+
+        private bool EcsEntityExists()
+        {
+            return !(entity == Entity.Null || !entityManager.HasComponent<Translation>(entity));
+        }
+
+        private void SyncEcsWithReflection()
+        {
+            for (var i = 0; i < fieldTogglesKeys.Count; i++)
+            {
+                bool on = fieldTogglesValues[i];
+                if (!on)
+                {
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(fieldLinksValues[i]))
+                {
+                    var script = GetComponentFromKey(fieldLinksKeys[i]);
+
+                    string fieldTypeString = GetFieldType(fieldLinksKeys[i]);
+                    Type networkedType = Type.GetType(schemaNamespace + fieldLinksValues[i]);
+                    Type fieldType = Type.GetType(fieldTypeString);
+
+                    if (fieldType == null)
                     {
-                        continue;
+                        if (fieldTypeString.Contains("Vector3"))
+                        {
+                            fieldType = typeof(Vector3);
+                            networkedType = typeof(Translation);
+                        }
+
+                        if (fieldTypeString.Contains("Quaternion"))
+                        {
+                            fieldType = typeof(Quaternion);
+                            networkedType = typeof(Rotation);
+                        }
                     }
 
-                    if (!string.IsNullOrEmpty(fieldLinksValues[i]))
+                    if (script == null)
                     {
-                        Type script = GetComponentFromKey(fieldLinksKeys[i]);
+                        script = typeof(Transform);
+                    }
 
-                        string fieldTypeString = GetFieldType(fieldLinksKeys[i]);
-                        Type networkedType = Type.GetType(AssemblyPrefix + fieldLinksValues[i]);
-                        Type fieldType = Type.GetType(fieldTypeString);
+                    string fieldName = GetFieldNameFromKey(fieldLinksKeys[i]);
 
-                        if (fieldType == null)
+                    Component cmp = script == null
+                        ? gameObject.GetComponent(typeof(Transform))
+                        : gameObject.GetComponent(script);
+
+                    FieldInfo field = script.GetField(fieldName);
+                    PropertyInfo property = script.GetProperty(fieldName);
+
+                    object currentMonoValue;
+
+                    if (field != null)
+                    {
+                        currentMonoValue = field.GetValue(cmp);
+                    }
+                    else
+                    {
+                        // Debug.LogWarning($"[{script}] [{fieldTypeString}] [{property}] [{cmp}] [{fieldName}]");
+                        currentMonoValue = property.GetValue(cmp);
+                    }
+
+                    if (isSimulated)
+                    {
+                        object inst = Activator.CreateInstance(networkedType);
+
+                        MethodInfo method = typeof(EntityManager).GetMethod("SetComponentData");
+                        MethodInfo generic = method.MakeGenericMethod(networkedType);
+
+                        if (CmpType(fieldType, typeof(Vector3)))
                         {
-                            if (fieldTypeString.Contains("Vector3"))
-                            {
-                                fieldType = typeof(Vector3);
-                                networkedType = typeof(Translation);
-                            }
+                            FieldInfo fieldX = networkedType.GetField("Value");
+                            Vector3 val = (Vector3) currentMonoValue;
+                            fieldX.SetValue(inst, new float3(val.x, val.y, val.z));
+                        }
 
-                            if (fieldTypeString.Contains("Quaternion"))
+                        if (CmpType(fieldType, typeof(float)))
+                        {
+                            FieldInfo f = networkedType.GetField("number");
+                            float val = (float) currentMonoValue;
+                            f.SetValue(inst, val);
+                        }
+
+                        if (CmpType(fieldType, typeof(int)) || CmpType(script, typeof(uint)))
+                        {
+                            FieldInfo f = networkedType.GetField("number");
+                            int val = (int) currentMonoValue;
+                            f.SetValue(inst, val);
+                        }
+
+                        if (CmpType(fieldType, typeof(string)))
+                        {
+                            FieldInfo f = networkedType.GetField("name");
+                            FixedString64 val = (string) currentMonoValue;
+                            f.SetValue(inst, val);
+                        }
+
+                        if (CmpType(fieldType, typeof(Quaternion)))
+                        {
+                            FieldInfo fieldX = networkedType.GetField("Value");
+                            Quaternion val = (Quaternion) currentMonoValue;
+                            fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
+                        }
+
+                        try
+                        {
+                            _ = generic.Invoke(entityManager, new object[] {entity, inst});
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogWarning($"{entity} {inst} {e.Message}");
+                            throw e;
+                        }
+                    }
+                    else
+                    {
+                        MethodInfo method = typeof(EntityManager).GetMethod("GetComponentData");
+                        MethodInfo generic = method.MakeGenericMethod(networkedType);
+
+                        object inst = generic.Invoke(entityManager, new object[] {entity});
+
+                        if (CmpType(fieldType, typeof(Vector3)))
+                        {
+                            FieldInfo fx = networkedType.GetField("Value");
+                            float3 vfx = (float3) fx.GetValue(inst);
+
+                            if (field != null)
                             {
-                                fieldType = typeof(Quaternion);
-                                networkedType = typeof(Rotation);
+                                field.SetValue(cmp, new Vector3(vfx.x, vfx.y, vfx.z));
+                            }
+                            else if (property != null)
+                            {
+                                property.SetValue(cmp, new Vector3(vfx.x, vfx.y, vfx.z));
                             }
                         }
 
-                        if (script == null)
+                        if (CmpType(fieldType, typeof(float)))
                         {
-                            script = typeof(Transform);
+                            FieldInfo fx = networkedType.GetField("number");
+                            float vfx = (float) fx.GetValue(inst);
+
+                            if (field != null)
+                            {
+                                field.SetValue(cmp, vfx);
+                            }
+                            else if (property != null)
+                            {
+                                property.SetValue(cmp, vfx);
+                            }
                         }
 
-                        string fieldName = GetFieldNameFromKey(fieldLinksKeys[i]);
-
-                        Component cmp = script == null ? gameObject.GetComponent(typeof(Transform)) : gameObject.GetComponent(script);
-
-                        FieldInfo field = script.GetField(fieldName);
-                        PropertyInfo property = script.GetProperty(fieldName);
-
-                        object currentMonoValue;
-
-                        if (field != null)
+                        if (CmpType(fieldType, typeof(int)) || CmpType(script, typeof(uint)))
                         {
-                            currentMonoValue = field.GetValue(cmp);
-                        }
-                        else
-                        {
-                            // Debug.LogWarning($"[{script}] [{fieldTypeString}] [{property}] [{cmp}] [{fieldName}]");
-                            currentMonoValue = property.GetValue(cmp);
+                            FieldInfo fx = networkedType.GetField("number");
+                            int vfx = (int) fx.GetValue(inst);
+
+                            if (field != null)
+                            {
+                                field.SetValue(cmp, vfx);
+                            }
+                            else if (property != null)
+                            {
+                                property.SetValue(cmp, vfx);
+                            }
                         }
 
-                        if (isSimulated)
+                        if (CmpType(fieldType, typeof(string)))
                         {
-                            object inst = Activator.CreateInstance(networkedType);
+                            FieldInfo fx = networkedType.GetField("name");
+                            FixedString64 vfx = (FixedString64) fx.GetValue(inst);
 
-                            MethodInfo method = typeof(EntityManager).GetMethod("SetComponentData");
-                            MethodInfo generic = method.MakeGenericMethod(networkedType);
-
-                            if (CmpType(fieldType, typeof(Vector3)))
+                            if (field != null)
                             {
-                                FieldInfo fieldX = networkedType.GetField("Value");
-                                Vector3 val = (Vector3)currentMonoValue;
-                                fieldX.SetValue(inst, new float3(val.x, val.y, val.z));
+                                field.SetValue(cmp, vfx.ToString());
                             }
-
-                            if (CmpType(fieldType, typeof(float)))
+                            else if (property != null)
                             {
-                                FieldInfo f = networkedType.GetField("number");
-                                float val = (float)currentMonoValue;
-                                f.SetValue(inst, val);
-                            }
-
-                            if (CmpType(fieldType, typeof(int)) || CmpType(script, typeof(uint)))
-                            {
-                                FieldInfo f = networkedType.GetField("number");
-                                int val = (int)currentMonoValue;
-                                f.SetValue(inst, val);
-                            }
-
-                            if (CmpType(fieldType, typeof(string)))
-                            {
-                                FieldInfo f = networkedType.GetField("name");
-                                FixedString64 val = (string)currentMonoValue;
-                                f.SetValue(inst, val);
-                            }
-
-                            if (CmpType(fieldType, typeof(Quaternion)))
-                            {
-                                FieldInfo fieldX = networkedType.GetField("Value");
-                                Quaternion val = (Quaternion)currentMonoValue;
-                                fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
-                            }
-
-                            try
-                            {
-                                _ = generic.Invoke(entityManager, new object[] { entity, inst });
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.LogWarning($"{entity} {inst} {e.Message}");
-                                throw e;
+                                property.SetValue(cmp, vfx.ToString());
                             }
                         }
-                        else
+
+                        if (CmpType(fieldType, typeof(Quaternion)))
                         {
-                            MethodInfo method = typeof(EntityManager).GetMethod("GetComponentData");
-                            MethodInfo generic = method.MakeGenericMethod(networkedType);
+                            FieldInfo fx = networkedType.GetField("Value");
+                            quaternion quat = (quaternion) fx.GetValue(inst);
 
-                            object inst = generic.Invoke(entityManager, new object[] { entity });
-
-                            if (CmpType(fieldType, typeof(Vector3)))
+                            if (field != null)
                             {
-                                FieldInfo fx = networkedType.GetField("Value");
-                                float3 vfx = (float3)fx.GetValue(inst);
-
-                                if (field != null)
-                                {
-                                    field.SetValue(cmp, new Vector3(vfx.x, vfx.y, vfx.z));
-                                }
-                                else if (property != null)
-                                {
-                                    property.SetValue(cmp, new Vector3(vfx.x, vfx.y, vfx.z));
-                                }
+                                field.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
                             }
-
-                            if (CmpType(fieldType, typeof(float)))
+                            else if (property != null)
                             {
-                                FieldInfo fx = networkedType.GetField("number");
-                                float vfx = (float)fx.GetValue(inst);
-
-                                if (field != null)
-                                {
-                                    field.SetValue(cmp, vfx);
-                                }
-                                else if (property != null)
-                                {
-                                    property.SetValue(cmp, vfx);
-                                }
-                            }
-
-                            if (CmpType(fieldType, typeof(int)) || CmpType(script, typeof(uint)))
-                            {
-                                FieldInfo fx = networkedType.GetField("number");
-                                int vfx = (int)fx.GetValue(inst);
-
-                                if (field != null)
-                                {
-                                    field.SetValue(cmp, vfx);
-                                }
-                                else if (property != null)
-                                {
-                                    property.SetValue(cmp, vfx);
-                                }
-                            }
-
-                            if (CmpType(fieldType, typeof(string)))
-                            {
-                                FieldInfo fx = networkedType.GetField("name");
-                                FixedString64 vfx = (FixedString64)fx.GetValue(inst);
-
-                                if (field != null)
-                                {
-                                    field.SetValue(cmp, vfx.ToString());
-                                }
-                                else if (property != null)
-                                {
-                                    property.SetValue(cmp, vfx.ToString());
-                                }
-                            }
-
-                            if (CmpType(fieldType, typeof(Quaternion)))
-                            {
-                                FieldInfo fx = networkedType.GetField("Value");
-                                quaternion quat = (quaternion)fx.GetValue(inst);
-
-                                if (field != null)
-                                {
-                                    field.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
-                                }
-                                else if (property != null)
-                                {
-                                    property.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
-                                }
+                                property.SetValue(cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
                             }
                         }
                     }
