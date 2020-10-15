@@ -22,8 +22,8 @@
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQueryRemote = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
-            entityQueryLocal = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), typeof(CoherenceSimulateComponent));
+            entityQueryRemote = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
+            entityQueryLocal = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), typeof(CoherenceSimulateComponent));
 
             _ = StartCoroutine(CheckForNewNetworkedEntities());
             _ = StartCoroutine(CheckForNewLocalEntities());
@@ -141,7 +141,7 @@
         {
             if(debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
 
-            FixedString64 prefabName = entityManager.GetComponentData<Player>(entity).prefab;
+            FixedString64 prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
             if(debugMode) Debug.Log("Instantiating prefab " + prefabName);
             Object resource = Resources.Load(prefabName.ToString());
 

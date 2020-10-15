@@ -137,25 +137,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3041b8885b4d436f86c4e59a196ad14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSynchronizedPrefabOption: 0
-  remoteVersionPrefabName: MonoPlayer-Demo
-  isSimulated: 1
-  scriptTogglesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  scriptTogglesValues: 01000100
   enabledScriptTogglesKeys:
-  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
   - UnityEngine.BoxCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  enabledScriptTogglesValues: 00010000
+  - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  enabledScriptTogglesValues: 010101
+  fieldLinksKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*position
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null*rotation
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
+  fieldLinksValues:
+  - GenericFieldVector0
+  - GenericFieldQuaternion0
+  - GenericFieldString0
+  - GenericFieldInt0
   fieldTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -172,29 +172,25 @@ MonoBehaviour:
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
   fieldTypesValues:
-  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-  - System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-  fieldLinksKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
-  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
-  fieldLinksValues:
-  - GenericFieldVector0
-  - GenericFieldQuaternion0
-  - GenericFieldString0
-  - GenericFieldInt0
-  genericFieldCounter_Vector: 1
+  - UnityEngine.Vector3
+  - UnityEngine.Quaternion
+  - System.String
+  - System.Int32
   genericFieldCounter_Float: 0
   genericFieldCounter_Int: 1
-  genericFieldCounter_String: 1
   genericFieldCounter_Quaternion: 1
+  genericFieldCounter_String: 1
+  genericFieldCounter_Vector: 1
+  isSimulated: 1
+  remoteVersionPrefabName: MonoPlayer-Demo
+  scriptTogglesKeys:
+  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  scriptTogglesValues: 010001
+  selectedSynchronizedPrefabOption: 0
+  usingReflection: 1
 --- !u!54 &-1950618811409483348
 Rigidbody:
   m_ObjectHideFlags: 0

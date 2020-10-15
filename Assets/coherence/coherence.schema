@@ -2,7 +2,7 @@ name Schema
 
 namespace Coherence.Generated.FirstProject
 
-component Player
+component GenericPrefabReference
   prefab String64
   
 command GenericCommand

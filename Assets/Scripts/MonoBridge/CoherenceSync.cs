@@ -15,7 +15,9 @@ namespace Coherence.MonoBridge
     public class CoherenceSync : MonoBehaviour
     {
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
-
+        
+        public event NetworkCommandHandler NetworkCommandReceived;
+        
         public enum SynchronizedPrefabOptions
         {
             Self = 0,
@@ -26,9 +28,9 @@ namespace Coherence.MonoBridge
 
         [NonSerialized] public const string KeyDelimiter = "*";
 
-        protected CoherenceBootstrap coherenceBootstrap;
+        private CoherenceBootstrap coherenceBootstrap;
 
-        protected bool ecsEntitySet;
+        private bool ecsEntitySet;
 
         [SerializeField] private List<string> enabledScriptTogglesKeys = new List<string>();
 
@@ -63,7 +65,7 @@ namespace Coherence.MonoBridge
         public bool isSimulated = true;
 
         [SerializeField] public string remoteVersionPrefabName;
-        [NonSerialized] protected string schemaNamespace = "Coherence.Generated.FirstProject.";
+        [NonSerialized] private string schemaNamespace = "Coherence.Generated.FirstProject.";
 
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
         [SerializeField] private List<string> scriptTogglesKeys = new List<string>();
@@ -109,6 +111,41 @@ namespace Coherence.MonoBridge
             fieldTypesValues = new List<string>();
             fieldLinksKeys = new List<string>();
             fieldLinksValues = new List<string>();
+        }
+        
+        protected IEnumerator Start()
+        {
+            yield return null;
+            if (entity != Entity.Null || !isSimulated) yield break;
+
+            InitialiseEntity();
+            
+            entityManager.SetComponentData(entity, new GenericPrefabReference
+            {
+                prefab = new FixedString64(remoteVersionPrefabName)
+            });
+        }
+
+        protected virtual void InitialiseEntity()
+        {
+            entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation),
+                typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(GenericPrefabReference),
+                typeof(GenericCommand));
+
+            foreach (var t in fieldLinksValues)
+            {
+                var val = t;
+                if (val == null) continue;
+
+                var type = Type.GetType(schemaNamespace + val);
+                if (type == null)
+                {
+                    Debug.LogWarning($"Type {t} could not be found.");
+                    continue;
+                }
+
+                _ = entityManager.AddComponent(entity, type);
+            }
         }
 
         protected void Awake()
@@ -164,37 +201,7 @@ namespace Coherence.MonoBridge
             return debugData;
         }
 
-        protected IEnumerator Start()
-        {
-            yield return null;
-            if (entity != Entity.Null || !isSimulated) yield break;
-
-            entity = entityManager.CreateEntity(typeof(Translation), typeof(Rotation),
-                typeof(CoherenceSessionComponent), typeof(CoherenceSimulateComponent), typeof(Player),
-                typeof(GenericCommand));
-
-            foreach (var t in fieldLinksValues)
-            {
-                var val = t;
-                if (val == null) continue;
-
-                var type = Type.GetType(schemaNamespace + val);
-                if (type == null)
-                {
-                    Debug.LogWarning($"Type {t} could not be found.");
-                    continue;
-                }
-
-                _ = entityManager.AddComponent(entity, type);
-            }
-
-            entityManager.SetComponentData(entity, new Player
-            {
-                prefab = new FixedString64(remoteVersionPrefabName)
-            });
-        }
-
-        protected void ReceiveNetworkCommands()
+        protected virtual void ReceiveNetworkCommands()
         {
             if (entity == Entity.Null) return;
 
@@ -209,9 +216,7 @@ namespace Coherence.MonoBridge
             buffer.Clear();
         }
 
-        public event NetworkCommandHandler NetworkCommandReceived;
-
-        protected void ProcessGenericNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3,
+        private void ProcessGenericNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3,
             int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4,
             string paramString)
         {
@@ -245,10 +250,9 @@ namespace Coherence.MonoBridge
         {
             if (entity == Entity.Null) return;
 
-            const int maxLen = maxNetworkStringLength;
-            cmdName = cmdName?.Substring(0, cmdName.Length > maxLen ? maxLen : cmdName.Length);
+            cmdName = TrimString64(cmdName);
 
-            paramString = paramString?.Substring(0, paramString.Length > maxLen ? maxLen : paramString.Length);
+            paramString = TrimString64(paramString);
 
             var cmd = new GenericCommandRequest
             {
@@ -277,6 +281,12 @@ namespace Coherence.MonoBridge
                     cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
                     cmd.paramString.ToString());
             }
+        }
+
+        protected static string TrimString64(string cmdName)
+        {
+            cmdName = TrimString64(cmdName);
+            return cmdName;
         }
 
         protected bool CmpType(Type type, Type a)
@@ -317,7 +327,7 @@ namespace Coherence.MonoBridge
             return null;
         }
 
-        private void Update()
+        protected void Update()
         {
             if (!isSimulated && !EcsEntityExists())
             {
