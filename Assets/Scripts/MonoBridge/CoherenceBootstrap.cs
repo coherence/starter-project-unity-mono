@@ -10,18 +10,20 @@
 
     public class CoherenceBootstrap : MonoBehaviour
     {
+        public string schemaNamespace = "Coherence.Generated.FirstProject.";
+        public bool debugMode = true;
+        
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
-
         private Hashtable entityMap = new Hashtable();
 
         private void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQueryRemote = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
-            entityQueryLocal = entityManager.CreateEntityQuery(typeof(Player), typeof(Translation), typeof(CoherenceSimulateComponent));
+            entityQueryRemote = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
+            entityQueryLocal = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), typeof(CoherenceSimulateComponent));
 
             _ = StartCoroutine(CheckForNewNetworkedEntities());
             _ = StartCoroutine(CheckForNewLocalEntities());
@@ -39,12 +41,12 @@
                 {
                     GameObject go = (GameObject)entry.Value;
 
-                    if (go == null || !go.activeInHierarchy)
-                    {
-                        Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
-                        entityManager.DestroyEntity((Entity)entry.Key);
-                        _ = toDelete.Add((Entity)entry.Key);
-                    }
+                    if (go != null && go.activeInHierarchy) continue;
+                    
+                    if(debugMode) Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
+                    
+                    entityManager.DestroyEntity((Entity)entry.Key);
+                    _ = toDelete.Add((Entity)entry.Key);
                 }
 
                 foreach (object td in toDelete)
@@ -82,7 +84,7 @@
                         {
                             if (!entityMap.Contains(entities[i]))
                             {
-                                Debug.Log($"Found new entity locally: {entities[i]}->{go}");
+                                if(debugMode) Debug.Log($"Found new entity locally: {entities[i]}->{go}");
                                 entityMap[entities[i]] = go.gameObject;
                             }
                         }
@@ -137,10 +139,10 @@
 
         private GameObject SpawnEntity(Entity entity)
         {
-            Debug.Log("Creating mono representation for remote entity " + entity);
+            if(debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
 
-            FixedString64 prefabName = entityManager.GetComponentData<Player>(entity).prefab;
-            Debug.Log("Instantiating prefab " + prefabName);
+            FixedString64 prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
+            if(debugMode) Debug.Log("Instantiating prefab " + prefabName);
             Object resource = Resources.Load(prefabName.ToString());
 
             GameObject newEntity = (GameObject)Instantiate(resource);
