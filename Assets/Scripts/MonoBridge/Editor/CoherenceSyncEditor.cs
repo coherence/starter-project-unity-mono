@@ -45,7 +45,7 @@
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space(6f);
-            Rect rect = EditorGUILayout.GetControlRect(false, logo.height / 2f, GUILayout.Width(logo.width / 2f));
+            Rect rect = EditorGUILayout.GetControlRect(false, logo.height / 6f, GUILayout.Width(logo.width / 6f));
             GUI.DrawTexture(rect, logo);
             EditorGUILayout.Space();
 
