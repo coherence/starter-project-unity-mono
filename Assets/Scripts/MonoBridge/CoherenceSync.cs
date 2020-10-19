@@ -15,12 +15,12 @@ namespace Coherence.MonoBridge
     public class CoherenceSync : MonoBehaviour
     {
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
-        
+
         public event NetworkCommandHandler NetworkCommandReceived;
-        
+
         public enum SynchronizedPrefabOptions
         {
-            Self = 0,
+            This = 0,
             Other = 1
         }
 
@@ -73,7 +73,7 @@ namespace Coherence.MonoBridge
         [SerializeField] private List<bool> scriptTogglesValues = new List<bool>();
 
         [SerializeField]
-        protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.Self;
+        protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.This;
 
         [SerializeField]
         public bool usingReflection = true;
@@ -113,7 +113,7 @@ namespace Coherence.MonoBridge
             fieldLinksKeys = new List<string>();
             fieldLinksValues = new List<string>();
         }
-        
+
         protected IEnumerator Start()
         {
             yield return null;
