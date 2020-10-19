@@ -44,7 +44,8 @@
 
         public override void OnInspectorGUI()
         {
-            Rect rect = EditorGUILayout.GetControlRect(false, 22.5f, GUILayout.Width(107.5f));
+            EditorGUILayout.Space(6f);
+            Rect rect = EditorGUILayout.GetControlRect(false, logo.height / 6f, GUILayout.Width(logo.width / 6f));
             GUI.DrawTexture(rect, logo);
             EditorGUILayout.Space();
 
@@ -59,37 +60,32 @@
 
             EditorGUILayout.LabelField("Components you want to sync over the network", EditorStyles.boldLabel);
             _ = EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Select none", EditorStyles.miniButtonLeft))
+            if (GUILayout.Button("Deselect All", EditorStyles.miniButtonLeft))
             {
                 (target as CoherenceSync)?.Reset();
                 anyChangesMade = true;
             }
-            EditorGUI.BeginDisabledGroup(true);
-            if (GUILayout.Button("Select all", EditorStyles.miniButtonRight))
-            {
-            }
-            EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndHorizontal();
 
             EditorGUI.indentLevel++;
             CycleThroughPublicVariables();
             EditorGUI.indentLevel--;
 
-            EditorGUILayout.Space();
+            EditorGUILayout.Space(12f);
 
             EditorGUILayout.LabelField("When this object is synchronized over the network", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             anyChangesMade = SynchronizedPrefabDropdown(coherenceSync, anyChangesMade);
             EditorGUI.indentLevel--;
 
-            EditorGUILayout.Space();
+            EditorGUILayout.Space(12f);
 
             EditorGUI.BeginDisabledGroup(true);
             _ = GUILayout.Button("Bake network components");
             EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             EditorGUI.EndDisabledGroup();
 
-            EditorGUILayout.Space();
+            EditorGUILayout.Space(6f);
 
             EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
             EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
@@ -122,7 +118,7 @@
             CoherenceSync.SynchronizedPrefabOptions selection = (CoherenceSync.SynchronizedPrefabOptions)EditorGUILayout.EnumPopup("Instantiate", coherenceSync.SelectedSynchronizedPrefabOption);
             if (EditorGUI.EndChangeCheck())
             {
-                if (selection == CoherenceSync.SynchronizedPrefabOptions.Self)
+                if (selection == CoherenceSync.SynchronizedPrefabOptions.This)
                 {
                     coherenceSync.remoteVersionPrefabName = GetPrefabName(coherenceSync.gameObject);
                 }
@@ -132,7 +128,7 @@
 
             EditorGUI.BeginDisabledGroup(selection != CoherenceSync.SynchronizedPrefabOptions.Other);
             EditorGUI.BeginChangeCheck();
-            string newFieldContent = EditorGUILayout.TextField("Resource name path", coherenceSync.remoteVersionPrefabName);
+            string newFieldContent = EditorGUILayout.TextField(new GUIContent("Resource name path", "GameObjects are loaded using Resources.Load"), coherenceSync.remoteVersionPrefabName);
             if (EditorGUI.EndChangeCheck())
             {
                 coherenceSync.remoteVersionPrefabName = newFieldContent;
@@ -144,9 +140,8 @@
                 anyChangesMade = true;
             }
             EditorGUI.EndDisabledGroup();
-            EditorGUILayout.HelpBox("GameObjects are loaded using Resources.Load.", MessageType.None);
 
-            EditorGUI.BeginDisabledGroup(selection != CoherenceSync.SynchronizedPrefabOptions.Self);
+            EditorGUI.BeginDisabledGroup(selection != CoherenceSync.SynchronizedPrefabOptions.This);
             EditorGUILayout.LabelField("Components enabled", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             Component[] components = coherenceSync.gameObject.GetComponents<Component>();
