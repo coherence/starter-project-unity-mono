@@ -188,19 +188,16 @@ namespace Coherence.MonoBridge
                 
                 var cmp = gameObject.GetComponent(scriptType);
                 
-                Debug.Log("Script type: " + scriptType);
-                
                 try
                 {
                     if (cmp != null && cmp is Behaviour)
                     {
-                        //Debug.Log("Changing state: " + en);
                         ((Behaviour) cmp).enabled = en;
                     }
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("EnableAndDisableScripts failed// " + cmp + " " + e.Message);
+                    Debug.Log("EnableAndDisableScripts failed: " + cmp + " " + e.Message);
                 }
             }
         }
@@ -425,12 +422,6 @@ namespace Coherence.MonoBridge
             {
                 var on = fieldTogglesValues[i];
 
-                if (((string) fieldTogglesKeys[i]).Contains("Moving"))
-                {
-                    int bla = 3;
-                    bla = 2;
-                }
-                
                 if (!on) continue;
 
                 if (!string.IsNullOrEmpty(fieldLinksValues[i]))
