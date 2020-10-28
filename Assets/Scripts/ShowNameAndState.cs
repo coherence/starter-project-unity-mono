@@ -5,6 +5,8 @@ public class ShowNameAndState : MonoBehaviour
 {
     public string PlayerName = "Bot";
 
+    public int TestInt = 0;
+
     private StateType state = StateType.Default;
     private Material material;
 
@@ -67,6 +69,6 @@ public class ShowNameAndState : MonoBehaviour
             alignment = TextAnchor.MiddleCenter
         };
         centeredStyle.normal.textColor = Color.black;
-        GUI.Label(new Rect(p.x - 100, Screen.height - p.y, 200, 50), PlayerName, centeredStyle);
+        GUI.Label(new Rect(p.x - 100, Screen.height - p.y, 200, 50), $"{PlayerName} {TestInt}", centeredStyle);
     }
 }

@@ -137,7 +137,7 @@
             }
         }
 
-        private GameObject SpawnEntity(Entity entity)
+        public GameObject SpawnEntity(Entity entity)
         {
             if(debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
 

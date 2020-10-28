@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerName: Player
+  TestInt: 0
 --- !u!114 &9175190587201700524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,46 +139,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enabledScriptTogglesKeys:
-  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - UnityEngine.BoxCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
+  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  enabledScriptTogglesValues: 010101
+  enabledScriptTogglesValues: 01000101
   fieldLinksKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*rotation
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*TestInt
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
   fieldLinksValues:
   - GenericFieldVector0
   - GenericFieldQuaternion0
   - GenericFieldString0
   - GenericFieldInt0
+  - GenericFieldInt1
   fieldTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*rotation
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*TestInt
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
-  fieldTogglesValues: 01010101
+  fieldTogglesValues: 0101010101
   fieldTypesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*rotation
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*PlayerName
+  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*TestInt
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*State
   fieldTypesValues:
   - UnityEngine.Vector3
   - UnityEngine.Quaternion
   - System.String
   - System.Int32
+  - System.Int32
   genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 1
+  genericFieldCounter_Int: 2
   genericFieldCounter_Quaternion: 1
   genericFieldCounter_String: 1
   genericFieldCounter_Vector: 1
@@ -186,9 +193,8 @@ MonoBehaviour:
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  - PlayerBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  scriptTogglesValues: 010001
+  scriptTogglesValues: 0101
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!54 &-1950618811409483348
