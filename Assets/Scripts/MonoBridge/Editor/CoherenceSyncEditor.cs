@@ -1,4 +1,6 @@
-﻿namespace Coherence.MonoBridge
+﻿using UnityEditor.Animations;
+
+namespace Coherence.MonoBridge
 {
     using System;
     using System.Linq;
@@ -18,7 +20,9 @@
             typeof(float),
             typeof(int),
             typeof(uint),
-            typeof(string)
+            typeof(string),
+            typeof(bool),
+            typeof(Boolean)
         };
 
         private bool IsTypeSupported(Type type)
@@ -175,9 +179,9 @@
                 bool compTypeIncluded = EditorGUILayout.ToggleLeft(compType.ToString(), oldVal ?? false);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    coherenceSync.SetEnabledScriptToggle(compTypeString, compTypeIncluded);
                     anyChangesMade = true;
                 }
+                coherenceSync.SetEnabledScriptToggle(compTypeString, compTypeIncluded);
             }
             EditorGUI.indentLevel--;
             EditorGUI.EndDisabledGroup();
@@ -297,9 +301,68 @@
                 EditorGUI.BeginDisabledGroup(!compTypeIncluded);
 
                 const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+
+                if (compType.IsSubclassOf(typeof(Animator)) || compType == typeof(Animator))
+                {
+                    Animator animator = coherenceSync.gameObject.GetComponent<Animator>();
+
+                    AnimatorController controller = animator.runtimeAnimatorController as AnimatorController;
+
+                    foreach (var parameter in controller.parameters)
+                    {
+                        EditorGUI.indentLevel++;
+                        try
+                        {
+                            string varString = compTypeString + CoherenceSync.KeyDelimiter + parameter.name;
+
+                            bool? prevVarIncluded = coherenceSync.GetFieldToggle(varString);
+
+                            Type fieldType = typeof(bool);
+
+                            switch (parameter.type)
+                            {
+                                case AnimatorControllerParameterType.Bool:
+                                    fieldType = typeof(bool); 
+                                    break;
+                                
+                                case AnimatorControllerParameterType.Float:
+                                    fieldType = typeof(float);
+                                    break;
+                                
+                                case AnimatorControllerParameterType.Int:
+                                    fieldType = typeof(int);
+                                    break;
+                                
+                                case AnimatorControllerParameterType.Trigger:
+                                    // TODO: support triggers through commands
+                                    break;
+                            }
+                            
+                            EditorGUI.BeginChangeCheck();
+                            bool varIncluded = EditorGUILayout.ToggleLeft($"{parameter.name} [{fieldType.Name}]", prevVarIncluded ?? false);
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                anyChangesMade = true;
+                                coherenceSync.SetFieldToggle(varString, varIncluded);
+                                coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError(e);
+                        }
+
+                        EditorGUI.indentLevel--;
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    continue;
+                }
+            
+
                 MemberInfo[] members = compType.GetFields(bindingFlags).Cast<MemberInfo>()
                     .Concat(compType.GetProperties(bindingFlags)).ToArray();
 
+                
                 foreach (MemberInfo variable in members)
                 {
                     if (compType == typeof(Transform))
