@@ -231,7 +231,7 @@
       }
     },
     "io.coherence.sdk.client.unity": {
-      "version": "2020.1.0-a52",
+      "version": "2020.1.0-a57",
       "depth": 0,
       "source": "registry",
       "dependencies": {

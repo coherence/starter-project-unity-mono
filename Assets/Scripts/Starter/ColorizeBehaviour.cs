@@ -3,10 +3,13 @@
 public class ColorizeBehaviour : MonoBehaviour
 {
     public Material material;
-    public new Renderer renderer;
+    public Renderer[] renderers;
 
     private void Start()
     {
-        renderer.material = material;
+        foreach (Renderer r in renderers)
+        {
+            r.material = material;
+        }
     }
 }
