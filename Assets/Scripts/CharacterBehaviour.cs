@@ -35,9 +35,9 @@ public class CharacterBehaviour : MonoBehaviour
             if (debugPanel)
             {
                 stringToSend = debugPanel.stringToSend.text;
-                debugPanel.log.text = $"[S] {gameObject.name} [{stringToSend}]\r\n" + debugPanel.log.text;
+                debugPanel.AddLog($"[S] {gameObject.name} [{stringToSend}]");
 
-                Debug.Log(debugPanel.log.text + "== text");
+                //Debug.Log(debugPanel.log.text + "== text");
             }
 
             coherenceSyncOther.SendNetworkCommand(coherenceSync, stringToSend, 8, 7, 6, 5, 100, 100, 100, 100,
@@ -49,7 +49,7 @@ public class CharacterBehaviour : MonoBehaviour
     {
         if (debugPanel)
         {
-            debugPanel.log.text = $"[R] [{args}]\r\n" + debugPanel.log.text;
+            debugPanel.AddLog($"[R] [{args}]");
         }
     }
 
