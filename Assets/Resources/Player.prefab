@@ -198,7 +198,6 @@ MonoBehaviour:
   genericFieldCounter_Quaternion: 1
   genericFieldCounter_String: 0
   genericFieldCounter_Vector: 1
-  isSimulated: 1
   remoteVersionPrefabName: Player
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,

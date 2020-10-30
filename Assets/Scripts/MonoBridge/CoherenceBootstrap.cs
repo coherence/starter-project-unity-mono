@@ -2,7 +2,7 @@
 {
     using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
-    using System.Collections;
+    using System.Collections.Generic;
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Transforms;
@@ -16,140 +16,169 @@
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
-        private Hashtable entityMap = new Hashtable();
+
+        private Dictionary<Entity, CoherenceSync> mapper = new Dictionary<Entity, CoherenceSync>();
+        private List<Entity> toDestroy = new List<Entity>();
 
         private void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQueryRemote = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), ComponentType.Exclude<CoherenceSimulateComponent>());
-            entityQueryLocal = entityManager.CreateEntityQuery(typeof(GenericPrefabReference), typeof(Translation), typeof(CoherenceSimulateComponent));
+            entityQueryRemote = entityManager.CreateEntityQuery(
+                typeof(GenericPrefabReference),
+                typeof(Translation),
+                ComponentType.Exclude<CoherenceSimulateComponent>());
 
-            _ = StartCoroutine(CheckForNewNetworkedEntities());
-            _ = StartCoroutine(CheckForNewLocalEntities());
-            _ = StartCoroutine(CleanUpDeletedEntities());
+            entityQueryLocal = entityManager.CreateEntityQuery(
+                typeof(GenericPrefabReference),
+                typeof(Translation),
+                typeof(CoherenceSimulateComponent));
         }
 
-        private IEnumerator CleanUpDeletedEntities()
+        private void LateUpdate()
         {
-            while (true)
+            CleanUpDeletedEntities();
+            CheckForNewLocalEntities();
+            CheckForNewNetworkedEntities();
+        }
+
+        private void Log(object message, Object context = null)
+        {
+            if (!debugMode)
             {
-                yield return null;
+                return;
+            }
 
-                ArrayList toDelete = new ArrayList();
-                foreach (DictionaryEntry entry in entityMap)
+            Debug.Log($"<color=brown>[Coherence Bootstrap]</color> {message}", context);
+        }
+
+        private void LogError(object message, Object context = null)
+        {
+            if (!debugMode)
+            {
+                return;
+            }
+
+            Debug.LogError($"<color=brown>[Coherence Bootstrap]</color> {message}", context);
+        }
+
+        private void CleanUpDeletedEntities()
+        {
+            toDestroy.Clear();
+
+            foreach (KeyValuePair<Entity, CoherenceSync> pair in mapper)
+            {
+                Entity entity = pair.Key;
+                CoherenceSync sync = pair.Value;
+
+                if (sync && sync.enabled)
                 {
-                    GameObject go = (GameObject)entry.Value;
-
-                    if (go != null && go.activeInHierarchy) continue;
-
-                    if (debugMode) Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
-
-                    entityManager.DestroyEntity((Entity)entry.Key);
-                    _ = toDelete.Add((Entity)entry.Key);
+                    continue;
                 }
 
-                foreach (object td in toDelete)
+                if (!sync)
                 {
-                    entityMap.Remove((Entity)td);
+                    Log($"Destroying {entity}: linked CoherenceSync was destroyed.");
                 }
+
+                if (sync && !sync.enabled)
+                {
+                    Log($"Destroying {entity}: linked CoherenceSync was disabled.", sync);
+                }
+
+                entityManager.DestroyEntity(entity);
+                toDestroy.Add(entity);
+            }
+
+            foreach (Entity e in toDestroy)
+            {
+                _ = mapper.Remove(e);
             }
         }
 
-        private IEnumerator CheckForNewLocalEntities()
+        private void CheckForNewLocalEntities()
         {
-            while (true)
+            NativeArray<Entity> entities = entityQueryLocal.ToEntityArray(Allocator.TempJob);
+
+            for (int i = 0; i < entities.Length; i++)
             {
-                yield return null;
-                NativeArray<Entity> entities = entityQueryLocal.ToEntityArray(Allocator.TempJob);
+                Entity entity = entities[i];
 
-                for (int i = 0; i < entities.Length; i++)
+                foreach (CoherenceSync sync in CoherenceSync.instances)
                 {
-                    CoherenceSync[] gameObjects = FindObjectsOfType<CoherenceSync>();
-
-                    foreach (CoherenceSync go in gameObjects)
-                    {
-                        Entity entity = go.LinkedEntity;
-                        if (entity == Entity.Null)
-                        {
-                            continue;
-                        }
-
-                        if (!go.isSimulated)
-                        {
-                            continue;
-                        }
-
-                        if (entity == entities[i])
-                        {
-                            if (!entityMap.Contains(entities[i]))
-                            {
-                                if (debugMode) Debug.Log($"Found new entity locally: {entities[i]}->{go}");
-                                entityMap[entities[i]] = go.gameObject;
-                            }
-                        }
-                    }
-                }
-
-                entities.Dispose();
-            }
-        }
-
-        private IEnumerator CheckForNewNetworkedEntities()
-        {
-            while (true)
-            {
-                yield return null;
-                NativeArray<Entity> entities = entityQueryRemote.ToEntityArray(Allocator.TempJob);
-
-                for (int i = 0; i < entities.Length; i++)
-                {
-                    if (entityManager.HasComponent<CoherenceSimulateComponent>(entities[i]))
+                    if (!sync.isSimulated)
                     {
                         continue;
                     }
 
-                    bool entityAlreadyExists = false;
-
-                    CoherenceSync[] gameObjects = FindObjectsOfType<CoherenceSync>();
-
-                    foreach (CoherenceSync go in gameObjects)
+                    if (sync.LinkedEntity == Entity.Null)
                     {
-                        Entity entity = go.LinkedEntity;
-
-                        if (entity == entities[i])
-                        {
-                            entityAlreadyExists = true;
-
-                            break;
-                        }
+                        continue;
                     }
 
-                    if (!entityAlreadyExists)
+                    if (sync.LinkedEntity == entity)
                     {
-                        GameObject ent = SpawnEntity(entities[i]);
-                        entityMap[entities[i]] = ent;
+                        if (!mapper.ContainsKey(entity))
+                        {
+                            Log($"Linking: {entity} -> {sync}", sync);
+                            mapper[entities[i]] = sync;
+                        }
+                    }
+                }
+            }
+
+            entities.Dispose();
+        }
+
+        private void CheckForNewNetworkedEntities()
+        {
+            NativeArray<Entity> entities = entityQueryRemote.ToEntityArray(Allocator.TempJob);
+
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+
+                if (entityManager.HasComponent<CoherenceSimulateComponent>(entities[i]))
+                {
+                    continue;
+                }
+
+                bool entityAlreadyExists = false;
+                foreach (CoherenceSync sync in CoherenceSync.instances)
+                {
+                    if (sync.LinkedEntity == entity)
+                    {
+                        entityAlreadyExists = true;
                         break;
                     }
                 }
 
-                entities.Dispose();
+                if (!entityAlreadyExists)
+                {
+                    mapper[entity] = SpawnEntity(entity);
+                    break;
+                }
             }
+
+            entities.Dispose();
         }
 
-        public GameObject SpawnEntity(Entity entity)
+        public CoherenceSync SpawnEntity(Entity entity)
         {
-            if (debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
-
             FixedString64 prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
-            if (debugMode) Debug.Log("Instantiating prefab " + prefabName);
-            Object resource = Resources.Load(prefabName.ToString());
 
-            GameObject newEntity = (GameObject)Instantiate(resource);
-            CoherenceSync sync = newEntity.GetComponent<CoherenceSync>();
+            CoherenceSync syncPrefab = Resources.Load<CoherenceSync>(prefabName.ToString());
+            if (!syncPrefab)
+            {
+                LogError($"Could not find Resource '{prefabName}' for entity " + entity);
+            }
+            CoherenceSync sync = Instantiate(syncPrefab);
+
+            Log($"Instantiated Resource '{prefabName}' for entity " + entity, sync);
+
             sync.SpawnFromNetwork(entity, "Network: " + entity);
 
-            return newEntity;
+            return sync;
         }
     }
 }

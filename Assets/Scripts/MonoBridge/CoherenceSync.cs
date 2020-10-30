@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Coherence.Generated.FirstProject;
-using Coherence.Replication.Client.Unity.Ecs;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Transforms;
-using UnityEngine;
-
-namespace Coherence.MonoBridge
+﻿namespace Coherence.MonoBridge
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using Coherence.Generated.FirstProject;
+    using Coherence.Replication.Client.Unity.Ecs;
+    using Unity.Collections;
+    using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Transforms;
+    using UnityEngine;
+
     public class CoherenceSync : MonoBehaviour
     {
+        public static List<CoherenceSync> instances = new List<CoherenceSync>();
+
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
 
         public event NetworkCommandHandler NetworkCommandReceived;
@@ -62,7 +64,7 @@ namespace Coherence.MonoBridge
 
         [SerializeField] private int genericFieldCounter_Vector;
 
-        public bool isSimulated = true;
+        [NonSerialized] public bool isSimulated = true;
 
         [SerializeField] public string remoteVersionPrefabName;
         [NonSerialized] private string schemaNamespace = "Coherence.Generated.FirstProject.";
@@ -112,6 +114,16 @@ namespace Coherence.MonoBridge
             fieldTypesValues = new List<string>();
             fieldLinksKeys = new List<string>();
             fieldLinksValues = new List<string>();
+        }
+
+        private void OnEnable()
+        {
+            instances.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            _ = instances.Remove(this);
         }
 
         protected IEnumerator Start()
