@@ -116,17 +116,17 @@ namespace Coherence.MonoBridge
 
         protected IEnumerator Start()
         {
-            yield return null;
+            //yield return null;
             if (entity != Entity.Null || !isSimulated) yield break;
 
             entity = entityManager.CreateEntity();
             entityManager.AddComponent<GenericPrefabReference>(entity);
-            
+
             if (usingReflection)
             {
                 InitializeComponents();
             }
-            
+
             entityManager.SetComponentData(entity, new GenericPrefabReference
             {
                 prefab = new FixedString64(remoteVersionPrefabName)
@@ -135,8 +135,8 @@ namespace Coherence.MonoBridge
 
         protected void InitializeComponents()
         {
-            entityManager.AddComponent<Translation>(entity);
-            entityManager.AddComponent<Rotation>(entity);
+            entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
+            entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
             entityManager.AddComponent<CoherenceSessionComponent>(entity);
             entityManager.AddComponent<CoherenceSimulateComponent>(entity);
             entityManager.AddComponent<GenericCommand>(entity);
@@ -185,14 +185,14 @@ namespace Coherence.MonoBridge
                 var scriptType = Type.GetType(script);
 
                 if (scriptType == null) continue;
-                
+
                 var cmp = gameObject.GetComponent(scriptType);
-                
+
                 try
                 {
                     if (cmp != null && cmp is Behaviour)
                     {
-                        ((Behaviour) cmp).enabled = en;
+                        ((Behaviour)cmp).enabled = en;
                     }
                 }
                 catch (Exception e)
@@ -295,7 +295,7 @@ namespace Coherence.MonoBridge
         public static string TrimString64(string cmdName)
         {
             if (cmdName == null) return cmdName;
-            
+
             return cmdName.Length > maxNetworkStringLength ? cmdName.Substring(0, maxNetworkStringLength) : cmdName;
         }
 
@@ -313,7 +313,7 @@ namespace Coherence.MonoBridge
             if (CmpType(type, typeof(int))) return "Int";
 
             if (CmpType(type, typeof(uint))) return "Int";
-            
+
             if (CmpType(type, typeof(bool))) return "Int";
 
             if (CmpType(type, typeof(string))) return "String";
@@ -345,7 +345,7 @@ namespace Coherence.MonoBridge
             {
                 coherenceBootstrap.SpawnEntity(entity);
             }
-            
+
             if (!isSimulated && !EcsEntityExists())
             {
                 if (ecsEntitySet) Destroy(gameObject);
@@ -388,7 +388,7 @@ namespace Coherence.MonoBridge
 
             return null;
         }
-        
+
         private void SetAnimatorValue(Animator an, string _name, object val)
         {
             foreach (var param in an.parameters)
@@ -396,13 +396,13 @@ namespace Coherence.MonoBridge
                 if (param.name == _name)
                 {
                     Debug.Log("SetAnimatorValue " + _name + " " + param.type + " " + val);
-                    
+
                     switch (param.type)
                     {
                         case AnimatorControllerParameterType.Bool:
-                            int v = (int) val;
+                            int v = (int)val;
                             bool b = v == 1;
-                            
+
                             an.SetBool(_name, b);
                             break;
                         case AnimatorControllerParameterType.Float:
@@ -415,7 +415,7 @@ namespace Coherence.MonoBridge
                 }
             }
         }
-        
+
         private void SyncEcsWithReflection()
         {
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
@@ -460,7 +460,7 @@ namespace Coherence.MonoBridge
 
                     object currentMonoValue;
 
-                    
+
                     if (field != null)
                         currentMonoValue = field.GetValue(cmp);
                     else
@@ -493,27 +493,27 @@ namespace Coherence.MonoBridge
                 field.SetValue(cmp, val);
             else if (property != null) property.SetValue(cmp, val);
         }
-        
+
         private void SyncReflectionNetworkEcsToMono(Type networkedType, Type fieldType, string fieldName, FieldInfo field, Component cmp,
             PropertyInfo property, Type script)
         {
             var method = typeof(EntityManager).GetMethod("GetComponentData");
             var generic = method.MakeGenericMethod(networkedType);
 
-            var inst = generic.Invoke(entityManager, new object[] {entity});
-            
-            if(CmpType(script, typeof(Animator)))
+            var inst = generic.Invoke(entityManager, new object[] { entity });
+
+            if (CmpType(script, typeof(Animator)))
             {
                 var fx = networkedType.GetField("number");
                 var vfx = fx.GetValue(inst);
-                SetAnimatorValue((Animator)cmp, fieldName,  vfx);
+                SetAnimatorValue((Animator)cmp, fieldName, vfx);
                 return;
             }
-            
+
             if (CmpType(fieldType, typeof(Vector3)))
             {
                 var fx = networkedType.GetField("Value");
-                var vfx = (float3) fx.GetValue(inst);
+                var vfx = (float3)fx.GetValue(inst);
 
                 SetMonoValue(field, property, cmp, new Vector3(vfx.x, vfx.y, vfx.z));
             }
@@ -521,15 +521,15 @@ namespace Coherence.MonoBridge
             if (CmpType(fieldType, typeof(float)))
             {
                 var fx = networkedType.GetField("number");
-                var vfx = (float) fx.GetValue(inst);
+                var vfx = (float)fx.GetValue(inst);
 
                 SetMonoValue(field, property, cmp, vfx);
             }
 
-            if (CmpType(fieldType, typeof(int)) || CmpType(fieldType, typeof(uint))  || CmpType(fieldType, typeof(bool)) || CmpType(fieldType, typeof(Boolean)))
+            if (CmpType(fieldType, typeof(int)) || CmpType(fieldType, typeof(uint)) || CmpType(fieldType, typeof(bool)) || CmpType(fieldType, typeof(Boolean)))
             {
                 var fx = networkedType.GetField("number");
-                var vfx = (int) fx.GetValue(inst);
+                var vfx = (int)fx.GetValue(inst);
 
                 SetMonoValue(field, property, cmp, vfx);
             }
@@ -537,7 +537,7 @@ namespace Coherence.MonoBridge
             if (CmpType(fieldType, typeof(string)))
             {
                 var fx = networkedType.GetField("name");
-                var vfx = (FixedString64) fx.GetValue(inst);
+                var vfx = (FixedString64)fx.GetValue(inst);
 
                 SetMonoValue(field, property, cmp, vfx.ToString());
             }
@@ -545,7 +545,7 @@ namespace Coherence.MonoBridge
             if (CmpType(fieldType, typeof(Quaternion)))
             {
                 var fx = networkedType.GetField("Value");
-                var quat = (quaternion) fx.GetValue(inst);
+                var quat = (quaternion)fx.GetValue(inst);
 
                 SetMonoValue(field, property, cmp, new Quaternion(quat.value.x, quat.value.y, quat.value.z, quat.value.w));
             }
@@ -557,45 +557,45 @@ namespace Coherence.MonoBridge
 
             var method = typeof(EntityManager).GetMethod("SetComponentData");
             var generic = method.MakeGenericMethod(networkedType);
-            
+
             if (CmpType(fieldType, typeof(Vector3)))
             {
                 var fieldX = networkedType.GetField("Value");
-                var val = (Vector3) currentMonoValue;
+                var val = (Vector3)currentMonoValue;
                 fieldX.SetValue(inst, new float3(val.x, val.y, val.z));
             }
 
             if (CmpType(fieldType, typeof(float)))
             {
                 var f = networkedType.GetField("number");
-                var val = (float) currentMonoValue;
+                var val = (float)currentMonoValue;
                 f.SetValue(inst, val);
             }
 
             if (CmpType(fieldType, typeof(int)) || CmpType(fieldType, typeof(uint)) || CmpType(fieldType, typeof(bool)) || CmpType(fieldType, typeof(Boolean)))
             {
                 var f = networkedType.GetField("number");
-                var val = (int) currentMonoValue;
+                var val = (int)currentMonoValue;
                 f.SetValue(inst, val);
             }
 
             if (CmpType(fieldType, typeof(string)))
             {
                 var f = networkedType.GetField("name");
-                FixedString64 val = (string) currentMonoValue;
+                FixedString64 val = (string)currentMonoValue;
                 f.SetValue(inst, val);
             }
 
             if (CmpType(fieldType, typeof(Quaternion)))
             {
                 var fieldX = networkedType.GetField("Value");
-                var val = (Quaternion) currentMonoValue;
+                var val = (Quaternion)currentMonoValue;
                 fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
             }
 
             try
             {
-                _ = generic.Invoke(entityManager, new[] {entity, inst});
+                _ = generic.Invoke(entityManager, new[] { entity, inst });
             }
             catch (Exception e)
             {

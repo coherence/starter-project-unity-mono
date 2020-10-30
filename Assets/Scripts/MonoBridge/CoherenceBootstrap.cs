@@ -12,7 +12,7 @@
     {
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
         public bool debugMode = true;
-        
+
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
@@ -34,7 +34,7 @@
         {
             while (true)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return null;
 
                 ArrayList toDelete = new ArrayList();
                 foreach (DictionaryEntry entry in entityMap)
@@ -42,9 +42,9 @@
                     GameObject go = (GameObject)entry.Value;
 
                     if (go != null && go.activeInHierarchy) continue;
-                    
-                    if(debugMode) Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
-                    
+
+                    if (debugMode) Debug.Log($"Entity {(Entity)entry.Key} no longer exists. Destroying entity.");
+
                     entityManager.DestroyEntity((Entity)entry.Key);
                     _ = toDelete.Add((Entity)entry.Key);
                 }
@@ -60,7 +60,7 @@
         {
             while (true)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return null;
                 NativeArray<Entity> entities = entityQueryLocal.ToEntityArray(Allocator.TempJob);
 
                 for (int i = 0; i < entities.Length; i++)
@@ -84,7 +84,7 @@
                         {
                             if (!entityMap.Contains(entities[i]))
                             {
-                                if(debugMode) Debug.Log($"Found new entity locally: {entities[i]}->{go}");
+                                if (debugMode) Debug.Log($"Found new entity locally: {entities[i]}->{go}");
                                 entityMap[entities[i]] = go.gameObject;
                             }
                         }
@@ -99,7 +99,7 @@
         {
             while (true)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return null;
                 NativeArray<Entity> entities = entityQueryRemote.ToEntityArray(Allocator.TempJob);
 
                 for (int i = 0; i < entities.Length; i++)
@@ -139,10 +139,10 @@
 
         public GameObject SpawnEntity(Entity entity)
         {
-            if(debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
+            if (debugMode) Debug.Log("Creating mono representation for remote entity " + entity);
 
             FixedString64 prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
-            if(debugMode) Debug.Log("Instantiating prefab " + prefabName);
+            if (debugMode) Debug.Log("Instantiating prefab " + prefabName);
             Object resource = Resources.Load(prefabName.ToString());
 
             GameObject newEntity = (GameObject)Instantiate(resource);
