@@ -189,24 +189,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &174598141 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7148145059366443820, guid: 9bfa79d70df964e469bf06d7da963a0b, type: 3}
-  m_PrefabInstance: {fileID: 973587521}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &174598143
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174598141}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10, y: 1, z: 10}
-  m_Center: {x: -4.5, y: -0.5, z: 4.5}
 --- !u!1 &581089021
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +490,18 @@ PrefabInstance:
     - target: {fileID: 3655738038371963128, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
       propertyPath: m_Name
       value: Interface
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678619880661235547, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678619880661235547, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678619880661235547, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
+      propertyPath: m_Color.b
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
