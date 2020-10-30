@@ -42,7 +42,7 @@ namespace Coherence.MonoBridge
         {
             if (logo == null)
             {
-                logo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Scripts/MonoBridge/Editor/Textures/Logo.png");
+                logo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Coherence Toolkit/Editor/Textures/Logo.png");
             }
         }
 
