@@ -119,13 +119,13 @@ MonoBehaviour:
   yAxis: Vertical
   jumpKey: 32
   shootKey: 106
-  useTankControls: 1
+  useTankControls: 0
   moveSpeed: 2
   rotationSpeed: 90
-  canJump: 1
+  canJump: 0
   airborneSpeedModifier: 0.8
   jumpHeight: 1
-  useGun: 1
+  useGun: 0
   gun: {fileID: 4936724881124390884}
   gunPivot: {fileID: 7992773274304229084}
   bulletPrefab: {fileID: -1052476556966486007, guid: d359f14249641462bbf632f4cc51ff02, type: 3}
@@ -222,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4936724881124390884
 Transform:
   m_ObjectHideFlags: 0
