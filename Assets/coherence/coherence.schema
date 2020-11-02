@@ -5,6 +5,9 @@ namespace Coherence.Generated.FirstProject
 component GenericPrefabReference
   prefab String64
   
+component GenericScale
+  Value Position
+  
 command GenericCommand
   name String64
   paramInt1 Int
@@ -78,42 +81,16 @@ component GenericFieldFloat9
   number Float
   
 component GenericFieldVector0
-  x Float
-  y Float
-  z Float
+  Value Position
   
 component GenericFieldVector1
-  x Float
-  y Float
-  z Float
+  Value Position
   
 component GenericFieldVector2
-  x Float
-  y Float
-  z Float
+  Value Position
   
 component GenericFieldVector3
-  x Float
-  y Float
-  z Float
-
-component GenericFieldQuaternion0
-  x Float
-  y Float
-  z Float
-  w Float
-
-component GenericFieldQuaternion1
-  x Float
-  y Float
-  z Float
-  w Float
-  
-component GenericFieldQuaternion2
-  x Float
-  y Float
-  z Float
-  w Float
+  Value Position
 
 component GenericFieldString0
   name String64

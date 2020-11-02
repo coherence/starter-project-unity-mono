@@ -578,5 +578,110 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldLinksKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldLinksValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTogglesKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTogglesValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: scriptTogglesKeys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: scriptTogglesValues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesKeys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldLinksKeys.Array.data[2]
+      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*localScale
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldLinksValues.Array.data[2]
+      value: GenericFieldVector1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTogglesKeys.Array.data[2]
+      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*localScale
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTogglesValues.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesKeys.Array.data[2]
+      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null*localScale
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesValues.Array.data[2]
+      value: UnityEngine.Vector3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: genericFieldCounter_Vector
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: scriptTogglesKeys.Array.data[1]
+      value: ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: scriptTogglesValues.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesKeys.Array.data[2]
+      value: Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesKeys.Array.data[3]
+      value: ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: genericFieldCounter_Quaternion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesValues.Array.data[1]
+      value: UnityEngine.Quaternion
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
