@@ -94,13 +94,7 @@ namespace Coherence.MonoBridge
             EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
             EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
             EditorGUILayout.LabelField("Simulated", coherenceSync.isSimulated.ToString());
-            // EditorGUILayout.LabelField("Debug", coherenceSync.GetDebugData().ToString());
-
-            // if (GUILayout.Button("Test enable/disable scripts"))
-            // {
-            //     coherenceSync.EnableAndDisableScripts();
-            // }
-
+           
             if (anyChangesMade)
             {
                 Undo.RecordObject(target, "Changed selected scripts");
@@ -367,14 +361,14 @@ namespace Coherence.MonoBridge
                 {
                     if (compType == typeof(Transform))
                     {
-                        if (variable.Name != "rotation" && variable.Name != "position")
+                        if (variable.Name != "rotation" && variable.Name != "position" && variable.Name != "localScale")
                         {
                             continue;
                         }
                     }
 
                     bool doProceed = true;
-                    // Remove those inherited from MonoBehaviour (de-clutter)
+                    // Remove those inherited from MonoBehaviour (de-clu tter)
                     foreach (MemberInfo monoVariable in monoMembers)
                     {
                         if (variable.Name == monoVariable.Name)

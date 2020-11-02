@@ -149,6 +149,8 @@
         {
             entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
             entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
+            entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
+           
             entityManager.AddComponent<CoherenceSessionComponent>(entity);
             entityManager.AddComponent<CoherenceSimulateComponent>(entity);
             entityManager.AddComponent<GenericCommand>(entity);
@@ -446,16 +448,24 @@
 
                     if (fieldType == null)
                     {
-                        if (fieldTypeString.Contains("Vector3"))
+                        var key = fieldTogglesKeys[i];
+                        
+                        if (key.Contains("position"))
                         {
                             fieldType = typeof(Vector3);
                             networkedType = typeof(Translation);
                         }
 
-                        if (fieldTypeString.Contains("Quaternion"))
+                        if (key.Contains("rotation"))
                         {
                             fieldType = typeof(Quaternion);
                             networkedType = typeof(Rotation);
+                        }
+                        
+                        if (key.Contains("localScale"))
+                        {
+                            fieldType = typeof(Vector3);
+                            networkedType = typeof(GenericScale);
                         }
                     }
 
