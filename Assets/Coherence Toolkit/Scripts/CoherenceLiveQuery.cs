@@ -24,7 +24,7 @@
             Entity liveQuery = entityManager.CreateEntity(
                 typeof(CoherenceSimulateComponent),
                 typeof(WorldPositionQuery),
-                typeof(CoherenceSessionComponent));
+                typeof(CoherenceSession));
 
             entityManager.SetComponentData(liveQuery, new WorldPositionQuery()
             {

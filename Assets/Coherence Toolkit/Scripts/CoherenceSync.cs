@@ -151,7 +151,7 @@
             entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
             entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
            
-            entityManager.AddComponent<CoherenceSessionComponent>(entity);
+            entityManager.AddComponent<CoherenceSession>(entity);
             entityManager.AddComponent<CoherenceSimulateComponent>(entity);
             entityManager.AddComponent<GenericCommand>(entity);
 
