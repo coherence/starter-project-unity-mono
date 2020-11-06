@@ -58,7 +58,7 @@ namespace Coherence.MonoBridge
             
             entityManager.AddComponent<Translation>(entity);
             entityManager.AddComponent<Rotation>(entity);
-            entityManager.AddComponent<CoherenceSessionComponent>(entity);
+            entityManager.AddComponent<CoherenceSession>(entity);
             entityManager.AddComponent<CoherenceSimulateComponent>(entity);
             entityManager.AddComponent<GenericCommand>(entity);
             entityManager.AddComponent<GenericFieldInt0>(entity);

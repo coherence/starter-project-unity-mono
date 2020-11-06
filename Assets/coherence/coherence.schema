@@ -6,7 +6,7 @@ component GenericPrefabReference
   prefab String64
   
 component GenericScale
-  Value Position
+  Value Vector3
   
 command GenericCommand
   name String64
@@ -81,16 +81,16 @@ component GenericFieldFloat9
   number Float
   
 component GenericFieldVector0
-  Value Position
+  Value Vector3
   
 component GenericFieldVector1
-  Value Position
+  Value Vector3
   
 component GenericFieldVector2
-  Value Position
+  Value Vector3
   
 component GenericFieldVector3
-  Value Position
+  Value Vector3
 
 component GenericFieldString0
   name String64
