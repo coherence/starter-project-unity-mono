@@ -84,9 +84,13 @@ namespace Coherence.MonoBridge
 
             EditorGUILayout.Space(12f);
 
-            EditorGUI.BeginDisabledGroup(true);
-            _ = GUILayout.Button("Bake network components");
-            EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
+            EditorGUI.BeginDisabledGroup(false);
+            if((target as CoherenceSync).usingReflection) {
+                _ = GUILayout.Button("Bake network components");
+                EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
+            } else {
+                EditorGUILayout.HelpBox("This game object has baked its network components.", MessageType.Info);
+            }
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space(6f);
@@ -94,7 +98,7 @@ namespace Coherence.MonoBridge
             EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
             EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
             EditorGUILayout.LabelField("Simulated", coherenceSync.isSimulated.ToString());
-           
+
             if (anyChangesMade)
             {
                 Undo.RecordObject(target, "Changed selected scripts");
@@ -316,22 +320,22 @@ namespace Coherence.MonoBridge
                             switch (parameter.type)
                             {
                                 case AnimatorControllerParameterType.Bool:
-                                    fieldType = typeof(bool); 
+                                    fieldType = typeof(bool);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Float:
                                     fieldType = typeof(float);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Int:
                                     fieldType = typeof(int);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Trigger:
                                     // TODO: support triggers through commands
                                     break;
                             }
-                            
+
                             EditorGUI.BeginChangeCheck();
                             bool varIncluded = EditorGUILayout.ToggleLeft($"{parameter.name} [{fieldType.Name}]", prevVarIncluded ?? false);
                             if (EditorGUI.EndChangeCheck())
@@ -351,12 +355,12 @@ namespace Coherence.MonoBridge
                     EditorGUI.EndDisabledGroup();
                     continue;
                 }
-            
+
 
                 MemberInfo[] members = compType.GetFields(bindingFlags).Cast<MemberInfo>()
                     .Concat(compType.GetProperties(bindingFlags)).ToArray();
 
-                
+
                 foreach (MemberInfo variable in members)
                 {
                     if (compType == typeof(Transform))
