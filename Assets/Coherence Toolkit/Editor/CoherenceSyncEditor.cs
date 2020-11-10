@@ -86,7 +86,10 @@ namespace Coherence.MonoBridge
 
             EditorGUI.BeginDisabledGroup(false);
             if((target as CoherenceSync).usingReflection) {
-                _ = GUILayout.Button("Bake network components");
+                if(GUILayout.Button("Bake network components"))
+                {
+                    Coherence.MonoBridge.Baker.SaveSyncBehaviour((target as CoherenceSync).name);
+                }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             } else {
                 EditorGUILayout.HelpBox("This game object has baked its network components.", MessageType.Info);
