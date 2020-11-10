@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7307341685530242376}
   - component: {fileID: 5786478719605280480}
   - component: {fileID: 7801017591147193571}
+  - component: {fileID: 2051527036441969523}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -164,7 +165,11 @@ MonoBehaviour:
     PublicKeyToken=null
   - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  enabledScriptTogglesValues: 00000000
+  - Coherence.MonoBridge.CoherenceSyncPlayerMinimal, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  - Coherence.MonoBridge.CoherenceSyncPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  enabledScriptTogglesValues: 000000000000
   fieldLinksKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -183,7 +188,7 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
-  fieldTogglesValues: 010101
+  fieldTogglesValues: 010100
   fieldTypesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -194,7 +199,8 @@ MonoBehaviour:
   fieldTypesValues:
   - UnityEngine.Vector3
   - UnityEngine.Quaternion
-  - UnityEngine.Vector3
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
   genericFieldCounter_Float: 0
   genericFieldCounter_Int: 0
   genericFieldCounter_Quaternion: 1
@@ -207,6 +213,18 @@ MonoBehaviour:
   scriptTogglesValues: 01
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
+--- !u!114 &2051527036441969523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7146494334328971405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90393c43de5d64da89feeefa7c74d597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8907122464205653916
 GameObject:
   m_ObjectHideFlags: 0
