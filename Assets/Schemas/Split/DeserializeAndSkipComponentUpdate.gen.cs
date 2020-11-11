@@ -234,12 +234,6 @@ namespace Coherence.Generated.Internal.Schema
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
-		private void DeserializeColorizeBehaviour(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
-		{
-            var ignored = new ColorizeBehaviour();
-            unityReaders.Read(ref ignored, protocolStream);
-		}
-		
  
 		public void SkipComponentDataUpdate(uint componentType, Coherence.Replication.Protocol.Definition.IInBitStream inProtocolStream, ILog log)
         {
@@ -384,10 +378,6 @@ namespace Coherence.Generated.Internal.Schema
 
                 case TypeIds.InternalGenericFieldString4:
 					DeserializeGenericFieldString4(inProtocolStream);
-                    break;
-
-                case TypeIds.InternalColorizeBehaviour:
-					DeserializeColorizeBehaviour(inProtocolStream);
                     break;
 
 			}

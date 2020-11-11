@@ -336,15 +336,6 @@ namespace Coherence.Generated.Internal.Schema
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.ColorizeBehaviour, Simulated>().WithNone<ColorizeBehaviour_Sync>().ForEach((Entity entity) =>
-			{
-
-				EntityManager.AddComponentData(entity, new ColorizeBehaviour_Sync 
-				{
-					howImportantAreYou = 600
-				});
-			}).WithStructuralChanges().Run();
-
 			Dependency.Complete();
         }
     }

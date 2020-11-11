@@ -89,8 +89,6 @@ static class TypeIds
 
 	public const uint InternalGenericFieldString4 = 34;
 
-	public const uint InternalColorizeBehaviour = 35;
-
 	public const uint InternalGenericCommand = 0;
 
 }
@@ -168,8 +166,6 @@ enum TypeEnums
 	InternalGenericFieldString2 = 33,
 
 	InternalGenericFieldString4 = 34,
-
-	InternalColorizeBehaviour = 35,
 
 	InternalGenericCommand = 0,
 

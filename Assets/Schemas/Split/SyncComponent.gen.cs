@@ -468,19 +468,6 @@ namespace Coherence.Generated.Internal.Schema
     }
 
 
-    public struct ColorizeBehaviour_Sync : IComponentData
-    {
-        public ColorizeBehaviour lastSentData;
-        public uint resendMask;
-        public uint howImportantAreYou;
-        public uint accumulatedPriority;
-        public long deletedAtTime;
-        public bool hasBeenSerialized;
-        public bool deleteHasBeenSerialized;
-        public bool hasReceivedConstructor;
-    }
-
-
 }
 
 

@@ -1075,36 +1075,6 @@ namespace Coherence.Generated.Internal.Schema
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref ColorizeBehaviour_Sync sync, in global::Coherence.Generated.FirstProject.ColorizeBehaviour data, in Simulated simulate) =>
-			{
-				uint mask = 0;
-				if (!sync.hasBeenSerialized) 
-				{ 
-					mask = 0xffffffff;
-				}
-
-
-                if (data.bleh != sync.lastSentData.bleh) mask |= 0b00000000000000000000000000000001;
-
-
-
-				if (mask != 0 || sync.resendMask != 0)
-				{
-					sync.accumulatedPriority += sync.howImportantAreYou;
-					var componentChange = new ComponentChange
-					{
-						entity = entity,
-						componentType = TypeIds.InternalColorizeBehaviour,
-						mask = mask,
-						resendMask = sync.resendMask,
-						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
-                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
-					};
-					
-					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
-				}
-			}).ScheduleParallel();
-
 		
 			Dependency.Complete();
         }

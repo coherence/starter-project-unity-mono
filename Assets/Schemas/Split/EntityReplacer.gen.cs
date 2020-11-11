@@ -413,17 +413,6 @@ namespace Coherence.Generated.FirstProject
 		
 			}
 		
-            if(entityManager.HasComponent<ColorizeBehaviour>(source))
-			{
-		        // ColorizeBehaviour has fields, will copy it.			
-                if(!entityManager.HasComponent<ColorizeBehaviour>(destination)) {
-                    entityManager.AddComponentData<ColorizeBehaviour>(destination, new ColorizeBehaviour());
-                }
-				var data = entityManager.GetComponentData<ColorizeBehaviour>(source);
-				entityManager.SetComponentData<ColorizeBehaviour>(destination, data);
-		
-			}
-		
 
         // Command buffers
         

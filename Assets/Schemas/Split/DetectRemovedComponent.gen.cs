@@ -762,27 +762,6 @@ namespace Coherence.Generated.Internal.Schema
                 });
             }).ScheduleParallel();
 
-			Entities.WithNone<global::Coherence.Generated.FirstProject.ColorizeBehaviour>().ForEach((Entity entity, ref ColorizeBehaviour_Sync sync, in Simulated sim) =>
-            {
-                if (sync.deleteHasBeenSerialized)
-                {
-                    return;
-                }
-                
-                if (sync.deletedAtTime == default)
-                {
-                    sync.deletedAtTime = (long)simulationFrame;
-                }
-
-                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
-                {
-                    entity = entity,
-                    componentType = TypeIds.InternalColorizeBehaviour,
-                    mask = 0,
-                    resendMask = 0,
-                });
-            }).ScheduleParallel();
-
 
 			Dependency.Complete();
         }
