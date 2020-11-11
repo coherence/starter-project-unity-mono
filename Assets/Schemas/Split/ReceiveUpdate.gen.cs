@@ -392,6 +392,16 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalColorizeBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<ColorizeBehaviour>(entity);
+					}
+					break;
+				}
+
 				default:
 				{
 					log.Warning($"Unknown component", "component", componentType);
@@ -1114,6 +1124,22 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalColorizeBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<ColorizeBehaviour_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
 				default:
 				{
 					log.Warning($"Unknown component", "component", componentTypeId);
@@ -1711,6 +1737,22 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalColorizeBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<ColorizeBehaviour_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} ColorizeBehaviour_Sync");
+					}
+					break;
+				}
+
 				default:
 				{
 					log.Warning($"Unknown component", "component", componentTypeId);
@@ -1910,6 +1952,11 @@ namespace Coherence.Generated.Internal.Schema
 				entityManager.RemoveComponent<GenericFieldString4_Sync>(entity);
 			}
 
+			if (entityManager.HasComponent<ColorizeBehaviour_Sync>(entity))
+			{
+				entityManager.RemoveComponent<ColorizeBehaviour_Sync>(entity);
+			}
+
 		}
 
 		private void RemoveInterpolationComponents(EntityManager entityManager, Entity entity)
@@ -1935,6 +1982,8 @@ namespace Coherence.Generated.Internal.Schema
 			{
 				entityManager.RemoveComponent<Sample_Rotation>(entity);
 			}
+
+
 
 
 

@@ -363,6 +363,15 @@ public class MessageDeserializers
      
 	}
 
+	public void ColorizeBehaviour(IInBitStream bitstream, ref ColorizeBehaviour data)
+	{
+
+			
+				data.bleh =  bitstream.ReadIntegerRange(15, -9999);
+			
+     
+	}
+
 	public void GenericCommand(IInBitStream bitstream, ref GenericCommand data)
 	{
 

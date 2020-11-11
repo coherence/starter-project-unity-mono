@@ -282,6 +282,13 @@ namespace Coherence.Generated.Internal.Schema
 						break;
 					}
 					
+                    case TypeIds.InternalColorizeBehaviour:
+					{
+						var data = entityManager.GetComponentData<ColorizeBehaviour>(entity);
+						messageSerializers.ColorizeBehaviour(protocolOutStream, data);
+						break;
+					}
+					
 
                     default:
                     {

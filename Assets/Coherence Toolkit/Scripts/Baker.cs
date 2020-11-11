@@ -1,16 +1,57 @@
 namespace Coherence.MonoBridge
 {
-    using System;
     using System.IO;
     using UnityEngine;
     using UnityEditor;
+    using System.Collections.Generic;
+
+    public struct Member
+    {
+        string typeName;
+        string memberName;
+
+        public Member(string typeName, string memberName)
+        {
+            this.typeName = typeName;
+            this.memberName = memberName;
+        }
+    }
+
+    public struct ComponentDescription
+    {
+        public Member[] members;
+
+        public ComponentDescription(Member[] members)
+        {
+            this.members = members;
+        }
+    }
 
     public class Baker
     {
+        Dictionary<string, ComponentDescription> componentDescriptions = new Dictionary<string, ComponentDescription>()
+        {
+            {"Translation", new ComponentDescription(new Member[] {
+                        new Member("int", "x"), new Member("int", "y"), new Member("int", "z")
+                    })},
+            {"Rotation", new ComponentDescription(new Member[] {
+                        new Member("int", "x"), new Member("int", "y"), new Member("int", "z")
+                    })},
+            {"SessionBased", new ComponentDescription() },
+            {"Simulated", new ComponentDescription() },
+        };
+
         public static void SaveSyncBehaviour(string gameObjectName)
         {
+            var components = new string[]{
+                "Translation",
+                "Rotation",
+                "SessionBased",
+                "Simulated"
+            };
+
             var className = $"CoherenceSync{gameObjectName}";
-            var generatedMonoBehaviourCode = InstantiateTemplate(className);
+            var generatedMonoBehaviourCode = InstantiateTemplate(className, components);
             var fileName = $"{className}.cs";
             var outDirectory = $"{Application.dataPath}/Schemas";
             var outFilePath = $"{outDirectory}/{fileName}";
@@ -24,7 +65,7 @@ namespace Coherence.MonoBridge
             AssetDatabase.Refresh();
         }
 
-        public static string InstantiateTemplate(string className)
+        public static string InstantiateTemplate(string className, string[] components)
         {
             return $@"
 using Coherence.Generated.FirstProject;
@@ -55,10 +96,7 @@ namespace Coherence.MonoBridge
 
             var entity = coherenceSync.LinkedEntity;
 
-            entityManager.AddComponent<Translation>(entity);
-            entityManager.AddComponent<Rotation>(entity);
-            entityManager.AddComponent<SessionBased>(entity);
-            entityManager.AddComponent<Simulated>(entity);
+            {AddComponents(components)}
 
             componentsInitialized = true;
         }}
@@ -117,5 +155,15 @@ namespace Coherence.MonoBridge
 }}
 ";
         }
+
+        public static string AddComponents(string[] components) {
+            var writer = new StringWriter();
+            foreach(var component in components)
+            {
+                writer.Write($"entityManager.AddComponent<{component}>(entity);\n            ");
+            }
+            return writer.ToString();
+        }
+
     }
 }

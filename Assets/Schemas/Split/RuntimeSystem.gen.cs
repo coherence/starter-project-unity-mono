@@ -56,6 +56,7 @@ namespace Coherence.Sdk.Unity
            GlobalLookups.Register<GenericFieldString1>(TypeEnums.InternalGenericFieldString1);
            GlobalLookups.Register<GenericFieldString2>(TypeEnums.InternalGenericFieldString2);
            GlobalLookups.Register<GenericFieldString4>(TypeEnums.InternalGenericFieldString4);
+           GlobalLookups.Register<ColorizeBehaviour>(TypeEnums.InternalColorizeBehaviour);
 
 			#endregion
 
@@ -95,6 +96,7 @@ namespace Coherence.Sdk.Unity
            GlobalTypeIdLookups.Register<GenericFieldString1>(TypeIds.InternalGenericFieldString1);
            GlobalTypeIdLookups.Register<GenericFieldString2>(TypeIds.InternalGenericFieldString2);
            GlobalTypeIdLookups.Register<GenericFieldString4>(TypeIds.InternalGenericFieldString4);
+           GlobalTypeIdLookups.Register<ColorizeBehaviour>(TypeIds.InternalColorizeBehaviour);
 
 			#endregion
 
