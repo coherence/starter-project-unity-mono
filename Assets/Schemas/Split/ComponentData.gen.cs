@@ -284,6 +284,14 @@ namespace Coherence.Generated.FirstProject
 	}
 	
 	
+	
+	// EcsComponentData: InternalColorizeBehaviourData
+	public struct ColorizeBehaviour : IComponentData
+	{
+		public int bleh;
+	}
+	
+	
 
 }
 

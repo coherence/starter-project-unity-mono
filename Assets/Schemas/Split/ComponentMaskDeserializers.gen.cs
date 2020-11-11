@@ -583,6 +583,22 @@ public class UnityReaders
 	}
 
 	
+	public uint Read(ref ColorizeBehaviour data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
+			       data.bleh = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
 }
 
 }

@@ -809,6 +809,28 @@ namespace Coherence.Generated.Internal.Schema
 
 		}
 
+        private void DeserializeColorizeBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new ColorizeBehaviour();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<ColorizeBehaviour>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
         
 
         public void ReadComponentDataUpdate(EntityManager entityManager, Entity entity, uint componentType, AbsoluteSimulationFrame simulationFrame, IInBitStream bitStream, ILog log)
@@ -962,6 +984,10 @@ namespace Coherence.Generated.Internal.Schema
 				
 			case TypeIds.InternalGenericFieldString4:
 				DeserializeGenericFieldString4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalColorizeBehaviour:
+				DeserializeColorizeBehaviour(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 				
 
@@ -1512,6 +1538,21 @@ namespace Coherence.Generated.Internal.Schema
                     if (!hasComponentData && !componentHasBeenRemoved)
                     {
                         entityManager.AddComponentData(entity, new GenericFieldString4());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalColorizeBehaviour:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<ColorizeBehaviour>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<ColorizeBehaviour_Sync>(entity) && entityManager.GetComponentData<ColorizeBehaviour_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new ColorizeBehaviour());
                         justCreated = true;
                     }
 

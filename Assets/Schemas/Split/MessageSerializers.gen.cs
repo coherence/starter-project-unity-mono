@@ -363,6 +363,15 @@ public class MessageSerializers
 
 	}
 
+	public void ColorizeBehaviour(IOutBitStream bitstream, ColorizeBehaviour data)
+	{
+
+			
+				bitstream.WriteIntegerRange(data.bleh, 15, -9999);
+			
+
+	}
+
 	public void GenericCommand(IOutBitStream bitstream, GenericCommand data)
 	{
 

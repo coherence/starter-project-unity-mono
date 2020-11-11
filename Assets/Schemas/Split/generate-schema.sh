@@ -1,1 +1,1 @@
-coherence-protocol-code-generator generate --code csharp --ecs unity --schema=../Generic.schema --split=true
+coherence-protocol-code-generator generate --code csharp --ecs unity --schema=../Combined.schema --split=true

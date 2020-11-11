@@ -572,6 +572,21 @@ namespace Coherence.Generated.Internal.Schema
 	     }
 
 		
+		
+		public void Write(in ColorizeBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteIntegerRange(data.bleh, 15, -9999);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
 	}
 }
 
