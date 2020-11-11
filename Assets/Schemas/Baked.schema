@@ -1,2 +1,6 @@
+name Schema
+
+namespace Coherence.Generated.FirstProject
+
 component ColorizeBehaviour
   bleh Int

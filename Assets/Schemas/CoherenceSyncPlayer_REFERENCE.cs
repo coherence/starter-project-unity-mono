@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using Coherence.Generated.FirstProject;
 using Coherence.Replication.Client.Unity.Ecs;
 using Unity.Entities;
@@ -10,15 +11,12 @@ namespace Coherence.MonoBridge
 {
     public class CoherenceSyncPlayer_REFERENCE : MonoBehaviour
     {
-        /*
-         *  This is sample generated sync code that should be used as a template when modifying
-         *  the protocol code generator.
-         *
-         *  Please note that here Generic components are used for convenience.
-         *
-         *  In the actual baked file, please use the concrete component and command names and values.
-         *
-         */
+         //*  This is sample generated sync code that should be used as a template when modifying
+         //*  the protocol code generator.
+         //*
+         //*  Please note that here Generic components are used for convenience.
+         //*
+         //*  In the actual baked file, please use the concrete component and command names and values.         
 
         public class CollisionCommandArgs : EventArgs
         {
@@ -178,3 +176,4 @@ namespace Coherence.MonoBridge
         }
     }
 }
+*/
