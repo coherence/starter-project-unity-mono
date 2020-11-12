@@ -1,67 +1,34 @@
 namespace Coherence.MonoBridge
 {
-    using System.IO;
     using UnityEngine;
     using UnityEditor;
 
+    using System.IO;
     using System.Collections.Generic;
     using System.Reflection;
-    using System;
-    using System.Linq;
-
-    public struct ComponentMemberDescription
-    {
-        public string variableName;
-        public string typeName;
-
-        public ComponentMemberDescription(string variableName, string typeName)
-        {
-            this.variableName = variableName;
-            this.typeName = typeName;
-        }
-    }
-
-    public struct ComponentDefinition
-    {
-        public string name;
-        public List<ComponentMemberDescription> members;
-
-        public ComponentDefinition(string name) {
-            this.name = name;
-            this.members = new List<ComponentMemberDescription>();
-        }
-    }
 
     public class SchemaCreator
     {
+        static string OutDirectory => $"{Application.dataPath}/Schemas";
+
         public static void SaveSyncBehaviour(CoherenceSync coherenceSync)
         {
+            var temp = coherenceSync.gameObject.GetComponents(typeof(Component));
+
+            SaveGatheredSchema(temp);
+        }
+
+        public static void SaveGatheredSchema(Component[] components) {
 #if UNITY_EDITOR
-
-            // foreach(var element in coherenceSync.FieldLinks) {
-            //     Debug.Log($"LINK {element.Key} => {element.Value}");
-            // }
-
-            // foreach(var element in coherenceSync.FieldToggles) {
-            //     Debug.Log($"TOGGLE {element.Key} => {element.Value}");
-            // }
-
-            // foreach(var element in coherenceSync.FieldTypes) {
-            //     Debug.Log($"TYPE {element.Key} => {element.Value}");
-            // }
-
             var componentDefinitions = new Dictionary<string, ComponentDefinition>();
-
-            Component[] components = coherenceSync.gameObject.GetComponents(typeof(Component));
 
             foreach (Component component in components)
             {
                 var componentType = component.GetType();
                 var componentTypeString = componentType.AssemblyQualifiedName;
-                var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
+                //var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
 
                 if(TypeHelpers.SkipThisType(componentType) ||
-                   !componentToggleOn ||
                    componentType == typeof(Transform))
                 {
                     continue;
@@ -78,10 +45,9 @@ namespace Coherence.MonoBridge
                 {
                     var fieldType = TypeHelpers.GetUnderlyingType(variable);
                     var varString = componentTypeString + CoherenceSync.KeyDelimiter + variable.Name;
-                    var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
+                    //var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
 
-                    if (!memberToggleOn ||
-                        !TypeHelpers.IsTypeSupported(fieldType) ||
+                    if (!TypeHelpers.IsTypeSupported(fieldType) ||
                         TypeHelpers.IsMonoMember(variable.GetType()))
                     {
                         continue;
@@ -94,25 +60,22 @@ namespace Coherence.MonoBridge
                 }
             }
 
-            var className = $"CoherenceSync{coherenceSync.name}";
 
-            var filename = $"Gathered.schema";
-            var outDirectory = $"{Application.dataPath}/Schemas";
-            var outFilePath = $"{outDirectory}/{filename}";
+            var schemaFilename = $"Gathered.schema";
+            var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
 
-            StreamWriter writer = new StreamWriter(outFilePath);
-            var schemaCode = CreateBakedSchema(componentDefinitions.Values);
-            writer.Write(schemaCode);
-            writer.Close();
+            StreamWriter schemaWriter = new StreamWriter(schemaFullPath);
+            var schemaCode = CreateSchema(componentDefinitions.Values);
+            schemaWriter.Write(schemaCode);
+            schemaWriter.Close();
 
-            Debug.Log($"Saving baked schema to '{outFilePath}', generated code: {schemaCode}");
-
+            Debug.Log($"Saving schema to '{schemaFullPath}'.");
             AssetDatabase.Refresh();
 #endif
         }
 
-        private static string CreateBakedSchema(IEnumerable<ComponentDefinition> components) {
-
+        private static string CreateSchema(IEnumerable<ComponentDefinition> components)
+        {
             var header =
 @"name Schema
 
@@ -136,10 +99,63 @@ namespace Coherence.Generated.FirstProject
             }
 
             writer.Close();
-
             return writer.ToString();
         }
 
+        public static void SaveJson(CoherenceSync[] syncers)
+        {
+            //var className = $"CoherenceSync{coherenceSync.name}";
 
+            var jsonFilename = $"Gathered.json";
+            var jsonFullPath = $"{OutDirectory}/{jsonFilename}";
+
+            StreamWriter jsonWriter = new StreamWriter(jsonFullPath);
+            var jsonCode = "{}"; //CreateJson(syncers);
+            jsonWriter.Write(jsonCode);
+            jsonWriter.Close();
+
+            Debug.Log($"Saving schema to '{jsonFullPath}'.");
+        }
+
+        private static string CreateJson(IEnumerable<CoherenceSync> syncers)
+        {
+            var writer = new StringWriter();
+
+            // foreach(var component in components)
+            // {
+            //     writer.Write($"component {component.name}\n");
+            //     foreach(var member in component.members)
+            //     {
+            //         writer.Write($"  {member.variableName} {member.typeName}\n");
+            //     }
+            //     writer.Write("\n");
+            // }
+
+            writer.Close();
+            return writer.ToString();
+        }
+    }
+
+    public struct ComponentMemberDescription
+    {
+        public string variableName;
+        public string typeName;
+
+        public ComponentMemberDescription(string variableName, string typeName)
+        {
+            this.variableName = variableName;
+            this.typeName = typeName;
+        }
+    }
+
+    public struct ComponentDefinition
+    {
+        public string name;
+        public List<ComponentMemberDescription> members;
+
+        public ComponentDefinition(string name) {
+            this.name = name;
+            this.members = new List<ComponentMemberDescription>();
+        }
     }
 }

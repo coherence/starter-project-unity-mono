@@ -1,5 +1,21 @@
+component Controller
+  xAxis String64
+  yAxis String64
+  useTankControls Bool
+  moveSpeed Float
+  rotationSpeed Float
+  canJump Bool
+  airborneSpeedModifier Float
+  jumpHeight Float
+  useGun Bool
+
 component ColorizeBehaviour
   iii Int
+  fff Float
   bbb Bool
+  target Vector3
   whatever_works Quaternion
+  name2 String64
+
+component Coherence.Generated.FirstProject.CoherenceSyncPlayer
 
