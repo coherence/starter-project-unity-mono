@@ -1,1 +1,10 @@
-[{"Name":"CoherenceSyncPlayer","Components":["ColorizeBehaviour","WorldPosition"]}]
+[
+  {
+    "Name": "CoherenceSyncPlayer",
+    "Components": [
+      "Controller",
+      "ColorizeBehaviour",
+      "Coherence.Generated.FirstProject.CoherenceSyncPlayer"
+    ]
+  }
+]
