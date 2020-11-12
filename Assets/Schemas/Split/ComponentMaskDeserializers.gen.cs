@@ -591,8 +591,43 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
-			       data.bleh = coherenceField;
+			       data.iii = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
+			     data.fff = coherenceToUnityConverters.ToUnityfloat(coherenceField);
+			propertyMask |= 0b00000000000000000000000000000010;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.bbb = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000100;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadVector3f(24, 2400);
+			     data.target = coherenceToUnityConverters.ToUnityfloat3(coherenceField);
+			propertyMask |= 0b00000000000000000000000000001000;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadUnitRotation();
+			     data.whatever_works = coherenceToUnityConverters.ToUnityquaternion(coherenceField);
+			propertyMask |= 0b00000000000000000000000000010000;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadShortString();
+			     data.name2 = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
+			propertyMask |= 0b00000000000000000000000000100000;
 		}
        
 		return propertyMask;

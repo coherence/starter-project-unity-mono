@@ -358,7 +358,7 @@ namespace Coherence.Generated.FirstProject
 				entityManager.SetComponentData(entity, new Translation()
 				{
 					
-					Value = _Translation.Value
+					Value = _Translation.Value,
 					
 				});
 				
@@ -367,7 +367,7 @@ namespace Coherence.Generated.FirstProject
 				entityManager.SetComponentData(entity, new Rotation()
 				{
 					
-					Value = _Rotation.Value
+					Value = _Rotation.Value,
 					
 				});
 				
@@ -508,7 +508,17 @@ namespace Coherence.Generated.FirstProject
 				entityManager.SetComponentData(entity, new ColorizeBehaviour()
 				{
 					
-					bleh = _ColorizeBehaviour.bleh
+					iii = _ColorizeBehaviour.iii,
+					
+					fff = _ColorizeBehaviour.fff,
+					
+					bbb = _ColorizeBehaviour.bbb,
+					
+					target = _ColorizeBehaviour.target,
+					
+					whatever_works = _ColorizeBehaviour.whatever_works,
+					
+					name2 = _ColorizeBehaviour.name2,
 					
 				});
 				
@@ -668,7 +678,17 @@ namespace Coherence.Generated.FirstProject
 				
 
 				  
-				  _ColorizeBehaviour.bleh = entityManager.GetComponentData<ColorizeBehaviour>(entity).bleh; 
+				  _ColorizeBehaviour.iii = entityManager.GetComponentData<ColorizeBehaviour>(entity).iii; 
+				  
+				  _ColorizeBehaviour.fff = entityManager.GetComponentData<ColorizeBehaviour>(entity).fff; 
+				  
+				  _ColorizeBehaviour.bbb = entityManager.GetComponentData<ColorizeBehaviour>(entity).bbb; 
+				  
+				  _ColorizeBehaviour.target = entityManager.GetComponentData<ColorizeBehaviour>(entity).target; 
+				  
+				  _ColorizeBehaviour.whatever_works = entityManager.GetComponentData<ColorizeBehaviour>(entity).whatever_works; 
+				  
+				  _ColorizeBehaviour.name2 = entityManager.GetComponentData<ColorizeBehaviour>(entity).name2; 
 				  
 
 				

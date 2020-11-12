@@ -1084,7 +1084,27 @@ namespace Coherence.Generated.Internal.Schema
 				}
 
 
-                if (data.bleh != sync.lastSentData.bleh) mask |= 0b00000000000000000000000000000001;
+                if (data.iii != sync.lastSentData.iii) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (data.fff != sync.lastSentData.fff) mask |= 0b00000000000000000000000000000010;
+
+
+
+                if (data.bbb != sync.lastSentData.bbb) mask |= 0b00000000000000000000000000000100;
+
+
+
+                if (!data.target.Equals(sync.lastSentData.target) ) mask |= 0b00000000000000000000000000001000;
+
+
+
+                if (!data.whatever_works.Equals(sync.lastSentData.whatever_works) ) mask |= 0b00000000000000000000000000010000;
+
+
+
+                if (!data.name2.Equals(sync.lastSentData.name2) ) mask |= 0b00000000000000000000000000100000;
 
 
 
