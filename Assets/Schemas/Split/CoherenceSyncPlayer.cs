@@ -25,7 +25,8 @@ namespace Coherence.Generated.FirstProject
 		
 		private Translation _Translation;
 		
-		private Rotation _Rotation;
+		
+		// skip Rotation
 		
 		
 		// skip LocalUser
@@ -138,7 +139,8 @@ namespace Coherence.Generated.FirstProject
 			
 			_Translation = GetComponent<Translation>();
 			
-			_Rotation = GetComponent<Rotation>();
+			
+			// skip Rotation
 			
 			
 			// skip LocalUser
@@ -255,7 +257,7 @@ namespace Coherence.Generated.FirstProject
 			
 			
 			
-			entityManager.AddComponent<Rotation>(entity);
+			// skip Rotation
 			
 			
 			
@@ -430,12 +432,7 @@ namespace Coherence.Generated.FirstProject
 				
 				
 				
-				entityManager.SetComponentData(entity, new Rotation()
-				{
-					
-					Value = _Rotation.Value,
-					
-				});
+				// skip Rotation
 				
 				
 				
@@ -602,11 +599,7 @@ namespace Coherence.Generated.FirstProject
 				
 				
 				
-
-				  
-				  _Rotation.Value = entityManager.GetComponentData<Rotation>(entity).Value; 
-				  
-
+				// skip Rotation
 				
 				
 				

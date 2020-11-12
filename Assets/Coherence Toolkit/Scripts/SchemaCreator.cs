@@ -6,6 +6,7 @@ namespace Coherence.MonoBridge
     using System.IO;
     using System.Collections.Generic;
     using System.Reflection;
+    using Newtonsoft.Json;
 
     public class SchemaCreator
     {
@@ -16,6 +17,7 @@ namespace Coherence.MonoBridge
             var temp = coherenceSync.gameObject.GetComponents(typeof(Component));
 
             SaveGatheredSchema(temp);
+            SaveJson(new CoherenceSync[] { coherenceSync });
         }
 
         public static void SaveGatheredSchema(Component[] components) {
@@ -104,34 +106,26 @@ namespace Coherence.Generated.FirstProject
 
         public static void SaveJson(CoherenceSync[] syncers)
         {
-            //var className = $"CoherenceSync{coherenceSync.name}";
-
             var jsonFilename = $"Gathered.json";
             var jsonFullPath = $"{OutDirectory}/{jsonFilename}";
 
             StreamWriter jsonWriter = new StreamWriter(jsonFullPath);
-            var jsonCode = "{}"; //CreateJson(syncers);
+            var jsonCode = CreateJson(syncers);
             jsonWriter.Write(jsonCode);
             jsonWriter.Close();
 
-            Debug.Log($"Saving schema to '{jsonFullPath}'.");
+            Debug.Log($"Saving json to '{jsonFullPath}'.");
         }
 
-        private static string CreateJson(IEnumerable<CoherenceSync> syncers)
+        private static string CreateJson(CoherenceSync[] syncers)
         {
+            var jsonData = new SyncedBehaviour[] {
+                new SyncedBehaviour("CoherenceSyncPlayer", new string[] {"ColorizeBehaviour", "WorldPosition"}),
+            };
+
             var writer = new StringWriter();
-
-            // foreach(var component in components)
-            // {
-            //     writer.Write($"component {component.name}\n");
-            //     foreach(var member in component.members)
-            //     {
-            //         writer.Write($"  {member.variableName} {member.typeName}\n");
-            //     }
-            //     writer.Write("\n");
-            // }
-
-            writer.Close();
+            var serializer = new JsonSerializer();
+            serializer.Serialize(writer, jsonData);
             return writer.ToString();
         }
     }
@@ -156,6 +150,18 @@ namespace Coherence.Generated.FirstProject
         public ComponentDefinition(string name) {
             this.name = name;
             this.members = new List<ComponentMemberDescription>();
+        }
+    }
+
+    // Used for json generation
+    public struct SyncedBehaviour
+    {
+        public string Name;
+        public string[] Components;
+
+        public SyncedBehaviour(string name, string[] components) {
+            this.Name = name;
+            this.Components = components;
         }
     }
 }
