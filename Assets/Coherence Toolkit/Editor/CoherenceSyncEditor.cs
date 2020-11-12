@@ -14,30 +14,6 @@ namespace Coherence.MonoBridge
     {
         private Texture2D logo;
 
-        private readonly Type[] supportedTypes = {
-            typeof(Vector3),
-            typeof(Quaternion),
-            typeof(float),
-            typeof(int),
-            typeof(uint),
-            typeof(string),
-            typeof(bool),
-            typeof(Boolean)
-        };
-
-        private bool IsTypeSupported(Type type)
-        {
-            foreach (Type ct in supportedTypes)
-            {
-                if (type.IsSubclassOf(ct) || type == ct)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private void OnEnable()
         {
             if (logo == null)
@@ -85,10 +61,10 @@ namespace Coherence.MonoBridge
             EditorGUILayout.Space(12f);
 
             EditorGUI.BeginDisabledGroup(false);
-            if((target as CoherenceSync).usingReflection) {
+            if(coherenceSync.usingReflection) {
                 if(GUILayout.Button("Bake network components"))
                 {
-                    Coherence.MonoBridge.Baker.SaveSyncBehaviour((target as CoherenceSync).name);
+                    Coherence.MonoBridge.SchemaCreator.SaveSyncBehaviour(coherenceSync);
                 }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             } else {
@@ -202,31 +178,6 @@ namespace Coherence.MonoBridge
             return obj.name;
         }
 
-        public Type GetUnderlyingType(MemberInfo member)
-        {
-            switch (member.MemberType)
-            {
-                case MemberTypes.Event:
-                    return ((EventInfo)member).EventHandlerType;
-                case MemberTypes.Field:
-                    return ((FieldInfo)member).FieldType;
-                case MemberTypes.Method:
-                    return ((MethodInfo)member).ReturnType;
-                case MemberTypes.Property:
-                    return ((PropertyInfo)member).PropertyType;
-                case MemberTypes.All:
-                case MemberTypes.Constructor:
-                case MemberTypes.Custom:
-                case MemberTypes.NestedType:
-                case MemberTypes.TypeInfo:
-                default:
-                    throw new ArgumentException
-                    (
-                        "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
-                    );
-            }
-        }
-
         private void CycleThroughPublicVariables()
         {
             CoherenceSync coherenceSync = (CoherenceSync)target;
@@ -249,42 +200,7 @@ namespace Coherence.MonoBridge
             {
                 Type compType = myComp.GetType();
 
-                if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Rigidbody)) || compType == typeof(Rigidbody))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Rigidbody2D)) || compType == typeof(Rigidbody2D))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider2D)) || compType == typeof(Collider2D))
+                if(SchemaCreator.SkipThisType(compType))
                 {
                     continue;
                 }
@@ -390,9 +306,9 @@ namespace Coherence.MonoBridge
                         continue;
                     }
 
-                    Type fieldType = GetUnderlyingType(variable);
+                    Type fieldType = SchemaCreator.GetUnderlyingType(variable);
 
-                    if (!IsTypeSupported(fieldType))
+                    if (!SchemaCreator.IsTypeSupported(fieldType))
                     {
                         continue;
                     }

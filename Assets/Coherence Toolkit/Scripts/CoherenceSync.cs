@@ -727,7 +727,7 @@
             SetListValue(enabledScriptTogglesKeys, enabledScriptTogglesValues, key, val);
         }
 
-        private string GetFieldType(string key)
+        public string GetFieldType(string key)
         {
             return GetListValue(fieldTypesKeys, fieldTypesValues, key).Replace("UnityEngine.", "");
         }
@@ -750,7 +750,7 @@
             SetListValue(scriptTogglesKeys, scriptTogglesValues, key, val);
         }
 
-        private Type GetComponentFromKey(string key)
+        public Type GetComponentFromKey(string key)
         {
             var i = key.IndexOf(KeyDelimiter, StringComparison.Ordinal);
             var cmp = key.Substring(0, i);
@@ -765,6 +765,26 @@
             var cmp = key.Substring(i + 1);
             return cmp;
         }
+
+        // public Dictionary<String, String> FieldLinks => DictionaryFromLists(fieldLinksKeys, fieldLinksValues);
+        // public Dictionary<String, bool> FieldToggles => DictionaryFromLists(fieldTogglesKeys, fieldTogglesValues);
+        // public Dictionary<String, String> FieldTypes => DictionaryFromLists(fieldTypesKeys, fieldTypesValues);
+
+        // private static Dictionary<A,B> DictionaryFromLists<A, B>(List<A> listA, List<B> listB)
+        // {
+        //     if(listA.Count != listB.Count)
+        //     {
+        //         throw new Exception("Can't create Dictionary, lists are different length");
+        //     }
+
+        //     var dict = new Dictionary<A, B>();
+
+        //     for(int i = 0; i < listA.Count; i++)
+        //     {
+        //         dict[listA[i]] = listB[i];
+        //     }
+        //     return dict;
+        // }
 
         #endregion
     }

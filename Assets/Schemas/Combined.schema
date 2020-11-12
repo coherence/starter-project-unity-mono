@@ -115,6 +115,11 @@ component GenericFieldString4
 # START OF BAKED SCHEMA
 
 component ColorizeBehaviour
-  bleh Int
+  iii Int
+  fff Float
+  bbb Bool
+  target Vector3
+  whatever_works Quaternion
+  name2 String64
 
 # END OF BAKED SCHEMA

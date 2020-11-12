@@ -1,3 +1,14 @@
 name Schema
 
 namespace Coherence.Generated.FirstProject
+
+
+
+component ColorizeBehaviour
+  iii Int
+  fff Float
+  bbb Bool
+  target Vector3
+  whatever_works Quaternion
+  name2 String64
+
