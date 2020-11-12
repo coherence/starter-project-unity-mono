@@ -1,0 +1,10 @@
+[
+  {
+    "Name": "CoherenceSyncPlayer",
+    "Components": [
+      "WorldPosition",
+      "ColorizeBehaviour",
+      "WorldOrientation"
+    ]
+  }
+]
