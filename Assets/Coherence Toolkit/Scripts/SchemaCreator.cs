@@ -116,30 +116,9 @@ namespace Coherence.MonoBridge
 
             }
 
-            // foreach(var x in coherenceSync.FieldLinks.Keys)
-            // {
-            //     var componentName = coherenceSync.GetComponentFromKey(x).ToString();
-
-            //     if(!componentDefinitions.ContainsKey(componentName)) {
-            //         componentDefinitions[componentName] = new ComponentDefinition(componentName.ToString());
-            //     }
-
-            //     var component = componentDefinitions[componentName];
-            //     component.members.Add(new ComponentMemberDescription());
-            // }
-
-
-            // new string[]{
-            //     "Translation",
-            //     "Rotation",
-            //     "SessionBased",
-            //     "Simulated"
-            // };
-
-
             var className = $"CoherenceSync{coherenceSync.name}";
 
-            var filename = $"Baked.gen.schema"; // TODO: Rename to Gathered
+            var filename = $"Gathered.schema";
             var outDirectory = $"{Application.dataPath}/Schemas";
             var outFilePath = $"{outDirectory}/{filename}";
 
@@ -166,7 +145,7 @@ namespace Coherence.Generated.FirstProject
 ";
 
             var writer = new StringWriter();
-            writer.Write(header);
+            //writer.Write(header); Not needed if we concat the schemas together
 
             foreach(var component in components)
             {
