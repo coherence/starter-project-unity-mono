@@ -189,10 +189,7 @@ namespace Coherence.MonoBridge
 
             bool anyChangesMade = false;
 
-            Type monoBehaviourType = typeof(MonoBehaviour);
-            const BindingFlags monoBindingFlags = BindingFlags.Public | BindingFlags.Instance;
-            MemberInfo[] monoMembers = monoBehaviourType.GetFields(monoBindingFlags).Cast<MemberInfo>()
-                .Concat(monoBehaviourType.GetProperties(monoBindingFlags)).ToArray();
+            MemberInfo[] monoMembers = TypeHelpers.MonoMembers;
 
             Component[] components = coherenceSync.gameObject.GetComponents(typeof(Component));
 
@@ -200,7 +197,7 @@ namespace Coherence.MonoBridge
             {
                 Type compType = myComp.GetType();
 
-                if(SchemaCreator.SkipThisType(compType))
+                if(TypeHelpers.SkipThisType(compType))
                 {
                     continue;
                 }
@@ -216,8 +213,6 @@ namespace Coherence.MonoBridge
                 }
 
                 EditorGUI.BeginDisabledGroup(!compTypeIncluded);
-
-                const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
                 if (compType.IsSubclassOf(typeof(Animator)) || compType == typeof(Animator))
                 {
@@ -275,10 +270,7 @@ namespace Coherence.MonoBridge
                     continue;
                 }
 
-
-                MemberInfo[] members = compType.GetFields(bindingFlags).Cast<MemberInfo>()
-                    .Concat(compType.GetProperties(bindingFlags)).ToArray();
-
+                var members = TypeHelpers.Members(compType);
 
                 foreach (MemberInfo variable in members)
                 {
@@ -306,9 +298,9 @@ namespace Coherence.MonoBridge
                         continue;
                     }
 
-                    Type fieldType = SchemaCreator.GetUnderlyingType(variable);
+                    Type fieldType = TypeHelpers.GetUnderlyingType(variable);
 
-                    if (!SchemaCreator.IsTypeSupported(fieldType))
+                    if (!TypeHelpers.IsTypeSupported(fieldType))
                     {
                         continue;
                     }

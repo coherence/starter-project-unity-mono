@@ -766,26 +766,6 @@
             return cmp;
         }
 
-        // public Dictionary<String, String> FieldLinks => DictionaryFromLists(fieldLinksKeys, fieldLinksValues);
-        // public Dictionary<String, bool> FieldToggles => DictionaryFromLists(fieldTogglesKeys, fieldTogglesValues);
-        // public Dictionary<String, String> FieldTypes => DictionaryFromLists(fieldTypesKeys, fieldTypesValues);
-
-        // private static Dictionary<A,B> DictionaryFromLists<A, B>(List<A> listA, List<B> listB)
-        // {
-        //     if(listA.Count != listB.Count)
-        //     {
-        //         throw new Exception("Can't create Dictionary, lists are different length");
-        //     }
-
-        //     var dict = new Dictionary<A, B>();
-
-        //     for(int i = 0; i < listA.Count; i++)
-        //     {
-        //         dict[listA[i]] = listB[i];
-        //     }
-        //     return dict;
-        // }
-
         #endregion
     }
 }

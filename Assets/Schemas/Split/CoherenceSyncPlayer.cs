@@ -28,37 +28,103 @@ namespace Coherence.Generated.FirstProject
 		private Rotation _Rotation;
 		
 		
+		// skip LocalUser
 		
 		
+		// skip WorldPositionQuery
 		
 		
+		// skip SessionBased
 		
 		
+		// skip GenericPrefabReference
 		
 		
+		// skip GenericScale
 		
 		
+		// skip GenericFieldInt0
 		
 		
+		// skip GenericFieldInt1
 		
 		
+		// skip GenericFieldInt2
 		
 		
+		// skip GenericFieldInt3
 		
 		
+		// skip GenericFieldInt4
 		
 		
+		// skip GenericFieldInt5
 		
 		
+		// skip GenericFieldInt6
 		
 		
+		// skip GenericFieldInt7
 		
 		
+		// skip GenericFieldInt8
 		
 		
+		// skip GenericFieldInt9
 		
 		
+		// skip GenericFieldFloat0
 		
+		
+		// skip GenericFieldFloat1
+		
+		
+		// skip GenericFieldFloat2
+		
+		
+		// skip GenericFieldFloat3
+		
+		
+		// skip GenericFieldFloat4
+		
+		
+		// skip GenericFieldFloat5
+		
+		
+		// skip GenericFieldFloat6
+		
+		
+		// skip GenericFieldFloat7
+		
+		
+		// skip GenericFieldFloat8
+		
+		
+		// skip GenericFieldFloat9
+		
+		
+		// skip GenericFieldVector0
+		
+		
+		// skip GenericFieldVector1
+		
+		
+		// skip GenericFieldVector2
+		
+		
+		// skip GenericFieldVector3
+		
+		
+		// skip GenericFieldString0
+		
+		
+		// skip GenericFieldString1
+		
+		
+		// skip GenericFieldString2
+		
+		
+		// skip GenericFieldString4
 		
 		private ColorizeBehaviour _ColorizeBehaviour;
 		
@@ -193,135 +259,135 @@ namespace Coherence.Generated.FirstProject
 			
 			
 			
-			// Won't add LocalUser -- it's not part of this Prefab/GameObject
+			// skip LocalUser
 			
 			
 			
-			// Won't add WorldPositionQuery -- it's not part of this Prefab/GameObject
+			// skip WorldPositionQuery
 			
 			
 			
-			// Won't add SessionBased -- it's not part of this Prefab/GameObject
+			// skip SessionBased
 			
 			
 			
-			// Won't add GenericPrefabReference -- it's not part of this Prefab/GameObject
+			// skip GenericPrefabReference
 			
 			
 			
-			// Won't add GenericScale -- it's not part of this Prefab/GameObject
+			// skip GenericScale
 			
 			
 			
-			// Won't add GenericFieldInt0 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt0
 			
 			
 			
-			// Won't add GenericFieldInt1 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt1
 			
 			
 			
-			// Won't add GenericFieldInt2 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt2
 			
 			
 			
-			// Won't add GenericFieldInt3 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt3
 			
 			
 			
-			// Won't add GenericFieldInt4 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt4
 			
 			
 			
-			// Won't add GenericFieldInt5 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt5
 			
 			
 			
-			// Won't add GenericFieldInt6 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt6
 			
 			
 			
-			// Won't add GenericFieldInt7 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt7
 			
 			
 			
-			// Won't add GenericFieldInt8 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt8
 			
 			
 			
-			// Won't add GenericFieldInt9 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldInt9
 			
 			
 			
-			// Won't add GenericFieldFloat0 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat0
 			
 			
 			
-			// Won't add GenericFieldFloat1 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat1
 			
 			
 			
-			// Won't add GenericFieldFloat2 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat2
 			
 			
 			
-			// Won't add GenericFieldFloat3 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat3
 			
 			
 			
-			// Won't add GenericFieldFloat4 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat4
 			
 			
 			
-			// Won't add GenericFieldFloat5 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat5
 			
 			
 			
-			// Won't add GenericFieldFloat6 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat6
 			
 			
 			
-			// Won't add GenericFieldFloat7 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat7
 			
 			
 			
-			// Won't add GenericFieldFloat8 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat8
 			
 			
 			
-			// Won't add GenericFieldFloat9 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldFloat9
 			
 			
 			
-			// Won't add GenericFieldVector0 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldVector0
 			
 			
 			
-			// Won't add GenericFieldVector1 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldVector1
 			
 			
 			
-			// Won't add GenericFieldVector2 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldVector2
 			
 			
 			
-			// Won't add GenericFieldVector3 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldVector3
 			
 			
 			
-			// Won't add GenericFieldString0 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldString0
 			
 			
 			
-			// Won't add GenericFieldString1 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldString1
 			
 			
 			
-			// Won't add GenericFieldString2 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldString2
 			
 			
 			
-			// Won't add GenericFieldString4 -- it's not part of this Prefab/GameObject
+			// skip GenericFieldString4
 			
 			
 			
@@ -373,135 +439,135 @@ namespace Coherence.Generated.FirstProject
 				
 				
 				
-				// skipping LocalUser
+				// skip LocalUser
 				
 				
 				
-				// skipping WorldPositionQuery
+				// skip WorldPositionQuery
 				
 				
 				
-				// skipping SessionBased
+				// skip SessionBased
 				
 				
 				
-				// skipping GenericPrefabReference
+				// skip GenericPrefabReference
 				
 				
 				
-				// skipping GenericScale
+				// skip GenericScale
 				
 				
 				
-				// skipping GenericFieldInt0
+				// skip GenericFieldInt0
 				
 				
 				
-				// skipping GenericFieldInt1
+				// skip GenericFieldInt1
 				
 				
 				
-				// skipping GenericFieldInt2
+				// skip GenericFieldInt2
 				
 				
 				
-				// skipping GenericFieldInt3
+				// skip GenericFieldInt3
 				
 				
 				
-				// skipping GenericFieldInt4
+				// skip GenericFieldInt4
 				
 				
 				
-				// skipping GenericFieldInt5
+				// skip GenericFieldInt5
 				
 				
 				
-				// skipping GenericFieldInt6
+				// skip GenericFieldInt6
 				
 				
 				
-				// skipping GenericFieldInt7
+				// skip GenericFieldInt7
 				
 				
 				
-				// skipping GenericFieldInt8
+				// skip GenericFieldInt8
 				
 				
 				
-				// skipping GenericFieldInt9
+				// skip GenericFieldInt9
 				
 				
 				
-				// skipping GenericFieldFloat0
+				// skip GenericFieldFloat0
 				
 				
 				
-				// skipping GenericFieldFloat1
+				// skip GenericFieldFloat1
 				
 				
 				
-				// skipping GenericFieldFloat2
+				// skip GenericFieldFloat2
 				
 				
 				
-				// skipping GenericFieldFloat3
+				// skip GenericFieldFloat3
 				
 				
 				
-				// skipping GenericFieldFloat4
+				// skip GenericFieldFloat4
 				
 				
 				
-				// skipping GenericFieldFloat5
+				// skip GenericFieldFloat5
 				
 				
 				
-				// skipping GenericFieldFloat6
+				// skip GenericFieldFloat6
 				
 				
 				
-				// skipping GenericFieldFloat7
+				// skip GenericFieldFloat7
 				
 				
 				
-				// skipping GenericFieldFloat8
+				// skip GenericFieldFloat8
 				
 				
 				
-				// skipping GenericFieldFloat9
+				// skip GenericFieldFloat9
 				
 				
 				
-				// skipping GenericFieldVector0
+				// skip GenericFieldVector0
 				
 				
 				
-				// skipping GenericFieldVector1
+				// skip GenericFieldVector1
 				
 				
 				
-				// skipping GenericFieldVector2
+				// skip GenericFieldVector2
 				
 				
 				
-				// skipping GenericFieldVector3
+				// skip GenericFieldVector3
 				
 				
 				
-				// skipping GenericFieldString0
+				// skip GenericFieldString0
 				
 				
 				
-				// skipping GenericFieldString1
+				// skip GenericFieldString1
 				
 				
 				
-				// skipping GenericFieldString2
+				// skip GenericFieldString2
 				
 				
 				
-				// skipping GenericFieldString4
+				// skip GenericFieldString4
 				
 				
 				
@@ -544,135 +610,135 @@ namespace Coherence.Generated.FirstProject
 				
 				
 				
-				// skipping LocalUser
+				// skip LocalUser
 				
 				
 				
-				// skipping WorldPositionQuery
+				// skip WorldPositionQuery
 				
 				
 				
-				// skipping SessionBased
+				// skip SessionBased
 				
 				
 				
-				// skipping GenericPrefabReference
+				// skip GenericPrefabReference
 				
 				
 				
-				// skipping GenericScale
+				// skip GenericScale
 				
 				
 				
-				// skipping GenericFieldInt0
+				// skip GenericFieldInt0
 				
 				
 				
-				// skipping GenericFieldInt1
+				// skip GenericFieldInt1
 				
 				
 				
-				// skipping GenericFieldInt2
+				// skip GenericFieldInt2
 				
 				
 				
-				// skipping GenericFieldInt3
+				// skip GenericFieldInt3
 				
 				
 				
-				// skipping GenericFieldInt4
+				// skip GenericFieldInt4
 				
 				
 				
-				// skipping GenericFieldInt5
+				// skip GenericFieldInt5
 				
 				
 				
-				// skipping GenericFieldInt6
+				// skip GenericFieldInt6
 				
 				
 				
-				// skipping GenericFieldInt7
+				// skip GenericFieldInt7
 				
 				
 				
-				// skipping GenericFieldInt8
+				// skip GenericFieldInt8
 				
 				
 				
-				// skipping GenericFieldInt9
+				// skip GenericFieldInt9
 				
 				
 				
-				// skipping GenericFieldFloat0
+				// skip GenericFieldFloat0
 				
 				
 				
-				// skipping GenericFieldFloat1
+				// skip GenericFieldFloat1
 				
 				
 				
-				// skipping GenericFieldFloat2
+				// skip GenericFieldFloat2
 				
 				
 				
-				// skipping GenericFieldFloat3
+				// skip GenericFieldFloat3
 				
 				
 				
-				// skipping GenericFieldFloat4
+				// skip GenericFieldFloat4
 				
 				
 				
-				// skipping GenericFieldFloat5
+				// skip GenericFieldFloat5
 				
 				
 				
-				// skipping GenericFieldFloat6
+				// skip GenericFieldFloat6
 				
 				
 				
-				// skipping GenericFieldFloat7
+				// skip GenericFieldFloat7
 				
 				
 				
-				// skipping GenericFieldFloat8
+				// skip GenericFieldFloat8
 				
 				
 				
-				// skipping GenericFieldFloat9
+				// skip GenericFieldFloat9
 				
 				
 				
-				// skipping GenericFieldVector0
+				// skip GenericFieldVector0
 				
 				
 				
-				// skipping GenericFieldVector1
+				// skip GenericFieldVector1
 				
 				
 				
-				// skipping GenericFieldVector2
+				// skip GenericFieldVector2
 				
 				
 				
-				// skipping GenericFieldVector3
+				// skip GenericFieldVector3
 				
 				
 				
-				// skipping GenericFieldString0
+				// skip GenericFieldString0
 				
 				
 				
-				// skipping GenericFieldString1
+				// skip GenericFieldString1
 				
 				
 				
-				// skipping GenericFieldString2
+				// skip GenericFieldString2
 				
 				
 				
-				// skipping GenericFieldString4
+				// skip GenericFieldString4
 				
 				
 				
