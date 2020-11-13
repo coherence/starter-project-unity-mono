@@ -31,8 +31,6 @@ namespace Coherence.MonoBridge
 
                 foreach (Object o in objs)
                 {
-                    //Debug.Log(thisObject.name);
-                    //Debug.Log(thisObject.GetType().Name);
                     var synced = o as CoherenceSync;
 
                     if(synced)
