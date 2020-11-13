@@ -68,7 +68,7 @@ namespace Coherence.MonoBridge
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
 
             StreamWriter schemaWriter = new StreamWriter(schemaFullPath);
-            var schemaCode = CreateSchema(componentDefinitions.Values);
+            var schemaCode = CreateSchema(componentDefinitions.Values, false);
             schemaWriter.Write(schemaCode);
             schemaWriter.Close();
 
@@ -77,7 +77,7 @@ namespace Coherence.MonoBridge
 #endif
         }
 
-        private static string CreateSchema(IEnumerable<ComponentDefinition> components)
+        private static string CreateSchema(IEnumerable<ComponentDefinition> components, bool writeHeader)
         {
             var header =
 @"name Schema
@@ -89,7 +89,10 @@ namespace Coherence.Generated.FirstProject
 ";
 
             var writer = new StringWriter();
-            //writer.Write(header); Not needed if we concat the schemas together
+
+            if(writeHeader) {
+                writer.Write(header);
+            }
 
             foreach(var component in components)
             {
@@ -203,6 +206,7 @@ namespace Coherence.Generated.FirstProject
     }
 
     // Used for json generation
+    // Note: The member names have some stuttering to make the json readable on its own
     public struct SyncedBehaviour
     {
         public string BehaviourName;
@@ -214,6 +218,8 @@ namespace Coherence.Generated.FirstProject
         }
     }
 
+    // Used for json generation
+    // Note: The member names have some stuttering to make the json readable on its own
     public struct SyncedComponent
     {
         public string ComponentName;

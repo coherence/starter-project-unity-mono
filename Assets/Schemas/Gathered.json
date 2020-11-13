@@ -3,17 +3,10 @@
     "BehaviourName": "CoherenceSyncPlayer",
     "Components": [
       {
-        "ComponentName": "Controller",
-        "Members": [
-          "moveSpeed"
-        ]
-      },
-      {
         "ComponentName": "ColorizeBehaviour",
         "Members": [
           "iii",
           "bbb",
-          "target",
           "whatever_works"
         ]
       }
