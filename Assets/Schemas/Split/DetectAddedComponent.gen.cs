@@ -336,10 +336,64 @@ namespace Coherence.Generated.Internal.Schema
 				});
 			}).WithStructuralChanges().Run();
 
+            Entities.WithAll<global::Coherence.Generated.FirstProject.NPCBehaviour, Simulated>().WithNone<NPCBehaviour_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new NPCBehaviour_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.FirstProject.RotationBehaviour, Simulated>().WithNone<RotationBehaviour_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new RotationBehaviour_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.FirstProject.ShowNameAndState, Simulated>().WithNone<ShowNameAndState_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new ShowNameAndState_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.FirstProject.PlayerBehaviour, Simulated>().WithNone<PlayerBehaviour_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new PlayerBehaviour_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.FirstProject.Bullet, Simulated>().WithNone<Bullet_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new Bullet_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
             Entities.WithAll<global::Coherence.Generated.FirstProject.ColorizeBehaviour, Simulated>().WithNone<ColorizeBehaviour_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new ColorizeBehaviour_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.FirstProject.Controller, Simulated>().WithNone<Controller_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new Controller_Sync 
 				{
 					howImportantAreYou = 600
 				});

@@ -573,6 +573,103 @@ namespace Coherence.Generated.Internal.Schema
 
 		
 		
+		public void Write(in NPCBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.movementSpeed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in RotationBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.rotationSpeed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in ShowNameAndState data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityFixedString64(data.PlayerName);
+					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteIntegerRange(data.TestInt, 15, -9999);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in PlayerBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.movementSpeed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in Bullet data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.speed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.lifetime);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
 		public void Write(in ColorizeBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
 	
@@ -624,6 +721,91 @@ namespace Coherence.Generated.Internal.Schema
 				
 					var v = coherenceToUnityConverters.FromUnityFixedString64(data.name2);
 					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in Controller data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityFixedString64(data.xAxis);
+					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityFixedString64(data.yAxis);
+					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.useTankControls);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.moveSpeed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.rotationSpeed);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.canJump);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.airborneSpeedModifier);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityfloat(data.jumpHeight);
+					bitstream.WriteFixedPoint(v, 24, 40000);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.useGun);
 				
 			}
 			propertyMask >>= 1;

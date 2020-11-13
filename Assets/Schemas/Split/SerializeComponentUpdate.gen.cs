@@ -721,6 +721,106 @@ namespace Coherence.Generated.Internal.Schema
         }
         
 
+        private void SerializeNPCBehaviour(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<NPCBehaviour>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<NPCBehaviour_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeRotationBehaviour(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<RotationBehaviour>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<RotationBehaviour_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeShowNameAndState(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<ShowNameAndState>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<ShowNameAndState_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializePlayerBehaviour(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<PlayerBehaviour>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<PlayerBehaviour_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeBullet(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<Bullet>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<Bullet_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
         private void SerializeColorizeBehaviour(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
@@ -730,6 +830,26 @@ namespace Coherence.Generated.Internal.Schema
 
             // Reset accumulated priority so the same component is not sent again next frame
             var syncData = EntityManager.GetComponentData<ColorizeBehaviour_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeController(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<Controller>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<Controller_Sync>(entity);
 
             syncData.accumulatedPriority = 0;
 
@@ -887,8 +1007,32 @@ namespace Coherence.Generated.Internal.Schema
                     SerializeGenericFieldString4(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
+                case TypeIds.InternalNPCBehaviour:
+                    SerializeNPCBehaviour(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalRotationBehaviour:
+                    SerializeRotationBehaviour(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalShowNameAndState:
+                    SerializeShowNameAndState(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalPlayerBehaviour:
+                    SerializePlayerBehaviour(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalBullet:
+                    SerializeBullet(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
                 case TypeIds.InternalColorizeBehaviour:
                     SerializeColorizeBehaviour(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalController:
+                    SerializeController(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
                 default:
@@ -1182,9 +1326,57 @@ namespace Coherence.Generated.Internal.Schema
                     break;
                 }
 
+                case TypeIds.InternalNPCBehaviour:
+                {
+                    var syncData = entityManager.GetComponentData<NPCBehaviour_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalRotationBehaviour:
+                {
+                    var syncData = entityManager.GetComponentData<RotationBehaviour_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalShowNameAndState:
+                {
+                    var syncData = entityManager.GetComponentData<ShowNameAndState_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalPlayerBehaviour:
+                {
+                    var syncData = entityManager.GetComponentData<PlayerBehaviour_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalBullet:
+                {
+                    var syncData = entityManager.GetComponentData<Bullet_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
                 case TypeIds.InternalColorizeBehaviour:
                 {
                     var syncData = entityManager.GetComponentData<ColorizeBehaviour_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalController:
+                {
+                    var syncData = entityManager.GetComponentData<Controller_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;

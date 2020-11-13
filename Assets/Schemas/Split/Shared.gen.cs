@@ -89,7 +89,19 @@ static class TypeIds
 
 	public const uint InternalGenericFieldString4 = 34;
 
-	public const uint InternalColorizeBehaviour = 35;
+	public const uint InternalNPCBehaviour = 35;
+
+	public const uint InternalRotationBehaviour = 36;
+
+	public const uint InternalShowNameAndState = 37;
+
+	public const uint InternalPlayerBehaviour = 38;
+
+	public const uint InternalBullet = 39;
+
+	public const uint InternalColorizeBehaviour = 40;
+
+	public const uint InternalController = 41;
 
 	public const uint InternalGenericCommand = 0;
 
@@ -169,7 +181,19 @@ enum TypeEnums
 
 	InternalGenericFieldString4 = 34,
 
-	InternalColorizeBehaviour = 35,
+	InternalNPCBehaviour = 35,
+
+	InternalRotationBehaviour = 36,
+
+	InternalShowNameAndState = 37,
+
+	InternalPlayerBehaviour = 38,
+
+	InternalBullet = 39,
+
+	InternalColorizeBehaviour = 40,
+
+	InternalController = 41,
 
 	InternalGenericCommand = 0,
 

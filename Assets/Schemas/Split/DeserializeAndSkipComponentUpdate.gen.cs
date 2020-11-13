@@ -234,9 +234,45 @@ namespace Coherence.Generated.Internal.Schema
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
+		private void DeserializeNPCBehaviour(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new NPCBehaviour();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeRotationBehaviour(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new RotationBehaviour();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeShowNameAndState(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new ShowNameAndState();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializePlayerBehaviour(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new PlayerBehaviour();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeBullet(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new Bullet();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
 		private void DeserializeColorizeBehaviour(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new ColorizeBehaviour();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeController(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new Controller();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -386,8 +422,32 @@ namespace Coherence.Generated.Internal.Schema
 					DeserializeGenericFieldString4(inProtocolStream);
                     break;
 
+                case TypeIds.InternalNPCBehaviour:
+					DeserializeNPCBehaviour(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalRotationBehaviour:
+					DeserializeRotationBehaviour(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalShowNameAndState:
+					DeserializeShowNameAndState(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalPlayerBehaviour:
+					DeserializePlayerBehaviour(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalBullet:
+					DeserializeBullet(inProtocolStream);
+                    break;
+
                 case TypeIds.InternalColorizeBehaviour:
 					DeserializeColorizeBehaviour(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalController:
+					DeserializeController(inProtocolStream);
                     break;
 
 			}

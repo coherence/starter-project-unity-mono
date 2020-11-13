@@ -285,6 +285,48 @@ namespace Coherence.Generated.FirstProject
 	
 	
 	
+	// EcsComponentData: InternalNPCBehaviourData
+	public struct NPCBehaviour : IComponentData
+	{
+		public float movementSpeed;
+	}
+	
+	
+	
+	// EcsComponentData: InternalRotationBehaviourData
+	public struct RotationBehaviour : IComponentData
+	{
+		public float rotationSpeed;
+	}
+	
+	
+	
+	// EcsComponentData: InternalShowNameAndStateData
+	public struct ShowNameAndState : IComponentData
+	{
+		public FixedString64 PlayerName;
+		public int TestInt;
+	}
+	
+	
+	
+	// EcsComponentData: InternalPlayerBehaviourData
+	public struct PlayerBehaviour : IComponentData
+	{
+		public float movementSpeed;
+	}
+	
+	
+	
+	// EcsComponentData: InternalBulletData
+	public struct Bullet : IComponentData
+	{
+		public float speed;
+		public float lifetime;
+	}
+	
+	
+	
 	// EcsComponentData: InternalColorizeBehaviourData
 	public struct ColorizeBehaviour : IComponentData
 	{
@@ -294,6 +336,22 @@ namespace Coherence.Generated.FirstProject
 		public float3 target;
 		public quaternion whatever_works;
 		public FixedString64 name2;
+	}
+	
+	
+	
+	// EcsComponentData: InternalControllerData
+	public struct Controller : IComponentData
+	{
+		public FixedString64 xAxis;
+		public FixedString64 yAxis;
+		public bool useTankControls;
+		public float moveSpeed;
+		public float rotationSpeed;
+		public bool canJump;
+		public float airborneSpeedModifier;
+		public float jumpHeight;
+		public bool useGun;
 	}
 	
 	

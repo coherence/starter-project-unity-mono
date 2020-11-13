@@ -1075,6 +1075,164 @@ namespace Coherence.Generated.Internal.Schema
 				}
 			}).ScheduleParallel();
 
+			Entities.ForEach((Entity entity, ref NPCBehaviour_Sync sync, in global::Coherence.Generated.FirstProject.NPCBehaviour data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (data.movementSpeed != sync.lastSentData.movementSpeed) mask |= 0b00000000000000000000000000000001;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalNPCBehaviour,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref RotationBehaviour_Sync sync, in global::Coherence.Generated.FirstProject.RotationBehaviour data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (data.rotationSpeed != sync.lastSentData.rotationSpeed) mask |= 0b00000000000000000000000000000001;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalRotationBehaviour,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref ShowNameAndState_Sync sync, in global::Coherence.Generated.FirstProject.ShowNameAndState data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (!data.PlayerName.Equals(sync.lastSentData.PlayerName) ) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (data.TestInt != sync.lastSentData.TestInt) mask |= 0b00000000000000000000000000000010;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalShowNameAndState,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref PlayerBehaviour_Sync sync, in global::Coherence.Generated.FirstProject.PlayerBehaviour data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (data.movementSpeed != sync.lastSentData.movementSpeed) mask |= 0b00000000000000000000000000000001;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalPlayerBehaviour,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref Bullet_Sync sync, in global::Coherence.Generated.FirstProject.Bullet data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (data.speed != sync.lastSentData.speed) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (data.lifetime != sync.lastSentData.lifetime) mask |= 0b00000000000000000000000000000010;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalBullet,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
 			Entities.ForEach((Entity entity, ref ColorizeBehaviour_Sync sync, in global::Coherence.Generated.FirstProject.ColorizeBehaviour data, in Simulated simulate) =>
 			{
 				uint mask = 0;
@@ -1115,6 +1273,68 @@ namespace Coherence.Generated.Internal.Schema
 					{
 						entity = entity,
 						componentType = TypeIds.InternalColorizeBehaviour,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref Controller_Sync sync, in global::Coherence.Generated.FirstProject.Controller data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (!data.xAxis.Equals(sync.lastSentData.xAxis) ) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (!data.yAxis.Equals(sync.lastSentData.yAxis) ) mask |= 0b00000000000000000000000000000010;
+
+
+
+                if (data.useTankControls != sync.lastSentData.useTankControls) mask |= 0b00000000000000000000000000000100;
+
+
+
+                if (data.moveSpeed != sync.lastSentData.moveSpeed) mask |= 0b00000000000000000000000000001000;
+
+
+
+                if (data.rotationSpeed != sync.lastSentData.rotationSpeed) mask |= 0b00000000000000000000000000010000;
+
+
+
+                if (data.canJump != sync.lastSentData.canJump) mask |= 0b00000000000000000000000000100000;
+
+
+
+                if (data.airborneSpeedModifier != sync.lastSentData.airborneSpeedModifier) mask |= 0b00000000000000000000000001000000;
+
+
+
+                if (data.jumpHeight != sync.lastSentData.jumpHeight) mask |= 0b00000000000000000000000010000000;
+
+
+
+                if (data.useGun != sync.lastSentData.useGun) mask |= 0b00000000000000000000000100000000;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalController,
 						mask = mask,
 						resendMask = sync.resendMask,
 						entityHasReceivedConstructor = simulate.hasReceivedConstructor,

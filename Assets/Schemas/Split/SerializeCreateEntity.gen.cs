@@ -282,10 +282,52 @@ namespace Coherence.Generated.Internal.Schema
 						break;
 					}
 					
+                    case TypeIds.InternalNPCBehaviour:
+					{
+						var data = entityManager.GetComponentData<NPCBehaviour>(entity);
+						messageSerializers.NPCBehaviour(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalRotationBehaviour:
+					{
+						var data = entityManager.GetComponentData<RotationBehaviour>(entity);
+						messageSerializers.RotationBehaviour(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalShowNameAndState:
+					{
+						var data = entityManager.GetComponentData<ShowNameAndState>(entity);
+						messageSerializers.ShowNameAndState(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalPlayerBehaviour:
+					{
+						var data = entityManager.GetComponentData<PlayerBehaviour>(entity);
+						messageSerializers.PlayerBehaviour(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalBullet:
+					{
+						var data = entityManager.GetComponentData<Bullet>(entity);
+						messageSerializers.Bullet(protocolOutStream, data);
+						break;
+					}
+					
                     case TypeIds.InternalColorizeBehaviour:
 					{
 						var data = entityManager.GetComponentData<ColorizeBehaviour>(entity);
 						messageSerializers.ColorizeBehaviour(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalController:
+					{
+						var data = entityManager.GetComponentData<Controller>(entity);
+						messageSerializers.Controller(protocolOutStream, data);
 						break;
 					}
 					

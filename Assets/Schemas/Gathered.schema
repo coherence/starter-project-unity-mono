@@ -1,3 +1,28 @@
+component NPCBehaviour
+  movementSpeed Float
+
+component RotationBehaviour
+  rotationSpeed Float
+
+component ShowNameAndState
+  PlayerName String64
+  TestInt Int
+
+component PlayerBehaviour
+  movementSpeed Float
+
+component Bullet
+  speed Float
+  lifetime Float
+
+component ColorizeBehaviour
+  iii Int
+  fff Float
+  bbb Bool
+  target Vector3
+  whatever_works Quaternion
+  name2 String64
+
 component Controller
   xAxis String64
   yAxis String64
@@ -8,14 +33,4 @@ component Controller
   airborneSpeedModifier Float
   jumpHeight Float
   useGun Bool
-
-component ColorizeBehaviour
-  iii Int
-  fff Float
-  bbb Bool
-  target Vector3
-  whatever_works Quaternion
-  name2 String64
-
-component Coherence.Generated.FirstProject.CoherenceSyncPlayer
 

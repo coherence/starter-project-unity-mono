@@ -392,12 +392,72 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalNPCBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<NPCBehaviour>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<NPCBehaviour>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalRotationBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<RotationBehaviour>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<RotationBehaviour>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalShowNameAndState:
+				{
+					var hasComponentData = entityManager.HasComponent<ShowNameAndState>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<ShowNameAndState>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalPlayerBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<PlayerBehaviour>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<PlayerBehaviour>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalBullet:
+				{
+					var hasComponentData = entityManager.HasComponent<Bullet>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<Bullet>(entity);
+					}
+					break;
+				}
+
 				case TypeIds.InternalColorizeBehaviour:
 				{
 					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour>(entity);
 					if (hasComponentData)
 					{
 						entityManager.RemoveComponent<ColorizeBehaviour>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalController:
+				{
+					var hasComponentData = entityManager.HasComponent<Controller>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<Controller>(entity);
 					}
 					break;
 				}
@@ -1124,12 +1184,108 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalNPCBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<NPCBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<NPCBehaviour_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalRotationBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<RotationBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<RotationBehaviour_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalShowNameAndState:
+				{
+					var hasComponentData = entityManager.HasComponent<ShowNameAndState_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<ShowNameAndState_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalPlayerBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<PlayerBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<PlayerBehaviour_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalBullet:
+				{
+					var hasComponentData = entityManager.HasComponent<Bullet_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Bullet_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
 				case TypeIds.InternalColorizeBehaviour:
 				{
 					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour_Sync>(entity);
 					if (hasComponentData)
 					{
 						var syncData = entityManager.GetComponentData<ColorizeBehaviour_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalController:
+				{
+					var hasComponentData = entityManager.HasComponent<Controller_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Controller_Sync>(entity);
 
 						syncData.resendMask |= fieldMask;
 						entityManager.SetComponentData(entity, syncData);
@@ -1737,6 +1893,86 @@ namespace Coherence.Generated.Internal.Schema
 					break;
 				}
 
+				case TypeIds.InternalNPCBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<NPCBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<NPCBehaviour_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} NPCBehaviour_Sync");
+					}
+					break;
+				}
+
+				case TypeIds.InternalRotationBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<RotationBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<RotationBehaviour_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} RotationBehaviour_Sync");
+					}
+					break;
+				}
+
+				case TypeIds.InternalShowNameAndState:
+				{
+					var hasComponentData = entityManager.HasComponent<ShowNameAndState_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<ShowNameAndState_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} ShowNameAndState_Sync");
+					}
+					break;
+				}
+
+				case TypeIds.InternalPlayerBehaviour:
+				{
+					var hasComponentData = entityManager.HasComponent<PlayerBehaviour_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<PlayerBehaviour_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} PlayerBehaviour_Sync");
+					}
+					break;
+				}
+
+				case TypeIds.InternalBullet:
+				{
+					var hasComponentData = entityManager.HasComponent<Bullet_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Bullet_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} Bullet_Sync");
+					}
+					break;
+				}
+
 				case TypeIds.InternalColorizeBehaviour:
 				{
 					var hasComponentData = entityManager.HasComponent<ColorizeBehaviour_Sync>(entity);
@@ -1749,6 +1985,22 @@ namespace Coherence.Generated.Internal.Schema
 					{
 						// Ownership may have been lost since the packet was sent
 						log.Trace($"Sync component has been destroyed: {entity} ColorizeBehaviour_Sync");
+					}
+					break;
+				}
+
+				case TypeIds.InternalController:
+				{
+					var hasComponentData = entityManager.HasComponent<Controller_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Controller_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						log.Trace($"Sync component has been destroyed: {entity} Controller_Sync");
 					}
 					break;
 				}
@@ -1952,9 +2204,39 @@ namespace Coherence.Generated.Internal.Schema
 				entityManager.RemoveComponent<GenericFieldString4_Sync>(entity);
 			}
 
+			if (entityManager.HasComponent<NPCBehaviour_Sync>(entity))
+			{
+				entityManager.RemoveComponent<NPCBehaviour_Sync>(entity);
+			}
+
+			if (entityManager.HasComponent<RotationBehaviour_Sync>(entity))
+			{
+				entityManager.RemoveComponent<RotationBehaviour_Sync>(entity);
+			}
+
+			if (entityManager.HasComponent<ShowNameAndState_Sync>(entity))
+			{
+				entityManager.RemoveComponent<ShowNameAndState_Sync>(entity);
+			}
+
+			if (entityManager.HasComponent<PlayerBehaviour_Sync>(entity))
+			{
+				entityManager.RemoveComponent<PlayerBehaviour_Sync>(entity);
+			}
+
+			if (entityManager.HasComponent<Bullet_Sync>(entity))
+			{
+				entityManager.RemoveComponent<Bullet_Sync>(entity);
+			}
+
 			if (entityManager.HasComponent<ColorizeBehaviour_Sync>(entity))
 			{
 				entityManager.RemoveComponent<ColorizeBehaviour_Sync>(entity);
+			}
+
+			if (entityManager.HasComponent<Controller_Sync>(entity))
+			{
+				entityManager.RemoveComponent<Controller_Sync>(entity);
 			}
 
 		}
@@ -1982,6 +2264,18 @@ namespace Coherence.Generated.Internal.Schema
 			{
 				entityManager.RemoveComponent<Sample_Rotation>(entity);
 			}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

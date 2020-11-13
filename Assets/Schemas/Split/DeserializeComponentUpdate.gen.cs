@@ -809,6 +809,116 @@ namespace Coherence.Generated.Internal.Schema
 
 		}
 
+        private void DeserializeNPCBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new NPCBehaviour();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<NPCBehaviour>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
+        private void DeserializeRotationBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new RotationBehaviour();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<RotationBehaviour>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
+        private void DeserializeShowNameAndState(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new ShowNameAndState();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<ShowNameAndState>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
+        private void DeserializePlayerBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new PlayerBehaviour();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<PlayerBehaviour>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
+        private void DeserializeBullet(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new Bullet();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<Bullet>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
         private void DeserializeColorizeBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
         {
 
@@ -825,6 +935,28 @@ namespace Coherence.Generated.Internal.Schema
     
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<ColorizeBehaviour>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
+
+		}
+
+        private void DeserializeController(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new Controller();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<Controller>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
     
@@ -986,8 +1118,32 @@ namespace Coherence.Generated.Internal.Schema
 				DeserializeGenericFieldString4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 				
+			case TypeIds.InternalNPCBehaviour:
+				DeserializeNPCBehaviour(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalRotationBehaviour:
+				DeserializeRotationBehaviour(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalShowNameAndState:
+				DeserializeShowNameAndState(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalPlayerBehaviour:
+				DeserializePlayerBehaviour(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalBullet:
+				DeserializeBullet(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
 			case TypeIds.InternalColorizeBehaviour:
 				DeserializeColorizeBehaviour(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
+			case TypeIds.InternalController:
+				DeserializeController(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 				
 
@@ -1545,6 +1701,81 @@ namespace Coherence.Generated.Internal.Schema
                     break;
 				}
 
+				case TypeIds.InternalNPCBehaviour:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<NPCBehaviour>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<NPCBehaviour_Sync>(entity) && entityManager.GetComponentData<NPCBehaviour_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new NPCBehaviour());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalRotationBehaviour:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<RotationBehaviour>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<RotationBehaviour_Sync>(entity) && entityManager.GetComponentData<RotationBehaviour_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new RotationBehaviour());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalShowNameAndState:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<ShowNameAndState>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<ShowNameAndState_Sync>(entity) && entityManager.GetComponentData<ShowNameAndState_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new ShowNameAndState());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalPlayerBehaviour:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<PlayerBehaviour>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<PlayerBehaviour_Sync>(entity) && entityManager.GetComponentData<PlayerBehaviour_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new PlayerBehaviour());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalBullet:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<Bullet>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<Bullet_Sync>(entity) && entityManager.GetComponentData<Bullet_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new Bullet());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
 				case TypeIds.InternalColorizeBehaviour:
                 {
                     var justCreated = false;
@@ -1553,6 +1784,21 @@ namespace Coherence.Generated.Internal.Schema
                     if (!hasComponentData && !componentHasBeenRemoved)
                     {
                         entityManager.AddComponentData(entity, new ColorizeBehaviour());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated, log);
+                    break;
+				}
+
+				case TypeIds.InternalController:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<Controller>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<Controller_Sync>(entity) && entityManager.GetComponentData<Controller_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new Controller());
                         justCreated = true;
                     }
 

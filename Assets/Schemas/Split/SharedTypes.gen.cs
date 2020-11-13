@@ -11,7 +11,7 @@ namespace Coherence.Generated.FirstProject
 
 public static class Constants
 {
-	public const uint SchemaHash = 0xEF78F08B;
+	public const uint SchemaHash = 0x9FD675AD;
 }
 		
 

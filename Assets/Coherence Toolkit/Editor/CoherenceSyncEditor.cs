@@ -64,7 +64,7 @@ namespace Coherence.MonoBridge
             if(coherenceSync.usingReflection) {
                 if(GUILayout.Button("Bake network components"))
                 {
-                    Coherence.MonoBridge.SchemaCreator.SaveSyncBehaviour(coherenceSync);
+                    Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
                 }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             } else {

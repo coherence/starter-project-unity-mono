@@ -413,6 +413,61 @@ namespace Coherence.Generated.FirstProject
 		
 			}
 		
+            if(entityManager.HasComponent<NPCBehaviour>(source))
+			{
+		        // NPCBehaviour has fields, will copy it.			
+                if(!entityManager.HasComponent<NPCBehaviour>(destination)) {
+                    entityManager.AddComponentData<NPCBehaviour>(destination, new NPCBehaviour());
+                }
+				var data = entityManager.GetComponentData<NPCBehaviour>(source);
+				entityManager.SetComponentData<NPCBehaviour>(destination, data);
+		
+			}
+		
+            if(entityManager.HasComponent<RotationBehaviour>(source))
+			{
+		        // RotationBehaviour has fields, will copy it.			
+                if(!entityManager.HasComponent<RotationBehaviour>(destination)) {
+                    entityManager.AddComponentData<RotationBehaviour>(destination, new RotationBehaviour());
+                }
+				var data = entityManager.GetComponentData<RotationBehaviour>(source);
+				entityManager.SetComponentData<RotationBehaviour>(destination, data);
+		
+			}
+		
+            if(entityManager.HasComponent<ShowNameAndState>(source))
+			{
+		        // ShowNameAndState has fields, will copy it.			
+                if(!entityManager.HasComponent<ShowNameAndState>(destination)) {
+                    entityManager.AddComponentData<ShowNameAndState>(destination, new ShowNameAndState());
+                }
+				var data = entityManager.GetComponentData<ShowNameAndState>(source);
+				entityManager.SetComponentData<ShowNameAndState>(destination, data);
+		
+			}
+		
+            if(entityManager.HasComponent<PlayerBehaviour>(source))
+			{
+		        // PlayerBehaviour has fields, will copy it.			
+                if(!entityManager.HasComponent<PlayerBehaviour>(destination)) {
+                    entityManager.AddComponentData<PlayerBehaviour>(destination, new PlayerBehaviour());
+                }
+				var data = entityManager.GetComponentData<PlayerBehaviour>(source);
+				entityManager.SetComponentData<PlayerBehaviour>(destination, data);
+		
+			}
+		
+            if(entityManager.HasComponent<Bullet>(source))
+			{
+		        // Bullet has fields, will copy it.			
+                if(!entityManager.HasComponent<Bullet>(destination)) {
+                    entityManager.AddComponentData<Bullet>(destination, new Bullet());
+                }
+				var data = entityManager.GetComponentData<Bullet>(source);
+				entityManager.SetComponentData<Bullet>(destination, data);
+		
+			}
+		
             if(entityManager.HasComponent<ColorizeBehaviour>(source))
 			{
 		        // ColorizeBehaviour has fields, will copy it.			
@@ -421,6 +476,17 @@ namespace Coherence.Generated.FirstProject
                 }
 				var data = entityManager.GetComponentData<ColorizeBehaviour>(source);
 				entityManager.SetComponentData<ColorizeBehaviour>(destination, data);
+		
+			}
+		
+            if(entityManager.HasComponent<Controller>(source))
+			{
+		        // Controller has fields, will copy it.			
+                if(!entityManager.HasComponent<Controller>(destination)) {
+                    entityManager.AddComponentData<Controller>(destination, new Controller());
+                }
+				var data = entityManager.GetComponentData<Controller>(source);
+				entityManager.SetComponentData<Controller>(destination, data);
 		
 			}
 		

@@ -363,6 +363,65 @@ public class MessageDeserializers
      
 	}
 
+	public void NPCBehaviour(IInBitStream bitstream, ref NPCBehaviour data)
+	{
+
+			
+				var movementSpeed = bitstream.ReadFixedPoint(24, 40000);
+				data.movementSpeed = coherenceToUnityConverters.ToUnityfloat(movementSpeed);
+			
+     
+	}
+
+	public void RotationBehaviour(IInBitStream bitstream, ref RotationBehaviour data)
+	{
+
+			
+				var rotationSpeed = bitstream.ReadFixedPoint(24, 40000);
+				data.rotationSpeed = coherenceToUnityConverters.ToUnityfloat(rotationSpeed);
+			
+     
+	}
+
+	public void ShowNameAndState(IInBitStream bitstream, ref ShowNameAndState data)
+	{
+
+			
+				var PlayerName = bitstream.ReadShortString();
+				data.PlayerName = coherenceToUnityConverters.ToUnityFixedString64(PlayerName);
+			
+
+			
+				data.TestInt =  bitstream.ReadIntegerRange(15, -9999);
+			
+     
+	}
+
+	public void PlayerBehaviour(IInBitStream bitstream, ref PlayerBehaviour data)
+	{
+
+			
+				var movementSpeed = bitstream.ReadFixedPoint(24, 40000);
+				data.movementSpeed = coherenceToUnityConverters.ToUnityfloat(movementSpeed);
+			
+     
+	}
+
+	public void Bullet(IInBitStream bitstream, ref Bullet data)
+	{
+
+			
+				var speed = bitstream.ReadFixedPoint(24, 40000);
+				data.speed = coherenceToUnityConverters.ToUnityfloat(speed);
+			
+
+			
+				var lifetime = bitstream.ReadFixedPoint(24, 40000);
+				data.lifetime = coherenceToUnityConverters.ToUnityfloat(lifetime);
+			
+     
+	}
+
 	public void ColorizeBehaviour(IInBitStream bitstream, ref ColorizeBehaviour data)
 	{
 
@@ -392,6 +451,53 @@ public class MessageDeserializers
 			
 				var name2 = bitstream.ReadShortString();
 				data.name2 = coherenceToUnityConverters.ToUnityFixedString64(name2);
+			
+     
+	}
+
+	public void Controller(IInBitStream bitstream, ref Controller data)
+	{
+
+			
+				var xAxis = bitstream.ReadShortString();
+				data.xAxis = coherenceToUnityConverters.ToUnityFixedString64(xAxis);
+			
+
+			
+				var yAxis = bitstream.ReadShortString();
+				data.yAxis = coherenceToUnityConverters.ToUnityFixedString64(yAxis);
+			
+
+			
+				data.useTankControls =  bitstream.ReadBool();
+			
+
+			
+				var moveSpeed = bitstream.ReadFixedPoint(24, 40000);
+				data.moveSpeed = coherenceToUnityConverters.ToUnityfloat(moveSpeed);
+			
+
+			
+				var rotationSpeed = bitstream.ReadFixedPoint(24, 40000);
+				data.rotationSpeed = coherenceToUnityConverters.ToUnityfloat(rotationSpeed);
+			
+
+			
+				data.canJump =  bitstream.ReadBool();
+			
+
+			
+				var airborneSpeedModifier = bitstream.ReadFixedPoint(24, 40000);
+				data.airborneSpeedModifier = coherenceToUnityConverters.ToUnityfloat(airborneSpeedModifier);
+			
+
+			
+				var jumpHeight = bitstream.ReadFixedPoint(24, 40000);
+				data.jumpHeight = coherenceToUnityConverters.ToUnityfloat(jumpHeight);
+			
+
+			
+				data.useGun =  bitstream.ReadBool();
 			
      
 	}

@@ -468,9 +468,87 @@ namespace Coherence.Generated.Internal.Schema
     }
 
 
+    public struct NPCBehaviour_Sync : IComponentData
+    {
+        public NPCBehaviour lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct RotationBehaviour_Sync : IComponentData
+    {
+        public RotationBehaviour lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct ShowNameAndState_Sync : IComponentData
+    {
+        public ShowNameAndState lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct PlayerBehaviour_Sync : IComponentData
+    {
+        public PlayerBehaviour lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct Bullet_Sync : IComponentData
+    {
+        public Bullet lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
     public struct ColorizeBehaviour_Sync : IComponentData
     {
         public ColorizeBehaviour lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct Controller_Sync : IComponentData
+    {
+        public Controller lastSentData;
         public uint resendMask;
         public uint howImportantAreYou;
         public uint accumulatedPriority;

@@ -762,6 +762,111 @@ namespace Coherence.Generated.Internal.Schema
                 });
             }).ScheduleParallel();
 
+			Entities.WithNone<global::Coherence.Generated.FirstProject.NPCBehaviour>().ForEach((Entity entity, ref NPCBehaviour_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalNPCBehaviour,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.FirstProject.RotationBehaviour>().ForEach((Entity entity, ref RotationBehaviour_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalRotationBehaviour,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.FirstProject.ShowNameAndState>().ForEach((Entity entity, ref ShowNameAndState_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalShowNameAndState,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.FirstProject.PlayerBehaviour>().ForEach((Entity entity, ref PlayerBehaviour_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalPlayerBehaviour,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.FirstProject.Bullet>().ForEach((Entity entity, ref Bullet_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalBullet,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
 			Entities.WithNone<global::Coherence.Generated.FirstProject.ColorizeBehaviour>().ForEach((Entity entity, ref ColorizeBehaviour_Sync sync, in Simulated sim) =>
             {
                 if (sync.deleteHasBeenSerialized)
@@ -778,6 +883,27 @@ namespace Coherence.Generated.Internal.Schema
                 {
                     entity = entity,
                     componentType = TypeIds.InternalColorizeBehaviour,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.FirstProject.Controller>().ForEach((Entity entity, ref Controller_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalController,
                     mask = 0,
                     resendMask = 0,
                 });
