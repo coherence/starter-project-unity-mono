@@ -1,10 +1,22 @@
 [
   {
-    "Name": "CoherenceSyncPlayer",
+    "BehaviourName": "CoherenceSyncPlayer",
     "Components": [
-      "Controller",
-      "ColorizeBehaviour",
-      "Coherence.Generated.FirstProject.CoherenceSyncPlayer"
+      {
+        "ComponentName": "Controller",
+        "Members": [
+          "moveSpeed"
+        ]
+      },
+      {
+        "ComponentName": "ColorizeBehaviour",
+        "Members": [
+          "iii",
+          "bbb",
+          "target",
+          "whatever_works"
+        ]
+      }
     ]
   }
 ]
