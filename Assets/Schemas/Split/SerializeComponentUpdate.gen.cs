@@ -824,16 +824,10 @@ namespace Coherence.Generated.Internal.Schema
         private void SerializeColorizeBehaviour(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
-            // Write component changes to output stream
-            var componentData = EntityManager.GetComponentData<ColorizeBehaviour>(entity);
-            unityWriters.Write(componentData, mask, protocolOutStream);
-
             // Reset accumulated priority so the same component is not sent again next frame
             var syncData = EntityManager.GetComponentData<ColorizeBehaviour_Sync>(entity);
 
             syncData.accumulatedPriority = 0;
-
-            syncData.lastSentData = componentData;
 
             syncData.hasBeenSerialized = true;
             syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask

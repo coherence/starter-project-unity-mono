@@ -425,34 +425,6 @@ public class MessageSerializers
 	public void ColorizeBehaviour(IOutBitStream bitstream, ColorizeBehaviour data)
 	{
 
-			
-				bitstream.WriteIntegerRange(data.iii, 15, -9999);
-			
-
-			
-				var converted_fff = coherenceToUnityConverters.FromUnityfloat(data.fff);
-				bitstream.WriteFixedPoint(converted_fff, 24, 40000);
-			
-
-			
-				bitstream.WriteBool(data.bbb);
-			
-
-			
-				var converted_target = coherenceToUnityConverters.FromUnityfloat3(data.target);
-				bitstream.WriteVector3f(converted_target, 24, 2400);
-			
-
-			
-				var converted_whatever_works = coherenceToUnityConverters.FromUnityquaternion(data.whatever_works);
-				bitstream.WriteUnitRotation(converted_whatever_works);
-			
-
-			
-				var converted_name2 = coherenceToUnityConverters.FromUnityFixedString64(data.name2);
-				bitstream.WriteShortString(converted_name2);
-			
-
 	}
 
 	public void Controller(IOutBitStream bitstream, Controller data)

@@ -3,6 +3,18 @@
     "BehaviourName": "CoherenceSyncMonoNPC_Demo",
     "Components": [
       {
+        "ComponentName": "WorldPosition",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
+        "ComponentName": "Rotation",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
         "ComponentName": "ShowNameAndState",
         "Members": [
           "PlayerName",
@@ -15,6 +27,18 @@
     "BehaviourName": "CoherenceSyncMonoPlayer_Demo",
     "Components": [
       {
+        "ComponentName": "WorldPosition",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
+        "ComponentName": "Rotation",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
         "ComponentName": "ShowNameAndState",
         "Members": [
           "PlayerName",
@@ -25,10 +49,36 @@
   },
   {
     "BehaviourName": "CoherenceSyncBullet",
-    "Components": []
+    "Components": [
+      {
+        "ComponentName": "WorldPosition",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
+        "ComponentName": "Rotation",
+        "Members": [
+          "Value"
+        ]
+      }
+    ]
   },
   {
     "BehaviourName": "CoherenceSyncPlayer",
-    "Components": []
+    "Components": [
+      {
+        "ComponentName": "WorldPosition",
+        "Members": [
+          "Value"
+        ]
+      },
+      {
+        "ComponentName": "Rotation",
+        "Members": [
+          "Value"
+        ]
+      }
+    ]
   }
 ]

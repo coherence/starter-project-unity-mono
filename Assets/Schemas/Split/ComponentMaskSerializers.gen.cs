@@ -673,58 +673,6 @@ namespace Coherence.Generated.Internal.Schema
 		public void Write(in ColorizeBehaviour data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
 	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					bitstream.WriteIntegerRange(data.iii, 15, -9999);
-				
-			}
-			propertyMask >>= 1;
-	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					var v = coherenceToUnityConverters.FromUnityfloat(data.fff);
-					bitstream.WriteFixedPoint(v, 24, 40000);
-				
-			}
-			propertyMask >>= 1;
-	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					bitstream.WriteBool(data.bbb);
-				
-			}
-			propertyMask >>= 1;
-	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					var v = coherenceToUnityConverters.FromUnityfloat3(data.target);
-					bitstream.WriteVector3f(v, 24, 2400);
-				
-			}
-			propertyMask >>= 1;
-	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					var v = coherenceToUnityConverters.FromUnityquaternion(data.whatever_works);
-					bitstream.WriteUnitRotation(v);
-				
-			}
-			propertyMask >>= 1;
-	
-			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
-			{
-				
-					var v = coherenceToUnityConverters.FromUnityFixedString64(data.name2);
-					bitstream.WriteShortString(v);
-				
-			}
-			propertyMask >>= 1;
-	
 	     }
 
 		

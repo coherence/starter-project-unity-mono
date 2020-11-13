@@ -922,22 +922,11 @@ namespace Coherence.Generated.Internal.Schema
         private void DeserializeColorizeBehaviour(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
         {
 
-            // If we own the entity, don't overwrite with downstream data from server
-            // TODO: Server should never send downstream to the simulating client
-            if (componentOwnership)
-	        {
-	            // Read and discard data (the stream must always be read) 
-	            var temp = new ColorizeBehaviour();
-				unityReaders.Read(ref temp, protocolStream);
-				return;
-            }
-            
-    
-			// Overwrite components that don't use interpolation
-			var componentData = entityManager.GetComponentData<ColorizeBehaviour>(entity);
-			unityReaders.Read(ref componentData, protocolStream);
-			entityManager.SetComponentData(entity, componentData);
-    
+			// No need to read empty components, just ensure that it's there
+            if (!entityManager.HasComponent<ColorizeBehaviour>(entity))
+		    {
+				entityManager.AddComponent<ColorizeBehaviour>(entity);
+			}
 
 		}
 

@@ -314,6 +314,7 @@ namespace Coherence.MonoBridge
 
                         EditorGUI.BeginChangeCheck();
                         bool varIncluded = EditorGUILayout.ToggleLeft($"{variable.Name} [{fieldType.Name}]", prevVarIncluded ?? false);
+
                         if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;

@@ -424,34 +424,6 @@ public class MessageDeserializers
 
 	public void ColorizeBehaviour(IInBitStream bitstream, ref ColorizeBehaviour data)
 	{
-
-			
-				data.iii =  bitstream.ReadIntegerRange(15, -9999);
-			
-
-			
-				var fff = bitstream.ReadFixedPoint(24, 40000);
-				data.fff = coherenceToUnityConverters.ToUnityfloat(fff);
-			
-
-			
-				data.bbb =  bitstream.ReadBool();
-			
-
-			
-				var target = bitstream.ReadVector3f(24, 2400);
-				data.target = coherenceToUnityConverters.ToUnityfloat3(target);
-			
-
-			
-				var whatever_works = bitstream.ReadUnitRotation();
-				data.whatever_works = coherenceToUnityConverters.ToUnityquaternion(whatever_works);
-			
-
-			
-				var name2 = bitstream.ReadShortString();
-				data.name2 = coherenceToUnityConverters.ToUnityFixedString64(name2);
-			
      
 	}
 

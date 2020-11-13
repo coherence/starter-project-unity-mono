@@ -330,12 +330,6 @@ namespace Coherence.Generated.FirstProject
 	// EcsComponentData: InternalColorizeBehaviourData
 	public struct ColorizeBehaviour : IComponentData
 	{
-		public int iii;
-		public float fff;
-		public bool bbb;
-		public float3 target;
-		public quaternion whatever_works;
-		public FixedString64 name2;
 	}
 	
 	

@@ -185,12 +185,55 @@ namespace Coherence.Generated.FirstProject
                     var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
 
                     if(TypeHelpers.SkipThisType(componentType) ||
-                       !componentToggleOn ||
-                       componentType == typeof(Transform))
+                       !componentToggleOn)
                     {
                         continue;
                     }
 
+                    var componentName = componentType.ToString();
+
+                    // Special cases
+                    if(componentName == "UnityEngine.Transform")
+                    {
+                        // TODO: Remove duplication here!
+
+                        var translationKey = componentTypeString + CoherenceSync.KeyDelimiter + "position";
+                        var translationToggleOn = coherenceSync.GetFieldToggle(translationKey);
+
+                        if(translationToggleOn == null) {
+                            Debug.Log($"No translationKey named {translationKey}");
+                        }
+                        else if(translationToggleOn.Value) {
+                            var translationComponent = new SyncedComponent("WorldPosition", new string[] {"Value"});
+                            syncTheseComponents.Add(translationComponent);
+                        }
+
+                        var rotationKey = componentTypeString + CoherenceSync.KeyDelimiter + "rotation";
+                        var rotationToggleOn = coherenceSync.GetFieldToggle(rotationKey);
+
+                        if(rotationToggleOn == null) {
+                            Debug.Log($"No rotationKey named {rotationKey}");
+                        }
+                        else if(rotationToggleOn.Value) {
+                            var rotationComponent = new SyncedComponent("Rotation", new string[] {"Value"});
+                            syncTheseComponents.Add(rotationComponent);
+                        }
+
+                        var scaleKey = componentTypeString + CoherenceSync.KeyDelimiter + "localScale";
+                        var scaleToggleOn = coherenceSync.GetFieldToggle(scaleKey);
+
+                        if(scaleToggleOn == null) {
+                            Debug.Log($"No scaleKey named {scaleKey} on {coherenceSync.name}");
+                        }
+                        else if(scaleToggleOn.Value) {
+                            var scaleComponent = new SyncedComponent("Scale", new string[] {"Value"});
+                            syncTheseComponents.Add(scaleComponent);
+                        }
+
+                        continue;
+                    }
+
+                    // Normal components
                     var members = TypeHelpers.Members(componentType);
                     var syncTheseMembers = new List<string>();
 
@@ -210,7 +253,6 @@ namespace Coherence.Generated.FirstProject
                         syncTheseMembers.Add(memberInfo.Name);
                     }
 
-                    var componentName = componentType.ToString();
                     var syncedComponent = new SyncedComponent(componentName, syncTheseMembers.ToArray());
                     syncTheseComponents.Add(syncedComponent);
                 }

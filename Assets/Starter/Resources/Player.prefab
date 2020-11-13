@@ -145,7 +145,6 @@ MonoBehaviour:
   renderers:
   - {fileID: 1549939487688007365}
   - {fileID: 3188349959210464849}
-  bleh: 0
 --- !u!114 &7801017591147193571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,10 +176,20 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
   fieldLinksValues:
   - GenericFieldVector0
   - GenericFieldQuaternion0
   - GenericFieldVector1
+  - GenericFieldFloat0
+  - GenericFieldInt0
+  - GenericFieldString0
+  - GenericFieldInt1
+  - GenericFieldFloat1
   fieldTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -188,7 +197,12 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
-  fieldTogglesValues: 010100
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
+  fieldTogglesValues: 0101000100010101
   fieldTypesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -196,21 +210,34 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
   fieldTypesValues:
-  - UnityEngine.Vector3
-  - UnityEngine.Quaternion
   - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
+  - UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.Boolean
+  - System.Single
+  genericFieldCounter_Float: 2
+  genericFieldCounter_Int: 2
   genericFieldCounter_Quaternion: 1
-  genericFieldCounter_String: 0
+  genericFieldCounter_String: 1
   genericFieldCounter_Vector: 2
   remoteVersionPrefabName: Player
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  scriptTogglesValues: 01
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  scriptTogglesValues: 0100
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!1 &8907122464205653916
