@@ -46,7 +46,6 @@ namespace Coherence.MonoBridge
             return gathered.ToArray();
         }
 
-        // TODO: We need to pass in a LIST of sync behaviours that we've gathered here!
         private static void SaveSyncBehaviours(CoherenceSync[] coherenceSyncBehaviours)
         {
             var setOfComponents = new HashSet<Component>();
@@ -71,6 +70,8 @@ namespace Coherence.MonoBridge
             {
                 var componentType = component.GetType();
                 var componentTypeString = componentType.AssemblyQualifiedName;
+
+                // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
                 //var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
 
                 if(TypeHelpers.SkipThisType(componentType) ||
@@ -90,6 +91,8 @@ namespace Coherence.MonoBridge
                 {
                     var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
                     var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
+
+                    // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
                     //var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
 
                     if (!TypeHelpers.IsTypeSupported(fieldType) ||
