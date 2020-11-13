@@ -28,29 +28,6 @@
     "Components": []
   },
   {
-    "BehaviourName": "CoherenceSyncPlayer_1",
-    "Components": [
-      {
-        "ComponentName": "ColorizeBehaviour",
-        "Members": [
-          "fff",
-          "bbb"
-        ]
-      }
-    ]
-  },
-  {
-    "BehaviourName": "CoherenceSyncPlayer_2",
-    "Components": [
-      {
-        "ComponentName": "ColorizeBehaviour",
-        "Members": [
-          "iii"
-        ]
-      }
-    ]
-  },
-  {
     "BehaviourName": "CoherenceSyncPlayer",
     "Components": []
   }
