@@ -12,6 +12,16 @@ namespace Coherence.MonoBridge
     {
         static string OutDirectory => $"{Application.dataPath}/Schemas";
 
+        static Dictionary<string, SpecialCase> specialCases = new Dictionary<string, SpecialCase>()
+        {
+            {"UnityEngine.Transform",
+             new SpecialCase(new List<(string, string, string[])> {
+                                 ("position", "WorldPosition", new string[] {"Value"}),
+                                 ("rotation", "WorldOrientation", new string[] {"Value"}),
+                                 ("localScale", "NEED_A_TYPE_HERE", new string[] {"Value"}),
+                             })}
+        };
+
         public static void GatherSyncBehavioursAndEmit()
         {
             var coherenceSyncBehaviours = GatherSyncBehaviours();
@@ -85,9 +95,9 @@ namespace Coherence.MonoBridge
 
                 componentDefinitions[componentName] = componentDefinition;
 
-                var members = TypeHelpers.Members(componentType);
+                var mappings = TypeHelpers.Members(componentType);
 
-                foreach (var memberInfo in members)
+                foreach (var memberInfo in mappings)
                 {
                     var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
                     var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
@@ -104,7 +114,7 @@ namespace Coherence.MonoBridge
                     var memberName = memberInfo.Name;
                     var memberType = TypeHelpers.ToSchemaType(fieldType);
                     var member = new ComponentMemberDescription(memberName, memberType);
-                    componentDefinition.members.Add(member);
+                    componentDefinition.mappings.Add(member);
                 }
             }
 
@@ -142,7 +152,7 @@ namespace Coherence.Generated.FirstProject
             foreach(var component in components)
             {
                 writer.Write($"component {component.name}\n");
-                foreach(var member in component.members)
+                foreach(var member in component.mappings)
                 {
                     writer.Write($"  {member.variableName} {member.typeName}\n");
                 }
@@ -195,51 +205,17 @@ namespace Coherence.Generated.FirstProject
                     var componentName = componentType.ToString();
 
                     // Special cases
-                    if(componentName == "UnityEngine.Transform")
+                    if(specialCases.TryGetValue(componentName, out SpecialCase specialCase))
                     {
-                        // TODO: Remove duplication here!
-
-                        var translationKey = componentTypeString + CoherenceSync.KeyDelimiter + "position";
-                        var translationToggleOn = coherenceSync.GetFieldToggle(translationKey);
-
-                        if(translationToggleOn == null) {
-                            Debug.Log($"No translationKey named {translationKey}");
-                        }
-                        else if(translationToggleOn.Value) {
-                            var translationComponent = new SyncedComponent("WorldPosition", new string[] {"Value"});
-                            syncTheseComponents.Add(translationComponent);
-                        }
-
-                        var rotationKey = componentTypeString + CoherenceSync.KeyDelimiter + "rotation";
-                        var rotationToggleOn = coherenceSync.GetFieldToggle(rotationKey);
-
-                        if(rotationToggleOn == null) {
-                            Debug.Log($"No rotationKey named {rotationKey}");
-                        }
-                        else if(rotationToggleOn.Value) {
-                            var rotationComponent = new SyncedComponent("Rotation", new string[] {"Value"});
-                            syncTheseComponents.Add(rotationComponent);
-                        }
-
-                        var scaleKey = componentTypeString + CoherenceSync.KeyDelimiter + "localScale";
-                        var scaleToggleOn = coherenceSync.GetFieldToggle(scaleKey);
-
-                        if(scaleToggleOn == null) {
-                            Debug.Log($"No scaleKey named {scaleKey} on {coherenceSync.name}");
-                        }
-                        else if(scaleToggleOn.Value) {
-                            var scaleComponent = new SyncedComponent("Scale", new string[] {"Value"});
-                            syncTheseComponents.Add(scaleComponent);
-                        }
-
+                        syncTheseComponents.AddRange(specialCase.Components(componentTypeString, coherenceSync));
                         continue;
                     }
 
                     // Normal components
-                    var members = TypeHelpers.Members(componentType);
+                    var mappings = TypeHelpers.Members(componentType);
                     var syncTheseMembers = new List<string>();
 
-                    foreach (MemberInfo memberInfo in members)
+                    foreach (MemberInfo memberInfo in mappings)
                     {
                         var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
                         var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
@@ -283,11 +259,11 @@ namespace Coherence.Generated.FirstProject
     public struct ComponentDefinition
     {
         public string name;
-        public List<ComponentMemberDescription> members;
+        public List<ComponentMemberDescription> mappings;
 
         public ComponentDefinition(string name) {
             this.name = name;
-            this.members = new List<ComponentMemberDescription>();
+            this.mappings = new List<ComponentMemberDescription>();
         }
     }
 
@@ -324,9 +300,41 @@ namespace Coherence.Generated.FirstProject
         public string ComponentName;
         public string[] Members;
 
-        public SyncedComponent(string name, string[] members) {
+        public SyncedComponent(string name, string[] mappings) {
             this.ComponentName = name;
-            this.Members = members;
+            this.Members = mappings;
+        }
+    }
+
+    // Structured way of handle special cases in the emitter, for example for Transform (translation/rotation/localScale)
+    public struct SpecialCase
+    {
+        List<(string, string, string[])> mappings; // (<monoBehaviourField>, <ecsComponentName>, <ecsComponentMembers>)
+
+        public SpecialCase(List<(string, string, string[])> mappings)
+        {
+            this.mappings = mappings;
+        }
+
+        public List<SyncedComponent> Components(string componentTypeString, CoherenceSync coherenceSync)
+        {
+            var syncTheseComponents = new List<SyncedComponent>();
+
+            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers) in mappings)
+            {
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
+                var toggleOn = coherenceSync.GetFieldToggle(key);
+
+                if(toggleOn == null) {
+                    Debug.Log($"No key named {key}");
+                }
+                else if(toggleOn.Value) {
+                    var translationComponent = new SyncedComponent(ecsComponentName, ecsComponentMembers);
+                    syncTheseComponents.Add(translationComponent);
+                }
+            }
+
+            return syncTheseComponents;
         }
     }
 }
