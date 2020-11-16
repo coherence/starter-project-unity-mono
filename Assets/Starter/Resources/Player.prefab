@@ -164,7 +164,11 @@ MonoBehaviour:
     PublicKeyToken=null
   - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  enabledScriptTogglesValues: 00000000
+  - Coherence.MonoBridge.CoherenceSyncPlayerMinimal, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  - Coherence.MonoBridge.CoherenceSyncPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  enabledScriptTogglesValues: 000000000000
   fieldLinksKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -172,10 +176,20 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
   fieldLinksValues:
   - GenericFieldVector0
   - GenericFieldQuaternion0
   - GenericFieldVector1
+  - GenericFieldFloat0
+  - GenericFieldInt0
+  - GenericFieldString0
+  - GenericFieldInt1
+  - GenericFieldFloat1
   fieldTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -183,7 +197,12 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
-  fieldTogglesValues: 010101
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
+  fieldTogglesValues: 0101000100010101
   fieldTypesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -191,20 +210,34 @@ MonoBehaviour:
     PublicKeyToken=null*rotation
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*moveSpeed
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*canJump
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*yAxis
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*useTankControls
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null*airborneSpeedModifier
   fieldTypesValues:
-  - UnityEngine.Vector3
-  - UnityEngine.Quaternion
-  - UnityEngine.Vector3
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - System.Boolean
+  - System.Single
+  genericFieldCounter_Float: 2
+  genericFieldCounter_Int: 2
   genericFieldCounter_Quaternion: 1
-  genericFieldCounter_String: 0
+  genericFieldCounter_String: 1
   genericFieldCounter_Vector: 2
   remoteVersionPrefabName: Player
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  scriptTogglesValues: 01
+  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  scriptTogglesValues: 0100
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!1 &8907122464205653916
@@ -296,6 +329,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7146494334328979313}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -308,6 +345,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -318,14 +359,6 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 960642dcb121efe46b83fe4cca7b7990, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

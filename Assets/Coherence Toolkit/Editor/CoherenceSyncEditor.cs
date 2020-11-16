@@ -14,30 +14,6 @@ namespace Coherence.MonoBridge
     {
         private Texture2D logo;
 
-        private readonly Type[] supportedTypes = {
-            typeof(Vector3),
-            typeof(Quaternion),
-            typeof(float),
-            typeof(int),
-            typeof(uint),
-            typeof(string),
-            typeof(bool),
-            typeof(Boolean)
-        };
-
-        private bool IsTypeSupported(Type type)
-        {
-            foreach (Type ct in supportedTypes)
-            {
-                if (type.IsSubclassOf(ct) || type == ct)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private void OnEnable()
         {
             if (logo == null)
@@ -84,9 +60,16 @@ namespace Coherence.MonoBridge
 
             EditorGUILayout.Space(12f);
 
-            EditorGUI.BeginDisabledGroup(true);
-            _ = GUILayout.Button("Bake network components");
-            EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
+            EditorGUI.BeginDisabledGroup(false);
+            if(coherenceSync.usingReflection) {
+                if(GUILayout.Button("Bake network components"))
+                {
+                    Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
+                }
+                EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
+            } else {
+                EditorGUILayout.HelpBox("This game object has baked its network components.", MessageType.Info);
+            }
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space(6f);
@@ -94,7 +77,7 @@ namespace Coherence.MonoBridge
             EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
             EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
             EditorGUILayout.LabelField("Simulated", coherenceSync.isSimulated.ToString());
-           
+
             if (anyChangesMade)
             {
                 Undo.RecordObject(target, "Changed selected scripts");
@@ -195,31 +178,6 @@ namespace Coherence.MonoBridge
             return obj.name;
         }
 
-        public Type GetUnderlyingType(MemberInfo member)
-        {
-            switch (member.MemberType)
-            {
-                case MemberTypes.Event:
-                    return ((EventInfo)member).EventHandlerType;
-                case MemberTypes.Field:
-                    return ((FieldInfo)member).FieldType;
-                case MemberTypes.Method:
-                    return ((MethodInfo)member).ReturnType;
-                case MemberTypes.Property:
-                    return ((PropertyInfo)member).PropertyType;
-                case MemberTypes.All:
-                case MemberTypes.Constructor:
-                case MemberTypes.Custom:
-                case MemberTypes.NestedType:
-                case MemberTypes.TypeInfo:
-                default:
-                    throw new ArgumentException
-                    (
-                        "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
-                    );
-            }
-        }
-
         private void CycleThroughPublicVariables()
         {
             CoherenceSync coherenceSync = (CoherenceSync)target;
@@ -231,10 +189,7 @@ namespace Coherence.MonoBridge
 
             bool anyChangesMade = false;
 
-            Type monoBehaviourType = typeof(MonoBehaviour);
-            const BindingFlags monoBindingFlags = BindingFlags.Public | BindingFlags.Instance;
-            MemberInfo[] monoMembers = monoBehaviourType.GetFields(monoBindingFlags).Cast<MemberInfo>()
-                .Concat(monoBehaviourType.GetProperties(monoBindingFlags)).ToArray();
+            MemberInfo[] monoMembers = TypeHelpers.MonoMembers;
 
             Component[] components = coherenceSync.gameObject.GetComponents(typeof(Component));
 
@@ -242,42 +197,7 @@ namespace Coherence.MonoBridge
             {
                 Type compType = myComp.GetType();
 
-                if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(MeshFilter)) || compType == typeof(MeshFilter))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(CoherenceSync)) || compType == typeof(CoherenceSync))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Rigidbody)) || compType == typeof(Rigidbody))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Rigidbody2D)) || compType == typeof(Rigidbody2D))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider)) || compType == typeof(Collider))
-                {
-                    continue;
-                }
-
-                if (compType.IsSubclassOf(typeof(Collider2D)) || compType == typeof(Collider2D))
+                if(TypeHelpers.SkipThisType(compType))
                 {
                     continue;
                 }
@@ -293,8 +213,6 @@ namespace Coherence.MonoBridge
                 }
 
                 EditorGUI.BeginDisabledGroup(!compTypeIncluded);
-
-                const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
                 if (compType.IsSubclassOf(typeof(Animator)) || compType == typeof(Animator))
                 {
@@ -316,22 +234,22 @@ namespace Coherence.MonoBridge
                             switch (parameter.type)
                             {
                                 case AnimatorControllerParameterType.Bool:
-                                    fieldType = typeof(bool); 
+                                    fieldType = typeof(bool);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Float:
                                     fieldType = typeof(float);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Int:
                                     fieldType = typeof(int);
                                     break;
-                                
+
                                 case AnimatorControllerParameterType.Trigger:
                                     // TODO: support triggers through commands
                                     break;
                             }
-                            
+
                             EditorGUI.BeginChangeCheck();
                             bool varIncluded = EditorGUILayout.ToggleLeft($"{parameter.name} [{fieldType.Name}]", prevVarIncluded ?? false);
                             if (EditorGUI.EndChangeCheck())
@@ -351,12 +269,9 @@ namespace Coherence.MonoBridge
                     EditorGUI.EndDisabledGroup();
                     continue;
                 }
-            
 
-                MemberInfo[] members = compType.GetFields(bindingFlags).Cast<MemberInfo>()
-                    .Concat(compType.GetProperties(bindingFlags)).ToArray();
+                var members = TypeHelpers.Members(compType);
 
-                
                 foreach (MemberInfo variable in members)
                 {
                     if (compType == typeof(Transform))
@@ -383,9 +298,9 @@ namespace Coherence.MonoBridge
                         continue;
                     }
 
-                    Type fieldType = GetUnderlyingType(variable);
+                    Type fieldType = TypeHelpers.GetUnderlyingType(variable);
 
-                    if (!IsTypeSupported(fieldType))
+                    if (!TypeHelpers.IsTypeSupported(fieldType))
                     {
                         continue;
                     }
@@ -399,6 +314,7 @@ namespace Coherence.MonoBridge
 
                         EditorGUI.BeginChangeCheck();
                         bool varIncluded = EditorGUILayout.ToggleLeft($"{variable.Name} [{fieldType.Name}]", prevVarIncluded ?? false);
+
                         if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;

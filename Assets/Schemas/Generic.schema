@@ -4,10 +4,10 @@ namespace Coherence.Generated.FirstProject
 
 component GenericPrefabReference
   prefab String64
-  
+
 component GenericScale
   Value Vector3
-  
+
 command GenericCommand
   name String64
   paramInt1 Int
@@ -25,81 +25,84 @@ component GenericFieldInt0
 
 component GenericFieldInt1
   number Int
-  
+
 component GenericFieldInt2
   number Int
-  
+
 component GenericFieldInt3
   number Int
-  
+
 component GenericFieldInt4
   number Int
-  
+
 component GenericFieldInt5
   number Int
-  
+
 component GenericFieldInt6
   number Int
-  
+
 component GenericFieldInt7
   number Int
-  
+
 component GenericFieldInt8
   number Int
-  
+
 component GenericFieldInt9
   number Int
 
 component GenericFieldFloat0
   number Float
-  
+
 component GenericFieldFloat1
   number Float
 
 component GenericFieldFloat2
   number Float
-  
+
 component GenericFieldFloat3
   number Float
-  
+
 component GenericFieldFloat4
   number Float
-  
+
 component GenericFieldFloat5
   number Float
-  
+
 component GenericFieldFloat6
   number Float
-  
+
 component GenericFieldFloat7
   number Float
-  
+
 component GenericFieldFloat8
   number Float
-  
+
 component GenericFieldFloat9
   number Float
-  
+
 component GenericFieldVector0
   Value Vector3
-  
+
 component GenericFieldVector1
   Value Vector3
-  
+
 component GenericFieldVector2
   Value Vector3
-  
+
 component GenericFieldVector3
   Value Vector3
 
 component GenericFieldString0
   name String64
-  
+
 component GenericFieldString1
   name String64
-  
+
 component GenericFieldString2
   name String64
-  
+
 component GenericFieldString4
   name String64
+
+### END OF GENERIC SCHEMA ###
+

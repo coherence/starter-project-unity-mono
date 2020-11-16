@@ -150,9 +150,9 @@
             entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
             entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
             entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
-           
-            entityManager.AddComponent<CoherenceSession>(entity);
-            entityManager.AddComponent<CoherenceSimulateComponent>(entity);
+
+            entityManager.AddComponent<SessionBased>(entity);
+            entityManager.AddComponent<Simulated>(entity);
             entityManager.AddComponent<GenericCommand>(entity);
 
             foreach (var t in fieldLinksValues)
@@ -449,7 +449,7 @@
                     if (fieldType == null)
                     {
                         var key = fieldTogglesKeys[i];
-                        
+
                         if (key.Contains("position"))
                         {
                             fieldType = typeof(Vector3);
@@ -461,7 +461,7 @@
                             fieldType = typeof(Quaternion);
                             networkedType = typeof(Rotation);
                         }
-                        
+
                         if (key.Contains("localScale"))
                         {
                             fieldType = typeof(Vector3);
@@ -653,11 +653,13 @@
         public void SetListValue(List<string> keyList, List<bool> valList, string key, bool val)
         {
             for (var i = 0; i < keyList.Count; i++)
+            {
                 if (keyList[i] == key)
                 {
                     valList[i] = val;
                     return;
                 }
+            }
 
             keyList.Add(key);
             valList.Add(val);
@@ -666,11 +668,13 @@
         private void SetListValue(List<string> keyList, List<string> valList, string key, string val)
         {
             for (var i = 0; i < keyList.Count; i++)
+            {
                 if (keyList[i] == key)
                 {
                     valList[i] = val;
                     return;
                 }
+            }
 
             keyList.Add(key);
             valList.Add(val);
@@ -679,11 +683,13 @@
         private void SetListValue(List<string> keyList, List<string> valList, string key, Type val)
         {
             for (var i = 0; i < keyList.Count; i++)
+            {
                 if (keyList[i] == key)
                 {
                     valList[i] = val.AssemblyQualifiedName;
                     return;
                 }
+            }
 
             keyList.Add(key);
             valList.Add(val.ToString());
@@ -692,8 +698,11 @@
         private bool? GetListValue(List<string> keyList, List<bool> valList, string key)
         {
             for (var i = 0; i < keyList.Count; i++)
-                if (keyList[i] == key)
+            {
+                if (keyList[i] == key) {
                     return valList[i];
+                }
+            }
 
             return null;
         }
@@ -701,8 +710,11 @@
         private string GetListValue(List<string> keyList, List<string> valList, string key)
         {
             for (var i = 0; i < keyList.Count; i++)
-                if (keyList[i] == key)
+            {
+                if (keyList[i] == key) {
                     return valList[i];
+                }
+            }
 
             return null;
         }
@@ -727,7 +739,7 @@
             SetListValue(enabledScriptTogglesKeys, enabledScriptTogglesValues, key, val);
         }
 
-        private string GetFieldType(string key)
+        public string GetFieldType(string key)
         {
             return GetListValue(fieldTypesKeys, fieldTypesValues, key).Replace("UnityEngine.", "");
         }
@@ -742,7 +754,9 @@
             SetListValue(fieldTypesKeys, fieldTypesValues, key, val);
 
             if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
+            {
                 SetListValue(fieldLinksKeys, fieldLinksValues, key, GetNextAvailableGenericNetworkedField(val));
+            }
         }
 
         public void SetScriptToggle(string key, bool val)
@@ -750,7 +764,7 @@
             SetListValue(scriptTogglesKeys, scriptTogglesValues, key, val);
         }
 
-        private Type GetComponentFromKey(string key)
+        public Type GetComponentFromKey(string key)
         {
             var i = key.IndexOf(KeyDelimiter, StringComparison.Ordinal);
             var cmp = key.Substring(0, i);
@@ -764,6 +778,12 @@
             var i = key.IndexOf(KeyDelimiter, StringComparison.Ordinal);
             var cmp = key.Substring(i + 1);
             return cmp;
+        }
+
+        public string[] FieldToggleKeys {
+            get {
+                return fieldTogglesKeys.ToArray();
+            }
         }
 
         #endregion

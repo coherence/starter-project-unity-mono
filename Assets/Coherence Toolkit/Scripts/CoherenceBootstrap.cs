@@ -27,12 +27,12 @@
             entityQueryRemote = entityManager.CreateEntityQuery(
                 typeof(GenericPrefabReference),
                 typeof(Translation),
-                ComponentType.Exclude<CoherenceSimulateComponent>());
+                ComponentType.Exclude<Simulated>());
 
             entityQueryLocal = entityManager.CreateEntityQuery(
                 typeof(GenericPrefabReference),
                 typeof(Translation),
-                typeof(CoherenceSimulateComponent));
+                typeof(Simulated));
         }
 
         private void LateUpdate()
@@ -138,7 +138,7 @@
             {
                 Entity entity = entities[i];
 
-                if (entityManager.HasComponent<CoherenceSimulateComponent>(entities[i]))
+                if (entityManager.HasComponent<Simulated>(entities[i]))
                 {
                     continue;
                 }
