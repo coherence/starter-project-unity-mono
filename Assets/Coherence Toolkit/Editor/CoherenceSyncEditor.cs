@@ -77,6 +77,7 @@ namespace Coherence.MonoBridge
             EditorGUILayout.LabelField("Linked entity", coherenceSync.LinkedEntity.ToString());
             EditorGUILayout.LabelField("Network prefab", coherenceSync.remoteVersionPrefabName);
             EditorGUILayout.LabelField("Simulated", coherenceSync.isSimulated.ToString());
+            EditorGUILayout.LabelField("Reflection", coherenceSync.usingReflection.ToString());
 
             if (anyChangesMade)
             {
@@ -131,6 +132,7 @@ namespace Coherence.MonoBridge
             {
                 Type compType = myComp.GetType();
                 string compTypeString = compType.AssemblyQualifiedName;
+                
                 if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
                 {
                     continue;
@@ -182,6 +184,9 @@ namespace Coherence.MonoBridge
         {
             CoherenceSync coherenceSync = (CoherenceSync)target;
 
+            var fieldsTurnedOnInBackend = coherenceSync.CountSyncFieldsTurnedOn();
+            uint fieldsCheckedInEditorGUI = 0;
+
             if (target == null)
             {
                 return;
@@ -206,6 +211,7 @@ namespace Coherence.MonoBridge
                 bool? prevTypeIncluded = coherenceSync.GetScriptToggle(compTypeString);
                 EditorGUI.BeginChangeCheck();
                 bool compTypeIncluded = EditorGUILayout.ToggleLeft(compType.ToString(), prevTypeIncluded ?? false);
+
                 if (EditorGUI.EndChangeCheck())
                 {
                     anyChangesMade = true;
@@ -252,6 +258,9 @@ namespace Coherence.MonoBridge
 
                             EditorGUI.BeginChangeCheck();
                             bool varIncluded = EditorGUILayout.ToggleLeft($"{parameter.name} [{fieldType.Name}]", prevVarIncluded ?? false);
+                            
+                            if (varIncluded) fieldsCheckedInEditorGUI++;
+                            
                             if (EditorGUI.EndChangeCheck())
                             {
                                 anyChangesMade = true;
@@ -283,7 +292,7 @@ namespace Coherence.MonoBridge
                     }
 
                     bool doProceed = true;
-                    // Remove those inherited from MonoBehaviour (de-clu tter)
+                    // Remove those inherited from MonoBehaviour (de-clutter)
                     foreach (MemberInfo monoVariable in monoMembers)
                     {
                         if (variable.Name == monoVariable.Name)
@@ -314,7 +323,9 @@ namespace Coherence.MonoBridge
 
                         EditorGUI.BeginChangeCheck();
                         bool varIncluded = EditorGUILayout.ToggleLeft($"{variable.Name} [{fieldType.Name}]", prevVarIncluded ?? false);
-
+                        
+                        if (varIncluded) fieldsCheckedInEditorGUI++;
+                        
                         if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;
@@ -337,6 +348,16 @@ namespace Coherence.MonoBridge
             {
                 Undo.RecordObject(target, "Coherence Sync");
                 EditorUtility.SetDirty(target);
+            }
+            else
+            {
+                if (fieldsTurnedOnInBackend != fieldsCheckedInEditorGUI)
+                {
+                    Debug.Log($"DEBUG: Field selection mismatch, GUI:{fieldsCheckedInEditorGUI}, data:{fieldsTurnedOnInBackend}. Fixing data (probably cause: source field renamed or removed).");
+                    coherenceSync.TestAndFixSyncReferenceData();
+                    Undo.RecordObject(target, "Coherence Sync");
+                    EditorUtility.SetDirty(target);
+                }
             }
         }
     }

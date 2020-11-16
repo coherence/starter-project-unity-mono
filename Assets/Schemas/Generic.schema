@@ -103,6 +103,9 @@ component GenericFieldString2
 
 component GenericFieldString4
   name String64
+  
+component GenericFieldQuaternion0
+  Value Quaternion
 
 ### END OF GENERIC SCHEMA ###
 

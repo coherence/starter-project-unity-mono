@@ -1,4 +1,6 @@
-﻿namespace Coherence.MonoBridge
+﻿using UnityEditor;
+
+namespace Coherence.MonoBridge
 {
     using System;
     using System.Collections;
@@ -16,6 +18,7 @@
     {
         public static List<CoherenceSync> instances = new List<CoherenceSync>();
 
+        private bool isConnected = false;
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
 
         public event NetworkCommandHandler NetworkCommandReceived;
@@ -26,54 +29,46 @@
             Other = 1
         }
 
-        protected const int maxNetworkStringLength = 32;
+        protected const int MaxNetworkStringLength = 32;
 
         [NonSerialized] public const string KeyDelimiter = "*";
 
-        private CoherenceBootstrap coherenceBootstrap;
+        private CoherenceMonoBridge coherenceMonoBridge;
 
         private bool ecsEntitySet;
 
-        [SerializeField] private List<string> enabledScriptTogglesKeys = new List<string>();
+        private Entity entity;
 
+        private EntityManager entityManager;
+
+        // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
+        
+        [SerializeField] private List<string> enabledScriptTogglesKeys = new List<string>();
         [SerializeField] private List<bool> enabledScriptTogglesValues = new List<bool>();
 
-        protected Entity entity;
-
-        protected EntityManager entityManager;
-
         [SerializeField] private List<string> fieldLinksKeys = new List<string>();
-
         [SerializeField] private List<string> fieldLinksValues = new List<string>();
 
         [SerializeField] private List<string> fieldTogglesKeys = new List<string>();
-
         [SerializeField] private List<bool> fieldTogglesValues = new List<bool>();
 
         [SerializeField] private List<string> fieldTypesKeys = new List<string>();
-
         [SerializeField] private List<string> fieldTypesValues = new List<string>();
 
         [SerializeField] private int genericFieldCounter_Float;
-
         [SerializeField] private int genericFieldCounter_Int;
-
         [SerializeField] private int genericFieldCounter_Quaternion;
-
         [SerializeField] private int genericFieldCounter_String;
-
         [SerializeField] private int genericFieldCounter_Vector;
+        
+        [SerializeField] private List<string> scriptTogglesKeys = new List<string>();
+        [SerializeField] private List<bool> scriptTogglesValues = new List<bool>();
 
         [NonSerialized] public bool isSimulated = true;
 
         [SerializeField] public string remoteVersionPrefabName;
         [NonSerialized] private string schemaNamespace = "Coherence.Generated.FirstProject.";
-
-        // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
-        [SerializeField] private List<string> scriptTogglesKeys = new List<string>();
-
-        [SerializeField] private List<bool> scriptTogglesValues = new List<bool>();
-
+        
         [SerializeField]
         protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.This;
 
@@ -128,9 +123,13 @@
 
         protected IEnumerator Start()
         {
-            //yield return null;
             if (entity != Entity.Null || !isSimulated) yield break;
 
+            CreateECSRepresentation();
+        }
+
+        private void CreateECSRepresentation()
+        {
             entity = entityManager.CreateEntity();
             entityManager.AddComponent<GenericPrefabReference>(entity);
 
@@ -145,7 +144,7 @@
             });
         }
 
-        protected void InitializeComponents()
+        private void InitializeComponents()
         {
             entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
             entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
@@ -175,13 +174,29 @@
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            coherenceBootstrap = FindObjectOfType<CoherenceBootstrap>();
+            coherenceMonoBridge = FindObjectOfType<CoherenceMonoBridge>();
 
-            if (coherenceBootstrap != null) schemaNamespace = coherenceBootstrap.schemaNamespace;
+            if (coherenceMonoBridge != null) schemaNamespace = coherenceMonoBridge.schemaNamespace;
+
+            Coherence.Network.OnConnected += () =>
+            {
+                isConnected = true;
+                if (entity == Entity.Null)
+                {
+                    CreateECSRepresentation();
+                }
+            };
+
+            Coherence.Network.OnDisconnected += () =>
+            {
+                isConnected = false;
+                entity = Entity.Null;
+            };
         }
 
         public void SpawnFromNetwork(Entity linkedEntity, string name)
         {
+            isConnected = true; // TODO: assuming this is true from context. We need Coherence.Network.IsConnected
             isSimulated = false;
             LinkedEntity = linkedEntity;
             gameObject.name = name;
@@ -275,34 +290,33 @@
         {
             if (entity == Entity.Null) return;
 
-            var cmd = new GenericCommandRequest
-            {
-                name = cmdName,
-                paramInt1 = paramInt1,
-                paramInt2 = paramInt2,
-                paramInt3 = paramInt3,
-                paramInt4 = paramInt4,
-
-                paramFloat1 = paramFloat1,
-                paramFloat2 = paramFloat2,
-                paramFloat3 = paramFloat3,
-                paramFloat4 = paramFloat4,
-
-                paramString = paramString
-            };
-
             if (entityManager.HasComponent<GenericCommandRequest>(entity))
             {
+                var cmd = new GenericCommandRequest
+                {
+                    name = String.IsNullOrEmpty(cmdName) ? "" : cmdName,
+                    paramInt1 = paramInt1,
+                    paramInt2 = paramInt2,
+                    paramInt3 = paramInt3,
+                    paramInt4 = paramInt4,
+
+                    paramFloat1 = paramFloat1,
+                    paramFloat2 = paramFloat2,
+                    paramFloat3 = paramFloat3,
+                    paramFloat4 = paramFloat4,
+
+                    paramString = String.IsNullOrEmpty(paramString) ? "" : paramString,
+                };
                 var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
                 _ = cmdRequestBuffer.Add(cmd);
             }
             else
             {
-                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+                ProcessGenericNetworkCommand(cmdName, paramInt1, paramInt2, paramInt3, paramInt4, paramFloat1, paramFloat2, paramFloat3, paramFloat4, paramString);
             }
         }
 
-        protected bool CmpType(Type type, Type a)
+        private bool CmpType(Type type, Type a)
         {
             return type != null && a != null && (type == a || type.IsSubclassOf(a));
         }
@@ -346,12 +360,15 @@
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
-                coherenceBootstrap.SpawnEntity(entity);
+                coherenceMonoBridge.SpawnEntity(entity);
             }
 
             if (!isSimulated && !EcsEntityExists())
             {
-                if (ecsEntitySet) Destroy(gameObject);
+                if (ecsEntitySet)
+                {
+                    coherenceMonoBridge.DestroyLocalObject(this);
+                }
 
                 return;
             }
@@ -360,13 +377,16 @@
             {
                 if (usingReflection)
                 {
-                    ReceiveGenericNetworkCommands();
-                    SyncEcsWithReflection();
+                    if (isConnected)
+                    {
+                        ReceiveGenericNetworkCommands();
+                        SyncEcsWithReflection();
+                    }
                 }
             }
         }
 
-        public bool EcsEntityExists()
+        private bool EcsEntityExists()
         {
             return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
@@ -419,6 +439,60 @@
             }
         }
 
+        public uint CountSyncFieldsTurnedOn()
+        {
+            uint num = 0;
+            for (var i = 0; i < fieldTogglesKeys.Count; i++)
+            {
+                if (fieldTogglesValues[i])
+                {
+                    num++;
+                }
+            }
+
+            return num;
+        }
+        
+        public void TestAndFixSyncReferenceData()
+        {
+            for (var i = 0; i < fieldTogglesKeys.Count; i++)
+            {
+                var on = fieldTogglesValues[i];
+
+                if (!on) continue;
+                
+                var linkVal = fieldLinksValues[i];
+                
+                if (!string.IsNullOrEmpty(linkVal))
+                {
+                    var linkKey = fieldLinksKeys[i];
+                    var script = GetComponentFromKey(linkKey);
+                    var toggleKey = fieldTogglesKeys[i];
+
+                    var networkedType = GetFieldInformation(linkKey, linkVal, toggleKey, out var fieldType, ref script, out var fieldName, out var cmp, out var field, out var property);
+
+                    object currentMonoValue = null;
+                    
+                    try
+                    {
+                        if (field != null)
+                        {
+                            currentMonoValue = field.GetValue(cmp);
+                        }
+                        else
+                        {
+                            currentMonoValue = CmpType(script, typeof(Animator)) ? GetAnimatorValue((Animator) cmp, fieldName) : property.GetValue(cmp);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Debug.Log($"DEBUG: Turning sync field off due to lost reference (renamed source field?): {fieldTogglesKeys[i]}");
+                        fieldTogglesValues[i] = false;
+                    }
+                }
+            }
+        }
+        
         private void SyncEcsWithReflection()
         {
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
@@ -426,76 +500,88 @@
                 var on = fieldTogglesValues[i];
 
                 if (!on) continue;
-
-                if (!string.IsNullOrEmpty(fieldLinksValues[i]))
+                
+                var linkVal = fieldLinksValues[i];
+                
+                if (!string.IsNullOrEmpty(linkVal))
                 {
-                    var script = GetComponentFromKey(fieldLinksKeys[i]);
+                    var linkKey = fieldLinksKeys[i];
+                    var script = GetComponentFromKey(linkKey);
+                    var toggleKey = fieldTogglesKeys[i];
 
-                    var fieldTypeString = GetFieldType(fieldLinksKeys[i]);
-                    var networkedType = Type.GetType(schemaNamespace + fieldLinksValues[i]);
-                    var fieldType = Type.GetType(fieldTypeString);
+                    var networkedType = GetFieldInformation(linkKey, linkVal, toggleKey, out var fieldType, ref script, out var fieldName, out var cmp, out var field, out var property);
 
-                    if (fieldType == null)
+                    object currentMonoValue = null;
+                    
+                    try
                     {
-                        var key = fieldTogglesKeys[i];
-
-                        if (key.Contains("position"))
+                        if (field != null)
                         {
-                            fieldType = typeof(Vector3);
-                            networkedType = typeof(Translation);
-                        }
-
-                        if (key.Contains("rotation"))
-                        {
-                            fieldType = typeof(Quaternion);
-                            networkedType = typeof(Rotation);
-                        }
-
-                        if (key.Contains("localScale"))
-                        {
-                            fieldType = typeof(Vector3);
-                            networkedType = typeof(GenericScale);
-                        }
-                    }
-
-                    if (script == null) script = typeof(Transform);
-
-                    var fieldName = GetFieldNameFromKey(fieldLinksKeys[i]);
-
-                    var cmp = script == null
-                        ? gameObject.GetComponent(typeof(Transform))
-                        : gameObject.GetComponent(script);
-
-                    var field = script.GetField(fieldName);
-                    var property = script.GetProperty(fieldName);
-
-                    object currentMonoValue;
-
-
-                    if (field != null)
-                        currentMonoValue = field.GetValue(cmp);
-                    else
-                    {
-                        if (CmpType(script, typeof(Animator)))
-                        {
-                            currentMonoValue = GetAnimatorValue((Animator)cmp, fieldName);
+                            currentMonoValue = field.GetValue(cmp);
                         }
                         else
                         {
-                            currentMonoValue = property.GetValue(cmp);
+                            currentMonoValue = CmpType(script, typeof(Animator)) ? GetAnimatorValue((Animator) cmp, fieldName) : property.GetValue(cmp);
                         }
+                    }
+                    catch (Exception)
+                    {
+                        Debug.LogWarning($"SyncEcsWithReflection: Failed to sync, hence turning field off (can happen when renaming referenced fields): {fieldTogglesKeys[i]}");
+                        fieldTogglesValues[i] = false;
+                        continue;
                     }
 
                     if (isSimulated)
                     {
-                        SyncReflectionMonoToNetwork(networkedType, fieldType, currentMonoValue, script);
+                        ReflectionSyncMonoToECSNetwork(networkedType, fieldType, currentMonoValue, script);
                     }
                     else
                     {
-                        SyncReflectionNetworkEcsToMono(networkedType, fieldType, fieldName, field, cmp, property, script);
+                        ReflectionSyncECSNetworkToMono(networkedType, fieldType, fieldName, field, cmp, property, script);
                     }
                 }
             }
+        }
+
+        private Type GetFieldInformation(string linkKey, string linkVal, string toggleKey, out Type fieldType, ref Type script,
+            out string fieldName, out Component cmp, out FieldInfo field, out PropertyInfo property)
+        {
+            var fieldTypeString = GetFieldType(linkKey);
+            var networkedType = Type.GetType(schemaNamespace + linkVal);
+            fieldType = Type.GetType(fieldTypeString);
+
+            if (fieldType == null)
+            {
+                if (toggleKey.Contains("position"))
+                {
+                    fieldType = typeof(Vector3);
+                    networkedType = typeof(Translation);
+                }
+
+                if (toggleKey.Contains("rotation"))
+                {
+                    fieldType = typeof(Quaternion);
+                    networkedType = typeof(Rotation);
+                }
+
+                if (toggleKey.Contains("localScale"))
+                {
+                    fieldType = typeof(Vector3);
+                    networkedType = typeof(GenericScale);
+                }
+            }
+
+            if (script == null) script = typeof(Transform);
+
+            fieldName = GetFieldNameFromKey(linkKey);
+
+            cmp = script == null
+                ? gameObject.GetComponent(typeof(Transform))
+                : gameObject.GetComponent(script);
+
+            field = script.GetField(fieldName);
+            property = script.GetProperty(fieldName);
+            return networkedType;
         }
 
         private void SetMonoValue(FieldInfo field, PropertyInfo property, object cmp, object val)
@@ -505,7 +591,7 @@
             else if (property != null) property.SetValue(cmp, val);
         }
 
-        private void SyncReflectionNetworkEcsToMono(Type networkedType, Type fieldType, string fieldName, FieldInfo field, Component cmp,
+        private void ReflectionSyncECSNetworkToMono(Type networkedType, Type fieldType, string fieldName, FieldInfo field, Component cmp,
             PropertyInfo property, Type script)
         {
             var method = typeof(EntityManager).GetMethod("GetComponentData");
@@ -562,48 +648,49 @@
             }
         }
 
-        private void SyncReflectionMonoToNetwork(Type networkedType, Type fieldType, object currentMonoValue, Type script)
+        private void ReflectionSyncMonoToECSNetwork(Type networkedType, Type fieldType, object currentMonoValue, Type script)
         {
             var inst = Activator.CreateInstance(networkedType);
 
             var method = typeof(EntityManager).GetMethod("SetComponentData");
             var generic = method.MakeGenericMethod(networkedType);
-
+           
             if (CmpType(fieldType, typeof(Vector3)))
             {
                 var fieldX = networkedType.GetField("Value");
-                var val = (Vector3)currentMonoValue;
+                var val = (Vector3) currentMonoValue;
                 fieldX.SetValue(inst, new float3(val.x, val.y, val.z));
             }
 
             if (CmpType(fieldType, typeof(float)))
             {
                 var f = networkedType.GetField("number");
-                var val = (float)currentMonoValue;
+                var val = (float) currentMonoValue;
                 f.SetValue(inst, val);
             }
 
-            if (CmpType(fieldType, typeof(int)) || CmpType(fieldType, typeof(uint)) || CmpType(fieldType, typeof(bool)) || CmpType(fieldType, typeof(Boolean)))
+            if (CmpType(fieldType, typeof(int)) || CmpType(fieldType, typeof(uint)) ||
+                CmpType(fieldType, typeof(bool)) || CmpType(fieldType, typeof(Boolean)))
             {
                 var f = networkedType.GetField("number");
-                var val = (int)currentMonoValue;
+                var val = (int) currentMonoValue;
                 f.SetValue(inst, val);
             }
 
             if (CmpType(fieldType, typeof(string)))
             {
                 var f = networkedType.GetField("name");
-                FixedString64 val = (string)currentMonoValue;
+                FixedString64 val = (string) currentMonoValue;
                 f.SetValue(inst, val);
             }
 
             if (CmpType(fieldType, typeof(Quaternion)))
             {
                 var fieldX = networkedType.GetField("Value");
-                var val = (Quaternion)currentMonoValue;
+                var val = (Quaternion) currentMonoValue;
                 fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
             }
-
+        
             try
             {
                 _ = generic.Invoke(entityManager, new[] { entity, inst });
@@ -639,7 +726,7 @@
 
         #region ListManipulation
 
-        public void SetListValue(List<string> keyList, List<bool> valList, string key, bool val)
+        private void SetListValue(List<string> keyList, List<bool> valList, string key, bool val)
         {
             for (var i = 0; i < keyList.Count; i++)
             {
@@ -730,7 +817,7 @@
             SetListValue(enabledScriptTogglesKeys, enabledScriptTogglesValues, key, val);
         }
 
-        public string GetFieldType(string key)
+        private string GetFieldType(string key)
         {
             return GetListValue(fieldTypesKeys, fieldTypesValues, key).Replace("UnityEngine.", "");
         }
@@ -755,7 +842,7 @@
             SetListValue(scriptTogglesKeys, scriptTogglesValues, key, val);
         }
 
-        public Type GetComponentFromKey(string key)
+        private Type GetComponentFromKey(string key)
         {
             var i = key.IndexOf(KeyDelimiter, StringComparison.Ordinal);
             var cmp = key.Substring(0, i);
@@ -769,14 +856,6 @@
             var i = key.IndexOf(KeyDelimiter, StringComparison.Ordinal);
             var cmp = key.Substring(i + 1);
             return cmp;
-        }
-
-        public string[] FieldToggleKeys
-        {
-            get
-            {
-                return fieldTogglesKeys.ToArray();
-            }
         }
 
         #endregion

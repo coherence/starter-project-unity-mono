@@ -10,6 +10,8 @@ public class ShowNameAndState : MonoBehaviour
     private StateType state = StateType.Default;
     private Material material;
 
+    public int TestRenamedVariable4 = 3;
+
     public int State
     {
         get => (int)state;
