@@ -40,6 +40,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
+        if (sender == null)
+        {
+            return;
+        }
+
         CoherenceSync target = c.GetComponent<CoherenceSync>();
         if (target == sender)
         {
