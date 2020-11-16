@@ -271,13 +271,9 @@
 
         public void SendNetworkCommand(CoherenceSync sender, string cmdName, int paramInt1 = 0, int paramInt2 = 0,
             int paramInt3 = 0, int paramInt4 = 0, float paramFloat1 = 0, float paramFloat2 = 0, float paramFloat3 = 0,
-            float paramFloat4 = 0, string paramString = null)
+            float paramFloat4 = 0, string paramString = "")
         {
             if (entity == Entity.Null) return;
-
-            cmdName = TrimString64(cmdName);
-
-            paramString = TrimString64(paramString);
 
             var cmd = new GenericCommandRequest
             {
@@ -304,13 +300,6 @@
             {
                 ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
             }
-        }
-
-        public static string TrimString64(string cmdName)
-        {
-            if (cmdName == null) return cmdName;
-
-            return cmdName.Length > maxNetworkStringLength ? cmdName.Substring(0, maxNetworkStringLength) : cmdName;
         }
 
         protected bool CmpType(Type type, Type a)
@@ -699,7 +688,8 @@
         {
             for (var i = 0; i < keyList.Count; i++)
             {
-                if (keyList[i] == key) {
+                if (keyList[i] == key)
+                {
                     return valList[i];
                 }
             }
@@ -711,7 +701,8 @@
         {
             for (var i = 0; i < keyList.Count; i++)
             {
-                if (keyList[i] == key) {
+                if (keyList[i] == key)
+                {
                     return valList[i];
                 }
             }
@@ -780,8 +771,10 @@
             return cmp;
         }
 
-        public string[] FieldToggleKeys {
-            get {
+        public string[] FieldToggleKeys
+        {
+            get
+            {
                 return fieldTogglesKeys.ToArray();
             }
         }
