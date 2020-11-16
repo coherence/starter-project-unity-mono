@@ -11,7 +11,7 @@
     "com.unity.textmeshpro": "3.0.1",
     "com.unity.timeline": "1.3.4",
     "com.unity.ugui": "1.0.0",
-    "io.coherence.sdk": "file:/Users/eriksvedang/Coherence/unity",
+    "io.coherence.sdk": "2020.1.0-a82",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -47,7 +47,7 @@
   "scopedRegistries": [
     {
       "name": "coherence",
-      "url": "https://npm.fury.io/coherence/",
+      "url": "https://packages.coherence.io",
       "scopes": [
         "io.coherence"
       ]

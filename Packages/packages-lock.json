@@ -234,15 +234,16 @@
       }
     },
     "io.coherence.sdk": {
-      "version": "file:/Users/eriksvedang/Coherence/unity",
+      "version": "2020.1.0-a82",
       "depth": 0,
-      "source": "local",
+      "source": "registry",
       "dependencies": {
         "com.unity.entities": "0.16.0-preview.21",
         "com.unity.physics": "0.5.1-preview.2",
         "com.unity.rendering.hybrid": "0.10.0-preview.21",
         "com.unity.test-framework": "1.1.18"
-      }
+      },
+      "url": "https://packages.coherence.io"
     },
     "nuget.mono-cecil": {
       "version": "0.1.6-preview",
