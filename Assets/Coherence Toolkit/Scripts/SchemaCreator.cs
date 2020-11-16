@@ -20,6 +20,7 @@ namespace Coherence.MonoBridge
 
         private static CoherenceSync[] GatherSyncBehaviours() {
             var gathered = new List<CoherenceSync>();
+#if UNITY_EDITOR
 
             string[] guids = AssetDatabase.FindAssets("t:Object", new[] { "Assets" });
             var coherenceSyncType = typeof(CoherenceSync);
@@ -40,6 +41,7 @@ namespace Coherence.MonoBridge
                     }
                 }
             }
+#endif
 
             return gathered.ToArray();
         }
