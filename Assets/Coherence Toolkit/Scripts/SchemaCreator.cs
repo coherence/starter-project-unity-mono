@@ -95,9 +95,9 @@ namespace Coherence.MonoBridge
 
                 componentDefinitions[componentName] = componentDefinition;
 
-                var mappings = TypeHelpers.Members(componentType);
+                var members = TypeHelpers.Members(componentType);
 
-                foreach (var memberInfo in mappings)
+                foreach (var memberInfo in members)
                 {
                     var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
                     var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
@@ -114,7 +114,7 @@ namespace Coherence.MonoBridge
                     var memberName = memberInfo.Name;
                     var memberType = TypeHelpers.ToSchemaType(fieldType);
                     var member = new ComponentMemberDescription(memberName, memberType);
-                    componentDefinition.mappings.Add(member);
+                    componentDefinition.members.Add(member);
                 }
             }
 
@@ -152,7 +152,7 @@ namespace Coherence.Generated.FirstProject
             foreach(var component in components)
             {
                 writer.Write($"component {component.name}\n");
-                foreach(var member in component.mappings)
+                foreach(var member in component.members)
                 {
                     writer.Write($"  {member.variableName} {member.typeName}\n");
                 }
@@ -212,10 +212,10 @@ namespace Coherence.Generated.FirstProject
                     }
 
                     // Normal components
-                    var mappings = TypeHelpers.Members(componentType);
+                    var members = TypeHelpers.Members(componentType);
                     var syncTheseMembers = new List<string>();
 
-                    foreach (MemberInfo memberInfo in mappings)
+                    foreach (MemberInfo memberInfo in members)
                     {
                         var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
                         var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
@@ -259,11 +259,11 @@ namespace Coherence.Generated.FirstProject
     public struct ComponentDefinition
     {
         public string name;
-        public List<ComponentMemberDescription> mappings;
+        public List<ComponentMemberDescription> members;
 
         public ComponentDefinition(string name) {
             this.name = name;
-            this.mappings = new List<ComponentMemberDescription>();
+            this.members = new List<ComponentMemberDescription>();
         }
     }
 
@@ -300,9 +300,9 @@ namespace Coherence.Generated.FirstProject
         public string ComponentName;
         public string[] Members;
 
-        public SyncedComponent(string name, string[] mappings) {
+        public SyncedComponent(string name, string[] members) {
             this.ComponentName = name;
-            this.Members = mappings;
+            this.Members = members;
         }
     }
 
