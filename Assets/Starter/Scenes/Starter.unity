@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 962702350}
   - component: {fileID: 962702349}
   m_Layer: 0
-  m_Name: Coherence - Bootstrap
+  m_Name: Coherence - MonoBridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -604,11 +604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: scriptTogglesKeys.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: scriptTogglesValues.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: enabledScriptTogglesKeys.Array.size
@@ -682,6 +682,26 @@ PrefabInstance:
     - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: fieldTypesValues.Array.data[1]
       value: UnityEngine.Quaternion
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: genericFieldCounter_Float
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: genericFieldCounter_Int
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: genericFieldCounter_String
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: fieldTypesValues.Array.data[0]
+      value: UnityEngine.Vector3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.data[3]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
