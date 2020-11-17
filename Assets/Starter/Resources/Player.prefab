@@ -200,11 +200,11 @@ MonoBehaviour:
   genericFieldCounter_Quaternion: 1
   genericFieldCounter_String: 0
   genericFieldCounter_Vector: 2
-  remoteVersionPrefabName: Player
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
   scriptTogglesValues: 01
+  remoteVersionPrefabName: Player
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!1 &8907122464205653916

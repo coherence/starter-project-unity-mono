@@ -12,6 +12,16 @@ namespace Coherence.MonoBridge
     {
         static string OutDirectory => $"{Application.dataPath}/Schemas";
 
+        static Dictionary<string, SpecialCase> specialCases = new Dictionary<string, SpecialCase>()
+        {
+            {"UnityEngine.Transform",
+             new SpecialCase(new List<(string, string, string[])> {
+                                 ("position", "WorldPosition", new string[] {"Value"}),
+                                 ("rotation", "WorldOrientation", new string[] {"Value"}),
+                                 ("localScale", "GenericScale", new string[] {"Value"}),
+                             })}
+        };
+
         public static void GatherSyncBehavioursAndEmit()
         {
             var coherenceSyncBehaviours = GatherSyncBehaviours();
@@ -22,13 +32,13 @@ namespace Coherence.MonoBridge
             var gathered = new List<CoherenceSync>();
 #if UNITY_EDITOR
 
-            string[] guids = AssetDatabase.FindAssets("t:Object", new[] { "Assets" });
+            var guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
             var coherenceSyncType = typeof(CoherenceSync);
 
             foreach (string guid in guids)
             {
-                string objectPath = AssetDatabase.GUIDToAssetPath(guid);
-                Object[] objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
+                var objectPath = AssetDatabase.GUIDToAssetPath(guid);
+                var objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
 
                 foreach (Object o in objs)
                 {
@@ -36,7 +46,7 @@ namespace Coherence.MonoBridge
 
                     if(synced)
                     {
-                        Debug.Log($"Found prefab with CoherenceSync script: {o.name} : {o.GetType()}");
+                        //Debug.Log($"Found prefab with CoherenceSync script: {o.name} : {o.GetType()}");
                         gathered.Add(synced);
                     }
                 }
@@ -112,7 +122,7 @@ namespace Coherence.MonoBridge
             var schemaFilename = $"Gathered.schema";
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
 
-            StreamWriter schemaWriter = new StreamWriter(schemaFullPath);
+            var schemaWriter = new StreamWriter(schemaFullPath);
             var schemaCode = CreateSchema(componentDefinitions.Values, false);
             schemaWriter.Write(schemaCode);
             schemaWriter.Close();
@@ -158,7 +168,7 @@ namespace Coherence.Generated.FirstProject
             var jsonFilename = $"Gathered.json";
             var jsonFullPath = $"{OutDirectory}/{jsonFilename}";
 
-            StreamWriter jsonWriter = new StreamWriter(jsonFullPath);
+            var jsonWriter = new StreamWriter(jsonFullPath);
             var jsonCode = CreateJson(syncers);
             jsonWriter.Write(jsonCode);
             jsonWriter.Close();
@@ -195,43 +205,9 @@ namespace Coherence.Generated.FirstProject
                     var componentName = componentType.ToString();
 
                     // Special cases
-                    if(componentName == "UnityEngine.Transform")
+                    if(specialCases.TryGetValue(componentName, out SpecialCase specialCase))
                     {
-                        // TODO: Remove duplication here!
-
-                        var translationKey = componentTypeString + CoherenceSync.KeyDelimiter + "position";
-                        var translationToggleOn = coherenceSync.GetFieldToggle(translationKey);
-
-                        if(translationToggleOn == null) {
-                            Debug.Log($"No translationKey named {translationKey}");
-                        }
-                        else if(translationToggleOn.Value) {
-                            var translationComponent = new SyncedComponent("WorldPosition", new string[] {"Value"});
-                            syncTheseComponents.Add(translationComponent);
-                        }
-
-                        var rotationKey = componentTypeString + CoherenceSync.KeyDelimiter + "rotation";
-                        var rotationToggleOn = coherenceSync.GetFieldToggle(rotationKey);
-
-                        if(rotationToggleOn == null) {
-                            Debug.Log($"No rotationKey named {rotationKey}");
-                        }
-                        else if(rotationToggleOn.Value) {
-                            var rotationComponent = new SyncedComponent("Rotation", new string[] {"Value"});
-                            syncTheseComponents.Add(rotationComponent);
-                        }
-
-                        var scaleKey = componentTypeString + CoherenceSync.KeyDelimiter + "localScale";
-                        var scaleToggleOn = coherenceSync.GetFieldToggle(scaleKey);
-
-                        if(scaleToggleOn == null) {
-                            Debug.Log($"No scaleKey named {scaleKey} on {coherenceSync.name}");
-                        }
-                        else if(scaleToggleOn.Value) {
-                            var scaleComponent = new SyncedComponent("Scale", new string[] {"Value"});
-                            syncTheseComponents.Add(scaleComponent);
-                        }
-
+                        syncTheseComponents.AddRange(specialCase.Components(componentTypeString, coherenceSync));
                         continue;
                     }
 
@@ -327,6 +303,38 @@ namespace Coherence.Generated.FirstProject
         public SyncedComponent(string name, string[] members) {
             this.ComponentName = name;
             this.Members = members;
+        }
+    }
+
+    // Structured way of handle special cases in the emitter, for example for Transform (translation/rotation/localScale)
+    public struct SpecialCase
+    {
+        List<(string, string, string[])> mappings; // (<monoBehaviourField>, <ecsComponentName>, <ecsComponentMembers>)
+
+        public SpecialCase(List<(string, string, string[])> mappings)
+        {
+            this.mappings = mappings;
+        }
+
+        public List<SyncedComponent> Components(string componentTypeString, CoherenceSync coherenceSync)
+        {
+            var syncTheseComponents = new List<SyncedComponent>();
+
+            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers) in mappings)
+            {
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
+                var toggleOn = coherenceSync.GetFieldToggle(key);
+
+                if(toggleOn == null) {
+                    Debug.Log($"No key named {key}");
+                }
+                else if(toggleOn.Value) {
+                    var translationComponent = new SyncedComponent(ecsComponentName, ecsComponentMembers);
+                    syncTheseComponents.Add(translationComponent);
+                }
+            }
+
+            return syncTheseComponents;
         }
     }
 }
