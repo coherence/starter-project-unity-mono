@@ -1,4 +1,6 @@
-﻿namespace Coherence.MonoBridge
+﻿using System;
+
+namespace Coherence.MonoBridge
 {
     using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
@@ -8,7 +10,7 @@
     using Unity.Transforms;
     using UnityEngine;
 
-    public class CoherenceBootstrap : MonoBehaviour
+    public class CoherenceMonoBridge : MonoBehaviour
     {
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
         public bool debugMode = true;
@@ -20,6 +22,17 @@
         private Dictionary<Entity, CoherenceSync> mapper = new Dictionary<Entity, CoherenceSync>();
         private List<Entity> toDestroy = new List<Entity>();
 
+        public class EntityArgs : EventArgs
+        {
+            public CoherenceSync coherenceSync;
+            public Entity entity;
+            public bool isLocal;
+        }
+        
+        public delegate void NetworkEventHandler(object sender, EntityArgs e);
+
+        public event NetworkEventHandler OnNetworkEntityCreated, OnNetworkEntityDestroyed;
+        
         private void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -33,6 +46,8 @@
                 typeof(GenericPrefabReference),
                 typeof(Translation),
                 typeof(Simulated));
+
+            DontDestroyOnLoad(this.gameObject);
         }
 
         private void LateUpdate()
@@ -62,6 +77,18 @@
             Debug.LogError($"<color=brown>[Coherence Bootstrap]</color> {message}", context);
         }
 
+        public void DestroyLocalObject(CoherenceSync sync)
+        {
+            OnNetworkEntityDestroyed?.Invoke(this, new EntityArgs()
+            {
+                coherenceSync = sync,
+                entity = Entity.Null,
+                isLocal = sync.isSimulated
+            });    
+            
+            Destroy(sync.gameObject);
+        }
+        
         private void CleanUpDeletedEntities()
         {
             toDestroy.Clear();
@@ -85,6 +112,13 @@
                 {
                     Log($"Destroying {entity}: linked CoherenceSync was disabled.", sync);
                 }
+                
+                OnNetworkEntityDestroyed?.Invoke(this, new EntityArgs()
+                {
+                    isLocal = false,
+                    coherenceSync = sync,
+                    entity = entity
+                });
 
                 entityManager.DestroyEntity(entity);
                 toDestroy.Add(entity);
@@ -122,6 +156,14 @@
                         {
                             Log($"Linking: {entity} -> {sync}", sync);
                             mapper[entities[i]] = sync;
+                            
+                            OnNetworkEntityCreated?.Invoke(this, new EntityArgs()
+                            {
+                                isLocal = true,
+                                coherenceSync = sync,
+                                entity = entity
+                            });
+
                         }
                     }
                 }
@@ -176,8 +218,15 @@
 
             Log($"Instantiated Resource '{prefabName}' for entity " + entity, sync);
 
-            sync.SpawnFromNetwork(entity, "Network: " + entity);
+            sync.SpawnFromNetwork(entity, $"[network] {prefabName}");
 
+            OnNetworkEntityCreated?.Invoke(this, new EntityArgs()
+            {
+                isLocal = false,
+                coherenceSync = sync,
+                entity = entity
+            });
+            
             return sync;
         }
     }
