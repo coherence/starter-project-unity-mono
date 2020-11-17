@@ -32,13 +32,13 @@ namespace Coherence.MonoBridge
             var gathered = new List<CoherenceSync>();
 #if UNITY_EDITOR
 
-            string[] guids = AssetDatabase.FindAssets("t:Object", new[] { "Assets" });
+            var guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
             var coherenceSyncType = typeof(CoherenceSync);
 
             foreach (string guid in guids)
             {
-                string objectPath = AssetDatabase.GUIDToAssetPath(guid);
-                Object[] objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
+                var objectPath = AssetDatabase.GUIDToAssetPath(guid);
+                var objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
 
                 foreach (Object o in objs)
                 {
@@ -46,7 +46,7 @@ namespace Coherence.MonoBridge
 
                     if(synced)
                     {
-                        Debug.Log($"Found prefab with CoherenceSync script: {o.name} : {o.GetType()}");
+                        //Debug.Log($"Found prefab with CoherenceSync script: {o.name} : {o.GetType()}");
                         gathered.Add(synced);
                     }
                 }
@@ -122,7 +122,7 @@ namespace Coherence.MonoBridge
             var schemaFilename = $"Gathered.schema";
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
 
-            StreamWriter schemaWriter = new StreamWriter(schemaFullPath);
+            var schemaWriter = new StreamWriter(schemaFullPath);
             var schemaCode = CreateSchema(componentDefinitions.Values, false);
             schemaWriter.Write(schemaCode);
             schemaWriter.Close();
@@ -168,7 +168,7 @@ namespace Coherence.Generated.FirstProject
             var jsonFilename = $"Gathered.json";
             var jsonFullPath = $"{OutDirectory}/{jsonFilename}";
 
-            StreamWriter jsonWriter = new StreamWriter(jsonFullPath);
+            var jsonWriter = new StreamWriter(jsonFullPath);
             var jsonCode = CreateJson(syncers);
             jsonWriter.Write(jsonCode);
             jsonWriter.Close();
