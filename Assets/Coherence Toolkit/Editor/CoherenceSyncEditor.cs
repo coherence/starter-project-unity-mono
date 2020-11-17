@@ -132,7 +132,7 @@ namespace Coherence.MonoBridge
             {
                 Type compType = myComp.GetType();
                 string compTypeString = compType.AssemblyQualifiedName;
-                
+
                 if (compType.IsSubclassOf(typeof(Renderer)) || compType == typeof(Renderer))
                 {
                     continue;
@@ -226,6 +226,11 @@ namespace Coherence.MonoBridge
 
                     AnimatorController controller = animator.runtimeAnimatorController as AnimatorController;
 
+                    if(controller == null)
+                    {
+                        continue;
+                    }
+
                     foreach (var parameter in controller.parameters)
                     {
                         EditorGUI.indentLevel++;
@@ -258,9 +263,9 @@ namespace Coherence.MonoBridge
 
                             EditorGUI.BeginChangeCheck();
                             bool varIncluded = EditorGUILayout.ToggleLeft($"{parameter.name} [{fieldType.Name}]", prevVarIncluded ?? false);
-                            
+
                             if (varIncluded) fieldsCheckedInEditorGUI++;
-                            
+
                             if (EditorGUI.EndChangeCheck())
                             {
                                 anyChangesMade = true;
@@ -323,9 +328,9 @@ namespace Coherence.MonoBridge
 
                         EditorGUI.BeginChangeCheck();
                         bool varIncluded = EditorGUILayout.ToggleLeft($"{variable.Name} [{fieldType.Name}]", prevVarIncluded ?? false);
-                        
+
                         if (varIncluded) fieldsCheckedInEditorGUI++;
-                        
+
                         if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;

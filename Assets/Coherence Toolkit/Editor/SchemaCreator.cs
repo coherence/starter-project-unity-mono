@@ -7,40 +7,44 @@ namespace Coherence.MonoBridge
     using System.Collections.Generic;
     using System.Reflection;
     using Newtonsoft.Json;
+    using UnityEditor.Animations;
 
     public class SchemaCreator
     {
         static string OutDirectory => $"{Application.dataPath}/Schemas";
 
-        static Dictionary<string, SpecialCase> specialCases = new Dictionary<string, SpecialCase>()
+        static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
         {
             {"UnityEngine.Transform",
-             new SpecialCase(new List<(string, string, string[])> {
-                                 ("position", "WorldPosition", new string[] {"Value"}),
-                                 ("rotation", "WorldOrientation", new string[] {"Value"}),
-                                 ("localScale", "GenericScale", new string[] {"Value"}),
-                             })}
+             new BasicWorkaround(new List<(string, string, string[])> {
+                     ("position", "WorldPosition", new string[] {"Value"}),
+                     ("rotation", "WorldOrientation", new string[] {"Value"}),
+                     ("localScale", "GenericScale", new string[] {"Value"}),
+                 })},
+
+            {"UnityEngine.Animator",
+             new AnimatorWorkaround()}
         };
 
         public static void GatherSyncBehavioursAndEmit()
         {
             var coherenceSyncBehaviours = GatherSyncBehaviours();
-            SaveSyncBehaviours(coherenceSyncBehaviours);
+            SaveGatheredSchema(coherenceSyncBehaviours);
+            SaveJson(coherenceSyncBehaviours);
         }
 
         private static CoherenceSync[] GatherSyncBehaviours() {
             var gathered = new List<CoherenceSync>();
 #if UNITY_EDITOR
-
             var guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
             var coherenceSyncType = typeof(CoherenceSync);
 
-            foreach (string guid in guids)
+            foreach (var guid in guids)
             {
                 var objectPath = AssetDatabase.GUIDToAssetPath(guid);
                 var objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
 
-                foreach (Object o in objs)
+                foreach (var o in objs)
                 {
                     var synced = o as CoherenceSync;
 
@@ -52,72 +56,65 @@ namespace Coherence.MonoBridge
                 }
             }
 #endif
-
             return gathered.ToArray();
         }
 
-        private static void SaveSyncBehaviours(CoherenceSync[] coherenceSyncBehaviours)
-        {
-            var setOfComponents = new HashSet<Component>();
-
-            foreach(var sync in coherenceSyncBehaviours)
-            {
-                setOfComponents.UnionWith(sync.gameObject.GetComponents(typeof(Component)));
-            }
-
-            var componentArray = new Component[setOfComponents.Count];
-            setOfComponents.CopyTo(componentArray);
-
-            SaveGatheredSchema(componentArray);
-            SaveJson(coherenceSyncBehaviours);
-        }
-
-        private static void SaveGatheredSchema(Component[] components) {
+        private static void SaveGatheredSchema(CoherenceSync[] coherenceSyncBehaviours) {
 #if UNITY_EDITOR
             var componentDefinitions = new Dictionary<string, ComponentDefinition>();
 
-            foreach (var component in components)
+            foreach(var coherenceSync in coherenceSyncBehaviours)
             {
-                var componentType = component.GetType();
-                var componentTypeString = componentType.AssemblyQualifiedName;
+                var components = coherenceSync.gameObject.GetComponents<Component>();
 
-                // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
-                //var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
-
-                if(TypeHelpers.SkipThisType(componentType) ||
-                   componentType == typeof(Transform))
+                foreach (var component in components)
                 {
-                    continue;
-                }
+                    var componentType = component.GetType();
+                    var componentTypeString = componentType.AssemblyQualifiedName;
+                    var componentName = componentType.ToString();
+                    var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
 
-                var componentName = componentType.ToString();
-                var componentDefinition = new ComponentDefinition(componentName.ToString());
-
-                componentDefinitions[componentName] = componentDefinition;
-
-                var members = TypeHelpers.Members(componentType);
-
-                foreach (var memberInfo in members)
-                {
-                    var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
-                    var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
-
-                    // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
-                    //var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
-
-                    if (!TypeHelpers.IsTypeSupported(fieldType) ||
-                        TypeHelpers.IsMonoMember(memberInfo.GetType()))
+                    if(TypeHelpers.SkipThisType(componentType) || !componentToggleOn)
                     {
                         continue;
                     }
 
-                    var memberName = memberInfo.Name;
-                    var memberType = TypeHelpers.ToSchemaType(fieldType);
-                    var member = new ComponentMemberDescription(memberName, memberType);
-                    componentDefinition.members.Add(member);
+                    if(specialCases.TryGetValue(componentName, out IWorkaround workaround))
+                    {
+                        var defs = workaround.ComponentDefinitions(componentTypeString, coherenceSync);
+                        foreach(var def in defs)
+                        {
+                            componentDefinitions[def.name] = def;
+                        }
+                        continue;
+                    }
+
+                    var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
+                    var componentDefinition = new ComponentDefinition(schemaComponentName);
+                    componentDefinitions[schemaComponentName] = componentDefinition;
+
+                    var members = TypeHelpers.Members(componentType);
+
+                    foreach (var memberInfo in members)
+                    {
+                        var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
+                        var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
+                        var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
+
+                        if (!TypeHelpers.IsTypeSupported(fieldType) ||
+                            TypeHelpers.IsMonoMember(memberInfo.GetType()) ||
+                            !memberToggleOn)
+                        {
+                            continue;
+                        }
+
+                        var memberName = memberInfo.Name;
+                        var memberType = TypeHelpers.ToSchemaType(fieldType);
+                        var member = new ComponentMemberDescription(memberName, memberType);
+                        componentDefinition.members.Add(member);
+                    }
                 }
             }
-
 
             var schemaFilename = $"Gathered.schema";
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
@@ -130,6 +127,11 @@ namespace Coherence.MonoBridge
             Debug.Log($"Saving schema to '{schemaFullPath}'.");
             AssetDatabase.Refresh();
 #endif
+        }
+
+        public static string SchemaComponentName(CoherenceSync coherenceSync, string componentName)
+        {
+            return Mangle(coherenceSync.name + "_" + componentName);
         }
 
         private static string CreateSchema(IEnumerable<ComponentDefinition> components, bool writeHeader)
@@ -205,9 +207,9 @@ namespace Coherence.Generated.FirstProject
                     var componentName = componentType.ToString();
 
                     // Special cases
-                    if(specialCases.TryGetValue(componentName, out SpecialCase specialCase))
+                    if(specialCases.TryGetValue(componentName, out IWorkaround specialCase))
                     {
-                        syncTheseComponents.AddRange(specialCase.Components(componentTypeString, coherenceSync));
+                        syncTheseComponents.AddRange(specialCase.SyncedComponents(componentTypeString, coherenceSync));
                         continue;
                     }
 
@@ -231,7 +233,8 @@ namespace Coherence.Generated.FirstProject
                         syncTheseMembers.Add(memberInfo.Name);
                     }
 
-                    var syncedComponent = new SyncedComponent(componentName, syncTheseMembers.ToArray());
+                    var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
+                    var syncedComponent = new SyncedComponent(schemaComponentName, syncTheseMembers.ToArray());
                     syncTheseComponents.Add(syncedComponent);
                 }
 
@@ -247,7 +250,7 @@ namespace Coherence.Generated.FirstProject
             return writer.ToString();
         }
 
-        private static string Mangle(string s)
+        public static string Mangle(string s)
         {
             return
                 s.Replace("-", "_")
@@ -264,6 +267,11 @@ namespace Coherence.Generated.FirstProject
         public ComponentDefinition(string name) {
             this.name = name;
             this.members = new List<ComponentMemberDescription>();
+        }
+
+        public ComponentDefinition(string name, List<ComponentMemberDescription> members) {
+            this.name = name;
+            this.members = members;
         }
     }
 
@@ -306,17 +314,23 @@ namespace Coherence.Generated.FirstProject
         }
     }
 
+    public interface IWorkaround
+    {
+        List<SyncedComponent> SyncedComponents(string componentTypeString, CoherenceSync coherenceSync);
+        List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync);
+    }
+
     // Structured way of handle special cases in the emitter, for example for Transform (translation/rotation/localScale)
-    public struct SpecialCase
+    public class BasicWorkaround : IWorkaround
     {
         List<(string, string, string[])> mappings; // (<monoBehaviourField>, <ecsComponentName>, <ecsComponentMembers>)
 
-        public SpecialCase(List<(string, string, string[])> mappings)
+        public BasicWorkaround(List<(string, string, string[])> mappings)
         {
             this.mappings = mappings;
         }
 
-        public List<SyncedComponent> Components(string componentTypeString, CoherenceSync coherenceSync)
+        public List<SyncedComponent> SyncedComponents(string componentTypeString, CoherenceSync coherenceSync)
         {
             var syncTheseComponents = new List<SyncedComponent>();
 
@@ -326,15 +340,111 @@ namespace Coherence.Generated.FirstProject
                 var toggleOn = coherenceSync.GetFieldToggle(key);
 
                 if(toggleOn == null) {
-                    Debug.Log($"No key named {key}");
+                    Debug.Log($"Can't find toggle key '{key}'");
                 }
                 else if(toggleOn.Value) {
-                    var translationComponent = new SyncedComponent(ecsComponentName, ecsComponentMembers);
-                    syncTheseComponents.Add(translationComponent);
+                    var component = new SyncedComponent(ecsComponentName, ecsComponentMembers);
+                    syncTheseComponents.Add(component);
                 }
             }
 
             return syncTheseComponents;
+        }
+
+        public List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync)
+        {
+            return new List<ComponentDefinition>(); // no schema components defined by default
+        }
+    }
+
+    public class AnimatorWorkaround : IWorkaround
+    {
+        public List<SyncedComponent> SyncedComponents(string componentTypeString, CoherenceSync coherenceSync)
+        {
+            var syncTheseComponents = new List<SyncedComponent>();
+            var animator = coherenceSync.gameObject.GetComponent<Animator>();
+            var controller = animator.runtimeAnimatorController as AnimatorController;
+
+            if(controller == null)
+            {
+                return syncTheseComponents;
+            }
+
+            var componentMembers = new List<string>();
+
+            foreach (var parameter in controller.parameters)
+            {
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + parameter.name;
+                var toggleOn = coherenceSync.GetFieldToggle(key);
+
+                if(toggleOn == null)
+                {
+                    Debug.LogWarning($"Can't find toggle key '{key}'");
+                }
+                else if(toggleOn.Value)
+                {
+                    componentMembers.Add(parameter.name);
+                }
+            }
+
+            var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
+            var animatorComponent = new SyncedComponent(componentName, componentMembers.ToArray());
+            syncTheseComponents.Add(animatorComponent);
+
+            return syncTheseComponents;
+        }
+
+        public List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync)
+        {
+            var definitions = new List<ComponentDefinition>();
+            var animator = coherenceSync.gameObject.GetComponent<Animator>();
+            var controller = animator.runtimeAnimatorController as AnimatorController;
+
+            if(controller == null)
+            {
+                return definitions;
+            }
+
+            var members = new List<ComponentMemberDescription>();
+
+            foreach (var parameter in controller.parameters)
+            {
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + parameter.name;
+                var toggleOn = coherenceSync.GetFieldToggle(key);
+
+                if(toggleOn == null)
+                {
+                    Debug.LogWarning($"Can't find toggle key '{key}'");
+                }
+                else if(toggleOn.Value)
+                {
+                    string parameterTypeName = null;
+
+                    switch(parameter.type) {
+                        case AnimatorControllerParameterType.Bool:
+                            parameterTypeName = "Bool";
+                            break;
+                        case AnimatorControllerParameterType.Int:
+                            parameterTypeName = "Int";
+                            break;
+                        case AnimatorControllerParameterType.Float:
+                            parameterTypeName = "Float";
+                            break;
+                    }
+
+                    if(parameterTypeName != null)
+                    {
+                        var description = new ComponentMemberDescription(parameter.name, parameterTypeName);
+                        members.Add(description);
+                    }
+                }
+            }
+
+            var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
+            var animatorComponent = new ComponentDefinition(componentName, members);
+            definitions.Add(animatorComponent);
+
+            return definitions;
         }
     }
 }
