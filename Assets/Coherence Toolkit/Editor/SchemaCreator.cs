@@ -29,22 +29,22 @@ namespace Coherence.MonoBridge
         public static void GatherSyncBehavioursAndEmit()
         {
             var coherenceSyncBehaviours = GatherSyncBehaviours();
-            SaveSyncBehaviours(coherenceSyncBehaviours);
+            SaveGatheredSchema(coherenceSyncBehaviours);
+            SaveJson(coherenceSyncBehaviours);
         }
 
         private static CoherenceSync[] GatherSyncBehaviours() {
             var gathered = new List<CoherenceSync>();
 #if UNITY_EDITOR
-
             var guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
             var coherenceSyncType = typeof(CoherenceSync);
 
-            foreach (string guid in guids)
+            foreach (var guid in guids)
             {
                 var objectPath = AssetDatabase.GUIDToAssetPath(guid);
                 var objs = AssetDatabase.LoadAllAssetsAtPath(objectPath);
 
-                foreach (Object o in objs)
+                foreach (var o in objs)
                 {
                     var synced = o as CoherenceSync;
 
@@ -56,80 +56,65 @@ namespace Coherence.MonoBridge
                 }
             }
 #endif
-
             return gathered.ToArray();
         }
 
-        private static void SaveSyncBehaviours(CoherenceSync[] coherenceSyncBehaviours)
-        {
-            var setOfComponents = new HashSet<Component>();
-
-            foreach(var sync in coherenceSyncBehaviours)
-            {
-                setOfComponents.UnionWith(sync.gameObject.GetComponents(typeof(Component)));
-            }
-
-            var componentArray = new Component[setOfComponents.Count];
-            setOfComponents.CopyTo(componentArray);
-
-            SaveGatheredSchema(componentArray);
-            SaveJson(coherenceSyncBehaviours);
-        }
-
-        private static void SaveGatheredSchema(Component[] components) {
+        private static void SaveGatheredSchema(CoherenceSync[] coherenceSyncBehaviours) {
 #if UNITY_EDITOR
             var componentDefinitions = new Dictionary<string, ComponentDefinition>();
 
-            foreach (var component in components)
+            foreach(var coherenceSync in coherenceSyncBehaviours)
             {
-                var componentType = component.GetType();
-                var componentTypeString = componentType.AssemblyQualifiedName;
-                var componentName = componentType.ToString();
+                var components = coherenceSync.gameObject.GetComponents<Component>();
 
-                // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
-                //var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
-
-                if(TypeHelpers.SkipThisType(componentType))
+                foreach (var component in components)
                 {
-                    continue;
-                }
+                    var componentType = component.GetType();
+                    var componentTypeString = componentType.AssemblyQualifiedName;
+                    var componentName = componentType.ToString();
+                    var componentToggleOn = coherenceSync.GetScriptToggle(componentTypeString) ?? false;
 
-                if(specialCases.TryGetValue(componentName, out IWorkaround workaround))
-                {
-                    // var defs = workaround.ComponentDefinitions(componentTypeString, coherenceSync);
-                    // foreach(var def in defs)
-                    // {
-                    //     componentDefinitions[def.name] = def;
-                    // }
-                    continue;
-                }
-
-                var componentDefinition = new ComponentDefinition(componentName.ToString());
-                componentDefinitions[componentName] = componentDefinition;
-
-                var members = TypeHelpers.Members(componentType);
-
-                foreach (var memberInfo in members)
-                {
-                    var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
-                    var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
-
-                    // NOTE: If we want to create a unique ECS component for each prefab component, we need this:
-                    //var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
-
-                    if (!TypeHelpers.IsTypeSupported(fieldType) ||
-                        TypeHelpers.IsMonoMember(memberInfo.GetType()))
+                    if(TypeHelpers.SkipThisType(componentType) || !componentToggleOn)
                     {
                         continue;
                     }
 
-                    var memberName = memberInfo.Name;
-                    var memberType = TypeHelpers.ToSchemaType(fieldType);
-                    var member = new ComponentMemberDescription(memberName, memberType);
-                    componentDefinition.members.Add(member);
+                    if(specialCases.TryGetValue(componentName, out IWorkaround workaround))
+                    {
+                        var defs = workaround.ComponentDefinitions(componentTypeString, coherenceSync);
+                        foreach(var def in defs)
+                        {
+                            componentDefinitions[def.name] = def;
+                        }
+                        continue;
+                    }
+
+                    var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
+                    var componentDefinition = new ComponentDefinition(schemaComponentName);
+                    componentDefinitions[schemaComponentName] = componentDefinition;
+
+                    var members = TypeHelpers.Members(componentType);
+
+                    foreach (var memberInfo in members)
+                    {
+                        var fieldType = TypeHelpers.GetUnderlyingType(memberInfo);
+                        var varString = componentTypeString + CoherenceSync.KeyDelimiter + memberInfo.Name;
+                        var memberToggleOn = coherenceSync.GetFieldToggle(varString) ?? false;
+
+                        if (!TypeHelpers.IsTypeSupported(fieldType) ||
+                            TypeHelpers.IsMonoMember(memberInfo.GetType()) ||
+                            !memberToggleOn)
+                        {
+                            continue;
+                        }
+
+                        var memberName = memberInfo.Name;
+                        var memberType = TypeHelpers.ToSchemaType(fieldType);
+                        var member = new ComponentMemberDescription(memberName, memberType);
+                        componentDefinition.members.Add(member);
+                    }
                 }
             }
-
 
             var schemaFilename = $"Gathered.schema";
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
@@ -142,6 +127,11 @@ namespace Coherence.MonoBridge
             Debug.Log($"Saving schema to '{schemaFullPath}'.");
             AssetDatabase.Refresh();
 #endif
+        }
+
+        public static string SchemaComponentName(CoherenceSync coherenceSync, string componentName)
+        {
+            return Mangle(coherenceSync.name + "_" + componentName);
         }
 
         private static string CreateSchema(IEnumerable<ComponentDefinition> components, bool writeHeader)
@@ -259,7 +249,7 @@ namespace Coherence.Generated.FirstProject
             return writer.ToString();
         }
 
-        private static string Mangle(string s)
+        public static string Mangle(string s)
         {
             return
                 s.Replace("-", "_")
@@ -276,6 +266,11 @@ namespace Coherence.Generated.FirstProject
         public ComponentDefinition(string name) {
             this.name = name;
             this.members = new List<ComponentMemberDescription>();
+        }
+
+        public ComponentDefinition(string name, List<ComponentMemberDescription> members) {
+            this.name = name;
+            this.members = members;
         }
     }
 
@@ -391,7 +386,7 @@ namespace Coherence.Generated.FirstProject
                 }
             }
 
-            var componentName = coherenceSync.name + "_" + "Animator";
+            var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
             var animatorComponent = new SyncedComponent(componentName, componentMembers.ToArray());
             syncTheseComponents.Add(animatorComponent);
 
@@ -400,7 +395,55 @@ namespace Coherence.Generated.FirstProject
 
         public List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync)
         {
-            return new List<ComponentDefinition>(); // TODO!
+            var definitions = new List<ComponentDefinition>();
+            var animator = coherenceSync.gameObject.GetComponent<Animator>();
+            var controller = animator.runtimeAnimatorController as AnimatorController;
+
+            if(controller == null)
+            {
+                return definitions;
+            }
+
+            var members = new List<ComponentMemberDescription>();
+
+            foreach (var parameter in controller.parameters)
+            {
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + parameter.name;
+                var toggleOn = coherenceSync.GetFieldToggle(key);
+
+                if(toggleOn == null)
+                {
+                    Debug.LogWarning($"Can't find toggle key '{key}'");
+                }
+                else if(toggleOn.Value)
+                {
+                    string parameterTypeName = null;
+
+                    switch(parameter.type) {
+                        case AnimatorControllerParameterType.Bool:
+                            parameterTypeName = "Bool";
+                            break;
+                        case AnimatorControllerParameterType.Int:
+                            parameterTypeName = "Int";
+                            break;
+                        case AnimatorControllerParameterType.Float:
+                            parameterTypeName = "Float";
+                            break;
+                    }
+
+                    if(parameterTypeName != null)
+                    {
+                        var description = new ComponentMemberDescription(parameter.name, parameterTypeName);
+                        members.Add(description);
+                    }
+                }
+            }
+
+            var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
+            var animatorComponent = new ComponentDefinition(componentName, members);
+            definitions.Add(animatorComponent);
+
+            return definitions;
         }
     }
 }
