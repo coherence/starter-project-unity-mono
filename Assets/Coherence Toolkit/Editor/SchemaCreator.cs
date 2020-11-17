@@ -233,7 +233,8 @@ namespace Coherence.Generated.FirstProject
                         syncTheseMembers.Add(memberInfo.Name);
                     }
 
-                    var syncedComponent = new SyncedComponent(componentName, syncTheseMembers.ToArray());
+                    var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
+                    var syncedComponent = new SyncedComponent(schemaComponentName, syncTheseMembers.ToArray());
                     syncTheseComponents.Add(syncedComponent);
                 }
 
