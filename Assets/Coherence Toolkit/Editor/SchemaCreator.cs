@@ -18,7 +18,7 @@ namespace Coherence.MonoBridge
              new SpecialCase(new List<(string, string, string[])> {
                                  ("position", "WorldPosition", new string[] {"Value"}),
                                  ("rotation", "WorldOrientation", new string[] {"Value"}),
-                                 ("localScale", "NEED_A_TYPE_HERE", new string[] {"Value"}),
+                                 ("localScale", "GenericScale", new string[] {"Value"}),
                              })}
         };
 

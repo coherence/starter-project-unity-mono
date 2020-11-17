@@ -42,7 +42,7 @@ namespace Coherence.MonoBridge
         private EntityManager entityManager;
 
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
-        
+
         [SerializeField] private List<string> enabledScriptTogglesKeys = new List<string>();
         [SerializeField] private List<bool> enabledScriptTogglesValues = new List<bool>();
 
@@ -60,7 +60,7 @@ namespace Coherence.MonoBridge
         [SerializeField] private int genericFieldCounter_Quaternion;
         [SerializeField] private int genericFieldCounter_String;
         [SerializeField] private int genericFieldCounter_Vector;
-        
+
         [SerializeField] private List<string> scriptTogglesKeys = new List<string>();
         [SerializeField] private List<bool> scriptTogglesValues = new List<bool>();
 
@@ -68,7 +68,7 @@ namespace Coherence.MonoBridge
 
         [SerializeField] public string remoteVersionPrefabName;
         [NonSerialized] private string schemaNamespace = "Coherence.Generated.FirstProject.";
-        
+
         [SerializeField]
         protected SynchronizedPrefabOptions selectedSynchronizedPrefabOption = SynchronizedPrefabOptions.This;
 
@@ -386,7 +386,7 @@ namespace Coherence.MonoBridge
             }
         }
 
-        private bool EcsEntityExists()
+        public bool EcsEntityExists()
         {
             return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
@@ -452,7 +452,7 @@ namespace Coherence.MonoBridge
 
             return num;
         }
-        
+
         public void TestAndFixSyncReferenceData()
         {
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
@@ -460,9 +460,9 @@ namespace Coherence.MonoBridge
                 var on = fieldTogglesValues[i];
 
                 if (!on) continue;
-                
+
                 var linkVal = fieldLinksValues[i];
-                
+
                 if (!string.IsNullOrEmpty(linkVal))
                 {
                     var linkKey = fieldLinksKeys[i];
@@ -472,7 +472,7 @@ namespace Coherence.MonoBridge
                     var networkedType = GetFieldInformation(linkKey, linkVal, toggleKey, out var fieldType, ref script, out var fieldName, out var cmp, out var field, out var property);
 
                     object currentMonoValue = null;
-                    
+
                     try
                     {
                         if (field != null)
@@ -492,7 +492,7 @@ namespace Coherence.MonoBridge
                 }
             }
         }
-        
+
         private void SyncEcsWithReflection()
         {
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
@@ -500,9 +500,9 @@ namespace Coherence.MonoBridge
                 var on = fieldTogglesValues[i];
 
                 if (!on) continue;
-                
+
                 var linkVal = fieldLinksValues[i];
-                
+
                 if (!string.IsNullOrEmpty(linkVal))
                 {
                     var linkKey = fieldLinksKeys[i];
@@ -512,7 +512,7 @@ namespace Coherence.MonoBridge
                     var networkedType = GetFieldInformation(linkKey, linkVal, toggleKey, out var fieldType, ref script, out var fieldName, out var cmp, out var field, out var property);
 
                     object currentMonoValue = null;
-                    
+
                     try
                     {
                         if (field != null)
@@ -654,7 +654,7 @@ namespace Coherence.MonoBridge
 
             var method = typeof(EntityManager).GetMethod("SetComponentData");
             var generic = method.MakeGenericMethod(networkedType);
-           
+
             if (CmpType(fieldType, typeof(Vector3)))
             {
                 var fieldX = networkedType.GetField("Value");
@@ -690,7 +690,7 @@ namespace Coherence.MonoBridge
                 var val = (Quaternion) currentMonoValue;
                 fieldX.SetValue(inst, new quaternion(val.x, val.y, val.z, val.w));
             }
-        
+
             try
             {
                 _ = generic.Invoke(entityManager, new[] { entity, inst });
