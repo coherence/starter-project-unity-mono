@@ -15,6 +15,7 @@ namespace Coherence.MonoBridge
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
         public bool debugMode = true;
 
+        public bool isConnected = false;
         private EntityManager entityManager;
         private EntityQuery entityQueryRemote;
         private EntityQuery entityQueryLocal;
@@ -48,6 +49,16 @@ namespace Coherence.MonoBridge
                 typeof(Simulated));
 
             DontDestroyOnLoad(this.gameObject);
+            
+            Coherence.Network.OnConnected += () =>
+            {
+                isConnected = true;
+            };
+
+            Coherence.Network.OnDisconnected += () =>
+            {
+                isConnected = false;
+            };
         }
 
         private void LateUpdate()
