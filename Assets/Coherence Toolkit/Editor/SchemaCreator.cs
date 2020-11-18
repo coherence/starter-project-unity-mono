@@ -237,9 +237,10 @@ namespace Coherence.Generated.FirstProject
                     var syncedComponent = new SyncedComponent(schemaComponentName,
                                                               syncTheseMembers.ToArray(),
                                                               true,
-                                                              $"_{componentName}_ref",
+                                                              $"_{componentName.ToLower()}",
                                                               componentName,
-                                                              syncTheseMembers.ToArray() // same names
+                                                              syncTheseMembers.ToArray(), // same names for getters
+                                                              syncTheseMembers.ToArray() // same names for setters
                                                               );
                     syncTheseComponents.Add(syncedComponent);
                 }
@@ -316,16 +317,18 @@ namespace Coherence.Generated.FirstProject
         public bool NeedCachedProperty; // Will generate a _componentName reference in the sync script
         public string Property; // Name of the property to access the MonoBehaviour via, e.g. 'transform'
         public string PropertyType; // Type of the property to access the MonoBehaviour via, e.g. 'transform'
-        public string[] PropertyGetters; // How to get data from the property, e.g. '.position'
+        public string[] PropertyGetters; // How to get data from the property, e.g. '.position' or 'GetFloat'
+        public string[] PropertySetters; // How to get data from the property, e.g. '.position' or 'SetFloat()'
 
         public SyncedComponent(string name, string[] members, bool needsInitializer,
-                               string property, string propertyType, string[] getters) {
+                               string property, string propertyType, string[] getters, string[] setters) {
             this.ComponentName = name;
             this.Members = members;
             this.NeedCachedProperty = needsInitializer;
             this.Property = property;
             this.PropertyType = propertyType;
             this.PropertyGetters = getters;
+            this.PropertySetters = setters;
         }
 
         // public SyncedComponent(string name, string[] members) {
@@ -364,7 +367,7 @@ namespace Coherence.Generated.FirstProject
         {
             var syncTheseComponents = new List<SyncedComponent>();
 
-            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers, monoNames) in mappings)
+            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers, innerFields) in mappings)
             {
                 var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
@@ -378,7 +381,8 @@ namespace Coherence.Generated.FirstProject
                                                         false,
                                                         monoBehaviourProperty,
                                                         monoBehaviourPropertyType,
-                                                        monoNames);
+                                                        innerFields,
+                                                        innerFields);
                     syncTheseComponents.Add(component);
                 }
             }
@@ -407,20 +411,23 @@ namespace Coherence.Generated.FirstProject
 
             var componentMembers = new List<string>();
             var animatorGetters = new List<string>();
+            var animatorSetters = new List<string>();
 
             foreach (var parameter in controller.parameters)
             {
                 var key = componentTypeString + CoherenceSync.KeyDelimiter + parameter.name;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
+                var parameterTypeName = ParameterTypeName(parameter.type);
 
                 if(toggleOn == null)
                 {
                     Debug.LogWarning($"Can't find toggle key '{key}'");
                 }
-                else if(toggleOn.Value)
+                else if(toggleOn.Value && parameterTypeName != null)
                 {
                     componentMembers.Add(parameter.name);
-                    animatorGetters.Add($"GetBool(\"{parameter.name}\")");
+                    animatorGetters.Add($"Get{parameterTypeName}(\"{parameter.name}\")");
+                    animatorSetters.Add($"Set{parameterTypeName}(\"{parameter.name}\", @)");
                 }
             }
 
@@ -430,7 +437,9 @@ namespace Coherence.Generated.FirstProject
                                                         true,
                                                         "_animator",
                                                         "Animator",
-                                                        animatorGetters.ToArray());
+                                                        animatorGetters.ToArray(),
+                                                        animatorSetters.ToArray()
+                                                        );
             syncTheseComponents.Add(animatorComponent);
 
             return syncTheseComponents;
@@ -460,19 +469,7 @@ namespace Coherence.Generated.FirstProject
                 }
                 else if(toggleOn.Value)
                 {
-                    string parameterTypeName = null;
-
-                    switch(parameter.type) {
-                        case AnimatorControllerParameterType.Bool:
-                            parameterTypeName = "Bool";
-                            break;
-                        case AnimatorControllerParameterType.Int:
-                            parameterTypeName = "Int";
-                            break;
-                        case AnimatorControllerParameterType.Float:
-                            parameterTypeName = "Float";
-                            break;
-                    }
+                    var parameterTypeName = ParameterTypeName(parameter.type);
 
                     if(parameterTypeName != null)
                     {
@@ -487,6 +484,25 @@ namespace Coherence.Generated.FirstProject
             definitions.Add(animatorComponent);
 
             return definitions;
+        }
+
+        static string ParameterTypeName(AnimatorControllerParameterType type)
+        {
+            string parameterTypeName = null;
+
+            switch(type) {
+                case AnimatorControllerParameterType.Bool:
+                    parameterTypeName = "Bool";
+                    break;
+                case AnimatorControllerParameterType.Int:
+                    parameterTypeName = "Int";
+                    break;
+                case AnimatorControllerParameterType.Float:
+                    parameterTypeName = "Float";
+                    break;
+            }
+
+            return parameterTypeName;
         }
     }
 }
