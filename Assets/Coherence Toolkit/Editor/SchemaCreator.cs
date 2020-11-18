@@ -17,9 +17,9 @@ namespace Coherence.MonoBridge
         {
             {"UnityEngine.Transform",
              new BasicWorkaround("transform", "Transform", new List<PerField> {
-                     PerField("position", "WorldPosition", new string[] {"Value"}),
-                     PerField("rotation", "WorldOrientation", new string[] {"Value"}),
-                     PerField("localScale", "GenericScale", new string[] {"Value"}),
+                     new PerField("position", "WorldPosition", new string[] {"Value"}),
+                     new PerField("rotation", "WorldOrientation", new string[] {"Value"}),
+                     new PerField("localScale", "GenericScale", new string[] {"Value"}),
                  })},
 
             {"UnityEngine.Animator",

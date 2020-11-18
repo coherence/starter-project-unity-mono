@@ -188,7 +188,7 @@ namespace Coherence.MonoBridge
                 CreateECSRepresentation();
             }
         }
-        
+
         private void OnDisconnected()
         {
             entity = Entity.Null;
@@ -387,7 +387,7 @@ namespace Coherence.MonoBridge
             }
         }
 
-        private bool EcsEntityExists()
+        public bool EcsEntityExists()
         {
             return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
