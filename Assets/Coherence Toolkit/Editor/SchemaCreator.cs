@@ -16,10 +16,10 @@ namespace Coherence.MonoBridge
         static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
         {
             {"UnityEngine.Transform",
-             new BasicWorkaround("transform", "Transform", new List<(string, string, string[], string[])> {
-                     ("position", "WorldPosition", new string[] {"Value"}, new string[] {"position"}),
-                     ("rotation", "WorldOrientation", new string[] {"Value"}, new string[] {"rotation"}),
-                     ("localScale", "GenericScale", new string[] {"Value"}, new string[] {"localScale"}),
+             new BasicWorkaround("transform", "Transform", new List<PerField> {
+                     PerField("position", "WorldPosition", new string[] {"Value"}),
+                     PerField("rotation", "WorldOrientation", new string[] {"Value"}),
+                     PerField("localScale", "GenericScale", new string[] {"Value"}),
                  })},
 
             {"UnityEngine.Animator",
@@ -330,14 +330,6 @@ namespace Coherence.Generated.FirstProject
             this.PropertyGetters = getters;
             this.PropertySetters = setters;
         }
-
-        // public SyncedComponent(string name, string[] members) {
-        //     this.ComponentName = name;
-        //     this.Members = members;
-        //     this.NeedCachedProperty = false;
-        //     this.MonoBehaviour = null;
-        //     this.MonoBehaviourGetters = null;
-        // }
     }
 
     public interface IWorkaround
@@ -352,37 +344,36 @@ namespace Coherence.Generated.FirstProject
         string monoBehaviourProperty;
         string monoBehaviourPropertyType;
 
-        // mappings contains
-        List<(string, string, string[], string[])> mappings;
+        List<PerField> perFieldMappings;
 
         public BasicWorkaround(string monoBehaviourProperty, string monoBehaviourPropertyType,
-                               List<(string, string, string[], string[])> mappings)
+                               List<PerField> perFieldMappings)
         {
             this.monoBehaviourProperty = monoBehaviourProperty;
             this.monoBehaviourPropertyType = monoBehaviourPropertyType;
-            this.mappings = mappings;
+            this.perFieldMappings = perFieldMappings;
         }
 
         public List<SyncedComponent> SyncedComponents(string componentTypeString, CoherenceSync coherenceSync)
         {
             var syncTheseComponents = new List<SyncedComponent>();
 
-            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers, innerFields) in mappings)
+            foreach(var perField in perFieldMappings)
             {
-                var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + perField.monoBehaviourField;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
 
                 if(toggleOn == null) {
                     Debug.Log($"Can't find toggle key '{key}'");
                 }
                 else if(toggleOn.Value) {
-                    var component = new SyncedComponent(ecsComponentName,
-                                                        ecsComponentMembers,
+                    var component = new SyncedComponent(perField.ecsComponentName,
+                                                        perField.ecsComponentMembers,
                                                         false,
                                                         monoBehaviourProperty,
                                                         monoBehaviourPropertyType,
-                                                        innerFields,
-                                                        innerFields);
+                                                        perField.innerFields,
+                                                        perField.innerFields);
                     syncTheseComponents.Add(component);
                 }
             }
@@ -392,7 +383,23 @@ namespace Coherence.Generated.FirstProject
 
         public List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync)
         {
-            return new List<ComponentDefinition>(); // no schema components defined by default
+            return new List<ComponentDefinition>(); // no schema components defined (will be built in)
+        }
+    }
+
+    public struct PerField
+    {
+        public string monoBehaviourField;
+        public string ecsComponentName;
+        public string[] ecsComponentMembers;
+        public string[] innerFields;
+
+        public PerField(string monoBehaviourField, string ecsComponentName, string[] ecsComponentMembers)
+        {
+            this.monoBehaviourField = monoBehaviourField;
+            this.ecsComponentName = ecsComponentName;
+            this.ecsComponentMembers = ecsComponentMembers;
+            this.innerFields = new string[] { monoBehaviourField };
         }
     }
 
