@@ -16,7 +16,7 @@ namespace Coherence.MonoBridge
         static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
         {
             {"UnityEngine.Transform",
-             new BasicWorkaround("transform", new List<(string, string, string[], string[])> {
+             new BasicWorkaround("transform", "Transform", new List<(string, string, string[], string[])> {
                      ("position", "WorldPosition", new string[] {"Value"}, new string[] {"position"}),
                      ("rotation", "WorldOrientation", new string[] {"Value"}, new string[] {"rotation"}),
                      ("localScale", "GenericScale", new string[] {"Value"}, new string[] {"localScale"}),
@@ -237,8 +237,10 @@ namespace Coherence.Generated.FirstProject
                     var syncedComponent = new SyncedComponent(schemaComponentName,
                                                               syncTheseMembers.ToArray(),
                                                               true,
+                                                              $"_{componentName}_ref",
                                                               componentName,
-                                                              null);
+                                                              syncTheseMembers.ToArray() // same names
+                                                              );
                     syncTheseComponents.Add(syncedComponent);
                 }
 
@@ -313,14 +315,16 @@ namespace Coherence.Generated.FirstProject
         public string[] Members; // Names of the members of the ECS component
         public bool NeedCachedProperty; // Will generate a _componentName reference in the sync script
         public string Property; // Name of the property to access the MonoBehaviour via, e.g. 'transform'
+        public string PropertyType; // Type of the property to access the MonoBehaviour via, e.g. 'transform'
         public string[] PropertyGetters; // How to get data from the property, e.g. '.position'
 
         public SyncedComponent(string name, string[] members, bool needsInitializer,
-                               string property, string[] getters) {
+                               string property, string propertyType, string[] getters) {
             this.ComponentName = name;
             this.Members = members;
             this.NeedCachedProperty = needsInitializer;
             this.Property = property;
+            this.PropertyType = propertyType;
             this.PropertyGetters = getters;
         }
 
@@ -343,13 +347,16 @@ namespace Coherence.Generated.FirstProject
     public class BasicWorkaround : IWorkaround
     {
         string monoBehaviourProperty;
+        string monoBehaviourPropertyType;
 
         // mappings contains
         List<(string, string, string[], string[])> mappings;
 
-        public BasicWorkaround(string monoBehaviourProperty, List<(string, string, string[], string[])> mappings)
+        public BasicWorkaround(string monoBehaviourProperty, string monoBehaviourPropertyType,
+                               List<(string, string, string[], string[])> mappings)
         {
             this.monoBehaviourProperty = monoBehaviourProperty;
+            this.monoBehaviourPropertyType = monoBehaviourPropertyType;
             this.mappings = mappings;
         }
 
@@ -370,6 +377,7 @@ namespace Coherence.Generated.FirstProject
                                                         ecsComponentMembers,
                                                         false,
                                                         monoBehaviourProperty,
+                                                        monoBehaviourPropertyType,
                                                         monoNames);
                     syncTheseComponents.Add(component);
                 }
@@ -420,6 +428,7 @@ namespace Coherence.Generated.FirstProject
             var animatorComponent = new SyncedComponent(componentName,
                                                         componentMembers.ToArray(),
                                                         true,
+                                                        "_animator",
                                                         "Animator",
                                                         animatorGetters.ToArray());
             syncTheseComponents.Add(animatorComponent);
