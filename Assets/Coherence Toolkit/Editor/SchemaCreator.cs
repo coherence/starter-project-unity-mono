@@ -16,10 +16,10 @@ namespace Coherence.MonoBridge
         static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
         {
             {"UnityEngine.Transform",
-             new BasicWorkaround(new List<(string, string, string[])> {
-                     ("position", "WorldPosition", new string[] {"Value"}),
-                     ("rotation", "WorldOrientation", new string[] {"Value"}),
-                     ("localScale", "GenericScale", new string[] {"Value"}),
+             new BasicWorkaround("transform", new List<(string, string, string[], string[])> {
+                     ("position", "WorldPosition", new string[] {"Value"}, new string[] {"position"}),
+                     ("rotation", "WorldOrientation", new string[] {"Value"}, new string[] {"rotation"}),
+                     ("localScale", "GenericScale", new string[] {"Value"}, new string[] {"localScale"}),
                  })},
 
             {"UnityEngine.Animator",
@@ -234,7 +234,11 @@ namespace Coherence.Generated.FirstProject
                     }
 
                     var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
-                    var syncedComponent = new SyncedComponent(schemaComponentName, syncTheseMembers.ToArray());
+                    var syncedComponent = new SyncedComponent(schemaComponentName,
+                                                              syncTheseMembers.ToArray(),
+                                                              true,
+                                                              componentName,
+                                                              null);
                     syncTheseComponents.Add(syncedComponent);
                 }
 
@@ -305,13 +309,28 @@ namespace Coherence.Generated.FirstProject
     // Note: The member names have some stuttering to make the json readable on its own
     public struct SyncedComponent
     {
-        public string ComponentName;
-        public string[] Members;
+        public string ComponentName; // Name of the ECS component that the sync script will sync the MonoBehaviour:s data with
+        public string[] Members; // Names of the members of the ECS component
+        public bool NeedCachedProperty; // Will generate a _componentName reference in the sync script
+        public string Property; // Name of the property to access the MonoBehaviour via, e.g. 'transform'
+        public string[] PropertyGetters; // How to get data from the property, e.g. '.position'
 
-        public SyncedComponent(string name, string[] members) {
+        public SyncedComponent(string name, string[] members, bool needsInitializer,
+                               string property, string[] getters) {
             this.ComponentName = name;
             this.Members = members;
+            this.NeedCachedProperty = needsInitializer;
+            this.Property = property;
+            this.PropertyGetters = getters;
         }
+
+        // public SyncedComponent(string name, string[] members) {
+        //     this.ComponentName = name;
+        //     this.Members = members;
+        //     this.NeedCachedProperty = false;
+        //     this.MonoBehaviour = null;
+        //     this.MonoBehaviourGetters = null;
+        // }
     }
 
     public interface IWorkaround
@@ -323,10 +342,14 @@ namespace Coherence.Generated.FirstProject
     // Structured way of handle special cases in the emitter, for example for Transform (translation/rotation/localScale)
     public class BasicWorkaround : IWorkaround
     {
-        List<(string, string, string[])> mappings; // (<monoBehaviourField>, <ecsComponentName>, <ecsComponentMembers>)
+        string monoBehaviourProperty;
 
-        public BasicWorkaround(List<(string, string, string[])> mappings)
+        // mappings contains
+        List<(string, string, string[], string[])> mappings;
+
+        public BasicWorkaround(string monoBehaviourProperty, List<(string, string, string[], string[])> mappings)
         {
+            this.monoBehaviourProperty = monoBehaviourProperty;
             this.mappings = mappings;
         }
 
@@ -334,7 +357,7 @@ namespace Coherence.Generated.FirstProject
         {
             var syncTheseComponents = new List<SyncedComponent>();
 
-            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers) in mappings)
+            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers, monoNames) in mappings)
             {
                 var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
@@ -343,7 +366,11 @@ namespace Coherence.Generated.FirstProject
                     Debug.Log($"Can't find toggle key '{key}'");
                 }
                 else if(toggleOn.Value) {
-                    var component = new SyncedComponent(ecsComponentName, ecsComponentMembers);
+                    var component = new SyncedComponent(ecsComponentName,
+                                                        ecsComponentMembers,
+                                                        false,
+                                                        monoBehaviourProperty,
+                                                        monoNames);
                     syncTheseComponents.Add(component);
                 }
             }
@@ -371,6 +398,7 @@ namespace Coherence.Generated.FirstProject
             }
 
             var componentMembers = new List<string>();
+            var animatorGetters = new List<string>();
 
             foreach (var parameter in controller.parameters)
             {
@@ -384,11 +412,16 @@ namespace Coherence.Generated.FirstProject
                 else if(toggleOn.Value)
                 {
                     componentMembers.Add(parameter.name);
+                    animatorGetters.Add($"GetBool(\"{parameter.name}\")");
                 }
             }
 
             var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
-            var animatorComponent = new SyncedComponent(componentName, componentMembers.ToArray());
+            var animatorComponent = new SyncedComponent(componentName,
+                                                        componentMembers.ToArray(),
+                                                        true,
+                                                        "Animator",
+                                                        animatorGetters.ToArray());
             syncTheseComponents.Add(animatorComponent);
 
             return syncTheseComponents;
