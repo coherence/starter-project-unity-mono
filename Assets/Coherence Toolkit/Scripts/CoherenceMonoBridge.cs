@@ -165,7 +165,7 @@ namespace Coherence.MonoBridge
                     {
                         if (!mapper.ContainsKey(entity))
                         {
-                            Log($"Linking: {entity} -> {sync}", sync);
+                            Log($"Linking: {entity} -> {sync}, {sync.EcsEntityExists()}", sync);
                             mapper[entities[i]] = sync;
                             
                             OnNetworkEntityCreated?.Invoke(this, new EntityArgs()
