@@ -387,6 +387,7 @@ namespace Coherence.MonoBridge
             }
         }
 
+        // Note: must be public
         public bool EcsEntityExists()
         {
             return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
