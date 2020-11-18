@@ -143,12 +143,11 @@ MonoBehaviour:
   genericFieldCounter_Quaternion: 1
   genericFieldCounter_String: 0
   genericFieldCounter_Vector: 1
-  isSimulated: 1
-  remoteVersionPrefabName: Bullet
   scriptTogglesKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
   scriptTogglesValues: 01
+  remoteVersionPrefabName: Bullet
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!114 &-1052476556966486007
@@ -164,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  lifetime: 5
+  lifetime: 10
 --- !u!114 &3516712273707471363
 MonoBehaviour:
   m_ObjectHideFlags: 0

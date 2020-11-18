@@ -18,7 +18,6 @@ namespace Coherence.MonoBridge
     {
         public static List<CoherenceSync> instances = new List<CoherenceSync>();
 
-        private bool isConnected = false;
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
 
         public event NetworkCommandHandler NetworkCommandReceived;
@@ -178,25 +177,32 @@ namespace Coherence.MonoBridge
 
             if (coherenceMonoBridge != null) schemaNamespace = coherenceMonoBridge.schemaNamespace;
 
-            Coherence.Network.OnConnected += () =>
-            {
-                isConnected = true;
-                if (entity == Entity.Null)
-                {
-                    CreateECSRepresentation();
-                }
-            };
+            Coherence.Network.OnConnected += OnConnected;
+            Coherence.Network.OnDisconnected += OnDisconnected;
+        }
 
-            Coherence.Network.OnDisconnected += () =>
+        private void OnConnected()
+        {
+            if (entity == Entity.Null)
             {
-                isConnected = false;
-                entity = Entity.Null;
-            };
+                CreateECSRepresentation();
+            }
+        }
+        
+        private void OnDisconnected()
+        {
+            entity = Entity.Null;
+        }
+
+        protected void OnDestroy()
+        {
+            Coherence.Network.OnConnected -= OnConnected;
+            Coherence.Network.OnDisconnected -= OnDisconnected;
+
         }
 
         public void SpawnFromNetwork(Entity linkedEntity, string name)
         {
-            isConnected = true; // TODO: assuming this is true from context. We need Coherence.Network.IsConnected
             isSimulated = false;
             LinkedEntity = linkedEntity;
             gameObject.name = name;
@@ -358,11 +364,6 @@ namespace Coherence.MonoBridge
 
         protected void Update()
         {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                coherenceMonoBridge.SpawnEntity(entity);
-            }
-
             if (!isSimulated && !EcsEntityExists())
             {
                 if (ecsEntitySet)
@@ -377,7 +378,7 @@ namespace Coherence.MonoBridge
             {
                 if (usingReflection)
                 {
-                    if (isConnected)
+                    if (coherenceMonoBridge.isConnected)
                     {
                         ReceiveGenericNetworkCommands();
                         SyncEcsWithReflection();
@@ -386,7 +387,7 @@ namespace Coherence.MonoBridge
             }
         }
 
-        public bool EcsEntityExists()
+        private bool EcsEntityExists()
         {
             return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
