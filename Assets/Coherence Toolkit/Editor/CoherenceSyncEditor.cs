@@ -61,15 +61,31 @@ namespace Coherence.MonoBridge
             EditorGUILayout.Space(12f);
 
             EditorGUI.BeginDisabledGroup(false);
-            if(coherenceSync.usingReflection) {
+
+            var usingReflection = coherenceSync.usingReflection;
+
+            if (usingReflection)
+            {
+                var cmp = coherenceSync.gameObject.GetComponent<CoherenceSyncBaked>();
+                if (cmp != null)
+                {
+                    usingReflection = false;
+                }
+            }
+            
+            if(usingReflection) 
+            {
                 if(GUILayout.Button("Bake network components"))
                 {
                     Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
                 }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
-            } else {
+            } 
+            else 
+            {
                 EditorGUILayout.HelpBox("This game object has baked its network components.", MessageType.Info);
             }
+            
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space(6f);

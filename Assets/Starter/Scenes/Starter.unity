@@ -362,6 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   schemaNamespace: Coherence.Generated.FirstProject.
   debugMode: 1
+  isConnected: 0
 --- !u!4 &962702350
 Transform:
   m_ObjectHideFlags: 0
