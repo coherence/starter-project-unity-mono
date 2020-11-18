@@ -16,10 +16,10 @@ namespace Coherence.MonoBridge
         static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
         {
             {"UnityEngine.Transform",
-             new BasicWorkaround(new List<(string, string, string[])> {
-                     ("position", "WorldPosition", new string[] {"Value"}),
-                     ("rotation", "WorldOrientation", new string[] {"Value"}),
-                     ("localScale", "GenericScale", new string[] {"Value"}),
+             new BasicWorkaround("transform", "Transform", new List<PerField> {
+                     PerField("position", "WorldPosition", new string[] {"Value"}),
+                     PerField("rotation", "WorldOrientation", new string[] {"Value"}),
+                     PerField("localScale", "GenericScale", new string[] {"Value"}),
                  })},
 
             {"UnityEngine.Animator",
@@ -234,7 +234,14 @@ namespace Coherence.Generated.FirstProject
                     }
 
                     var schemaComponentName = SchemaComponentName(coherenceSync, componentName);
-                    var syncedComponent = new SyncedComponent(schemaComponentName, syncTheseMembers.ToArray());
+                    var syncedComponent = new SyncedComponent(schemaComponentName,
+                                                              syncTheseMembers.ToArray(),
+                                                              true,
+                                                              $"_{componentName.ToLower()}",
+                                                              componentName,
+                                                              syncTheseMembers.ToArray(), // same names for getters
+                                                              syncTheseMembers.ToArray() // same names for setters
+                                                              );
                     syncTheseComponents.Add(syncedComponent);
                 }
 
@@ -305,12 +312,23 @@ namespace Coherence.Generated.FirstProject
     // Note: The member names have some stuttering to make the json readable on its own
     public struct SyncedComponent
     {
-        public string ComponentName;
-        public string[] Members;
+        public string ComponentName; // Name of the ECS component that the sync script will sync the MonoBehaviour:s data with
+        public string[] Members; // Names of the members of the ECS component
+        public bool NeedCachedProperty; // Will generate a _componentName reference in the sync script
+        public string Property; // Name of the property to access the MonoBehaviour via, e.g. 'transform'
+        public string PropertyType; // Type of the property to access the MonoBehaviour via, e.g. 'transform'
+        public string[] PropertyGetters; // How to get data from the property, e.g. '.position' or 'GetFloat'
+        public string[] PropertySetters; // How to get data from the property, e.g. '.position' or 'SetFloat()'
 
-        public SyncedComponent(string name, string[] members) {
+        public SyncedComponent(string name, string[] members, bool needsInitializer,
+                               string property, string propertyType, string[] getters, string[] setters) {
             this.ComponentName = name;
             this.Members = members;
+            this.NeedCachedProperty = needsInitializer;
+            this.Property = property;
+            this.PropertyType = propertyType;
+            this.PropertyGetters = getters;
+            this.PropertySetters = setters;
         }
     }
 
@@ -323,27 +341,39 @@ namespace Coherence.Generated.FirstProject
     // Structured way of handle special cases in the emitter, for example for Transform (translation/rotation/localScale)
     public class BasicWorkaround : IWorkaround
     {
-        List<(string, string, string[])> mappings; // (<monoBehaviourField>, <ecsComponentName>, <ecsComponentMembers>)
+        string monoBehaviourProperty;
+        string monoBehaviourPropertyType;
 
-        public BasicWorkaround(List<(string, string, string[])> mappings)
+        List<PerField> perFieldMappings;
+
+        public BasicWorkaround(string monoBehaviourProperty, string monoBehaviourPropertyType,
+                               List<PerField> perFieldMappings)
         {
-            this.mappings = mappings;
+            this.monoBehaviourProperty = monoBehaviourProperty;
+            this.monoBehaviourPropertyType = monoBehaviourPropertyType;
+            this.perFieldMappings = perFieldMappings;
         }
 
         public List<SyncedComponent> SyncedComponents(string componentTypeString, CoherenceSync coherenceSync)
         {
             var syncTheseComponents = new List<SyncedComponent>();
 
-            foreach(var (monoBehaviourField, ecsComponentName, ecsComponentMembers) in mappings)
+            foreach(var perField in perFieldMappings)
             {
-                var key = componentTypeString + CoherenceSync.KeyDelimiter + monoBehaviourField;
+                var key = componentTypeString + CoherenceSync.KeyDelimiter + perField.monoBehaviourField;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
 
                 if(toggleOn == null) {
                     Debug.Log($"Can't find toggle key '{key}'");
                 }
                 else if(toggleOn.Value) {
-                    var component = new SyncedComponent(ecsComponentName, ecsComponentMembers);
+                    var component = new SyncedComponent(perField.ecsComponentName,
+                                                        perField.ecsComponentMembers,
+                                                        false,
+                                                        monoBehaviourProperty,
+                                                        monoBehaviourPropertyType,
+                                                        perField.innerFields,
+                                                        perField.innerFields);
                     syncTheseComponents.Add(component);
                 }
             }
@@ -353,7 +383,23 @@ namespace Coherence.Generated.FirstProject
 
         public List<ComponentDefinition> ComponentDefinitions(string componentTypeString, CoherenceSync coherenceSync)
         {
-            return new List<ComponentDefinition>(); // no schema components defined by default
+            return new List<ComponentDefinition>(); // no schema components defined (will be built in)
+        }
+    }
+
+    public struct PerField
+    {
+        public string monoBehaviourField;
+        public string ecsComponentName;
+        public string[] ecsComponentMembers;
+        public string[] innerFields;
+
+        public PerField(string monoBehaviourField, string ecsComponentName, string[] ecsComponentMembers)
+        {
+            this.monoBehaviourField = monoBehaviourField;
+            this.ecsComponentName = ecsComponentName;
+            this.ecsComponentMembers = ecsComponentMembers;
+            this.innerFields = new string[] { monoBehaviourField };
         }
     }
 
@@ -371,24 +417,36 @@ namespace Coherence.Generated.FirstProject
             }
 
             var componentMembers = new List<string>();
+            var animatorGetters = new List<string>();
+            var animatorSetters = new List<string>();
 
             foreach (var parameter in controller.parameters)
             {
                 var key = componentTypeString + CoherenceSync.KeyDelimiter + parameter.name;
                 var toggleOn = coherenceSync.GetFieldToggle(key);
+                var parameterTypeName = ParameterTypeName(parameter.type);
 
                 if(toggleOn == null)
                 {
                     Debug.LogWarning($"Can't find toggle key '{key}'");
                 }
-                else if(toggleOn.Value)
+                else if(toggleOn.Value && parameterTypeName != null)
                 {
                     componentMembers.Add(parameter.name);
+                    animatorGetters.Add($"Get{parameterTypeName}(\"{parameter.name}\")");
+                    animatorSetters.Add($"Set{parameterTypeName}(\"{parameter.name}\", @)");
                 }
             }
 
             var componentName = SchemaCreator.SchemaComponentName(coherenceSync, "Animator");
-            var animatorComponent = new SyncedComponent(componentName, componentMembers.ToArray());
+            var animatorComponent = new SyncedComponent(componentName,
+                                                        componentMembers.ToArray(),
+                                                        true,
+                                                        "_animator",
+                                                        "Animator",
+                                                        animatorGetters.ToArray(),
+                                                        animatorSetters.ToArray()
+                                                        );
             syncTheseComponents.Add(animatorComponent);
 
             return syncTheseComponents;
@@ -418,19 +476,7 @@ namespace Coherence.Generated.FirstProject
                 }
                 else if(toggleOn.Value)
                 {
-                    string parameterTypeName = null;
-
-                    switch(parameter.type) {
-                        case AnimatorControllerParameterType.Bool:
-                            parameterTypeName = "Bool";
-                            break;
-                        case AnimatorControllerParameterType.Int:
-                            parameterTypeName = "Int";
-                            break;
-                        case AnimatorControllerParameterType.Float:
-                            parameterTypeName = "Float";
-                            break;
-                    }
+                    var parameterTypeName = ParameterTypeName(parameter.type);
 
                     if(parameterTypeName != null)
                     {
@@ -445,6 +491,25 @@ namespace Coherence.Generated.FirstProject
             definitions.Add(animatorComponent);
 
             return definitions;
+        }
+
+        static string ParameterTypeName(AnimatorControllerParameterType type)
+        {
+            string parameterTypeName = null;
+
+            switch(type) {
+                case AnimatorControllerParameterType.Bool:
+                    parameterTypeName = "Bool";
+                    break;
+                case AnimatorControllerParameterType.Int:
+                    parameterTypeName = "Int";
+                    break;
+                case AnimatorControllerParameterType.Float:
+                    parameterTypeName = "Float";
+                    break;
+            }
+
+            return parameterTypeName;
         }
     }
 }
