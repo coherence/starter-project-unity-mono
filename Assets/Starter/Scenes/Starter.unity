@@ -581,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: useTankControls
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: canJump
@@ -589,7 +589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: useGun
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: fieldLinksKeys.Array.size
@@ -718,7 +718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8907122464205653916, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
