@@ -373,7 +373,7 @@ namespace Coherence.MonoBridge
                     }
 
                     var declaringType = method.DeclaringType; // What class/struct/etc the method is created on
-                    var signatureString = TypeHelpers.MethodSignatureString(method);
+                    var argsString = TypeHelpers.MethodArgsAsString(method);
 
                     EditorGUI.indentLevel++;
                     try
@@ -383,15 +383,15 @@ namespace Coherence.MonoBridge
                         bool? prevMethodIncluded = coherenceSync.GetFieldToggle(methodString);
 
                         EditorGUI.BeginChangeCheck();
-                        bool varIncluded = EditorGUILayout.ToggleLeft($"void {method.Name}{signatureString}", prevMethodIncluded ?? false);
+                        bool varIncluded = EditorGUILayout.ToggleLeft($"void {method.Name}{argsString}", prevMethodIncluded ?? false);
 
                         if (varIncluded) fieldsCheckedInEditorGUI++;
 
                         if (EditorGUI.EndChangeCheck())
                         {
                             anyChangesMade = true;
-                            // coherenceSync.SetFieldToggle(methodString, varIncluded);
-                            // coherenceSync.ToggleFieldSync(methodString, method.ReflectedType, varIncluded);
+                            coherenceSync.SetFieldToggle(methodString, varIncluded);
+                            coherenceSync.ToggleFieldSync(methodString, method.ReflectedType, varIncluded);
                         }
                     }
                     catch (Exception e)

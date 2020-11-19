@@ -796,6 +796,16 @@ namespace Coherence.MonoBridge
             }
         }
 
+        public void ToggleFieldSync(string key, MethodInfo val, bool on)
+        {
+            SetListValue(fieldTypesKeys, fieldTypesValues, key, TypeHelpers.MethodAsString(val));
+
+            if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
+            {
+                SetListValue(fieldLinksKeys, fieldLinksValues, key, "WHAT GOES HERE?!");
+            }
+        }
+
         public void SetScriptToggle(string key, bool val)
         {
             SetListValue(scriptTogglesKeys, scriptTogglesValues, key, val);

@@ -91,7 +91,7 @@ namespace Coherence.MonoBridge
             return true;
         }
 
-        public static string MethodSignatureString(MethodInfo methodInfo)
+        public static string MethodArgsAsString(MethodInfo methodInfo)
         {
             var paramStrings = new List<string>();
             foreach(var parameter in methodInfo.GetParameters())
@@ -100,6 +100,11 @@ namespace Coherence.MonoBridge
             }
             var joinedParamStrings = String.Join(", ", paramStrings);
             return $"({joinedParamStrings})";
+        }
+
+        public static string MethodAsString(MethodInfo methodInfo)
+        {
+            return methodInfo.ReturnType.Name + methodInfo.Name + MethodArgsAsString(methodInfo);
         }
 
         private static HashSet<Type> classesThatHideTheirMethods = new HashSet<Type>()
@@ -130,7 +135,7 @@ namespace Coherence.MonoBridge
         {
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
-            return type.GetMethods(bindingFlags).Cast<MethodInfo>().Concat(type.GetMethods(bindingFlags)).ToArray();
+            return type.GetMethods(bindingFlags).Cast<MethodInfo>().ToArray();
         }
 
         public static MemberInfo[] MonoMembers {
