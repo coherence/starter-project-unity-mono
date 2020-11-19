@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Removing Generic.cs (will clash)"
+echo "Removing Generic.cs (to avoid clash)"
 if [ -f ../Generic.cs ]; then
     rm ../Generic.cs
     rm ../Generic.cs.meta
