@@ -728,7 +728,7 @@ namespace Coherence.MonoBridge
 
         #region ListManipulation
 
-        private void SetListValue(List<string> keyList, List<bool> valList, string key, bool val)
+        private static void SetListValue<T>(List<string> keyList, List<T> valList, string key, T val)
         {
             for (var i = 0; i < keyList.Count; i++)
             {
@@ -743,37 +743,7 @@ namespace Coherence.MonoBridge
             valList.Add(val);
         }
 
-        private void SetListValue(List<string> keyList, List<string> valList, string key, string val)
-        {
-            for (var i = 0; i < keyList.Count; i++)
-            {
-                if (keyList[i] == key)
-                {
-                    valList[i] = val;
-                    return;
-                }
-            }
-
-            keyList.Add(key);
-            valList.Add(val);
-        }
-
-        private void SetListValue(List<string> keyList, List<string> valList, string key, Type val)
-        {
-            for (var i = 0; i < keyList.Count; i++)
-            {
-                if (keyList[i] == key)
-                {
-                    valList[i] = val.AssemblyQualifiedName;
-                    return;
-                }
-            }
-
-            keyList.Add(key);
-            valList.Add(val.ToString());
-        }
-
-        private bool? GetListValue(List<string> keyList, List<bool> valList, string key)
+        private T GetListValue<T>(List<string> keyList, List<T> valList, string key)
         {
             for (var i = 0; i < keyList.Count; i++)
             {
@@ -783,20 +753,7 @@ namespace Coherence.MonoBridge
                 }
             }
 
-            return null;
-        }
-
-        private string GetListValue(List<string> keyList, List<string> valList, string key)
-        {
-            for (var i = 0; i < keyList.Count; i++)
-            {
-                if (keyList[i] == key)
-                {
-                    return valList[i];
-                }
-            }
-
-            return null;
+            return default(T);
         }
 
         public bool? GetFieldToggle(string key)
@@ -831,7 +788,7 @@ namespace Coherence.MonoBridge
 
         public void ToggleFieldSync(string key, Type val, bool on)
         {
-            SetListValue(fieldTypesKeys, fieldTypesValues, key, val);
+            SetListValue(fieldTypesKeys, fieldTypesValues, key, val.AssemblyQualifiedName);
 
             if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
             {
