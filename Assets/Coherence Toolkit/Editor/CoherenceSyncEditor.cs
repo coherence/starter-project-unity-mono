@@ -72,20 +72,20 @@ namespace Coherence.MonoBridge
                     usingReflection = false;
                 }
             }
-            
-            if(usingReflection) 
+
+            if(usingReflection)
             {
                 if(GUILayout.Button("Bake network components"))
                 {
                     Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
                 }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
-            } 
-            else 
+            }
+            else
             {
                 EditorGUILayout.HelpBox("This game object has baked its network components.", MessageType.Info);
             }
-            
+
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.Space(6f);
@@ -352,6 +352,46 @@ namespace Coherence.MonoBridge
                             anyChangesMade = true;
                             coherenceSync.SetFieldToggle(varString, varIncluded);
                             coherenceSync.ToggleFieldSync(varString, fieldType, varIncluded);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
+
+                    EditorGUI.indentLevel--;
+                }
+
+                var methods = TypeHelpers.Methods(compType);
+
+                foreach (var method in methods)
+                {
+                    if(!TypeHelpers.ShowThisMethod(method) ||
+                       compType == typeof(Transform))
+                    {
+                        continue;
+                    }
+
+                    var declaringType = method.DeclaringType; // What class/struct/etc the method is created on
+                    var signatureString = TypeHelpers.MethodSignatureString(method);
+
+                    EditorGUI.indentLevel++;
+                    try
+                    {
+                        string methodString = compTypeString + CoherenceSync.KeyDelimiter + method.Name;
+
+                        bool? prevMethodIncluded = coherenceSync.GetFieldToggle(methodString);
+
+                        EditorGUI.BeginChangeCheck();
+                        bool varIncluded = EditorGUILayout.ToggleLeft($"void {method.Name}{signatureString}", prevMethodIncluded ?? false);
+
+                        if (varIncluded) fieldsCheckedInEditorGUI++;
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            anyChangesMade = true;
+                            // coherenceSync.SetFieldToggle(methodString, varIncluded);
+                            // coherenceSync.ToggleFieldSync(methodString, method.ReflectedType, varIncluded);
                         }
                     }
                     catch (Exception e)
