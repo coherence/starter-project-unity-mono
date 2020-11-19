@@ -1,6 +1,8 @@
 namespace Coherence.MonoBridge
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using UnityEngine;
@@ -69,11 +71,71 @@ namespace Coherence.MonoBridge
             return false;
         }
 
+        private static bool IsMethodTypeSupported(MethodInfo methodInfo)
+        {
+            var returnType = methodInfo.ReturnType;
+
+            if (returnType != typeof(void))
+            {
+                return false;
+            }
+
+            foreach(var parameterInfo in methodInfo.GetParameters())
+            {
+                if(!IsTypeSupported(parameterInfo.ParameterType))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static string MethodArgsAsString(MethodInfo methodInfo)
+        {
+            var paramStrings = new List<string>();
+            foreach(var parameter in methodInfo.GetParameters())
+            {
+                paramStrings.Add(NiceLooking(parameter.ParameterType));
+            }
+            var joinedParamStrings = String.Join(", ", paramStrings);
+            return $"({joinedParamStrings})";
+        }
+
+        public static string MethodAsString(MethodInfo methodInfo)
+        {
+            return methodInfo.ReturnType.Name + methodInfo.Name + MethodArgsAsString(methodInfo);
+        }
+
+        private static HashSet<Type> classesThatHideTheirMethods = new HashSet<Type>()
+        {
+            typeof(MonoBehaviour),
+            typeof(Behaviour),
+            typeof(System.Object),
+            typeof(UnityEngine.Object),
+            typeof(Component)
+        };
+
+        public static bool ShowThisMethod(MethodInfo methodInfo)
+        {
+            return
+                methodInfo.IsPublic &&
+                TypeHelpers.IsMethodTypeSupported(methodInfo) &&
+                !classesThatHideTheirMethods.Contains(methodInfo.DeclaringType);
+        }
+
         public static MemberInfo[] Members(Type type)
         {
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
             return type.GetFields(bindingFlags).Cast<MemberInfo>().Concat(type.GetProperties(bindingFlags)).ToArray();
+        }
+
+        public static MethodInfo[] Methods(Type type)
+        {
+            const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+
+            return type.GetMethods(bindingFlags).Cast<MethodInfo>().ToArray();
         }
 
         public static MemberInfo[] MonoMembers {
@@ -110,6 +172,21 @@ namespace Coherence.MonoBridge
             else if(type == typeof(Quaternion)) { return "Quaternion"; }
             else {
                 throw new Exception($"Can't convert type {type} to schema member type.");
+            }
+        }
+
+        public static string NiceLooking(Type type)
+        {
+            if(type == typeof(int)) { return "int"; }
+            else if(type == typeof(uint)) { return "uint"; }
+            else if(type == typeof(float)) { return "float"; }
+            else if(type == typeof(bool)) { return "bool"; }
+            else if(type == typeof(Boolean)) { return "bool"; }
+            else if(type == typeof(string)) { return "string"; }
+            else if(type == typeof(Vector3)) { return "Vector3"; }
+            else if(type == typeof(Quaternion)) { return "Quaternion"; }
+            else {
+                throw new Exception($"Can't convert type {type} to nice looking type.");
             }
         }
     }
