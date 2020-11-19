@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo "Removing Generic.cs (will clash)"
+if [ -f ../Generic.cs ]; then
+    rm ../Generic.cs
+    rm ../Generic.cs.meta
+fi
+
 echo "Removing all .cs and .cs.meta files in directory..."
 find . -name "*.cs" -type f -delete
 find . -name "*.cs.meta" -type f -delete
