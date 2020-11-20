@@ -868,10 +868,7 @@ namespace Coherence.MonoBridge
         {
             SetListValue(fieldTypesKeys, fieldTypesValues, key, TypeHelpers.MethodAsString(val));
 
-            // if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
-            // {
-            //     SetListValue(fieldLinksKeys, fieldLinksValues, key, "WHAT GOES HERE?!");
-            // }
+            // TODO: Toggle something here -- but what?
         }
 
         public void SetScriptToggle(string key, bool val)
