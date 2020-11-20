@@ -112,6 +112,11 @@ namespace Coherence.MonoBridge
             return $"{NiceLooking(methodInfo.ReturnType)} {ns}{methodInfo.Name}{MethodArgsAsString(methodInfo)}";
         }
 
+        public static string NamespacedMethodName(MethodInfo methodInfo)
+        {
+            return methodInfo.DeclaringType.ToString() + "." + methodInfo.Name;
+        }
+
         private static HashSet<Type> classesThatHideTheirMethods = new HashSet<Type>()
         {
             typeof(MonoBehaviour),
