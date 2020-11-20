@@ -257,16 +257,19 @@ namespace Coherence.MonoBridge
 
             foreach (var cmd in buffer)
             {
-                ProcessGenericNetworkCommand(cmd.name.ToString(), cmd.paramInt1, cmd.paramInt2, cmd.paramInt3,
-                    cmd.paramInt4, cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4, cmd.paramString.ToString());
+                ProcessGenericNetworkCommand(cmd.name.ToString(),
+                                             cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4,
+                                             cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
+                                             cmd.paramString.ToString());
             }
 
             buffer.Clear();
         }
 
-        private void ProcessGenericNetworkCommand(string name, int paramInt1, int paramInt2, int paramInt3,
-            int paramInt4, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4,
-            string paramString)
+        private void ProcessGenericNetworkCommand(string name,
+                                                  int paramInt1, int paramInt2, int paramInt3, int paramInt4,
+                                                  float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4,
+                                                  string paramString)
         {
             var args = new GenericNetworkCommandArgs
             {
@@ -284,17 +287,12 @@ namespace Coherence.MonoBridge
 
             NetworkCommandReceived?.Invoke(this, args);
 
-
-
-            //MethodBase.Invoke()
-
             var nameParts = name.Split(".".ToCharArray(), 2);
 
             if(nameParts.Length != 2)
             {
                 Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{name}'.");
             }
-            //Debug.Log($"Looking for component with type name '{typeName}' and method name '{methodName}'.");
 
             var typeName = nameParts[0];
             var methodName = nameParts[1];
@@ -329,9 +327,6 @@ namespace Coherence.MonoBridge
             }
 
             method.Invoke(receiver, methodArgs.ToArray());
-
-            // Unity's SendMessage is too weak
-            //gameObject.SendMessage("NetworkCommand", args, SendMessageOptions.DontRequireReceiver);
         }
 
         public void SendCommand(CoherenceSync sender, string methodScriptAndName, params object[] args)

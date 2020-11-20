@@ -383,8 +383,8 @@ namespace Coherence.MonoBridge
                         bool? prevMethodIncluded = coherenceSync.GetFieldToggle(methodString);
 
                         EditorGUI.BeginChangeCheck();
+                        // This is the name that has to be used in .SendCommand when invoking the method remotely
                         var toggleLabelText = TypeHelpers.NamespacedMethodName(method);
-                        // $"{TypeHelpers.MethodAsString(method)}"
                         bool varIncluded = EditorGUILayout.ToggleLeft(toggleLabelText, prevMethodIncluded ?? false);
 
                         if (varIncluded) fieldsCheckedInEditorGUI++;
