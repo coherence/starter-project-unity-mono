@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour
 
         if (target)
         {
-            target.SendNetworkCommand(sender, "Hit");
+            target.SendCommand(sender, "CharacterBehaviour.Hit");
         }
 
         Destroy(gameObject);
