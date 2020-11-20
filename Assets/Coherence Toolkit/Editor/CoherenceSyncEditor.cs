@@ -383,7 +383,8 @@ namespace Coherence.MonoBridge
                         bool? prevMethodIncluded = coherenceSync.GetFieldToggle(methodString);
 
                         EditorGUI.BeginChangeCheck();
-                        bool varIncluded = EditorGUILayout.ToggleLeft($"void {method.Name}{argsString}", prevMethodIncluded ?? false);
+                        bool varIncluded = EditorGUILayout.ToggleLeft($"{TypeHelpers.MethodAsString(method)}",
+                                                                      prevMethodIncluded ?? false);
 
                         if (varIncluded) fieldsCheckedInEditorGUI++;
 
@@ -391,7 +392,7 @@ namespace Coherence.MonoBridge
                         {
                             anyChangesMade = true;
                             coherenceSync.SetFieldToggle(methodString, varIncluded);
-                            coherenceSync.ToggleFieldSync(methodString, method.ReflectedType, varIncluded);
+                            coherenceSync.ToggleFieldSync(methodString, method, varIncluded);
                         }
                     }
                     catch (Exception e)
