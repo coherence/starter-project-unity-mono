@@ -1,6 +1,4 @@
-﻿using UnityEditor;
-
-namespace Coherence.MonoBridge
+﻿namespace Coherence.MonoBridge
 {
     using System;
     using System.Collections;
@@ -869,7 +867,10 @@ namespace Coherence.MonoBridge
         {
             SetListValue(fieldTypesKeys, fieldTypesValues, key, TypeHelpers.MethodAsString(val));
 
-            // TODO: Toggle something here -- but what?
+            if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
+            {
+                SetListValue(fieldLinksKeys, fieldLinksValues, key, TypeHelpers.NamespacedMethodName(val));
+            }
         }
 
         public void SetScriptToggle(string key, bool val)
