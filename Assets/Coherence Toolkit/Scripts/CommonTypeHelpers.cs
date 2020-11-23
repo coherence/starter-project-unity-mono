@@ -102,9 +102,19 @@ namespace Coherence.MonoBridge
             return $"({joinedParamStrings})";
         }
 
-        public static string MethodAsString(MethodInfo methodInfo)
+        public static string MethodAsString(MethodInfo methodInfo, bool includeNamespace = false)
         {
-            return methodInfo.ReturnType.Name + methodInfo.Name + MethodArgsAsString(methodInfo);
+            var ns = "";
+            if(includeNamespace)
+            {
+                ns = methodInfo.DeclaringType.ToString() + ".";
+            }
+            return $"{NiceLooking(methodInfo.ReturnType)} {ns}{methodInfo.Name}{MethodArgsAsString(methodInfo)}";
+        }
+
+        public static string NamespacedMethodName(MethodInfo methodInfo)
+        {
+            return methodInfo.DeclaringType.ToString() + "." + methodInfo.Name;
         }
 
         private static HashSet<Type> classesThatHideTheirMethods = new HashSet<Type>()
@@ -185,6 +195,7 @@ namespace Coherence.MonoBridge
             else if(type == typeof(string)) { return "string"; }
             else if(type == typeof(Vector3)) { return "Vector3"; }
             else if(type == typeof(Quaternion)) { return "Quaternion"; }
+            else if(type == typeof(void)) { return "void"; }
             else {
                 throw new Exception($"Can't convert type {type} to nice looking type.");
             }

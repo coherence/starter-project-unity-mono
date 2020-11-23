@@ -35,22 +35,28 @@ public class CharacterBehaviour : MonoBehaviour
             if (debugPanel)
             {
                 stringToSend = debugPanel.stringToSend.text;
-                debugPanel.AddLog($"[S] {gameObject.name} [{stringToSend}]");
+                debugPanel.AddLog($"[S] {gameObject.name} [{stringToSend} ... <numbers>]");
 
                 //Debug.Log(debugPanel.log.text + "== text");
             }
 
-            coherenceSyncOther.SendNetworkCommand(coherenceSync, stringToSend, 8, 7, 6, 5, 100, 100, 100, 100,
-                    null);
+            // This creates a full command with a scrambled order of its arguments
+            coherenceSyncOther.SendCommand(coherenceSync, "CharacterBehaviour.LogToPanel",
+                                           stringToSend, 1.0f, 10, 20, 30, 2.0f, 40, 3.0f, 4.0f);
         }
     }
 
-    public void NetworkCommand(object args)
+    public void LogToPanel(string message, float f0, int i0, int i1, int i2, float f1, int i3, float f2, float f3)
     {
         if (debugPanel)
         {
-            debugPanel.AddLog($"[R] [{args}]");
+            debugPanel.AddLog($"[R] [{message}, {f0}, {i0}, {i1}, {i2}, {f1}, {i3}, {f2}, {f3}]");
         }
+    }
+
+    public void Hit()
+    {
+        debugPanel.AddLog($"{name} was hit!");
     }
 
     protected void CycleState()
