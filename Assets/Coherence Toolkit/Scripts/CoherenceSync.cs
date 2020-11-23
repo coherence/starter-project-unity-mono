@@ -383,6 +383,7 @@ namespace Coherence.MonoBridge
                 _ = cmdRequestBuffer.Add(cmd);
             }
             else {
+                // Send the Command to a local Entity
                 ProcessGenericNetworkCommand(methodScriptAndName,
                                              paramInt[0], paramInt[1], paramInt[2], paramInt[3],
                                              paramFloat[0], paramFloat[1], paramFloat[2], paramFloat[3],
