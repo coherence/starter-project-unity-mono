@@ -131,7 +131,6 @@ namespace Coherence.MonoBridge
                         foreach(var parameterInfo in methodInfo.GetParameters())
                         {
                             var name = parameterInfo.Name;
-                            Debug.Log($"Found argument '{name}' on method '{methodInfo.Name}' in component '{componentTypeString}'");
                             var type = TypeHelpers.ToSchemaType(parameterInfo.ParameterType);
                             var member = new ComponentMemberDescription(name, type);
                             commandArgs.Add(member);
@@ -315,7 +314,10 @@ namespace Coherence.Generated.FirstProject
 
                         var qualifiedMethodName = TypeHelpers.NamespacedMethodName(methodInfo);
                         var schemaCommandName = SchemaComponentName(coherenceSync, qualifiedMethodName);
-                        var command = new CommandDescription(schemaCommandName, commandArgs.ToArray());
+                        var command = new CommandDescription(schemaCommandName,
+                                                             methodInfo.Name,
+                                                             methodInfo.DeclaringType.Name,
+                                                             commandArgs.ToArray());
 
                         handleTheseCommands.Add(command);
                     }
@@ -433,11 +435,15 @@ namespace Coherence.Generated.FirstProject
     public struct CommandDescription
     {
         public string CommandName;
+        public string MethodName;
+        public string MethodDeclaringClass;
         public string[] Members;
 
-        public CommandDescription(string name, string[] members)
+        public CommandDescription(string name, string methodName, string declaringClass, string[] members)
         {
             this.CommandName = name;
+            this.MethodName = methodName;
+            this.MethodDeclaringClass = declaringClass;
             this.Members = members;
         }
     }
