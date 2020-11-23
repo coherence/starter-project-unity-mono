@@ -237,6 +237,7 @@ namespace Coherence.Generated.FirstProject
             {
                 var components = coherenceSync.gameObject.GetComponents(typeof(Component));
                 var syncTheseComponents = new List<SyncedComponent>();
+                var handleTheseCommands = new List<CommandDescription>();
 
                 foreach (Component component in components)
                 {
@@ -289,11 +290,42 @@ namespace Coherence.Generated.FirstProject
                                                               syncTheseMembers.ToArray() // same names for setters
                                                               );
                     syncTheseComponents.Add(syncedComponent);
+
+
+
+                    var methods = TypeHelpers.Methods(componentType);
+
+                    foreach(var methodInfo in methods)
+                    {
+                        var key = componentTypeString + CoherenceSync.KeyDelimiter + methodInfo.Name;
+                        var memberToggleOn = coherenceSync.GetFieldToggle(key) ?? false;
+
+                        if (!memberToggleOn)
+                        {
+                            continue;
+                        }
+
+                        var commandArgs = new List<string>();
+                        foreach(var parameterInfo in methodInfo.GetParameters())
+                        {
+                            var name = parameterInfo.Name;
+                            //var type = TypeHelpers.ToSchemaType(parameterInfo.ParameterType);
+                            commandArgs.Add(name);
+                        }
+
+                        var qualifiedMethodName = TypeHelpers.NamespacedMethodName(methodInfo);
+                        var schemaCommandName = SchemaComponentName(coherenceSync, qualifiedMethodName);
+                        var command = new CommandDescription(schemaCommandName, commandArgs.ToArray());
+
+                        handleTheseCommands.Add(command);
+                    }
                 }
 
                 var mangledName = Mangle(coherenceSync.name);
                 var className = $"CoherenceSync{mangledName}";
-                jsonData.Add(new SyncedBehaviour(className, syncTheseComponents.ToArray()));
+                jsonData.Add(new SyncedBehaviour(className,
+                                                 syncTheseComponents.ToArray(),
+                                                 handleTheseCommands.ToArray()));
             }
 
             var writer = new StringWriter();
@@ -365,10 +397,12 @@ namespace Coherence.Generated.FirstProject
     {
         public string BehaviourName;
         public SyncedComponent[] Components;
+        public CommandDescription[] Commands;
 
-        public SyncedBehaviour(string name, SyncedComponent[] components) {
+        public SyncedBehaviour(string name, SyncedComponent[] components, CommandDescription[] commands) {
             this.BehaviourName = name;
             this.Components = components;
+            this.Commands = commands;
         }
     }
 
@@ -393,6 +427,18 @@ namespace Coherence.Generated.FirstProject
             this.PropertyType = propertyType;
             this.PropertyGetters = getters;
             this.PropertySetters = setters;
+        }
+    }
+
+    public struct CommandDescription
+    {
+        public string CommandName;
+        public string[] Members;
+
+        public CommandDescription(string name, string[] members)
+        {
+            this.CommandName = name;
+            this.Members = members;
         }
     }
 
