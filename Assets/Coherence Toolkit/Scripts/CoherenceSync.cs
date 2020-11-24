@@ -38,6 +38,11 @@
 
         private EntityManager entityManager;
 
+        public delegate void GenericCommandRequestDelegate(object[] args);
+
+        Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
+            new Dictionary<string, GenericCommandRequestDelegate>();
+
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
 
         [SerializeField] private List<string> enabledScriptTogglesKeys = new List<string>();
@@ -285,18 +290,7 @@
 
             NetworkCommandReceived?.Invoke(this, args);
 
-            var nameParts = name.Split(".".ToCharArray(), 2);
-
-            if(nameParts.Length != 2)
-            {
-                Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{name}'.");
-            }
-
-            var typeName = nameParts[0];
-            var methodName = nameParts[1];
-            var receiver = gameObject.GetComponent(typeName);
-            var receiverType = receiver.GetType();
-            var method = receiverType.GetMethod(methodName);
+            var (method, receiver) = GetMethodAndReciever(gameObject, name);
 
             var intParams = new int[] { paramInt1, paramInt2, paramInt3, paramInt4 };
             var floatParams = new float[] { paramFloat1, paramFloat2, paramFloat3, paramFloat4 };
@@ -327,7 +321,28 @@
             method.Invoke(receiver, methodArgs.ToArray());
         }
 
-        public void SendCommand(CoherenceSync sender, string methodScriptAndName, params object[] args)
+        public static (MethodInfo, Component) GetMethodAndReciever(GameObject targetGameObject,
+                                                                   string methodScriptAndName)
+        {
+            // TODO: We can cache the results based on the string here
+
+            var nameParts = methodScriptAndName.Split(".".ToCharArray(), 2);
+
+            if(nameParts.Length != 2)
+            {
+                Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{methodScriptAndName}'.");
+            }
+
+            var typeName = nameParts[0];
+            var methodName = nameParts[1];
+            var receiver = targetGameObject.GetComponent(typeName);
+            var receiverType = receiver.GetType();
+            var method = receiverType.GetMethod(methodName);
+
+            return (method, receiver);
+        }
+
+        public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
         {
             if (entity == Entity.Null)
             {
@@ -359,34 +374,49 @@
                 }
             }
 
+            var cmd = new GenericCommandRequest
+            {
+                name = String.IsNullOrEmpty(commandName) ? "" : commandName,
+                paramInt1 = paramInt[0],
+                paramInt2 = paramInt[1],
+                paramInt3 = paramInt[2],
+                paramInt4 = paramInt[3],
+
+                paramFloat1 = paramFloat[0],
+                paramFloat2 = paramFloat[1],
+                paramFloat3 = paramFloat[2],
+                paramFloat4 = paramFloat[3],
+
+                paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
+            };
+
             if (entityManager.HasComponent<GenericCommandRequest>(entity))
             {
-                var cmd = new GenericCommandRequest
+                // Remote Entity
+                if(usingReflection)
                 {
-                    name = String.IsNullOrEmpty(methodScriptAndName) ? "" : methodScriptAndName,
-                    paramInt1 = paramInt[0],
-                    paramInt2 = paramInt[1],
-                    paramInt3 = paramInt[2],
-                    paramInt4 = paramInt[3],
-
-                    paramFloat1 = paramFloat[0],
-                    paramFloat2 = paramFloat[1],
-                    paramFloat3 = paramFloat[2],
-                    paramFloat4 = paramFloat[3],
-
-                    paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
-                };
-
-                var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
-                _ = cmdRequestBuffer.Add(cmd);
+                    var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                    _ = cmdRequestBuffer.Add(cmd);
+                }
+                else
+                {
+                    var f = commandRequestDelegates[commandName];
+                    f(args);
+                }
             }
             else {
                 // Send the Command to a local Entity
-                ProcessGenericNetworkCommand(methodScriptAndName,
+                // TODO: just pass the 'cmd' instead!
+                ProcessGenericNetworkCommand(commandName,
                                              paramInt[0], paramInt[1], paramInt[2], paramInt[3],
                                              paramFloat[0], paramFloat[1], paramFloat[2], paramFloat[3],
                                              paramString[0]);
             }
+        }
+
+        public void AddCommandRequestDelegate(string name, GenericCommandRequestDelegate genericCommandRequestDelegate)
+        {
+            commandRequestDelegates[name] = genericCommandRequestDelegate;
         }
 
         private bool CmpType(Type type, Type a)
@@ -564,6 +594,14 @@
 
         private void SyncEcsWithReflection()
         {
+            if(fieldTogglesKeys.Count != fieldTogglesValues.Count ||
+               fieldLinksKeys.Count != fieldTogglesValues.Count ||
+               fieldLinksValues.Count != fieldTogglesValues.Count)
+            {
+                Debug.LogError($"Count mismatch! fieldTogglesKeys.Count = {fieldTogglesKeys.Count}, fieldTogglesValues.Count = {fieldTogglesValues.Count}, fieldLinksKeys.Count = {fieldLinksKeys.Count}, fieldLinksValues.Count = {fieldLinksValues.Count}");
+                return;
+            }
+
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
             {
                 var on = fieldTogglesValues[i];
