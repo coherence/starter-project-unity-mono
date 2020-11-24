@@ -395,17 +395,25 @@
                 // Remote Entity
                 if(usingReflection)
                 {
+                    // TODO: Remove logging
+                    Debug.Log("send command to remote entity using reflection");
                     var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
                     _ = cmdRequestBuffer.Add(cmd);
                 }
                 else
                 {
+                    // TODO: Remove logging
+                    Debug.Log("send command to remote entity using baked method");
                     var f = commandRequestDelegates[commandName];
                     f(args);
                 }
             }
             else {
                 // Send the Command to a local Entity
+
+                // TODO: Remove logging
+                Debug.Log("send command to local entity (uses reflection)");
+
                 // TODO: just pass the 'cmd' instead!
                 ProcessGenericNetworkCommand(commandName,
                                              paramInt[0], paramInt[1], paramInt[2], paramInt[3],
