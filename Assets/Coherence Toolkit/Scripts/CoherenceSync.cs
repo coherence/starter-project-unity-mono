@@ -816,7 +816,9 @@
 
             if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
             {
-                SetListValue(fieldLinksKeys, fieldLinksValues, key, TypeHelpers.NamespacedMethodName(val));
+                // We don't use this key, setting it leads to errors in
+                // InitializeComponents due to MethodInfo:s not being Type:s.
+                SetListValue(fieldLinksKeys, fieldLinksValues, key, null);
             }
         }
 
