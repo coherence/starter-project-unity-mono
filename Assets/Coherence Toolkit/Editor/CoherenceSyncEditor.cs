@@ -73,12 +73,13 @@ namespace Coherence.MonoBridge
                 }
             }
 
+            if(GUILayout.Button("Bake (all) network components"))
+            {
+                Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
+            }
+
             if(usingReflection)
             {
-                if(GUILayout.Button("Bake network components"))
-                {
-                    Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
-                }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             }
             else
