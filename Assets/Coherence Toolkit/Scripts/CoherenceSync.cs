@@ -296,12 +296,27 @@
             buffer.Clear();
         }
 
+        private Dictionary<string, (MethodInfo, Component)> commandNameMemoization =
+            new Dictionary<string, (MethodInfo, Component)>();
+
         private void ProcessGenericNetworkCommand(string commandName, GenericNetworkCommandArgs genericNetworkCommandArgs)
         {
             NetworkCommandReceived?.Invoke(this, genericNetworkCommandArgs);
 
-            // TODO: Memoize!
-            var (method, receiver) = TypeHelpers.GetMethodAndReciever(gameObject, commandName);
+            MethodInfo method;
+            Component receiver;
+
+            if(commandNameMemoization.TryGetValue(commandName, out (MethodInfo, Component) memoized))
+            {
+                method = memoized.Item1;
+                receiver = memoized.Item2;
+            }
+            else
+            {
+                (method, receiver) = TypeHelpers.GetMethodAndReciever(gameObject, commandName);
+                commandNameMemoization[commandName] = (method, receiver);
+            }
+
             var methodArgs = genericNetworkCommandArgs.ArgListForMethod(method);
             method.Invoke(receiver, methodArgs);
         }
