@@ -252,131 +252,73 @@
             return debugData;
         }
 
+        public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
+        {
+            if (entity == Entity.Null)
+            {
+                Debug.LogError($"entity is null for game object '{name}'");
+                return;
+            }
+
+            if (entityManager.HasComponent<GenericCommandRequest>(entity))
+            {
+                // Remote Entity
+                if(usingReflection)
+                {
+                    var commandRequest = GenericCommandRequestFromObjects(commandName, args);
+                    var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                    _ = cmdRequestBuffer.Add(commandRequest);
+                }
+                else
+                {
+                    commandRequestDelegates[commandName](args);
+                }
+            }
+            else {
+                // Local Entity
+                var command = GenericNetworkCommandArgs.FromObjects(commandName, args);
+                ProcessGenericNetworkCommand(commandName, command);
+            }
+        }
+
         private void ReceiveGenericNetworkCommands()
         {
             if (entity == Entity.Null) return;
 
             var buffer = entityManager.GetBuffer<GenericCommand>(entity);
 
-            foreach (var cmd in buffer)
+            foreach (var genericCommand in buffer)
             {
-                ProcessGenericNetworkCommand(cmd.name.ToString(),
-                                             cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4,
-                                             cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
-                                             cmd.paramString.ToString());
+                var commandName = genericCommand.name.ToString();
+                ProcessGenericNetworkCommand(commandName, GenericNetworkCommandArgs.FromGenericCommand(genericCommand));
             }
 
             buffer.Clear();
         }
 
-        private void ProcessGenericNetworkCommand(string name,
-                                                  int paramInt1, int paramInt2, int paramInt3, int paramInt4,
-                                                  float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4,
-                                                  string paramString)
+        private void ProcessGenericNetworkCommand(string commandName, GenericNetworkCommandArgs genericNetworkCommandArgs)
         {
-            var args = new GenericNetworkCommandArgs
-            {
-                Name = name,
-                ParamInt1 = paramInt1,
-                ParamInt2 = paramInt2,
-                ParamInt3 = paramInt3,
-                ParamInt4 = paramInt4,
-                ParamFloat1 = paramFloat1,
-                ParamFloat2 = paramFloat2,
-                ParamFloat3 = paramFloat3,
-                ParamFloat4 = paramFloat4,
-                ParamString = paramString
-            };
+            NetworkCommandReceived?.Invoke(this, genericNetworkCommandArgs);
 
-            NetworkCommandReceived?.Invoke(this, args);
-
-            var (method, receiver) = GetMethodAndReciever(gameObject, name);
-
-            var intParams = new int[] { paramInt1, paramInt2, paramInt3, paramInt4 };
-            var floatParams = new float[] { paramFloat1, paramFloat2, paramFloat3, paramFloat4 };
-            var stringParams = new string[] { paramString };
-
-            var methodArgs = new List<object>();
-            var intIndex = 0;
-            var floatIndex = 0;
-            var stringIndex = 0;
-
-            foreach(var parameter in method.GetParameters())
-            {
-                if(parameter.ParameterType == typeof(int)) {
-                    methodArgs.Add(intParams[intIndex++]);
-                }
-                else if(parameter.ParameterType == typeof(float)) {
-                    methodArgs.Add(floatParams[floatIndex++]);
-                }
-                else if(parameter.ParameterType == typeof(string)) {
-                    methodArgs.Add(stringParams[stringIndex++]);
-                }
-                else {
-                    Debug.LogError("Command can't call method with argument of type '{parameter.ParameterType}'.");
-                    return;
-                }
-            }
-
-            method.Invoke(receiver, methodArgs.ToArray());
+            // TODO: Memoize!
+            var (method, receiver) = TypeHelpers.GetMethodAndReciever(gameObject, commandName);
+            var methodArgs = genericNetworkCommandArgs.ArgListForMethod(method);
+            method.Invoke(receiver, methodArgs);
         }
 
-        public static (MethodInfo, Component) GetMethodAndReciever(GameObject targetGameObject,
-                                                                   string methodScriptAndName)
+        public void AddCommandRequestDelegate(string name, GenericCommandRequestDelegate genericCommandRequestDelegate)
         {
-            // TODO: We can cache the results based on the string here
-
-            var nameParts = methodScriptAndName.Split(".".ToCharArray(), 2);
-
-            if(nameParts.Length != 2)
-            {
-                Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{methodScriptAndName}'.");
-            }
-
-            var typeName = nameParts[0];
-            var methodName = nameParts[1];
-            var receiver = targetGameObject.GetComponent(typeName);
-            var receiverType = receiver.GetType();
-            var method = receiverType.GetMethod(methodName);
-
-            return (method, receiver);
+            commandRequestDelegates[name] = genericCommandRequestDelegate;
         }
 
-        public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
+        private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
         {
-            if (entity == Entity.Null)
-            {
-                Debug.LogError("entity is null");
-                return;
-            }
+            var (paramInt, paramFloat, paramString) = TypeHelpers.ExtractTypedArraysFromObjects(args);
 
-            var paramInt = new int[4];
-            var paramFloat = new float[4];
-            var paramString = new string[1];
-            var intIndex = 0;
-            var floatIndex = 0;
-            var stringIndex = 0;
-
-            foreach(var arg in args)
-            {
-                if(arg.GetType() == typeof(int)) {
-                    paramInt[intIndex++] = (int)arg;
-                }
-                else if(arg.GetType() == typeof(float)) {
-                    paramFloat[floatIndex++] = (float)arg;
-                }
-                else if(arg.GetType() == typeof(string)) {
-                    paramString[stringIndex++] = (string)arg;
-                }
-                else {
-                    Debug.LogError($"Can't send {arg.GetType()} as parameter in Command.");
-                    return;
-                }
-            }
-
-            var cmd = new GenericCommandRequest
+            var genericCommandRequest = new GenericCommandRequest
             {
                 name = String.IsNullOrEmpty(commandName) ? "" : commandName,
+
                 paramInt1 = paramInt[0],
                 paramInt2 = paramInt[1],
                 paramInt3 = paramInt[2],
@@ -390,41 +332,7 @@
                 paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
             };
 
-            if (entityManager.HasComponent<GenericCommandRequest>(entity))
-            {
-                // Remote Entity
-                if(usingReflection)
-                {
-                    // TODO: Remove logging
-                    Debug.Log("send command to remote entity using reflection");
-                    var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
-                    _ = cmdRequestBuffer.Add(cmd);
-                }
-                else
-                {
-                    // TODO: Remove logging
-                    Debug.Log("send command to remote entity using baked method");
-                    var f = commandRequestDelegates[commandName];
-                    f(args);
-                }
-            }
-            else {
-                // Send the Command to a local Entity
-
-                // TODO: Remove logging
-                Debug.Log("send command to local entity (uses reflection)");
-
-                // TODO: just pass the 'cmd' instead!
-                ProcessGenericNetworkCommand(commandName,
-                                             paramInt[0], paramInt[1], paramInt[2], paramInt[3],
-                                             paramFloat[0], paramFloat[1], paramFloat[2], paramFloat[3],
-                                             paramString[0]);
-            }
-        }
-
-        public void AddCommandRequestDelegate(string name, GenericCommandRequestDelegate genericCommandRequestDelegate)
-        {
-            commandRequestDelegates[name] = genericCommandRequestDelegate;
+            return genericCommandRequest;
         }
 
         private bool CmpType(Type type, Type a)
@@ -814,28 +722,6 @@
             {
                 Debug.LogWarning($"{entity} {inst} {e.Message}");
                 throw e;
-            }
-        }
-
-        public class GenericNetworkCommandArgs : EventArgs
-        {
-            public string Name { get; set; }
-            public string ParamString { get; set; }
-
-            public int ParamInt1 { get; set; }
-            public int ParamInt2 { get; set; }
-            public int ParamInt3 { get; set; }
-            public int ParamInt4 { get; set; }
-
-            public float ParamFloat1 { get; set; }
-            public float ParamFloat2 { get; set; }
-            public float ParamFloat3 { get; set; }
-            public float ParamFloat4 { get; set; }
-
-            public override string ToString()
-            {
-                return
-                    $"{Name} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
             }
         }
 

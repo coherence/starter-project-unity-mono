@@ -110,7 +110,7 @@ public class Controller : MonoBehaviour
     }
 
     // called via SendMessage by CoherenceSync
-    private void NetworkCommand(CoherenceSync.GenericNetworkCommandArgs args)
+    private void NetworkCommand(GenericNetworkCommandArgs args)
     {
         if (args.Name == "Hit")
         {
