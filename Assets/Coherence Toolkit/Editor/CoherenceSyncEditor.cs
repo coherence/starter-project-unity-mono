@@ -73,12 +73,13 @@ namespace Coherence.MonoBridge
                 }
             }
 
+            if(GUILayout.Button("Bake (all) network components"))
+            {
+                Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
+            }
+
             if(usingReflection)
             {
-                if(GUILayout.Button("Bake network components"))
-                {
-                    Coherence.MonoBridge.SchemaCreator.GatherSyncBehavioursAndEmit();
-                }
                 EditorGUILayout.HelpBox("Using reflection is slow. Bake network components for additional performance.", MessageType.Warning);
             }
             else
@@ -364,27 +365,27 @@ namespace Coherence.MonoBridge
 
                 var methods = TypeHelpers.Methods(compType);
 
-                foreach (var method in methods)
+                foreach (var methodInfo in methods)
                 {
-                    if(!TypeHelpers.ShowThisMethod(method) ||
+                    if(!TypeHelpers.ShowThisMethod(methodInfo) ||
                        compType == typeof(Transform))
                     {
                         continue;
                     }
 
-                    var declaringType = method.DeclaringType; // What class/struct/etc the method is created on
-                    var argsString = TypeHelpers.MethodArgsAsString(method);
+                    var declaringType = methodInfo.DeclaringType; // What class/struct/etc the method is created on
+                    var argsString = TypeHelpers.MethodArgsAsString(methodInfo);
 
                     EditorGUI.indentLevel++;
                     try
                     {
-                        string methodString = compTypeString + CoherenceSync.KeyDelimiter + method.Name;
+                        string methodString = compTypeString + CoherenceSync.KeyDelimiter + methodInfo.Name;
 
                         bool? prevMethodIncluded = coherenceSync.GetFieldToggle(methodString);
 
                         EditorGUI.BeginChangeCheck();
                         // This is the name that has to be used in .SendCommand when invoking the method remotely
-                        var toggleLabelText = TypeHelpers.NamespacedMethodName(method);
+                        var toggleLabelText = TypeHelpers.NamespacedMethodName(methodInfo);
                         bool varIncluded = EditorGUILayout.ToggleLeft(toggleLabelText, prevMethodIncluded ?? false);
 
                         if (varIncluded) fieldsCheckedInEditorGUI++;
@@ -393,7 +394,7 @@ namespace Coherence.MonoBridge
                         {
                             anyChangesMade = true;
                             coherenceSync.SetFieldToggle(methodString, varIncluded);
-                            coherenceSync.ToggleFieldSync(methodString, method, varIncluded);
+                            coherenceSync.ToggleFieldSync(methodString, methodInfo, varIncluded);
                         }
                     }
                     catch (Exception e)

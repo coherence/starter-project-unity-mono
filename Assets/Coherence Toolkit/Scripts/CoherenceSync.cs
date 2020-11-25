@@ -1,6 +1,4 @@
-﻿using UnityEditor;
-
-namespace Coherence.MonoBridge
+﻿namespace Coherence.MonoBridge
 {
     using System;
     using System.Collections;
@@ -39,6 +37,11 @@ namespace Coherence.MonoBridge
         private Entity entity;
 
         private EntityManager entityManager;
+
+        public delegate void GenericCommandRequestDelegate(object[] args);
+
+        Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
+            new Dictionary<string, GenericCommandRequestDelegate>();
 
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
 
@@ -249,145 +252,102 @@ namespace Coherence.MonoBridge
             return debugData;
         }
 
+        public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
+        {
+            if (entity == Entity.Null)
+            {
+                Debug.LogError($"entity is null for game object '{name}'");
+                return;
+            }
+
+            if (entityManager.HasComponent<GenericCommandRequest>(entity))
+            {
+                // Remote Entity
+                if(usingReflection)
+                {
+                    var commandRequest = GenericCommandRequestFromObjects(commandName, args);
+                    var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
+                    _ = cmdRequestBuffer.Add(commandRequest);
+                }
+                else
+                {
+                    commandRequestDelegates[commandName](args);
+                }
+            }
+            else {
+                // Local Entity
+                var command = GenericNetworkCommandArgs.FromObjects(commandName, args);
+                ProcessGenericNetworkCommand(commandName, command);
+            }
+        }
+
         private void ReceiveGenericNetworkCommands()
         {
             if (entity == Entity.Null) return;
 
             var buffer = entityManager.GetBuffer<GenericCommand>(entity);
 
-            foreach (var cmd in buffer)
+            foreach (var genericCommand in buffer)
             {
-                ProcessGenericNetworkCommand(cmd.name.ToString(),
-                                             cmd.paramInt1, cmd.paramInt2, cmd.paramInt3, cmd.paramInt4,
-                                             cmd.paramFloat1, cmd.paramFloat2, cmd.paramFloat3, cmd.paramFloat4,
-                                             cmd.paramString.ToString());
+                var commandName = genericCommand.name.ToString();
+                ProcessGenericNetworkCommand(commandName, GenericNetworkCommandArgs.FromGenericCommand(genericCommand));
             }
 
             buffer.Clear();
         }
 
-        private void ProcessGenericNetworkCommand(string name,
-                                                  int paramInt1, int paramInt2, int paramInt3, int paramInt4,
-                                                  float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4,
-                                                  string paramString)
+        private Dictionary<string, (MethodInfo, Component)> commandNameMemoization =
+            new Dictionary<string, (MethodInfo, Component)>();
+
+        private void ProcessGenericNetworkCommand(string commandName, GenericNetworkCommandArgs genericNetworkCommandArgs)
         {
-            var args = new GenericNetworkCommandArgs
+            NetworkCommandReceived?.Invoke(this, genericNetworkCommandArgs);
+
+            MethodInfo method;
+            Component receiver;
+
+            if(commandNameMemoization.TryGetValue(commandName, out (MethodInfo, Component) memoized))
             {
-                Name = name,
-                ParamInt1 = paramInt1,
-                ParamInt2 = paramInt2,
-                ParamInt3 = paramInt3,
-                ParamInt4 = paramInt4,
-                ParamFloat1 = paramFloat1,
-                ParamFloat2 = paramFloat2,
-                ParamFloat3 = paramFloat3,
-                ParamFloat4 = paramFloat4,
-                ParamString = paramString
-            };
-
-            NetworkCommandReceived?.Invoke(this, args);
-
-            var nameParts = name.Split(".".ToCharArray(), 2);
-
-            if(nameParts.Length != 2)
+                method = memoized.Item1;
+                receiver = memoized.Item2;
+            }
+            else
             {
-                Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{name}'.");
+                (method, receiver) = TypeHelpers.GetMethodAndReciever(gameObject, commandName);
+                commandNameMemoization[commandName] = (method, receiver);
             }
 
-            var typeName = nameParts[0];
-            var methodName = nameParts[1];
-            var receiver = gameObject.GetComponent(typeName);
-            var receiverType = receiver.GetType();
-            var method = receiverType.GetMethod(methodName);
-
-            var intParams = new int[] { paramInt1, paramInt2, paramInt3, paramInt4 };
-            var floatParams = new float[] { paramFloat1, paramFloat2, paramFloat3, paramFloat4 };
-            var stringParams = new string[] { paramString };
-
-            var methodArgs = new List<object>();
-            var intIndex = 0;
-            var floatIndex = 0;
-            var stringIndex = 0;
-
-            foreach(var parameter in method.GetParameters())
-            {
-                if(parameter.ParameterType == typeof(int)) {
-                    methodArgs.Add(intParams[intIndex++]);
-                }
-                else if(parameter.ParameterType == typeof(float)) {
-                    methodArgs.Add(floatParams[floatIndex++]);
-                }
-                else if(parameter.ParameterType == typeof(string)) {
-                    methodArgs.Add(stringParams[stringIndex++]);
-                }
-                else {
-                    Debug.LogError("Command can't call method with argument of type '{parameter.ParameterType}'.");
-                    return;
-                }
-            }
-
-            method.Invoke(receiver, methodArgs.ToArray());
+            var methodArgs = genericNetworkCommandArgs.ArgListForMethod(method);
+            method.Invoke(receiver, methodArgs);
         }
 
-        public void SendCommand(CoherenceSync sender, string methodScriptAndName, params object[] args)
+        public void AddCommandRequestDelegate(string name, GenericCommandRequestDelegate genericCommandRequestDelegate)
         {
-            if (entity == Entity.Null)
+            commandRequestDelegates[name] = genericCommandRequestDelegate;
+        }
+
+        private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
+        {
+            var (paramInt, paramFloat, paramString) = TypeHelpers.ExtractTypedArraysFromObjects(args);
+
+            var genericCommandRequest = new GenericCommandRequest
             {
-                Debug.LogError("entity is null");
-                return;
-            }
+                name = String.IsNullOrEmpty(commandName) ? "" : commandName,
 
-            var paramInt = new int[4];
-            var paramFloat = new float[4];
-            var paramString = new string[1];
-            var intIndex = 0;
-            var floatIndex = 0;
-            var stringIndex = 0;
+                paramInt1 = paramInt[0],
+                paramInt2 = paramInt[1],
+                paramInt3 = paramInt[2],
+                paramInt4 = paramInt[3],
 
-            foreach(var arg in args)
-            {
-                if(arg.GetType() == typeof(int)) {
-                    paramInt[intIndex++] = (int)arg;
-                }
-                else if(arg.GetType() == typeof(float)) {
-                    paramFloat[floatIndex++] = (float)arg;
-                }
-                else if(arg.GetType() == typeof(string)) {
-                    paramString[stringIndex++] = (string)arg;
-                }
-                else {
-                    Debug.LogError($"Can't send {arg.GetType()} as parameter in Command.");
-                    return;
-                }
-            }
+                paramFloat1 = paramFloat[0],
+                paramFloat2 = paramFloat[1],
+                paramFloat3 = paramFloat[2],
+                paramFloat4 = paramFloat[3],
 
-            if (entityManager.HasComponent<GenericCommandRequest>(entity))
-            {
-                var cmd = new GenericCommandRequest
-                {
-                    name = String.IsNullOrEmpty(methodScriptAndName) ? "" : methodScriptAndName,
-                    paramInt1 = paramInt[0],
-                    paramInt2 = paramInt[1],
-                    paramInt3 = paramInt[2],
-                    paramInt4 = paramInt[3],
+                paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
+            };
 
-                    paramFloat1 = paramFloat[0],
-                    paramFloat2 = paramFloat[1],
-                    paramFloat3 = paramFloat[2],
-                    paramFloat4 = paramFloat[3],
-
-                    paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
-                };
-
-                var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
-                _ = cmdRequestBuffer.Add(cmd);
-            }
-            else {
-                ProcessGenericNetworkCommand(methodScriptAndName,
-                                             paramInt[0], paramInt[1], paramInt[2], paramInt[3],
-                                             paramFloat[0], paramFloat[1], paramFloat[2], paramFloat[3],
-                                             paramString[0]);
-            }
+            return genericCommandRequest;
         }
 
         private bool CmpType(Type type, Type a)
@@ -565,6 +525,14 @@ namespace Coherence.MonoBridge
 
         private void SyncEcsWithReflection()
         {
+            if(fieldTogglesKeys.Count != fieldTogglesValues.Count ||
+               fieldLinksKeys.Count != fieldTogglesValues.Count ||
+               fieldLinksValues.Count != fieldTogglesValues.Count)
+            {
+                Debug.LogError($"Count mismatch! fieldTogglesKeys.Count = {fieldTogglesKeys.Count}, fieldTogglesValues.Count = {fieldTogglesValues.Count}, fieldLinksKeys.Count = {fieldLinksKeys.Count}, fieldLinksValues.Count = {fieldLinksValues.Count}");
+                return;
+            }
+
             for (var i = 0; i < fieldTogglesKeys.Count; i++)
             {
                 var on = fieldTogglesValues[i];
@@ -772,28 +740,6 @@ namespace Coherence.MonoBridge
             }
         }
 
-        public class GenericNetworkCommandArgs : EventArgs
-        {
-            public string Name { get; set; }
-            public string ParamString { get; set; }
-
-            public int ParamInt1 { get; set; }
-            public int ParamInt2 { get; set; }
-            public int ParamInt3 { get; set; }
-            public int ParamInt4 { get; set; }
-
-            public float ParamFloat1 { get; set; }
-            public float ParamFloat2 { get; set; }
-            public float ParamFloat3 { get; set; }
-            public float ParamFloat4 { get; set; }
-
-            public override string ToString()
-            {
-                return
-                    $"{Name} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
-            }
-        }
-
         #region ListManipulation
 
         private static void SetListValue<T>(List<string> keyList, List<T> valList, string key, T val)
@@ -868,7 +814,12 @@ namespace Coherence.MonoBridge
         {
             SetListValue(fieldTypesKeys, fieldTypesValues, key, TypeHelpers.MethodAsString(val));
 
-            // TODO: Toggle something here -- but what?
+            if (GetListValue(fieldLinksKeys, fieldLinksValues, key) == null)
+            {
+                // We don't use this key, setting it leads to errors in
+                // InitializeComponents due to MethodInfo:s not being Type:s.
+                SetListValue(fieldLinksKeys, fieldLinksValues, key, null);
+            }
         }
 
         public void SetScriptToggle(string key, bool val)

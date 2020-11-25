@@ -200,5 +200,53 @@ namespace Coherence.MonoBridge
                 throw new Exception($"Can't convert type {type} to nice looking type.");
             }
         }
+
+        public static (MethodInfo, Component) GetMethodAndReciever(GameObject targetGameObject,
+                                                                   string methodScriptAndName)
+        {
+            var nameParts = methodScriptAndName.Split(".".ToCharArray(), 2);
+
+            if(nameParts.Length != 2)
+            {
+                Debug.Log($"Must send command with <MonoBehaviourName>.<MethodName>, got: '{methodScriptAndName}'.");
+            }
+
+            var typeName = nameParts[0];
+            var methodName = nameParts[1];
+            var receiver = targetGameObject.GetComponent(typeName);
+            var receiverType = receiver.GetType();
+            var method = receiverType.GetMethod(methodName);
+
+            return (method, receiver);
+        }
+
+        public static (int[], float[], string[]) ExtractTypedArraysFromObjects(object[] args)
+        {
+            var paramInt = new int[4];
+            var paramFloat = new float[4];
+            var paramString = new string[1];
+            var intIndex = 0;
+            var floatIndex = 0;
+            var stringIndex = 0;
+
+            foreach(var arg in args)
+            {
+                if(arg.GetType() == typeof(int)) {
+                    paramInt[intIndex++] = (int)arg;
+                }
+                else if(arg.GetType() == typeof(float)) {
+                    paramFloat[floatIndex++] = (float)arg;
+                }
+                else if(arg.GetType() == typeof(string)) {
+                    paramString[stringIndex++] = (string)arg;
+                }
+                else {
+                    Debug.LogError($"Can't send {arg.GetType()} as parameter in Command.");
+                    return (null, null, null);
+                }
+            }
+
+            return (paramInt, paramFloat, paramString);
+        }
     }
 }

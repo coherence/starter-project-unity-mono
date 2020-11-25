@@ -62,6 +62,7 @@ namespace Coherence.MonoBridge
         private static void SaveGatheredSchema(CoherenceSync[] coherenceSyncBehaviours) {
 #if UNITY_EDITOR
             var componentDefinitions = new Dictionary<string, ComponentDefinition>();
+            var commandDefinitions = new Dictionary<string, CommandDefinition>();
 
             foreach(var coherenceSync in coherenceSyncBehaviours)
             {
@@ -113,6 +114,33 @@ namespace Coherence.MonoBridge
                         var member = new ComponentMemberDescription(memberName, memberType);
                         componentDefinition.members.Add(member);
                     }
+
+                    var methods = TypeHelpers.Methods(componentType);
+
+                    foreach(var methodInfo in methods)
+                    {
+                        var key = componentTypeString + CoherenceSync.KeyDelimiter + methodInfo.Name;
+                        var memberToggleOn = coherenceSync.GetFieldToggle(key) ?? false;
+
+                        if (!memberToggleOn)
+                        {
+                            continue;
+                        }
+
+                        var commandArgs = new List<ComponentMemberDescription>();
+                        foreach(var parameterInfo in methodInfo.GetParameters())
+                        {
+                            var name = parameterInfo.Name;
+                            var type = TypeHelpers.ToSchemaType(parameterInfo.ParameterType);
+                            var member = new ComponentMemberDescription(name, type);
+                            commandArgs.Add(member);
+                        }
+
+                        var qualifiedMethodName = TypeHelpers.NamespacedMethodName(methodInfo);
+                        var schemaCommandName = SchemaComponentName(coherenceSync, qualifiedMethodName);
+
+                        commandDefinitions[qualifiedMethodName] = new CommandDefinition(schemaCommandName, commandArgs);
+                    }
                 }
             }
 
@@ -120,7 +148,7 @@ namespace Coherence.MonoBridge
             var schemaFullPath = $"{OutDirectory}/{schemaFilename}";
 
             var schemaWriter = new StreamWriter(schemaFullPath);
-            var schemaCode = CreateSchema(componentDefinitions.Values, false);
+            var schemaCode = CreateSchema(componentDefinitions.Values, commandDefinitions.Values, false);
             schemaWriter.Write(schemaCode);
             schemaWriter.Close();
 
@@ -134,7 +162,14 @@ namespace Coherence.MonoBridge
             return Mangle(coherenceSync.name + "_" + componentName);
         }
 
-        private static string CreateSchema(IEnumerable<ComponentDefinition> components, bool writeHeader)
+        public static string SchemaCommandName(CoherenceSync coherenceSync, string commandName)
+        {
+            return Mangle(coherenceSync.name + "_" + commandName);
+        }
+
+        private static string CreateSchema(IEnumerable<ComponentDefinition> components,
+                                           IEnumerable<CommandDefinition> commands,
+                                           bool writeHeader)
         {
             var header =
 @"name Schema
@@ -155,6 +190,16 @@ namespace Coherence.Generated.FirstProject
             {
                 writer.Write($"component {component.name}\n");
                 foreach(var member in component.members)
+                {
+                    writer.Write($"  {member.variableName} {member.typeName}\n");
+                }
+                writer.Write("\n");
+            }
+
+            foreach(var command in commands)
+            {
+                writer.Write($"command {command.name}\n");
+                foreach(var member in command.members)
                 {
                     writer.Write($"  {member.variableName} {member.typeName}\n");
                 }
@@ -191,6 +236,7 @@ namespace Coherence.Generated.FirstProject
             {
                 var components = coherenceSync.gameObject.GetComponents(typeof(Component));
                 var syncTheseComponents = new List<SyncedComponent>();
+                var handleTheseCommands = new List<CommandDescription>();
 
                 foreach (Component component in components)
                 {
@@ -243,11 +289,45 @@ namespace Coherence.Generated.FirstProject
                                                               syncTheseMembers.ToArray() // same names for setters
                                                               );
                     syncTheseComponents.Add(syncedComponent);
+
+
+
+                    var methods = TypeHelpers.Methods(componentType);
+
+                    foreach(var methodInfo in methods)
+                    {
+                        var key = componentTypeString + CoherenceSync.KeyDelimiter + methodInfo.Name;
+                        var memberToggleOn = coherenceSync.GetFieldToggle(key) ?? false;
+
+                        if (!memberToggleOn)
+                        {
+                            continue;
+                        }
+
+                        var commandArgs = new List<string>();
+                        foreach(var parameterInfo in methodInfo.GetParameters())
+                        {
+                            var name = parameterInfo.Name;
+                            //var type = TypeHelpers.ToSchemaType(parameterInfo.ParameterType);
+                            commandArgs.Add(name);
+                        }
+
+                        var qualifiedMethodName = TypeHelpers.NamespacedMethodName(methodInfo);
+                        var schemaCommandName = SchemaComponentName(coherenceSync, qualifiedMethodName);
+                        var command = new CommandDescription(schemaCommandName,
+                                                             methodInfo.Name,
+                                                             methodInfo.DeclaringType.Name,
+                                                             commandArgs.ToArray());
+
+                        handleTheseCommands.Add(command);
+                    }
                 }
 
                 var mangledName = Mangle(coherenceSync.name);
                 var className = $"CoherenceSync{mangledName}";
-                jsonData.Add(new SyncedBehaviour(className, syncTheseComponents.ToArray()));
+                jsonData.Add(new SyncedBehaviour(className,
+                                                 syncTheseComponents.ToArray(),
+                                                 handleTheseCommands.ToArray()));
             }
 
             var writer = new StringWriter();
@@ -261,7 +341,8 @@ namespace Coherence.Generated.FirstProject
         {
             return
                 s.Replace("-", "_")
-                 .Replace(" ", "_");
+                 .Replace(" ", "_")
+                 .Replace(".", "_");
         }
     }
 
@@ -277,6 +358,23 @@ namespace Coherence.Generated.FirstProject
         }
 
         public ComponentDefinition(string name, List<ComponentMemberDescription> members) {
+            this.name = name;
+            this.members = members;
+        }
+    }
+
+    // Used for schema generation -- corresponds to an coherence ECS command.
+    public struct CommandDefinition
+    {
+        public string name;
+        public List<ComponentMemberDescription> members;
+
+        public CommandDefinition(string name) {
+            this.name = name;
+            this.members = new List<ComponentMemberDescription>();
+        }
+
+        public CommandDefinition(string name, List<ComponentMemberDescription> members) {
             this.name = name;
             this.members = members;
         }
@@ -301,10 +399,12 @@ namespace Coherence.Generated.FirstProject
     {
         public string BehaviourName;
         public SyncedComponent[] Components;
+        public CommandDescription[] Commands;
 
-        public SyncedBehaviour(string name, SyncedComponent[] components) {
+        public SyncedBehaviour(string name, SyncedComponent[] components, CommandDescription[] commands) {
             this.BehaviourName = name;
             this.Components = components;
+            this.Commands = commands;
         }
     }
 
@@ -329,6 +429,22 @@ namespace Coherence.Generated.FirstProject
             this.PropertyType = propertyType;
             this.PropertyGetters = getters;
             this.PropertySetters = setters;
+        }
+    }
+
+    public struct CommandDescription
+    {
+        public string CommandName;
+        public string MethodName;
+        public string MethodDeclaringClass;
+        public string[] Members;
+
+        public CommandDescription(string name, string methodName, string declaringClass, string[] members)
+        {
+            this.CommandName = name;
+            this.MethodName = methodName;
+            this.MethodDeclaringClass = declaringClass;
+            this.Members = members;
         }
     }
 
