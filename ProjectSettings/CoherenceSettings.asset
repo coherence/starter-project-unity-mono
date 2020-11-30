@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b58ca8e478745dfab801a85671962e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uploadToken: e8586f5ae50f32d1f4fc8749cc9f7342927cdd9f9b
+  port: 32001
+  frequency: 60
+  activeSchemas:
+  - {fileID: -1758743643018166929, guid: 53daa411b16274e88a08f601c21d8ca6, type: 3}
