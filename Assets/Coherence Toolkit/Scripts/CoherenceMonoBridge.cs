@@ -2,13 +2,16 @@
 
 namespace Coherence.MonoBridge
 {
-    using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
     using System.Collections.Generic;
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Transforms;
     using UnityEngine;
+
+#if COHERENCE_TOOLKIT
+    using Coherence.Generated.FirstProject; // TODO: Use a better namespace name
+#endif
 
     public class CoherenceMonoBridge : MonoBehaviour
     {
@@ -33,6 +36,8 @@ namespace Coherence.MonoBridge
         public delegate void NetworkEventHandler(object sender, EntityArgs e);
 
         public event NetworkEventHandler OnNetworkEntityCreated, OnNetworkEntityDestroyed;
+
+#if COHERENCE_TOOLKIT
         
         private void Awake()
         {
@@ -240,5 +245,6 @@ namespace Coherence.MonoBridge
             
             return sync;
         }
+#endif
     }
 }

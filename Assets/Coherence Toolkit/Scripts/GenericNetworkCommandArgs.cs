@@ -1,11 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Coherence.Generated.FirstProject;
-using UnityEngine;
-
 namespace Coherence.MonoBridge
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using UnityEngine;
+
+#if COHERENCE_TOOLKIT
+    using Coherence.Generated.FirstProject; // TODO: Use a better namespace name
+#endif
+
     public class GenericNetworkCommandArgs : EventArgs
     {
         public string Name { get; set; }
@@ -28,6 +31,7 @@ namespace Coherence.MonoBridge
                 $"{Name} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
         }
 
+#if COHERENCE_TOOLKIT
         public static GenericNetworkCommandArgs FromGenericCommand(GenericCommand command)
         {
             return new GenericNetworkCommandArgs
@@ -102,6 +106,6 @@ namespace Coherence.MonoBridge
 
             return methodArgs.ToArray();
         }
+#endif
     }
-
 }

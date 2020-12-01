@@ -4,7 +4,6 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
-    using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
     using Unity.Collections;
     using Unity.Entities;
@@ -12,13 +11,13 @@
     using Unity.Transforms;
     using UnityEngine;
 
+#if COHERENCE_TOOLKIT
+    using Coherence.Generated.FirstProject; // TODO: Use a better namespace name
+#endif
+
     public class CoherenceSync : MonoBehaviour
     {
-        public static List<CoherenceSync> instances = new List<CoherenceSync>();
-
-        public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
-
-        public event NetworkCommandHandler NetworkCommandReceived;
+        public static List<CoherenceSync> instances = new List<CoherenceSync>();        
 
         public enum SynchronizedPrefabOptions
         {
@@ -37,11 +36,6 @@
         private Entity entity;
 
         private EntityManager entityManager;
-
-        public delegate void GenericCommandRequestDelegate(object[] args);
-
-        Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
-            new Dictionary<string, GenericCommandRequestDelegate>();
 
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
 
@@ -76,6 +70,16 @@
 
         [SerializeField]
         public bool usingReflection = true;
+
+#if COHERENCE_TOOLKIT
+
+        public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
+        public event NetworkCommandHandler NetworkCommandReceived;
+
+        public delegate void GenericCommandRequestDelegate(object[] args);
+
+        Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
+            new Dictionary<string, GenericCommandRequestDelegate>();
 
         public SynchronizedPrefabOptions SelectedSynchronizedPrefabOption
         {
@@ -740,8 +744,6 @@
             }
         }
 
-        #region ListManipulation
-
         private static void SetListValue<T>(List<string> keyList, List<T> valList, string key, T val)
         {
             for (var i = 0; i < keyList.Count; i++)
@@ -842,7 +844,6 @@
             var cmp = key.Substring(i + 1);
             return cmp;
         }
-
-        #endregion
+#endif
     }
 }

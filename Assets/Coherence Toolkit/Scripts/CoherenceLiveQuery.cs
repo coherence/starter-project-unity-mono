@@ -1,13 +1,17 @@
 ﻿namespace Coherence.MonoBridge
 {
-    using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
     using Unity.Entities;
     using UnityEngine;
     using Network = Network;
 
+#if COHERENCE_TOOLKIT
+    using Coherence.Generated.FirstProject; // TODO: Use a better namespace name
+#endif
+
     public class CoherenceLiveQuery : MonoBehaviour
     {
+#if COHERENCE_TOOLKIT
         public float radius = 50f;
         public Color gizmoColor = Color.yellow;
 
@@ -38,5 +42,6 @@
             Gizmos.color = gizmoColor;
             Gizmos.DrawSphere(transform.position, radius);
         }
+#endif
     }
 }

@@ -12,6 +12,7 @@ namespace Coherence.MonoBridge
     [CanEditMultipleObjects]
     public class CoherenceSyncEditor : Editor
     {
+#if COHERENCE_TOOLKIT
         private Texture2D logo;
 
         private void OnEnable()
@@ -424,5 +425,6 @@ namespace Coherence.MonoBridge
                 }
             }
         }
+#endif
     }
 }

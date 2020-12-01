@@ -53,7 +53,9 @@ public class Bullet : MonoBehaviour
 
         if (target)
         {
+#if COHERENCE_TOOLKIT
             target.SendCommand(sender, "CharacterBehaviour.Hit");
+#endif
         }
 
         Destroy(gameObject);

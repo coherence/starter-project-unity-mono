@@ -40,9 +40,11 @@ public class CharacterBehaviour : MonoBehaviour
                 //Debug.Log(debugPanel.log.text + "== text");
             }
 
+#if COHERENCE_TOOLKIT
             // This creates a full command with a scrambled order of its arguments
             coherenceSyncOther.SendCommand(coherenceSync, "CharacterBehaviour.LogToPanel",
                                            stringToSend, 1.0f, 10, 20, 30, 2.0f, 40, 3.0f, 4.0f);
+#endif
         }
     }
 

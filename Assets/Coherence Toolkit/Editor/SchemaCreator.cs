@@ -11,6 +11,7 @@ namespace Coherence.MonoBridge
 
     public class SchemaCreator
     {
+#if COHERENCE_TOOLKIT
         static string OutDirectory => $"{Application.dataPath}/Schemas";
 
         static Dictionary<string, IWorkaround> specialCases = new Dictionary<string, IWorkaround>()
@@ -627,5 +628,6 @@ namespace Coherence.Generated.FirstProject
 
             return parameterTypeName;
         }
+#endif
     }
 }
