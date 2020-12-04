@@ -583,7 +583,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: LOG_INFO;LOG_WARNING;LOG_DEBUG;LOG_TRACE
+    1: LOG_INFO;LOG_WARNING;LOG_DEBUG;LOG_TRACE;COHERENCE_TOOLKIT
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
