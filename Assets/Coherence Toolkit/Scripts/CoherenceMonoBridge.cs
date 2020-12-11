@@ -2,7 +2,6 @@
 
 namespace Coherence.MonoBridge
 {
-    using Coherence.Generated.FirstProject;
     using Coherence.Replication.Client.Unity.Ecs;
     using System.Collections.Generic;
     using Unity.Collections;
@@ -12,6 +11,10 @@ namespace Coherence.MonoBridge
 
     public class CoherenceMonoBridge : MonoBehaviour
     {
+        public static Func<EntityQuery> CreateEntityQueryRemote;
+        public static Func<EntityQuery> CreateEntityQueryLocal;
+        public static Func<Entity, string> GetPrefabName;
+
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
         public bool debugMode = true;
 
@@ -38,15 +41,8 @@ namespace Coherence.MonoBridge
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQueryRemote = entityManager.CreateEntityQuery(
-                typeof(GenericPrefabReference),
-                typeof(Translation),
-                ComponentType.Exclude<Simulated>());
-
-            entityQueryLocal = entityManager.CreateEntityQuery(
-                typeof(GenericPrefabReference),
-                typeof(Translation),
-                typeof(Simulated));
+            entityQueryRemote = CreateEntityQueryRemote();
+            entityQueryLocal = CreateEntityQueryLocal();
 
             DontDestroyOnLoad(this.gameObject);
             
@@ -218,7 +214,7 @@ namespace Coherence.MonoBridge
 
         public CoherenceSync SpawnEntity(Entity entity)
         {
-            FixedString64 prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
+            FixedString64 prefabName = GetPrefabName(entity);
 
             CoherenceSync syncPrefab = Resources.Load<CoherenceSync>(prefabName.ToString());
             if (!syncPrefab)

@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Coherence.Generated.FirstProject;
-using UnityEngine;
-
 namespace Coherence.MonoBridge
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using UnityEngine;
+
     public class GenericNetworkCommandArgs : EventArgs
     {
         public string Name { get; set; }
@@ -26,26 +25,6 @@ namespace Coherence.MonoBridge
         {
             return
                 $"{Name} {ParamInt1} {ParamInt2} {ParamInt3} {ParamInt4} {ParamFloat1} {ParamFloat2} {ParamFloat3} {ParamFloat4} {ParamString}";
-        }
-
-        public static GenericNetworkCommandArgs FromGenericCommand(GenericCommand command)
-        {
-            return new GenericNetworkCommandArgs
-            {
-                Name = command.name.ToString(),
-
-                ParamInt1 = command.paramInt1,
-                ParamInt2 = command.paramInt2,
-                ParamInt3 = command.paramInt3,
-                ParamInt4 = command.paramInt4,
-
-                ParamFloat1 = command.paramFloat1,
-                ParamFloat2 = command.paramFloat2,
-                ParamFloat3 = command.paramFloat3,
-                ParamFloat4 = command.paramFloat4,
-
-                ParamString = command.paramString.ToString(),
-            };
         }
 
         public static GenericNetworkCommandArgs FromObjects(string commandName, object[] args)
@@ -83,18 +62,22 @@ namespace Coherence.MonoBridge
             var floatIndex = 0;
             var stringIndex = 0;
 
-            foreach(var parameter in method.GetParameters())
+            foreach (var parameter in method.GetParameters())
             {
-                if(parameter.ParameterType == typeof(int)) {
+                if (parameter.ParameterType == typeof(int))
+                {
                     methodArgs.Add(intParams[intIndex++]);
                 }
-                else if(parameter.ParameterType == typeof(float)) {
+                else if (parameter.ParameterType == typeof(float))
+                {
                     methodArgs.Add(floatParams[floatIndex++]);
                 }
-                else if(parameter.ParameterType == typeof(string)) {
+                else if (parameter.ParameterType == typeof(string))
+                {
                     methodArgs.Add(stringParams[stringIndex++]);
                 }
-                else {
+                else
+                {
                     Debug.LogError("Command can't call method with argument of type '{parameter.ParameterType}'.");
                     return null;
                 }

@@ -4,8 +4,6 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
-    using Coherence.Generated.FirstProject;
-    using Coherence.Replication.Client.Unity.Ecs;
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -14,6 +12,13 @@
 
     public class CoherenceSync : MonoBehaviour
     {
+        public static Action CreateECSRepresentation;
+        public static Action InitializeComponents;
+        public static Action ReceiveGenericNetworkCommands;
+        public static Action<CoherenceSync, string, object[]> SendCommandImpl;
+        public static Func<bool> EcsEntityExistsImpl;
+        public static Func<Type> GetGenericScaleType;
+
         public static List<CoherenceSync> instances = new List<CoherenceSync>();
 
         public delegate void NetworkCommandHandler(object sender, GenericNetworkCommandArgs e);
@@ -130,48 +135,6 @@
             CreateECSRepresentation();
         }
 
-        private void CreateECSRepresentation()
-        {
-            entity = entityManager.CreateEntity();
-            entityManager.AddComponent<GenericPrefabReference>(entity);
-
-            if (usingReflection)
-            {
-                InitializeComponents();
-            }
-
-            entityManager.SetComponentData(entity, new GenericPrefabReference
-            {
-                prefab = new FixedString64(remoteVersionPrefabName)
-            });
-        }
-
-        private void InitializeComponents()
-        {
-            entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
-            entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
-            entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
-
-            entityManager.AddComponent<SessionBased>(entity);
-            entityManager.AddComponent<Simulated>(entity);
-            entityManager.AddComponent<GenericCommand>(entity);
-
-            foreach (var t in fieldLinksValues)
-            {
-                var val = t;
-                if (val == null) continue;
-
-                var type = Type.GetType(schemaNamespace + val);
-                if (type == null)
-                {
-                    Debug.LogWarning($"Type {t} could not be found.");
-                    continue;
-                }
-
-                _ = entityManager.AddComponent(entity, type);
-            }
-        }
-
         protected void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -254,46 +217,7 @@
 
         public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
         {
-            if (entity == Entity.Null)
-            {
-                Debug.LogError($"entity is null for game object '{name}'");
-                return;
-            }
-
-            if (entityManager.HasComponent<GenericCommandRequest>(entity))
-            {
-                // Remote Entity
-                if(usingReflection)
-                {
-                    var commandRequest = GenericCommandRequestFromObjects(commandName, args);
-                    var cmdRequestBuffer = entityManager.GetBuffer<GenericCommandRequest>(entity);
-                    _ = cmdRequestBuffer.Add(commandRequest);
-                }
-                else
-                {
-                    commandRequestDelegates[commandName](args);
-                }
-            }
-            else {
-                // Local Entity
-                var command = GenericNetworkCommandArgs.FromObjects(commandName, args);
-                ProcessGenericNetworkCommand(commandName, command);
-            }
-        }
-
-        private void ReceiveGenericNetworkCommands()
-        {
-            if (entity == Entity.Null) return;
-
-            var buffer = entityManager.GetBuffer<GenericCommand>(entity);
-
-            foreach (var genericCommand in buffer)
-            {
-                var commandName = genericCommand.name.ToString();
-                ProcessGenericNetworkCommand(commandName, GenericNetworkCommandArgs.FromGenericCommand(genericCommand));
-            }
-
-            buffer.Clear();
+            SendCommandImpl(sender, commandName, args);
         }
 
         private Dictionary<string, (MethodInfo, Component)> commandNameMemoization =
@@ -324,30 +248,6 @@
         public void AddCommandRequestDelegate(string name, GenericCommandRequestDelegate genericCommandRequestDelegate)
         {
             commandRequestDelegates[name] = genericCommandRequestDelegate;
-        }
-
-        private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
-        {
-            var (paramInt, paramFloat, paramString) = TypeHelpers.ExtractTypedArraysFromObjects(args);
-
-            var genericCommandRequest = new GenericCommandRequest
-            {
-                name = String.IsNullOrEmpty(commandName) ? "" : commandName,
-
-                paramInt1 = paramInt[0],
-                paramInt2 = paramInt[1],
-                paramInt3 = paramInt[2],
-                paramInt4 = paramInt[3],
-
-                paramFloat1 = paramFloat[0],
-                paramFloat2 = paramFloat[1],
-                paramFloat3 = paramFloat[2],
-                paramFloat4 = paramFloat[3],
-
-                paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
-            };
-
-            return genericCommandRequest;
         }
 
         private bool CmpType(Type type, Type a)
@@ -390,6 +290,12 @@
             return null;
         }
 
+        // Must be public.
+        public bool EcsEntityExists()
+        {
+            return EcsEntityExistsImpl();
+        }
+
         protected void Update()
         {
             if (!isSimulated && !EcsEntityExists())
@@ -413,12 +319,6 @@
                     }
                 }
             }
-        }
-
-        // Note: must be public
-        public bool EcsEntityExists()
-        {
-            return entity != Entity.Null && entityManager.HasComponent<GenericPrefabReference>(entity);
         }
 
         private object GetAnimatorValue(Animator an, string _name)
@@ -605,7 +505,7 @@
                 if (toggleKey.Contains("localScale"))
                 {
                     fieldType = typeof(Vector3);
-                    networkedType = typeof(GenericScale);
+                    networkedType = GetGenericScaleType();
                 }
             }
 

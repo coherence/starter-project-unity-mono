@@ -110,11 +110,11 @@ public class Controller : MonoBehaviour
     }
 
     // called via SendMessage by CoherenceSync
-    private void NetworkCommand(GenericNetworkCommandArgs args)
-    {
-        if (args.Name == "Hit")
-        {
-            velocity -= Physics.gravity.normalized * Mathf.Sqrt(Mathf.Abs(2f * 8f * Physics.gravity.magnitude));
-        }
-    }
+    //private void NetworkCommand(GenericNetworkCommandArgs args)
+    //{
+    //    if (args.Name == "Hit")
+    //    {
+    //        velocity -= Physics.gravity.normalized * Mathf.Sqrt(Mathf.Abs(2f * 8f * Physics.gravity.magnitude));
+    //    }
+    //}
 }
