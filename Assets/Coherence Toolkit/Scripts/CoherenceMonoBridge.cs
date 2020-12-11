@@ -11,9 +11,9 @@ namespace Coherence.MonoBridge
 
     public class CoherenceMonoBridge : MonoBehaviour
     {
-        public static Func<EntityQuery> CreateEntityQueryRemote;
-        public static Func<EntityQuery> CreateEntityQueryLocal;
-        public static Func<Entity, string> GetPrefabName;
+        public static Func<EntityManager, EntityQuery> CreateEntityQueryRemote;
+        public static Func<EntityManager, EntityQuery> CreateEntityQueryLocal;
+        public static Func<EntityManager, Entity, FixedString64> GetPrefabName;
 
         public string schemaNamespace = "Coherence.Generated.FirstProject.";
         public bool debugMode = true;
@@ -41,8 +41,13 @@ namespace Coherence.MonoBridge
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-            entityQueryRemote = CreateEntityQueryRemote();
-            entityQueryLocal = CreateEntityQueryLocal();
+            if(CreateEntityQueryRemote == null)
+            {
+                Debug.LogError("The coherence Toolkit callbacks are not setup, have you baked the Generic schema?");
+            }
+
+            entityQueryRemote = CreateEntityQueryRemote(entityManager);
+            entityQueryLocal = CreateEntityQueryLocal(entityManager);
 
             DontDestroyOnLoad(this.gameObject);
             
@@ -214,7 +219,7 @@ namespace Coherence.MonoBridge
 
         public CoherenceSync SpawnEntity(Entity entity)
         {
-            FixedString64 prefabName = GetPrefabName(entity);
+            FixedString64 prefabName = GetPrefabName(entityManager, entity);
 
             CoherenceSync syncPrefab = Resources.Load<CoherenceSync>(prefabName.ToString());
             if (!syncPrefab)

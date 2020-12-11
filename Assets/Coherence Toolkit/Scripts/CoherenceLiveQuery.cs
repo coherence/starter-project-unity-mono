@@ -7,7 +7,7 @@
 
     public class CoherenceLiveQuery : MonoBehaviour
     {
-        public static Action CreateLiveQuery;
+        public static Action<EntityManager, float> CreateLiveQuery;
 
         public float radius = 50f;
         public Color gizmoColor = Color.yellow;
@@ -20,7 +20,7 @@
         private void OnConnected()
         {
             EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            CreateLiveQuery();
+            CreateLiveQuery(entityManager, radius);
         }
 
         private void OnDrawGizmosSelected()

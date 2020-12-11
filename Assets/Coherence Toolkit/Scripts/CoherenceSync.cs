@@ -12,11 +12,11 @@
 
     public class CoherenceSync : MonoBehaviour
     {
-        public static Action CreateECSRepresentation;
-        public static Action InitializeComponents;
-        public static Action ReceiveGenericNetworkCommands;
-        public static Action<CoherenceSync, string, object[]> SendCommandImpl;
-        public static Func<bool> EcsEntityExistsImpl;
+        public static Action<CoherenceSync> CreateECSRepresentation;
+        public static Action<EntityManager, Entity, Transform> CreateBuiltinComponents;
+        public static Action<CoherenceSync> ReceiveGenericNetworkCommands;
+        public static Action<CoherenceSync, CoherenceSync, string, object[]> SendCommandImpl;
+        public static Func<EntityManager, Entity, bool> EcsEntityExistsImpl;
         public static Func<Type> GetGenericScaleType;
 
         public static List<CoherenceSync> instances = new List<CoherenceSync>();
@@ -39,13 +39,13 @@
 
         private bool ecsEntitySet;
 
-        private Entity entity;
+        public Entity entity;
 
-        private EntityManager entityManager;
+        public EntityManager entityManager;
 
         public delegate void GenericCommandRequestDelegate(object[] args);
 
-        Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
+        public Dictionary<string, GenericCommandRequestDelegate> commandRequestDelegates =
             new Dictionary<string, GenericCommandRequestDelegate>();
 
         // Unfortunately Unity won't serialize Hash tables so we're doing this with double lists :/
@@ -132,7 +132,27 @@
         {
             if (entity != Entity.Null || !isSimulated) yield break;
 
-            CreateECSRepresentation();
+            CreateECSRepresentation(this);
+        }
+
+        public void InitializeComponents()
+        {
+            CreateBuiltinComponents(entityManager, entity, transform);
+
+            foreach (var t in fieldLinksValues)
+            {
+                var val = t;
+                if (val == null) continue;
+
+                var type = Type.GetType(schemaNamespace + val);
+                if (type == null)
+                {
+                    Debug.LogWarning($"Type {t} could not be found.");
+                    continue;
+                }
+
+                _ = entityManager.AddComponent(entity, type);
+            }
         }
 
         protected void Awake()
@@ -151,7 +171,7 @@
         {
             if (entity == Entity.Null)
             {
-                CreateECSRepresentation();
+                CreateECSRepresentation(this);
             }
         }
 
@@ -217,20 +237,26 @@
 
         public void SendCommand(CoherenceSync sender, string commandName, params object[] args)
         {
-            SendCommandImpl(sender, commandName, args);
+            if (entity == Entity.Null)
+            {
+                Debug.LogError($"entity is null for game object '{name}'");
+                return;
+            }
+
+            SendCommandImpl(this, sender, commandName, args);
         }
 
         private Dictionary<string, (MethodInfo, Component)> commandNameMemoization =
             new Dictionary<string, (MethodInfo, Component)>();
 
-        private void ProcessGenericNetworkCommand(string commandName, GenericNetworkCommandArgs genericNetworkCommandArgs)
+        public void ProcessGenericNetworkCommand(string commandName, GenericNetworkCommandArgs genericNetworkCommandArgs)
         {
             NetworkCommandReceived?.Invoke(this, genericNetworkCommandArgs);
 
             MethodInfo method;
             Component receiver;
 
-            if(commandNameMemoization.TryGetValue(commandName, out (MethodInfo, Component) memoized))
+            if (commandNameMemoization.TryGetValue(commandName, out (MethodInfo, Component) memoized))
             {
                 method = memoized.Item1;
                 receiver = memoized.Item2;
@@ -250,12 +276,12 @@
             commandRequestDelegates[name] = genericCommandRequestDelegate;
         }
 
-        private bool CmpType(Type type, Type a)
+        private static bool CmpType(Type type, Type a)
         {
             return type != null && a != null && (type == a || type.IsSubclassOf(a));
         }
 
-        private string TypeToGenericNetworkedFieldName(Type type)
+        public static string TypeToGenericNetworkedFieldName(Type type)
         {
             if (CmpType(type, typeof(Vector3))) return "Vector";
 
@@ -293,7 +319,7 @@
         // Must be public.
         public bool EcsEntityExists()
         {
-            return EcsEntityExistsImpl();
+            return EcsEntityExistsImpl(entityManager, entity);
         }
 
         protected void Update()
@@ -314,7 +340,7 @@
                 {
                     if (coherenceMonoBridge.isConnected)
                     {
-                        ReceiveGenericNetworkCommands();
+                        ReceiveGenericNetworkCommands(this);
                         SyncEcsWithReflection();
                     }
                 }

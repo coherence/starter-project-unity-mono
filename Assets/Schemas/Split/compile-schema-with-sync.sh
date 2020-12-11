@@ -14,4 +14,4 @@ echo "Concatenating Generics.schema with Gathered.schema to create Combined.sche
 cat ../Generic.schema ../Gathered.schema > ../Combined.schema
 
 echo "Running protocol code generator... (generating Sync components)"
-coherence-protocol-code-generator generate --code csharp --ecs unity --schema=../Combined.schema --split=true --sync=../Gathered.json --log-level=DEBUG
+protocol-code-generator generate --code csharp --ecs unity --schema=../Combined.schema --split=true --sync=../Gathered.json --log-level=DEBUG

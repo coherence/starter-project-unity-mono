@@ -5,4 +5,4 @@ find . -name "*.cs" -type f -delete
 find . -name "*.cs.meta" -type f -delete
 
 echo "Running protocol code generator (NOT generating Sync components)..."
-coherence-protocol-code-generator generate --code csharp --ecs unity --schema=../Combined.schema --split=true
+protocol-code-generator generate --code csharp --ecs unity --schema=../Empty.schema --split=true
