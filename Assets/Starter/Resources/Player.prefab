@@ -154,7 +154,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7146494334328971405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3041b8885b4d436f86c4e59a196ad14f, type: 3}
+  m_Script: {fileID: 11500000, guid: ff62c046a053f416a8dc48ad6483a25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enabledScriptTogglesKeys:
@@ -164,7 +164,9 @@ MonoBehaviour:
     PublicKeyToken=null
   - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  enabledScriptTogglesValues: 00000000
+  - Coherence.Generated.FirstProject.CoherenceSyncPlayer, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  enabledScriptTogglesValues: 0000000000
   fieldLinksKeys:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*position
@@ -192,9 +194,12 @@ MonoBehaviour:
   - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null*localScale
   fieldTypesValues:
-  - UnityEngine.Vector3
-  - UnityEngine.Quaternion
-  - UnityEngine.Vector3
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
   genericFieldCounter_Float: 0
   genericFieldCounter_Int: 0
   genericFieldCounter_Quaternion: 1
