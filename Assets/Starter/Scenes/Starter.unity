@@ -316,7 +316,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 581089021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01949113041a4e3b81903219b3d14e90, type: 3}
+  m_Script: {fileID: 11500000, guid: 784c870e57f1c4b499b118f4e7cdfa81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 962702348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a5f603fc7ff4513996b1306c661eee7, type: 3}
+  m_Script: {fileID: 11500000, guid: 445055bd8316f4833b9155d4af800aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   schemaNamespace: Coherence.Generated.FirstProject.
@@ -583,146 +583,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: useGun
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: canJump
+    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
+      propertyPath: enabledScriptTogglesValues.Array.data[4]
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307341685530242376, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: useTankControls
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: genericFieldCounter_Int
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldLinksKeys.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesKeys.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: genericFieldCounter_Float
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: genericFieldCounter_String
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: genericFieldCounter_Vector
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldLinksValues.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTogglesKeys.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesValues.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldLinksKeys.Array.data[2]
-      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null*localScale
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesKeys.Array.data[2]
-      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null*localScale
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: scriptTogglesKeys.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTogglesValues.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldLinksValues.Array.data[2]
-      value: GenericFieldVector1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTogglesKeys.Array.data[2]
-      value: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null*localScale
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesValues.Array.data[0]
-      value: UnityEngine.Vector3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesValues.Array.data[1]
-      value: UnityEngine.Quaternion
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTypesValues.Array.data[2]
-      value: UnityEngine.Vector3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: genericFieldCounter_Quaternion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: scriptTogglesValues.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: scriptTogglesKeys.Array.data[1]
-      value: ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: fieldTogglesValues.Array.data[2]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: scriptTogglesValues.Array.data[1]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesKeys.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesValues.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesKeys.Array.data[2]
-      value: Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesKeys.Array.data[3]
-      value: ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesValues.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesValues.Array.data[1]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801017591147193571, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: enabledScriptTogglesValues.Array.data[3]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8907122464205653916, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9386b2d61fd884078ae031ad126b27a6, type: 3}

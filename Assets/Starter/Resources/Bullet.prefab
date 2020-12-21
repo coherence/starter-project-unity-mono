@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3472791050605988134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3041b8885b4d436f86c4e59a196ad14f, type: 3}
+  m_Script: {fileID: 11500000, guid: ff62c046a053f416a8dc48ad6483a25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enabledScriptTogglesKeys:
@@ -116,37 +116,19 @@ MonoBehaviour:
   - Bullet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   enabledScriptTogglesValues: 000000
-  fieldLinksKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  fieldLinksValues:
-  - GenericFieldVector0
-  - GenericFieldQuaternion0
-  fieldTogglesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  fieldTogglesValues: 0101
-  fieldTypesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  fieldTypesValues:
-  - UnityEngine.Vector3
-  - UnityEngine.Quaternion
+  fieldLinksKeys: []
+  fieldLinksValues: []
+  fieldTogglesKeys: []
+  fieldTogglesValues: 
+  fieldTypesKeys: []
+  fieldTypesValues: []
   genericFieldCounter_Float: 0
   genericFieldCounter_Int: 0
-  genericFieldCounter_Quaternion: 1
+  genericFieldCounter_Quaternion: 0
   genericFieldCounter_String: 0
-  genericFieldCounter_Vector: 1
-  scriptTogglesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  scriptTogglesValues: 01
+  genericFieldCounter_Vector: 0
+  scriptTogglesKeys: []
+  scriptTogglesValues: 
   remoteVersionPrefabName: Bullet
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1

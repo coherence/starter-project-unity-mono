@@ -15,5 +15,8 @@ MonoBehaviour:
   uploadToken: e8586f5ae50f32d1f4fc8749cc9f7342927cdd9f9b
   port: 32001
   frequency: 60
+  schemaBakeFolderGuid: 43281ca4f03d34a988c9929748425acd
+  schemaBakeGenerateAsmdef: 0
   activeSchemas:
-  - {fileID: -1758743643018166929, guid: 53daa411b16274e88a08f601c21d8ca6, type: 3}
+  - {fileID: -1758743643018166929, guid: 266a112c2c9e941a58a87a48e7a4f8cb, type: 3}
+  - {fileID: -1758743643018166929, guid: 634a1d352a24a4151ad8c3afbf3d1ece, type: 3}
