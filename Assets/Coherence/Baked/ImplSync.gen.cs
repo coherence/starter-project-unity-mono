@@ -6,10 +6,10 @@
 //  ImplSync.cs
 // -----------------------------------
 			
-namespace Coherence.MonoBridge
+namespace Coherence.Toolkit
 {
 	using Coherence.Replication.Client.Unity.Ecs;
-	using static Coherence.MonoBridge.CoherenceSync;
+	using static Coherence.Toolkit.CoherenceSync;
 	using Unity.Collections;
 	using Unity.Entities;
 	using Unity.Transforms;

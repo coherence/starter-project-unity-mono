@@ -6,9 +6,9 @@
 //  ImplLiveQuery.cs
 // -----------------------------------
 			
-namespace Coherence.MonoBridge
+namespace Coherence.Toolkit
 {
-	using Coherence.MonoBridge;
+	using Coherence.Toolkit;
 	using Coherence.Replication.Client.Unity.Ecs;
 	using Unity.Collections;
 	using Unity.Transforms;

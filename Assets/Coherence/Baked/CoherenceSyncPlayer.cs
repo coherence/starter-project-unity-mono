@@ -13,7 +13,7 @@ namespace Coherence.Generated.FirstProject
 	using Unity.Entities;
 	using Unity.Mathematics;
 	using Unity.Transforms;
-	using Coherence.MonoBridge;
+	using Coherence.Toolkit;
 	using Coherence.Replication.Client.Unity.Ecs;
 
 	public class CoherenceSyncPlayer : CoherenceSyncBaked

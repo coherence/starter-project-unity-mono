@@ -6,7 +6,7 @@
 //  ImplMonoBridge.cs
 // -----------------------------------
 			
-namespace Coherence.MonoBridge
+namespace Coherence.Toolkit
 {
 	using Coherence.Replication.Client.Unity.Ecs;
 	using Unity.Collections;

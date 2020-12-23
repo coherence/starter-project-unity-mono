@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b58ca8e478745dfab801a85671962e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uploadToken: e8586f5ae50f32d1f4fc8749cc9f7342927cdd9f9b
+  uploadToken: cfa582d9a2f2360893145d47569c8dc7aebff8659b
   port: 32001
   frequency: 60
   schemaBakeFolderGuid: 43281ca4f03d34a988c9929748425acd
   schemaBakeGenerateAsmdef: 0
-  activeSchemas:
-  - {fileID: -1758743643018166929, guid: 266a112c2c9e941a58a87a48e7a4f8cb, type: 3}
-  - {fileID: -1758743643018166929, guid: 634a1d352a24a4151ad8c3afbf3d1ece, type: 3}
+  activeSchemas: []
