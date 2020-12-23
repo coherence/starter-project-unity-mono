@@ -282,7 +282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378406800507890058, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
       propertyPath: apiToken
-      value: 0f32d1f4fc8749cc9f7342927cdd9f9b
+      value: cfa582d9a2f2360893145d47569c8dc7aebff8659b
       objectReference: {fileID: 0}
     - target: {fileID: 3655738038371963128, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
       propertyPath: m_Name
@@ -320,7 +320,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.23529412}
 --- !u!4 &581089023
 Transform:
   m_ObjectHideFlags: 0
@@ -366,7 +365,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   schemaNamespace: Coherence.Generated.FirstProject.
   debugMode: 1
-  isConnected: 0
 --- !u!4 &962702350
 Transform:
   m_ObjectHideFlags: 0
