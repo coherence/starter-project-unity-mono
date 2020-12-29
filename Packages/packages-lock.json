@@ -273,7 +273,7 @@
       }
     },
     "io.coherence.sdk": {
-      "version": "2020.1.0-a93",
+      "version": "2020.1.0-a94",
       "depth": 0,
       "source": "registry",
       "dependencies": {
