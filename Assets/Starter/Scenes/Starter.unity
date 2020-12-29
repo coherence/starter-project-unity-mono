@@ -282,7 +282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378406800507890058, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
       propertyPath: apiToken
-      value: cfa582d9a2f2360893145d47569c8dc7aebff8659b
+      value: f2360893145d47569c8dc7aebff8659b
       objectReference: {fileID: 0}
     - target: {fileID: 3655738038371963128, guid: 356df2fdc05054d879bcdd9ae0534951, type: 3}
       propertyPath: m_Name
