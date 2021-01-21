@@ -13,7 +13,7 @@ namespace Coherence.Toolkit
 	using Unity.Entities;
 	using Unity.Transforms;
 	using UnityEngine;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 
 	public class CoherenceMonoBridgeImpl
 	{

@@ -6,11 +6,11 @@
 //  SyncComponent.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Unity.Entities;
     using Unity.Transforms;
-    using global::Coherence.Generated.FirstProject;
+    using global::Coherence.Generated;
 
 
     public struct WorldPosition_Sync : IComponentData
@@ -68,6 +68,19 @@ namespace Coherence.Generated.Internal.Toolkit
     public struct SessionBased_Sync : IComponentData
     {
         public SessionBased lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct Transferable_Sync : IComponentData
+    {
+        public Transferable lastSentData;
         public uint resendMask;
         public uint howImportantAreYou;
         public uint accumulatedPriority;

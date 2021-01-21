@@ -6,12 +6,12 @@
 //  ComponentMaskDeserializers.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
 	using Unity.Transforms;
 	using Coherence.Replication.Unity;
 	using Coherence.Replication.Protocol.Definition;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 
 
 public class UnityReaders
@@ -98,6 +98,22 @@ public class UnityReaders
 	{
 		var propertyMask = (uint)0;
 
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref Transferable data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
+			       data.participant = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
        
 		return propertyMask;
 	}

@@ -7,7 +7,7 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Replication.Client.Unity.Ecs;
 	using Unity.Collections;

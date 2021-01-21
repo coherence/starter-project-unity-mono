@@ -8,12 +8,12 @@
 			
 namespace Coherence.Sdk.Unity
 {
-	using Coherence.Generated.Internal.Toolkit;
+	using Coherence.Generated.Internal;
 	using global::Unity.Entities;
 	using global::Unity.Transforms;
 	using Coherence.Log;
 	using Replication.Client.Unity.Ecs;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 
 	[UpdateInGroup(typeof(SimulationSystemGroup))]
 	public class CoherenceRuntimeSystem : ComponentSystem
@@ -26,6 +26,7 @@ namespace Coherence.Sdk.Unity
            GlobalLookups.Register<LocalUser>(TypeEnums.InternalLocalUser);
            GlobalLookups.Register<WorldPositionQuery>(TypeEnums.InternalWorldPositionQuery);
            GlobalLookups.Register<SessionBased>(TypeEnums.InternalSessionBased);
+           GlobalLookups.Register<Transferable>(TypeEnums.InternalTransferable);
            GlobalLookups.Register<GenericPrefabReference>(TypeEnums.InternalGenericPrefabReference);
            GlobalLookups.Register<GenericScale>(TypeEnums.InternalGenericScale);
            GlobalLookups.Register<GenericFieldInt0>(TypeEnums.InternalGenericFieldInt0);
@@ -66,6 +67,7 @@ namespace Coherence.Sdk.Unity
            GlobalTypeIdLookups.Register<LocalUser>(TypeIds.InternalLocalUser);
            GlobalTypeIdLookups.Register<WorldPositionQuery>(TypeIds.InternalWorldPositionQuery);
            GlobalTypeIdLookups.Register<SessionBased>(TypeIds.InternalSessionBased);
+           GlobalTypeIdLookups.Register<Transferable>(TypeIds.InternalTransferable);
            GlobalTypeIdLookups.Register<GenericPrefabReference>(TypeIds.InternalGenericPrefabReference);
            GlobalTypeIdLookups.Register<GenericScale>(TypeIds.InternalGenericScale);
            GlobalTypeIdLookups.Register<GenericFieldInt0>(TypeIds.InternalGenericFieldInt0);

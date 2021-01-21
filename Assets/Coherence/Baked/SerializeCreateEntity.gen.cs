@@ -6,14 +6,14 @@
 //  SerializeCreateEntity.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Message.Serializer.Serialize;
     using Coherence.Log;
     using Unity.Entities;
     using Unity.Transforms;
     using IOutBitStream = Coherence.Brook.IOutBitStream;
-    using global::Coherence.Generated.FirstProject;
+    using global::Coherence.Generated;
     using Coherence.Replication.Unity;
 
     public class SerializeCreateEntityRequest
@@ -69,6 +69,13 @@ namespace Coherence.Generated.Internal.Toolkit
 					{
 						var data = entityManager.GetComponentData<SessionBased>(entity);
 						messageSerializers.SessionBased(protocolOutStream, data);
+						break;
+					}
+					
+                    case TypeIds.InternalTransferable:
+					{
+						var data = entityManager.GetComponentData<Transferable>(entity);
+						messageSerializers.Transferable(protocolOutStream, data);
 						break;
 					}
 					

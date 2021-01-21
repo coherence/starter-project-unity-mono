@@ -7,7 +7,7 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Coherence.SimulationFrame;
     using Protocol.Deserialize;

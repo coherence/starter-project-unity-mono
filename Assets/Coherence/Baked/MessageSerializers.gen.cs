@@ -6,10 +6,10 @@
 //  MessageSerializers.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
 	using Coherence.Replication.Protocol.Definition;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Unity.Transforms;
 	using Replication.Unity;
 
@@ -70,6 +70,15 @@ public class MessageSerializers
 
 	public void SessionBased(IOutBitStream bitstream, SessionBased data)
 	{
+
+	}
+
+	public void Transferable(IOutBitStream bitstream, Transferable data)
+	{
+
+			
+				bitstream.WriteIntegerRange(data.participant, 15, -9999);
+			
 
 	}
 
@@ -373,6 +382,15 @@ public class MessageSerializers
 
 	}
 
+	public void AuthorityTransfer(IOutBitStream bitstream, AuthorityTransfer data)
+	{
+
+			
+				bitstream.WriteIntegerRange(data.participant, 15, -9999);
+			
+
+	}
+
 	public void GenericCommand(IOutBitStream bitstream, GenericCommand data)
 	{
 
@@ -426,6 +444,15 @@ public class MessageSerializers
 
 
 /// ------------------------ Requests --------------------------
+
+	public void AuthorityTransferRequest(IOutBitStream bitstream, AuthorityTransferRequest data)
+	{
+
+			
+				bitstream.WriteIntegerRange(data.participant, 15, -9999);
+			
+
+	}
 
 	public void GenericCommandRequest(IOutBitStream bitstream, GenericCommandRequest data)
 	{

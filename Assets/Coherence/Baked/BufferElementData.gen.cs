@@ -6,12 +6,24 @@
 //  BufferElementData.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 	using Unity.Collections;
 	using Unity.Entities;
 	using Unity.Mathematics;
 	using Unity.Transforms;
+
+	
+	// EcsComponentData: InternalAuthorityTransferData
+	public struct AuthorityTransfer : IBufferElementData
+	{
+		public int participant;
+	}
+
+	public struct AuthorityTransferRequest : IBufferElementData
+	{
+		public int participant;
+	}
 
 	
 	// EcsComponentData: InternalGenericCommandData

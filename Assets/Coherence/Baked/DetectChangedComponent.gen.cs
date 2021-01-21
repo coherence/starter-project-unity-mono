@@ -7,9 +7,9 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Coherence.Replication.Client.Unity.Ecs;
 	using Coherence.Replication.Unity;
 	using Unity.Entities;
@@ -85,7 +85,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref LocalUser_Sync sync, in global::Coherence.Generated.FirstProject.LocalUser data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref LocalUser_Sync sync, in global::Coherence.Generated.LocalUser data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -115,7 +115,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref WorldPositionQuery_Sync sync, in global::Coherence.Generated.FirstProject.WorldPositionQuery data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref WorldPositionQuery_Sync sync, in global::Coherence.Generated.WorldPositionQuery data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -149,7 +149,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref SessionBased_Sync sync, in global::Coherence.Generated.FirstProject.SessionBased data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref SessionBased_Sync sync, in global::Coherence.Generated.SessionBased data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -175,7 +175,37 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericPrefabReference_Sync sync, in global::Coherence.Generated.FirstProject.GenericPrefabReference data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref Transferable_Sync sync, in global::Coherence.Generated.Transferable data, in Simulated simulate) =>
+			{
+				uint mask = 0;
+				if (!sync.hasBeenSerialized) 
+				{ 
+					mask = 0xffffffff;
+				}
+
+
+                if (data.participant != sync.lastSentData.participant) mask |= 0b00000000000000000000000000000001;
+
+
+
+				if (mask != 0 || sync.resendMask != 0)
+				{
+					sync.accumulatedPriority += sync.howImportantAreYou;
+					var componentChange = new ComponentChange
+					{
+						entity = entity,
+						componentType = TypeIds.InternalTransferable,
+						mask = mask,
+						resendMask = sync.resendMask,
+						entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+					};
+					
+					localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+				}
+			}).ScheduleParallel();
+
+			Entities.ForEach((Entity entity, ref GenericPrefabReference_Sync sync, in global::Coherence.Generated.GenericPrefabReference data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -205,7 +235,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericScale_Sync sync, in global::Coherence.Generated.FirstProject.GenericScale data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericScale_Sync sync, in global::Coherence.Generated.GenericScale data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -235,7 +265,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt0_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt0 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt0_Sync sync, in global::Coherence.Generated.GenericFieldInt0 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -265,7 +295,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt1_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt1 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt1_Sync sync, in global::Coherence.Generated.GenericFieldInt1 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -295,7 +325,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt2_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt2 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt2_Sync sync, in global::Coherence.Generated.GenericFieldInt2 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -325,7 +355,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt3_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt3 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt3_Sync sync, in global::Coherence.Generated.GenericFieldInt3 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -355,7 +385,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt4_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt4 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt4_Sync sync, in global::Coherence.Generated.GenericFieldInt4 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -385,7 +415,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt5_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt5 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt5_Sync sync, in global::Coherence.Generated.GenericFieldInt5 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -415,7 +445,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt6_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt6 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt6_Sync sync, in global::Coherence.Generated.GenericFieldInt6 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -445,7 +475,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt7_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt7 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt7_Sync sync, in global::Coherence.Generated.GenericFieldInt7 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -475,7 +505,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt8_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt8 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt8_Sync sync, in global::Coherence.Generated.GenericFieldInt8 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -505,7 +535,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldInt9_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldInt9 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldInt9_Sync sync, in global::Coherence.Generated.GenericFieldInt9 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -535,7 +565,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat0_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat0 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat0_Sync sync, in global::Coherence.Generated.GenericFieldFloat0 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -565,7 +595,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat1_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat1 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat1_Sync sync, in global::Coherence.Generated.GenericFieldFloat1 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -595,7 +625,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat2_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat2 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat2_Sync sync, in global::Coherence.Generated.GenericFieldFloat2 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -625,7 +655,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat3_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat3 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat3_Sync sync, in global::Coherence.Generated.GenericFieldFloat3 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -655,7 +685,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat4_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat4 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat4_Sync sync, in global::Coherence.Generated.GenericFieldFloat4 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -685,7 +715,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat5_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat5 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat5_Sync sync, in global::Coherence.Generated.GenericFieldFloat5 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -715,7 +745,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat6_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat6 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat6_Sync sync, in global::Coherence.Generated.GenericFieldFloat6 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -745,7 +775,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat7_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat7 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat7_Sync sync, in global::Coherence.Generated.GenericFieldFloat7 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -775,7 +805,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat8_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat8 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat8_Sync sync, in global::Coherence.Generated.GenericFieldFloat8 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -805,7 +835,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldFloat9_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldFloat9 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldFloat9_Sync sync, in global::Coherence.Generated.GenericFieldFloat9 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -835,7 +865,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldVector0_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldVector0 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldVector0_Sync sync, in global::Coherence.Generated.GenericFieldVector0 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -865,7 +895,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldVector1_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldVector1 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldVector1_Sync sync, in global::Coherence.Generated.GenericFieldVector1 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -895,7 +925,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldVector2_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldVector2 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldVector2_Sync sync, in global::Coherence.Generated.GenericFieldVector2 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -925,7 +955,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldVector3_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldVector3 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldVector3_Sync sync, in global::Coherence.Generated.GenericFieldVector3 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -955,7 +985,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldString0_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldString0 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldString0_Sync sync, in global::Coherence.Generated.GenericFieldString0 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -985,7 +1015,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldString1_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldString1 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldString1_Sync sync, in global::Coherence.Generated.GenericFieldString1 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -1015,7 +1045,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldString2_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldString2 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldString2_Sync sync, in global::Coherence.Generated.GenericFieldString2 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -1045,7 +1075,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldString4_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldString4 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldString4_Sync sync, in global::Coherence.Generated.GenericFieldString4 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 
@@ -1075,7 +1105,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				}
 			}).ScheduleParallel();
 
-			Entities.ForEach((Entity entity, ref GenericFieldQuaternion0_Sync sync, in global::Coherence.Generated.FirstProject.GenericFieldQuaternion0 data, in Simulated simulate) =>
+			Entities.ForEach((Entity entity, ref GenericFieldQuaternion0_Sync sync, in global::Coherence.Generated.GenericFieldQuaternion0 data, in Simulated simulate) =>
 			{
 				uint mask = 0;
 				if (!sync.hasBeenSerialized) 

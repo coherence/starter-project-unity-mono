@@ -6,7 +6,7 @@
 //  ReceiveUpdate.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
 	using Coherence.Ecs;
 	using Coherence.DeltaEcs;
@@ -18,7 +18,7 @@ namespace Coherence.Generated.Internal.Toolkit
 	using Coherence.Brook;
 	using Coherence.Log;
 	using Coherence.SimulationFrame;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 
 	public class ReceiveUpdate : IReceiveUpdate
 	{
@@ -86,6 +86,16 @@ namespace Coherence.Generated.Internal.Toolkit
 					if (hasComponentData)
 					{
 						entityManager.RemoveComponent<SessionBased>(entity);
+					}
+					break;
+				}
+
+				case TypeIds.InternalTransferable:
+				{
+					var hasComponentData = entityManager.HasComponent<Transferable>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<Transferable>(entity);
 					}
 					break;
 				}
@@ -483,6 +493,8 @@ namespace Coherence.Generated.Internal.Toolkit
 				{
 					// An error has occurred if the entity is null unless it's because it was just deleted
 					Log.Warning($"Entity is missing {entityWithMeta.EntityId}");
+
+					DeserializeComponentSkip.SkipComponents(componentSkip, bitStream);
 				}
 			}
 		}
@@ -632,6 +644,22 @@ namespace Coherence.Generated.Internal.Toolkit
 					if (hasComponentData)
 					{
 						var syncData = entityManager.GetComponentData<SessionBased_Sync>(entity);
+
+						syncData.resendMask |= fieldMask;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+					}
+					break;
+				}
+
+				case TypeIds.InternalTransferable:
+				{
+					var hasComponentData = entityManager.HasComponent<Transferable_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Transferable_Sync>(entity);
 
 						syncData.resendMask |= fieldMask;
 						entityManager.SetComponentData(entity, syncData);
@@ -1255,6 +1283,22 @@ namespace Coherence.Generated.Internal.Toolkit
 					break;
 				}
 
+				case TypeIds.InternalTransferable:
+				{
+					var hasComponentData = entityManager.HasComponent<Transferable_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<Transferable_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} Transferable_Sync");
+					}
+					break;
+				}
+
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference_Sync>(entity);
@@ -1800,6 +1844,11 @@ namespace Coherence.Generated.Internal.Toolkit
 				entityManager.RemoveComponent<SessionBased_Sync>(entity);
 			}
 
+			if (entityManager.HasComponent<Transferable_Sync>(entity))
+			{
+				entityManager.RemoveComponent<Transferable_Sync>(entity);
+			}
+
 			if (entityManager.HasComponent<GenericPrefabReference_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericPrefabReference_Sync>(entity);
@@ -1980,6 +2029,8 @@ namespace Coherence.Generated.Internal.Toolkit
 			{
 				entityManager.RemoveComponent<Sample_Rotation>(entity);
 			}
+
+
 
 
 

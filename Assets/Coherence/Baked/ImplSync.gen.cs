@@ -16,7 +16,7 @@ namespace Coherence.Toolkit
 	using UnityEngine;
 	using System;
 	using System.Collections.Generic;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using System.Reflection;
 
 	public class CoherenceSyncImpl

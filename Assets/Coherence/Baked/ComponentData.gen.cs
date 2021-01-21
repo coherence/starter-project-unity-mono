@@ -6,7 +6,7 @@
 //  ComponentData.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 	using Unity.Collections;
 	using Unity.Entities;
@@ -41,6 +41,14 @@ namespace Coherence.Generated.FirstProject
 	// EcsComponentData: InternalSessionBasedData
 	public struct SessionBased : IComponentData
 	{
+	}
+	
+	
+	
+	// EcsComponentData: InternalTransferableData
+	public struct Transferable : IComponentData
+	{
+		public int participant;
 	}
 	
 	

@@ -6,12 +6,12 @@
 //  SharedTypes.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 
 public static class Constants
 {
-	public const uint SchemaHash = 0x7CF08604;
+	public const uint SchemaHash = 0xC2A3EB6A;
 }
 		
 

@@ -7,9 +7,9 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Coherence.Replication.Client.Unity.Ecs;
 	using Unity.Entities;
 	using Unity.Transforms;
@@ -39,7 +39,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.LocalUser, Simulated>().WithNone<LocalUser_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.LocalUser, Simulated>().WithNone<LocalUser_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new LocalUser_Sync 
@@ -48,7 +48,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.WorldPositionQuery, Simulated>().WithNone<WorldPositionQuery_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.WorldPositionQuery, Simulated>().WithNone<WorldPositionQuery_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new WorldPositionQuery_Sync 
@@ -57,7 +57,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.SessionBased, Simulated>().WithNone<SessionBased_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.SessionBased, Simulated>().WithNone<SessionBased_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new SessionBased_Sync 
@@ -66,7 +66,16 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericPrefabReference, Simulated>().WithNone<GenericPrefabReference_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.Transferable, Simulated>().WithNone<Transferable_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new Transferable_Sync 
+				{
+					howImportantAreYou = 600
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericPrefabReference, Simulated>().WithNone<GenericPrefabReference_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericPrefabReference_Sync 
@@ -75,7 +84,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericScale, Simulated>().WithNone<GenericScale_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericScale, Simulated>().WithNone<GenericScale_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericScale_Sync 
@@ -84,7 +93,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt0, Simulated>().WithNone<GenericFieldInt0_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt0, Simulated>().WithNone<GenericFieldInt0_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt0_Sync 
@@ -93,7 +102,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt1, Simulated>().WithNone<GenericFieldInt1_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt1, Simulated>().WithNone<GenericFieldInt1_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt1_Sync 
@@ -102,7 +111,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt2, Simulated>().WithNone<GenericFieldInt2_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt2, Simulated>().WithNone<GenericFieldInt2_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt2_Sync 
@@ -111,7 +120,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt3, Simulated>().WithNone<GenericFieldInt3_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt3, Simulated>().WithNone<GenericFieldInt3_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt3_Sync 
@@ -120,7 +129,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt4, Simulated>().WithNone<GenericFieldInt4_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt4, Simulated>().WithNone<GenericFieldInt4_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt4_Sync 
@@ -129,7 +138,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt5, Simulated>().WithNone<GenericFieldInt5_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt5, Simulated>().WithNone<GenericFieldInt5_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt5_Sync 
@@ -138,7 +147,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt6, Simulated>().WithNone<GenericFieldInt6_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt6, Simulated>().WithNone<GenericFieldInt6_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt6_Sync 
@@ -147,7 +156,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt7, Simulated>().WithNone<GenericFieldInt7_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt7, Simulated>().WithNone<GenericFieldInt7_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt7_Sync 
@@ -156,7 +165,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt8, Simulated>().WithNone<GenericFieldInt8_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt8, Simulated>().WithNone<GenericFieldInt8_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt8_Sync 
@@ -165,7 +174,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldInt9, Simulated>().WithNone<GenericFieldInt9_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldInt9, Simulated>().WithNone<GenericFieldInt9_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt9_Sync 
@@ -174,7 +183,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat0, Simulated>().WithNone<GenericFieldFloat0_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat0, Simulated>().WithNone<GenericFieldFloat0_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat0_Sync 
@@ -183,7 +192,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat1, Simulated>().WithNone<GenericFieldFloat1_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat1, Simulated>().WithNone<GenericFieldFloat1_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat1_Sync 
@@ -192,7 +201,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat2, Simulated>().WithNone<GenericFieldFloat2_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat2, Simulated>().WithNone<GenericFieldFloat2_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat2_Sync 
@@ -201,7 +210,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat3, Simulated>().WithNone<GenericFieldFloat3_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat3, Simulated>().WithNone<GenericFieldFloat3_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat3_Sync 
@@ -210,7 +219,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat4, Simulated>().WithNone<GenericFieldFloat4_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat4, Simulated>().WithNone<GenericFieldFloat4_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat4_Sync 
@@ -219,7 +228,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat5, Simulated>().WithNone<GenericFieldFloat5_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat5, Simulated>().WithNone<GenericFieldFloat5_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat5_Sync 
@@ -228,7 +237,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat6, Simulated>().WithNone<GenericFieldFloat6_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat6, Simulated>().WithNone<GenericFieldFloat6_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat6_Sync 
@@ -237,7 +246,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat7, Simulated>().WithNone<GenericFieldFloat7_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat7, Simulated>().WithNone<GenericFieldFloat7_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat7_Sync 
@@ -246,7 +255,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat8, Simulated>().WithNone<GenericFieldFloat8_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat8, Simulated>().WithNone<GenericFieldFloat8_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat8_Sync 
@@ -255,7 +264,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldFloat9, Simulated>().WithNone<GenericFieldFloat9_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldFloat9, Simulated>().WithNone<GenericFieldFloat9_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat9_Sync 
@@ -264,7 +273,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldVector0, Simulated>().WithNone<GenericFieldVector0_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldVector0, Simulated>().WithNone<GenericFieldVector0_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector0_Sync 
@@ -273,7 +282,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldVector1, Simulated>().WithNone<GenericFieldVector1_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldVector1, Simulated>().WithNone<GenericFieldVector1_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector1_Sync 
@@ -282,7 +291,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldVector2, Simulated>().WithNone<GenericFieldVector2_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldVector2, Simulated>().WithNone<GenericFieldVector2_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector2_Sync 
@@ -291,7 +300,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldVector3, Simulated>().WithNone<GenericFieldVector3_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldVector3, Simulated>().WithNone<GenericFieldVector3_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector3_Sync 
@@ -300,7 +309,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldString0, Simulated>().WithNone<GenericFieldString0_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldString0, Simulated>().WithNone<GenericFieldString0_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldString0_Sync 
@@ -309,7 +318,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldString1, Simulated>().WithNone<GenericFieldString1_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldString1, Simulated>().WithNone<GenericFieldString1_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldString1_Sync 
@@ -318,7 +327,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldString2, Simulated>().WithNone<GenericFieldString2_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldString2, Simulated>().WithNone<GenericFieldString2_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldString2_Sync 
@@ -327,7 +336,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldString4, Simulated>().WithNone<GenericFieldString4_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldString4, Simulated>().WithNone<GenericFieldString4_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldString4_Sync 
@@ -336,7 +345,7 @@ namespace Coherence.Generated.Internal.Toolkit
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.FirstProject.GenericFieldQuaternion0, Simulated>().WithNone<GenericFieldQuaternion0_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.GenericFieldQuaternion0, Simulated>().WithNone<GenericFieldQuaternion0_Sync>().ForEach((Entity entity) =>
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldQuaternion0_Sync 

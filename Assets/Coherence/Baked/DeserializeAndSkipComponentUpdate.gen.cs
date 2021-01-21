@@ -6,11 +6,11 @@
 //  DeserializeAndSkipComponentUpdate.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Coherence.Log;
     using Unity.Transforms;
-    using global::Coherence.Generated.FirstProject;
+    using global::Coherence.Generated;
     using Replication.Client.Unity.Ecs;
     using Coherence.Replication.Unity;
 
@@ -51,6 +51,12 @@ namespace Coherence.Generated.Internal.Toolkit
 		private void DeserializeSessionBased(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new SessionBased();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeTransferable(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new Transferable();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -264,6 +270,10 @@ namespace Coherence.Generated.Internal.Toolkit
 
                 case TypeIds.InternalSessionBased:
 					DeserializeSessionBased(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalTransferable:
+					DeserializeTransferable(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:

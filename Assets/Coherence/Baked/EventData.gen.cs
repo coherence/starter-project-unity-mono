@@ -6,7 +6,7 @@
 //  EventData.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 	using Unity.Collections;
 	using Unity.Entities;

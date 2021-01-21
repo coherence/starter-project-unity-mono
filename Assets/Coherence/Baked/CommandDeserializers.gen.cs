@@ -6,9 +6,9 @@
 //  CommandDeserializers.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Coherence.Log;
 	using Unity.Entities;
 	using Replication.Client.Unity.Ecs;
@@ -28,6 +28,20 @@ namespace Coherence.Generated.Internal.Toolkit
 
 			switch (commandTypeID)
 			{
+
+				case TypeIds.InternalAuthorityTransfer:
+				{
+					var hasRequestBuffer = mgr.HasComponent<AuthorityTransfer>(entity);
+					if (!hasRequestBuffer)
+					{
+						mgr.AddBuffer<AuthorityTransfer>(entity);
+					}
+					var buffer = mgr.GetBuffer<AuthorityTransfer>(entity);
+					var data = new AuthorityTransfer();
+					messageDeserializers.AuthorityTransfer(bitStream, ref data);
+					buffer.Add(data);
+					break;
+				}
 
 				case TypeIds.InternalGenericCommand:
 				{

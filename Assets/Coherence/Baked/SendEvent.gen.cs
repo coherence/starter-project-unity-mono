@@ -6,11 +6,11 @@
 //  SendEvent.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using UnityEngine;
     using Unity.Entities;
-    using global::Coherence.Generated.FirstProject;
+    using global::Coherence.Generated;
 
     // TODO: Remove some of these imports
     using Message;

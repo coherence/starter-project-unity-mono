@@ -6,10 +6,10 @@
 //  MessageDeserializers.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
 	using Coherence.Replication.Protocol.Definition;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Unity.Transforms;	
 	using Replication.Unity;
 
@@ -70,6 +70,15 @@ public class MessageDeserializers
 
 	public void SessionBased(IInBitStream bitstream, ref SessionBased data)
 	{
+     
+	}
+
+	public void Transferable(IInBitStream bitstream, ref Transferable data)
+	{
+
+			
+				data.participant =  bitstream.ReadIntegerRange(15, -9999);
+			
      
 	}
 
@@ -369,6 +378,15 @@ public class MessageDeserializers
 			
 				var Value = bitstream.ReadUnitRotation();
 				data.Value = coherenceToUnityConverters.ToUnityquaternion(Value);
+			
+     
+	}
+
+	public void AuthorityTransfer(IInBitStream bitstream, ref AuthorityTransfer data)
+	{
+
+			
+				data.participant =  bitstream.ReadIntegerRange(15, -9999);
 			
      
 	}

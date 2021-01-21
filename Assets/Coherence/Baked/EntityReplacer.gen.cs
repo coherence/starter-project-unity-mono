@@ -6,7 +6,7 @@
 //  EntityReplacer.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 	using Unity.Entities;
 	using Unity.Transforms;
@@ -30,6 +30,7 @@ namespace Coherence.Generated.FirstProject
 
 			mapper.Remove(entityId);
 			mapper.Add(entityId, newEntity);
+			entityManager.AddComponent<Mapped>(newEntity);
 			entityManager.DestroyEntity(networkEntity);
 
 			Debug.Log(string.Format("Replaced networked Entity {0} with new Entity {1}.", networkEntity, newEntity));
@@ -80,6 +81,17 @@ namespace Coherence.Generated.FirstProject
 			{
 		        // SessionBased has no fields, will just add it.
 		        entityManager.AddComponentData<SessionBased>(destination, new SessionBased());
+		
+			}
+		
+            if(entityManager.HasComponent<Transferable>(source))
+			{
+		        // Transferable has fields, will copy it.			
+                if(!entityManager.HasComponent<Transferable>(destination)) {
+                    entityManager.AddComponentData<Transferable>(destination, new Transferable());
+                }
+				var data = entityManager.GetComponentData<Transferable>(source);
+				entityManager.SetComponentData<Transferable>(destination, data);
 		
 			}
 		
@@ -426,6 +438,15 @@ namespace Coherence.Generated.FirstProject
 		
 
         // Command buffers
+        
+            if (entityManager.HasComponent<AuthorityTransfer>(source) &&
+                !entityManager.HasComponent<AuthorityTransfer>(destination)) {
+                entityManager.AddBuffer<AuthorityTransfer>(destination);
+            }
+            if (entityManager.HasComponent<AuthorityTransferRequest>(source) &&
+                !entityManager.HasComponent<AuthorityTransferRequest>(destination)) {
+                entityManager.AddBuffer<AuthorityTransferRequest>(destination);
+            }
         
             if (entityManager.HasComponent<GenericCommand>(source) &&
                 !entityManager.HasComponent<GenericCommand>(destination)) {

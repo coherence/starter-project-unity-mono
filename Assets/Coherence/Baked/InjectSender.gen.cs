@@ -7,9 +7,9 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
     using Coherence.Replication.Client.Unity.Ecs;
     using Unity.Entities;
 

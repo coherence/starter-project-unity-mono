@@ -7,12 +7,12 @@
 // -----------------------------------
 			
 
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
 	using System;
 	using Unity.Entities;
 	using Unity.Transforms;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Coherence.Replication.Protocol.Definition;
 	using Replication.Client.Unity.Ecs;
     using Coherence.Replication.Unity;
@@ -114,6 +114,26 @@ namespace Coherence.Generated.Internal.Toolkit
             var syncData = EntityManager.GetComponentData<SessionBased_Sync>(entity);
 
             syncData.accumulatedPriority = 0;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeTransferable(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<Transferable>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<Transferable_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
 
             syncData.hasBeenSerialized = true;
             syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
@@ -767,6 +787,10 @@ namespace Coherence.Generated.Internal.Toolkit
                     SerializeSessionBased(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
+                case TypeIds.InternalTransferable:
+                    SerializeTransferable(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
                 case TypeIds.InternalGenericPrefabReference:
                     SerializeGenericPrefabReference(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
@@ -937,6 +961,14 @@ namespace Coherence.Generated.Internal.Toolkit
                 case TypeIds.InternalSessionBased:
                 {
                     var syncData = entityManager.GetComponentData<SessionBased_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalTransferable:
+                {
+                    var syncData = entityManager.GetComponentData<Transferable_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;

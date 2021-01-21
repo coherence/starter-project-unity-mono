@@ -15,7 +15,7 @@ namespace Coherence.Toolkit
 	using Unity.Entities;
 	using UnityEngine;
 	using System;
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 
 	public class CoherenceLiveQueryImpl : MonoBehaviour
 	{

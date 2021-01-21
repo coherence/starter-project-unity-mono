@@ -6,14 +6,14 @@
 //  DeserializeComponentUpdate.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
     using Coherence.Brook;
     using Coherence.Log;
 	using Unity.Entities;
 	using Unity.Transforms;
     using DeltaEcs;
-    using global::Coherence.Generated.FirstProject;
+    using global::Coherence.Generated;
     using Coherence.SimulationFrame;
     using Replication.Client.Unity.Ecs;
     using Coherence.Replication.Unity;
@@ -146,6 +146,28 @@ namespace Coherence.Generated.Internal.Toolkit
 		    {
 				entityManager.AddComponent<SessionBased>(entity);
 			}
+
+		}
+
+        private void DeserializeTransferable(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+        {
+
+            // If we own the entity, don't overwrite with downstream data from server
+            // TODO: Server should never send downstream to the simulating client
+            if (componentOwnership)
+	        {
+	            // Read and discard data (the stream must always be read) 
+	            var temp = new Transferable();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+            }
+            
+    
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<Transferable>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+    
 
 		}
 
@@ -866,6 +888,10 @@ namespace Coherence.Generated.Internal.Toolkit
 				DeserializeSessionBased(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 				
+			case TypeIds.InternalTransferable:
+				DeserializeTransferable(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+				
 			case TypeIds.InternalGenericPrefabReference:
 				DeserializeGenericPrefabReference(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
@@ -1002,6 +1028,20 @@ namespace Coherence.Generated.Internal.Toolkit
 #region Commands
 
             {
+                var hasBuffer = entityManager.HasComponent<AuthorityTransfer>(entity);
+                if (!hasBuffer)
+                {
+                    entityManager.AddBuffer<AuthorityTransfer>(entity);
+                }
+    
+                var hasRequestBuffer = entityManager.HasComponent<AuthorityTransferRequest>(entity);
+                if (!hasRequestBuffer)
+                {
+                    entityManager.AddBuffer<AuthorityTransferRequest>(entity);
+                }
+            }
+
+            {
                 var hasBuffer = entityManager.HasComponent<GenericCommand>(entity);
                 if (!hasBuffer)
                 {
@@ -1088,6 +1128,21 @@ namespace Coherence.Generated.Internal.Toolkit
                     if (!hasComponentData && !componentHasBeenRemoved)
                     {
                         entityManager.AddComponentData(entity, new SessionBased());
+                        justCreated = true;
+                    }
+
+                    ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+                    break;
+				}
+
+				case TypeIds.InternalTransferable:
+                {
+                    var justCreated = false;
+                    var hasComponentData = entityManager.HasComponent<Transferable>(entity);
+                    var componentHasBeenRemoved = entityManager.HasComponent<Transferable_Sync>(entity) && entityManager.GetComponentData<Transferable_Sync>(entity).deletedAtTime > 0;
+                    if (!hasComponentData && !componentHasBeenRemoved)
+                    {
+                        entityManager.AddComponentData(entity, new Transferable());
                         justCreated = true;
                     }
 

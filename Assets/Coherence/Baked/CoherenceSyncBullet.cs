@@ -6,7 +6,7 @@
 //  CoherenceSyncBullet.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.FirstProject
+namespace Coherence.Generated
 {
 	using UnityEngine;
 	using Unity.Collections;

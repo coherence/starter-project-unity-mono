@@ -6,9 +6,9 @@
 //  EventDeserializer.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Coherence.Log;
 	using Unity.Entities;
 	using Replication.Client.Unity.Ecs;

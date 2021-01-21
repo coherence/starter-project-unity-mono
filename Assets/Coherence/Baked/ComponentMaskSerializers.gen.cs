@@ -6,9 +6,9 @@
 //  ComponentMaskSerializers.cs
 // -----------------------------------
 			
-namespace Coherence.Generated.Internal.Toolkit
+namespace Coherence.Generated.Internal
 {
-	using global::Coherence.Generated.FirstProject;
+	using global::Coherence.Generated;
 	using Replication.Unity;
 	using Unity.Transforms;
 
@@ -98,6 +98,21 @@ namespace Coherence.Generated.Internal.Toolkit
 		
 		public void Write(in SessionBased data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
+	
+	     }
+
+		
+		
+		public void Write(in Transferable data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteIntegerRange(data.participant, 15, -9999);
+				
+			}
+			propertyMask >>= 1;
 	
 	     }
 
