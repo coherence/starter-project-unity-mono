@@ -27,6 +27,8 @@ namespace Coherence.Toolkit
 			 CoherenceSync.CreateECSRepresentation = CreateECSRepresentation;
 			 CoherenceSync.CreateBuiltinComponents = CreateBuiltinComponents;
 			 CoherenceSync.ReceiveGenericNetworkCommands = ReceiveGenericNetworkCommands;
+			 CoherenceSync.ReceiveAuthorityRequests = ReceiveAuthorityRequests;
+			 CoherenceSync.RequestAuthorityTransfer = RequestAuthorityTransfer;
 			 CoherenceSync.SendCommandImpl = SendCommandImpl;
 			 CoherenceSync.EcsEntityExistsImpl = EcsEntityExistsImpl;
 			 CoherenceSync.GetGenericScaleType = GetGenericScaleType;
@@ -48,15 +50,31 @@ namespace Coherence.Toolkit
 			});
 		}
 
-		private static void CreateBuiltinComponents(EntityManager entityManager, Entity entity, Transform transform)
+		private static void CreateBuiltinComponents(EntityManager entityManager, Entity entity, Transform transform, 
+													LifetimeType lifetimeType, AuthorityTransferType authorityTransferType)
 		{
 			entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
 			entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
 			entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
 
-			entityManager.AddComponent<SessionBased>(entity);
 			entityManager.AddComponent<Simulated>(entity);
 			entityManager.AddComponent<GenericCommand>(entity);
+
+			if (lifetimeType == LifetimeType.SessionBased)
+			{
+				entityManager.AddComponent<SessionBased>(entity);
+			}
+
+			switch (authorityTransferType)
+			{
+				case AuthorityTransferType.Request:
+				case AuthorityTransferType.Stealing:
+					entityManager.AddComponent<Transferable>(entity);
+					entityManager.AddComponent<AuthorityTransfer>(entity);
+					break;
+				case AuthorityTransferType.NotTransferable:
+					break;
+			}
 		}
 
 		private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
@@ -120,6 +138,48 @@ namespace Coherence.Toolkit
 			}
 
 			buffer.Clear();
+		}
+		
+		private static void ReceiveAuthorityRequests(CoherenceSync self)
+		{
+			if (self.entity == Entity.Null) return;
+
+			if (!self.entityManager.HasComponent<AuthorityTransfer>(self.entity)) return;
+			
+			var buffer = self.entityManager.GetBuffer<AuthorityTransfer>(self.entity);
+
+			var transferable = self.entityManager.GetComponentData<Transferable>(self.entity);
+			
+			foreach (var req in buffer)
+			{
+				switch (self.authorityTransferType)
+				{
+					case AuthorityTransferType.NotTransferable:
+						break;
+					case AuthorityTransferType.Request:
+						if (self.AllowAuthorityTransfer())
+						{
+							transferable.participant = req.participant;
+							self.entityManager.SetComponentData(self.entity, transferable);
+						}
+
+						break;
+					case AuthorityTransferType.Stealing:
+						transferable.participant = req.participant;
+						self.entityManager.SetComponentData(self.entity, transferable);
+						break;
+				}
+			}
+
+			buffer.Clear();
+		}
+		
+		private static void RequestAuthorityTransfer(CoherenceSync self)
+		{
+			var connectionId = 
+			World.DefaultGameObjectInjectionWorld.GetExistingSystem<NetworkSystem>().Connector.ConnectionId;
+			var buffer = self.entityManager.GetBuffer<AuthorityTransferRequest>(self.entity);
+			buffer.Add(new AuthorityTransferRequest {participant = connectionId});
 		}
 
 		private static GenericNetworkCommandArgs FromGenericCommand(GenericCommand command)

@@ -153,6 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff62c046a053f416a8dc48ad6483a25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowAuthorityTransfer: 1
+  authorityTransferType: 0
+  lifetimeType: 0
   enabledScriptTogglesKeys:
   - UnityEngine.BoxCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
@@ -175,7 +178,7 @@ MonoBehaviour:
   genericFieldCounter_Vector: 0
   scriptTogglesKeys: []
   scriptTogglesValues: 
-  remoteVersionPrefabName: MonoNPC-Demo
+  remoteVersionPrefabName: 
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1
 --- !u!54 &-8063095823595210801

@@ -47,7 +47,17 @@ namespace Coherence.Generated
 			entityManager.AddComponent<GenericScale>(entity);
 			
 
-			entityManager.AddComponent<SessionBased>(entity);
+			if (coherenceSync.lifetimeType == CoherenceSync.LifetimeType.SessionBased)
+			{
+				entityManager.AddComponent<SessionBased>(entity);
+			}
+
+			if (coherenceSync.authorityTransferType != CoherenceSync.AuthorityTransferType.NotTransferable)
+			{
+				entityManager.AddComponent<AuthorityTransfer>(entity);
+				entityManager.AddComponent<Transferable>(entity);
+			}
+
 			entityManager.AddComponent<Simulated>(entity);
 
 			componentsInitialized = true;
