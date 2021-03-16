@@ -27,7 +27,7 @@ namespace Coherence.Generated.Internal
             
             var netSys = World.GetOrCreateSystem<NetworkSystem>();
             var wrapper = new SerializeComponentUpdatesWrapper(netSys.Mapper);
-            var sender = new Sender(World, netSys.Connector, netSys.Mapper, wrapper, netSys.SentPacketsCache);
+            var sender = new Sender(World, netSys.Connector, netSys.Mapper, wrapper, netSys.MessageChannels, netSys.SentPacketsCache);
             World.GetExistingSystem<SyncSendSystem>().Sender = sender;
         }
     }

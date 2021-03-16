@@ -65,9 +65,9 @@ namespace Coherence.Generated.Internal
     }
 
 
-    public struct SessionBased_Sync : IComponentData
+    public struct ArchetypeComponent_Sync : IComponentData
     {
-        public SessionBased lastSentData;
+        public ArchetypeComponent lastSentData;
         public uint resendMask;
         public uint howImportantAreYou;
         public uint accumulatedPriority;
@@ -78,9 +78,9 @@ namespace Coherence.Generated.Internal
     }
 
 
-    public struct Transferable_Sync : IComponentData
+    public struct Persistence_Sync : IComponentData
     {
-        public Transferable lastSentData;
+        public Persistence lastSentData;
         public uint resendMask;
         public uint howImportantAreYou;
         public uint accumulatedPriority;

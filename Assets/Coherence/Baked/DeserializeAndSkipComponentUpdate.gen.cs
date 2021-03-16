@@ -48,15 +48,15 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
-		private void DeserializeSessionBased(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		private void DeserializeArchetypeComponent(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
-            var ignored = new SessionBased();
+            var ignored = new ArchetypeComponent();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
-		private void DeserializeTransferable(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		private void DeserializePersistence(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
-            var ignored = new Transferable();
+            var ignored = new Persistence();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -268,12 +268,12 @@ namespace Coherence.Generated.Internal
 					DeserializeWorldPositionQuery(inProtocolStream);
                     break;
 
-                case TypeIds.InternalSessionBased:
-					DeserializeSessionBased(inProtocolStream);
+                case TypeIds.InternalArchetypeComponent:
+					DeserializeArchetypeComponent(inProtocolStream);
                     break;
 
-                case TypeIds.InternalTransferable:
-					DeserializeTransferable(inProtocolStream);
+                case TypeIds.InternalPersistence:
+					DeserializePersistence(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:

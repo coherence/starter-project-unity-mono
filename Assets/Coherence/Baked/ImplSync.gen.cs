@@ -32,11 +32,13 @@ namespace Coherence.Toolkit
 			 CoherenceSync.SendCommandImpl = SendCommandImpl;
 			 CoherenceSync.EcsEntityExistsImpl = EcsEntityExistsImpl;
 			 CoherenceSync.GetGenericScaleType = GetGenericScaleType;
+			 CoherenceSync.IsAuthorityRequestRejected = IsAuthorityRequestRejected;
+  			 CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
 		}
 
 		private static void CreateECSRepresentation(CoherenceSync self)
 		{
-			self.entity = self.entityManager.CreateEntity();
+			self.LinkedEntity = self.entityManager.CreateEntity();
 			self.entityManager.AddComponent<GenericPrefabReference>(self.entity);
 
 			if (self.usingReflection)
@@ -50,26 +52,33 @@ namespace Coherence.Toolkit
 			});
 		}
 
-		private static void CreateBuiltinComponents(EntityManager entityManager, Entity entity, Transform transform, 
-													LifetimeType lifetimeType, AuthorityTransferType authorityTransferType)
-		{
+     	private static void CreateBuiltinComponents(CoherenceSync coherenceSync)
+        {
+	        var entityManager = coherenceSync.entityManager;
+			var entity = coherenceSync.LinkedEntity;
+	        var transform = coherenceSync.transform;
+	        var authorityTransferType = coherenceSync.authorityTransferType;
+	        
 			entityManager.AddComponentData<Translation>(entity, new Translation { Value = transform.position });
 			entityManager.AddComponentData<Rotation>(entity, new Rotation { Value = transform.rotation });
 			entityManager.AddComponentData<GenericScale>(entity, new GenericScale { Value = transform.localScale });
 
 			entityManager.AddComponent<Simulated>(entity);
 			entityManager.AddComponent<GenericCommand>(entity);
-
-			if (lifetimeType == LifetimeType.SessionBased)
-			{
-				entityManager.AddComponent<SessionBased>(entity);
-			}
+			
+            if (coherenceSync.lifetimeType != LifetimeType.SessionBased)
+            {
+	            entityManager.AddComponentData(entity, new Persistence()
+	            {
+		            uuid = coherenceSync.persistenceUUID,
+		            expiry = coherenceSync.GetPersistenceExpiryString()
+	            });
+            }
 
 			switch (authorityTransferType)
 			{
 				case AuthorityTransferType.Request:
 				case AuthorityTransferType.Stealing:
-					entityManager.AddComponent<Transferable>(entity);
 					entityManager.AddComponent<AuthorityTransfer>(entity);
 					break;
 				case AuthorityTransferType.NotTransferable:
@@ -125,6 +134,17 @@ namespace Coherence.Toolkit
 			}
 		}
 
+		private static string GetPersistenceUuid(CoherenceSync self)
+		{
+			if (self.entityManager.HasComponent<Persistence>(self.entity))
+			{
+				var ret = self.entityManager.GetComponentData<Persistence>(self.entity);
+				return ret.uuid.ToString();
+			}
+
+			return null;
+		}
+
 		private static void ReceiveGenericNetworkCommands(CoherenceSync self)
 		{
 			if (self.entity == Entity.Null) return;
@@ -140,38 +160,63 @@ namespace Coherence.Toolkit
 			buffer.Clear();
 		}
 		
+		private static bool IsAuthorityRequestRejected(CoherenceSync self)
+		{
+			if (self.entityManager.HasComponent<TransferAction>(self.entity))
+			{
+				var ret = self.entityManager.GetComponentData<TransferAction>(self.entity);
+				return !ret.accepted;
+			}
+
+			return false;
+		}
+
 		private static void ReceiveAuthorityRequests(CoherenceSync self)
 		{
 			if (self.entity == Entity.Null) return;
 
 			if (!self.entityManager.HasComponent<AuthorityTransfer>(self.entity)) return;
-			
+
 			var buffer = self.entityManager.GetBuffer<AuthorityTransfer>(self.entity);
 
-			var transferable = self.entityManager.GetComponentData<Transferable>(self.entity);
+			TransferAction action = new TransferAction();
+			bool transfer = !buffer.IsEmpty;
 			
 			foreach (var req in buffer)
 			{
+				bool allowed = false;
 				switch (self.authorityTransferType)
 				{
 					case AuthorityTransferType.NotTransferable:
 						break;
 					case AuthorityTransferType.Request:
-						if (self.AllowAuthorityTransfer())
-						{
-							transferable.participant = req.participant;
-							self.entityManager.SetComponentData(self.entity, transferable);
-						}
-
+						allowed = self.AllowAuthorityTransfer();
 						break;
 					case AuthorityTransferType.Stealing:
-						transferable.participant = req.participant;
-						self.entityManager.SetComponentData(self.entity, transferable);
+						allowed = true;
 						break;
 				}
+
+				if (self.isOrphaned) allowed = true; // auto-allow orphaned entities
+				
+				action = new TransferAction
+				{
+					participant = req.participant,
+					accepted = allowed
+				};
+
+				if (allowed)
+				{
+					break; // Only the first request is given the authority OK
+				} 
 			}
 
 			buffer.Clear();
+
+			if (transfer)
+			{
+				self.entityManager.AddComponentData(self.entity, action);
+			}
 		}
 		
 		private static void RequestAuthorityTransfer(CoherenceSync self)

@@ -32,12 +32,33 @@ namespace Coherence.Generated
 			mapper.Add(entityId, newEntity);
 			entityManager.AddComponent<Mapped>(newEntity);
 			entityManager.DestroyEntity(networkEntity);
-
-			Debug.Log(string.Format("Replaced networked Entity {0} with new Entity {1}.", networkEntity, newEntity));
 		}
 
 		private static void CopyComponents(EntityManager entityManager, Entity source, Entity destination)
 		{
+			/////////////////////////////////////////////////////////////
+			// Copy SDK components 
+			// Simulated and Orphan are defined in the SDK, 
+			// and should be copied similar to schema components below
+			/////////////////////////////////////////////////////////////
+
+			if(entityManager.HasComponent<Simulated>(source))
+			{
+				if(!entityManager.HasComponent<Simulated>(destination)) {
+					entityManager.AddComponentData<Simulated>(destination, new Simulated());
+				}
+				var data = entityManager.GetComponentData<Simulated>(source);
+				entityManager.SetComponentData<Simulated>(destination, data);
+			}
+		
+			if(entityManager.HasComponent<Orphan>(source))
+			{
+				entityManager.AddComponentData<Orphan>(destination, new Orphan());
+			}
+
+			/////////////////////////////////////////////////////////////
+			// Copy schema components
+			/////////////////////////////////////////////////////////////
 		
             if(entityManager.HasComponent<Translation>(source))
 			{
@@ -77,21 +98,25 @@ namespace Coherence.Generated
 		
 			}
 		
-            if(entityManager.HasComponent<SessionBased>(source))
+            if(entityManager.HasComponent<ArchetypeComponent>(source))
 			{
-		        // SessionBased has no fields, will just add it.
-		        entityManager.AddComponentData<SessionBased>(destination, new SessionBased());
+		        // ArchetypeComponent has fields, will copy it.			
+                if(!entityManager.HasComponent<ArchetypeComponent>(destination)) {
+                    entityManager.AddComponentData<ArchetypeComponent>(destination, new ArchetypeComponent());
+                }
+				var data = entityManager.GetComponentData<ArchetypeComponent>(source);
+				entityManager.SetComponentData<ArchetypeComponent>(destination, data);
 		
 			}
 		
-            if(entityManager.HasComponent<Transferable>(source))
+            if(entityManager.HasComponent<Persistence>(source))
 			{
-		        // Transferable has fields, will copy it.			
-                if(!entityManager.HasComponent<Transferable>(destination)) {
-                    entityManager.AddComponentData<Transferable>(destination, new Transferable());
+		        // Persistence has fields, will copy it.			
+                if(!entityManager.HasComponent<Persistence>(destination)) {
+                    entityManager.AddComponentData<Persistence>(destination, new Persistence());
                 }
-				var data = entityManager.GetComponentData<Transferable>(source);
-				entityManager.SetComponentData<Transferable>(destination, data);
+				var data = entityManager.GetComponentData<Persistence>(source);
+				entityManager.SetComponentData<Persistence>(destination, data);
 		
 			}
 		

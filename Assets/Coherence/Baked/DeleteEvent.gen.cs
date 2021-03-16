@@ -16,11 +16,19 @@ namespace Coherence.Generated.Internal
 
 	[AlwaysUpdateSystem]
 	[UpdateInGroup(typeof(CoherenceSimulationSystemGroup))]
-	[UpdateAfter(typeof(SyncSendSystem))]
+	[UpdateAfter(typeof(TransferEntitySystem))]
 	public class DeleteEventSystem : SystemBase
 	{
 		protected override void OnUpdate()
 		{
+
+			Entities
+			   .WithAll<global::Coherence.Generated.TransferAction>()
+			   .ForEach((Entity entity) =>
+			{
+
+				EntityManager.RemoveComponent<TransferAction>(entity);
+			}).WithStructuralChanges().Run();
 
 			Dependency.Complete();
 		}

@@ -57,19 +57,19 @@ namespace Coherence.Generated.Internal
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.SessionBased, Simulated>().WithNone<SessionBased_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.ArchetypeComponent, Simulated>().WithNone<ArchetypeComponent_Sync>().ForEach((Entity entity) =>
 			{
 
-				EntityManager.AddComponentData(entity, new SessionBased_Sync 
+				EntityManager.AddComponentData(entity, new ArchetypeComponent_Sync 
 				{
 					howImportantAreYou = 600
 				});
 			}).WithStructuralChanges().Run();
 
-            Entities.WithAll<global::Coherence.Generated.Transferable, Simulated>().WithNone<Transferable_Sync>().ForEach((Entity entity) =>
+            Entities.WithAll<global::Coherence.Generated.Persistence, Simulated>().WithNone<Persistence_Sync>().ForEach((Entity entity) =>
 			{
 
-				EntityManager.AddComponentData(entity, new Transferable_Sync 
+				EntityManager.AddComponentData(entity, new Persistence_Sync 
 				{
 					howImportantAreYou = 600
 				});

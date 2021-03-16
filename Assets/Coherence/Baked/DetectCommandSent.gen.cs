@@ -14,25 +14,30 @@ namespace Coherence.Generated.Internal
 
     using Message;
     using Message.Serializer.Serialize;
+    using MessageSync.Serialize;
     using Coherence.Brisk.Connect;
     using Coherence.Brook;
     using Coherence.Log;
     using Replication.Client.Unity.Ecs;
     using Replication.Unity;
 
-   // ReSharper disable once ClassNeverInstantiated.Global
+    // ReSharper disable once ClassNeverInstantiated.Global
     [UpdateInGroup(typeof(PresentationSystemGroup))]
     [AlwaysUpdateSystem]
     public class DetectCommandsSentSystem : SystemBase
     {
         private bool isBooted;
-	    private Sender cachedSender;
-		private MessageSerializers messageSerializers;
+
+        private MessageSerializers messageSerializers;
+        private UnityMapper mapper;
+        private OutgoingCombinedChannel messageChannels;
 
         void BootUp()
         {
             var netSys = World.GetOrCreateSystem<NetworkSystem>();
 			messageSerializers = new MessageSerializers(netSys.Mapper);
+            mapper = netSys.Mapper;
+            messageChannels = netSys.MessageChannels;
         }
 
 	    protected override void OnUpdate()
@@ -42,18 +47,6 @@ namespace Coherence.Generated.Internal
 		        BootUp();
 		        isBooted = true;
 	        }
-
-		    if (cachedSender == null)
-		    {
-			    cachedSender = World.GetExistingSystem<SyncSendSystem>().Sender;
-			    if (cachedSender == null)
-			    {
-				    return;
-			    }
-            }
-
-	        var burstSender = cachedSender;
-	        var mapper = cachedSender.Mapper;
 
 
 
@@ -91,7 +84,7 @@ namespace Coherence.Generated.Internal
 
 	                        bitStream.Flush();
 	                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
-	                        burstSender.MessageChannels.PushEntityCommand(payload);
+	                        messageChannels.PushEntityCommand(payload);
                         }
 
                         buffer.Clear();
@@ -133,7 +126,7 @@ namespace Coherence.Generated.Internal
 
 	                        bitStream.Flush();
 	                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
-	                        burstSender.MessageChannels.PushEntityCommand(payload);
+	                        messageChannels.PushEntityCommand(payload);
                         }
 
                         buffer.Clear();

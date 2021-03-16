@@ -34,9 +34,17 @@ namespace Coherence.Generated
 			
 
 			
+
+			coherenceSync.OnSpawnFromNetwork += OnSpawnFromNetwork;
 		}
 
-		private void InitializeComponents()
+		private void OnSpawnFromNetwork()
+		{
+			InitializeComponents();
+			SyncEcsBaked();
+		}
+
+		public override void InitializeComponents()
 		{
 			if (!coherenceSync.isSimulated) return;
 
@@ -44,15 +52,18 @@ namespace Coherence.Generated
 
 			
 
-			if (coherenceSync.lifetimeType == CoherenceSync.LifetimeType.SessionBased)
+			if (coherenceSync.lifetimeType == CoherenceSync.LifetimeType.Persistent)
 			{
-				entityManager.AddComponent<SessionBased>(entity);
+				entityManager.AddComponentData(entity, new Persistence()
+				{
+					uuid = coherenceSync.persistenceUUID,
+					expiry = coherenceSync.GetPersistenceExpiryString()
+				});
 			}
 
 			if (coherenceSync.authorityTransferType != CoherenceSync.AuthorityTransferType.NotTransferable)
 			{
 				entityManager.AddComponent<AuthorityTransfer>(entity);
-				entityManager.AddComponent<Transferable>(entity);
 			}
 
 			entityManager.AddComponent<Simulated>(entity);
