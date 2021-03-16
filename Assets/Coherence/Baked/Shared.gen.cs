@@ -8,6 +8,12 @@
 			
 namespace Coherence.Generated.Internal
 {
+    using System;
+    using System.Collections.Generic;
+	using Replication.Client.Unity.Ecs;
+
+
+	
 
 static class TypeIds
 {
@@ -21,9 +27,9 @@ static class TypeIds
 
 	public const uint InternalWorldPositionQuery = 3;
 
-	public const uint InternalArchetypeComponent = 4;
+	public const uint InternalSessionBased = 4;
 
-	public const uint InternalPersistence = 5;
+	public const uint InternalTransferable = 5;
 
 	public const uint InternalGenericPrefabReference = 6;
 
@@ -91,9 +97,166 @@ static class TypeIds
 
 	public const uint InternalGenericCommand = 1;
 
-	public const uint InternalTransferAction = 0;
+}
+
+
+enum TypeEnums
+{
+
+	InternalWorldPosition = 0,
+
+	InternalWorldOrientation = 1,
+
+	InternalLocalUser = 2,
+
+	InternalWorldPositionQuery = 3,
+
+	InternalSessionBased = 4,
+
+	InternalTransferable = 5,
+
+	InternalGenericPrefabReference = 6,
+
+	InternalGenericScale = 7,
+
+	InternalGenericFieldInt0 = 8,
+
+	InternalGenericFieldInt1 = 9,
+
+	InternalGenericFieldInt2 = 10,
+
+	InternalGenericFieldInt3 = 11,
+
+	InternalGenericFieldInt4 = 12,
+
+	InternalGenericFieldInt5 = 13,
+
+	InternalGenericFieldInt6 = 14,
+
+	InternalGenericFieldInt7 = 15,
+
+	InternalGenericFieldInt8 = 16,
+
+	InternalGenericFieldInt9 = 17,
+
+	InternalGenericFieldFloat0 = 18,
+
+	InternalGenericFieldFloat1 = 19,
+
+	InternalGenericFieldFloat2 = 20,
+
+	InternalGenericFieldFloat3 = 21,
+
+	InternalGenericFieldFloat4 = 22,
+
+	InternalGenericFieldFloat5 = 23,
+
+	InternalGenericFieldFloat6 = 24,
+
+	InternalGenericFieldFloat7 = 25,
+
+	InternalGenericFieldFloat8 = 26,
+
+	InternalGenericFieldFloat9 = 27,
+
+	InternalGenericFieldVector0 = 28,
+
+	InternalGenericFieldVector1 = 29,
+
+	InternalGenericFieldVector2 = 30,
+
+	InternalGenericFieldVector3 = 31,
+
+	InternalGenericFieldString0 = 32,
+
+	InternalGenericFieldString1 = 33,
+
+	InternalGenericFieldString2 = 34,
+
+	InternalGenericFieldString4 = 35,
+
+	InternalGenericFieldQuaternion0 = 36,
+
+	InternalAuthorityTransfer = 0,
+
+	InternalGenericCommand = 1,
 
 }
+
+
+internal static class InternalGlobalLookups
+{
+	internal readonly static Dictionary<Type, TypeEnums> GlobalTypeToEnumLookup = new Dictionary<Type, TypeEnums>();
+
+	internal static TypeEnums Lookup<T>()
+	{
+		return GlobalTypeToEnumLookup[typeof(T)];
+	}
+
+	internal static void Register<T>(TypeEnums e)
+	{
+		GlobalTypeToEnumLookup.Add(typeof(T), e);
+	}
+}
+
+internal static class GlobalLookups
+{
+	internal readonly static Dictionary<System.Type, TypeEnums> GlobalTypeToEnumLookup =
+		new Dictionary<System.Type, TypeEnums>();
+
+	internal static TypeEnums Lookup<T>()
+	{
+		return GlobalTypeToEnumLookup[typeof(T)];
+	}
+
+	internal static void Register<T>(TypeEnums e)
+	{
+		if (!GlobalTypeToEnumLookup.ContainsKey(typeof(T))) {
+			GlobalTypeToEnumLookup.Add(typeof(T), e);
+		}
+	}
+}
+
+internal static class GlobalTypeIdLookups
+{
+	internal readonly static Dictionary<System.Type, uint> GlobalTypeToEnumLookup =
+		new Dictionary<System.Type, uint>();
+
+	internal static uint Lookup<T>()
+	{
+		return GlobalTypeToEnumLookup[typeof(T)];
+	}
+
+	internal static (uint, bool) LookupUsingType(System.Type t)
+	{
+		var foundIt = GlobalTypeToEnumLookup.TryGetValue(t, out var value);
+		return !foundIt ? ((uint, bool)) (0, foundIt) : (value, true);
+	}
+
+	internal static void Register<T>(uint e)
+	{
+		if (!GlobalTypeToEnumLookup.ContainsKey(typeof(T))) {
+			GlobalTypeToEnumLookup.Add(typeof(T), e);
+		}
+	}
+}
+
+class GlobalTypeIdLookupsWrapper : ITypeIdLookups
+{
+	public (uint, bool) LookupUsingType(Type t)
+	{
+		return GlobalTypeIdLookups.LookupUsingType(t);
+	}
+}
+
+static class RleConstants
+{
+	public const uint EndOfComponentArray = 255;
+	public const uint EndOfComponentIndex = 65535;
+}
+
+
+
 
 } // end of namespace
 

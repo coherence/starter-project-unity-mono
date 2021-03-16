@@ -23,18 +23,6 @@ namespace Coherence.Toolkit
 			CoherenceMonoBridge.CreateEntityQueryRemote = CreateEntityQueryRemote;
 			CoherenceMonoBridge.CreateEntityQueryLocal = CreateEntityQueryLocal;
 			CoherenceMonoBridge.GetPrefabName = GetPrefabName;
-			CoherenceMonoBridge.GetPersistenceUuid = GetPersistenceUuid;
-		}
-
-		private static string GetPersistenceUuid(EntityManager entityManager, Entity entity)
-		{
-			if (entityManager.HasComponent<Persistence>(entity))
-			{
-				var ret = entityManager.GetComponentData<Persistence>(entity);
-				return ret.uuid.ToString();
-			}
-
-			return null;
 		}
 
 		private static EntityQuery CreateEntityQueryRemote(EntityManager entityManager)

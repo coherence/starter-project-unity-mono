@@ -62,32 +62,22 @@ public class MessageDeserializers
 			
 
 			
-				var radius = bitstream.ReadFixedPoint(24, 2400);
+				var radius = bitstream.ReadFixedPoint(24, 40000);
 				data.radius = coherenceToUnityConverters.ToUnityfloat(radius);
 			
      
 	}
 
-	public void ArchetypeComponent(IInBitStream bitstream, ref ArchetypeComponent data)
+	public void SessionBased(IInBitStream bitstream, ref SessionBased data)
 	{
-
-			
-				data.index =  bitstream.ReadIntegerRange(15, -9999);
-			
      
 	}
 
-	public void Persistence(IInBitStream bitstream, ref Persistence data)
+	public void Transferable(IInBitStream bitstream, ref Transferable data)
 	{
 
 			
-				var uuid = bitstream.ReadShortString();
-				data.uuid = coherenceToUnityConverters.ToUnityFixedString64(uuid);
-			
-
-			
-				var expiry = bitstream.ReadShortString();
-				data.expiry = coherenceToUnityConverters.ToUnityFixedString64(expiry);
+				data.participant =  bitstream.ReadIntegerRange(15, -9999);
 			
      
 	}
@@ -206,7 +196,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -216,7 +206,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -226,7 +216,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -236,7 +226,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -246,7 +236,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -256,7 +246,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -266,7 +256,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -276,7 +266,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -286,7 +276,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -296,7 +286,7 @@ public class MessageDeserializers
 	{
 
 			
-				var number = bitstream.ReadFixedPoint(24, 2400);
+				var number = bitstream.ReadFixedPoint(24, 40000);
 				data.number = coherenceToUnityConverters.ToUnityfloat(number);
 			
      
@@ -426,41 +416,28 @@ public class MessageDeserializers
 			
 
 			
-				var paramFloat1 = bitstream.ReadFixedPoint(24, 2400);
+				var paramFloat1 = bitstream.ReadFixedPoint(24, 40000);
 				data.paramFloat1 = coherenceToUnityConverters.ToUnityfloat(paramFloat1);
 			
 
 			
-				var paramFloat2 = bitstream.ReadFixedPoint(24, 2400);
+				var paramFloat2 = bitstream.ReadFixedPoint(24, 40000);
 				data.paramFloat2 = coherenceToUnityConverters.ToUnityfloat(paramFloat2);
 			
 
 			
-				var paramFloat3 = bitstream.ReadFixedPoint(24, 2400);
+				var paramFloat3 = bitstream.ReadFixedPoint(24, 40000);
 				data.paramFloat3 = coherenceToUnityConverters.ToUnityfloat(paramFloat3);
 			
 
 			
-				var paramFloat4 = bitstream.ReadFixedPoint(24, 2400);
+				var paramFloat4 = bitstream.ReadFixedPoint(24, 40000);
 				data.paramFloat4 = coherenceToUnityConverters.ToUnityfloat(paramFloat4);
 			
 
 			
 				var paramString = bitstream.ReadShortString();
 				data.paramString = coherenceToUnityConverters.ToUnityFixedString64(paramString);
-			
-     
-	}
-
-	public void TransferAction(IInBitStream bitstream, ref TransferAction data)
-	{
-
-			
-				data.participant =  bitstream.ReadIntegerRange(15, -9999);
-			
-
-			
-				data.accepted =  bitstream.ReadBool();
 			
      
 	}

@@ -38,19 +38,17 @@ namespace Coherence.Generated
 	
 	
 	
-	// EcsComponentData: InternalArchetypeComponentData
-	public struct ArchetypeComponent : IComponentData
+	// EcsComponentData: InternalSessionBasedData
+	public struct SessionBased : IComponentData
 	{
-		public int index;
 	}
 	
 	
 	
-	// EcsComponentData: InternalPersistenceData
-	public struct Persistence : IComponentData
+	// EcsComponentData: InternalTransferableData
+	public struct Transferable : IComponentData
 	{
-		public FixedString64 uuid;
-		public FixedString64 expiry;
+		public int participant;
 	}
 	
 	

@@ -13,6 +13,7 @@ namespace Coherence.Generated.Internal
     using Protocol.Deserialize;
     using Unity.Entities;
 	using Replication.Client.Unity.Ecs;
+	using Coherence.Sdk.Unity;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [UpdateInGroup(typeof(InitializationSystemGroup))]
@@ -33,7 +34,7 @@ namespace Coherence.Generated.Internal
             var commandPerform = new PerformCommands(netSys.Mapper);
             var eventPerform = new PerformEvents(netSys.Mapper);
             var receiveUpdate = new ReceiveUpdate(deserializeComponents, skipper, netSys.Mapper, netSys.DestroyedEntities);
-            receiver = new Receiver(World, netSys.Mapper, netSys.Connector, receiveUpdate, commandPerform, eventPerform, netSys.MessageChannels, netSys.SentPacketsCache);
+            receiver = new Receiver(World, netSys.Mapper, netSys.Connector, receiveUpdate, commandPerform, eventPerform, netSys.SentPacketsCache);
         }
 
         private void ChangeClockSpeed(ClockSpeedFactor factor)
@@ -64,7 +65,7 @@ namespace Coherence.Generated.Internal
 	        Entities.ForEach((in DisconnectedEvent connected) =>
 	        {
 		        // Destroy all networked entities 
-		        World.GetOrCreateSystem<NetworkSystem>().Mapper.ClearAndDestroyEntities(EntityManager);
+		        World.GetOrCreateSystem<NetworkSystem>().Mapper.ClearAndDestroyEntities();
 		        
 		        // Clear the incoming packet repository
 		        receiver.ResetPacketRepository();

@@ -85,7 +85,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.radius = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000010;
 		}
@@ -94,7 +94,16 @@ public class UnityReaders
 	}
 
 	
-	public uint Read(ref ArchetypeComponent data, IInBitStream bitstream)
+	public uint Read(ref SessionBased data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref Transferable data, IInBitStream bitstream)
 	{
 		var propertyMask = (uint)0;
 
@@ -102,31 +111,8 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
-			       data.index = coherenceField;
+			       data.participant = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
-		}
-       
-		return propertyMask;
-	}
-
-	
-	public uint Read(ref Persistence data, IInBitStream bitstream)
-	{
-		var propertyMask = (uint)0;
-
-
-		if (bitstream.ReadMask()) 
-		{
-			var coherenceField = bitstream.ReadShortString();
-			     data.uuid = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
-			propertyMask |= 0b00000000000000000000000000000001;
-		}
-
-		if (bitstream.ReadMask()) 
-		{
-			var coherenceField = bitstream.ReadShortString();
-			     data.expiry = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
-			propertyMask |= 0b00000000000000000000000000000010;
 		}
        
 		return propertyMask;
@@ -332,7 +318,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -348,7 +334,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -364,7 +350,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -380,7 +366,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -396,7 +382,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -412,7 +398,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -428,7 +414,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -444,7 +430,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -460,7 +446,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -476,7 +462,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadFixedPoint(24, 2400);
+			var coherenceField = bitstream.ReadFixedPoint(24, 40000);
 			     data.number = coherenceToUnityConverters.ToUnityfloat(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}

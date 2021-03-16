@@ -107,19 +107,13 @@ namespace Coherence.Generated.Internal
         }
         
 
-        private void SerializeArchetypeComponent(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        private void SerializeSessionBased(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
-            // Write component changes to output stream
-            var componentData = EntityManager.GetComponentData<ArchetypeComponent>(entity);
-            unityWriters.Write(componentData, mask, protocolOutStream);
-
             // Reset accumulated priority so the same component is not sent again next frame
-            var syncData = EntityManager.GetComponentData<ArchetypeComponent_Sync>(entity);
+            var syncData = EntityManager.GetComponentData<SessionBased_Sync>(entity);
 
             syncData.accumulatedPriority = 0;
-
-            syncData.lastSentData = componentData;
 
             syncData.hasBeenSerialized = true;
             syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
@@ -127,15 +121,15 @@ namespace Coherence.Generated.Internal
         }
         
 
-        private void SerializePersistence(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        private void SerializeTransferable(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
             // Write component changes to output stream
-            var componentData = EntityManager.GetComponentData<Persistence>(entity);
+            var componentData = EntityManager.GetComponentData<Transferable>(entity);
             unityWriters.Write(componentData, mask, protocolOutStream);
 
             // Reset accumulated priority so the same component is not sent again next frame
-            var syncData = EntityManager.GetComponentData<Persistence_Sync>(entity);
+            var syncData = EntityManager.GetComponentData<Transferable_Sync>(entity);
 
             syncData.accumulatedPriority = 0;
 
@@ -789,12 +783,12 @@ namespace Coherence.Generated.Internal
                     SerializeWorldPositionQuery(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
-                case TypeIds.InternalArchetypeComponent:
-                    SerializeArchetypeComponent(entityManager, unityEntity, fieldMask, protocolOutStream);
+                case TypeIds.InternalSessionBased:
+                    SerializeSessionBased(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
-                case TypeIds.InternalPersistence:
-                    SerializePersistence(entityManager, unityEntity, fieldMask, protocolOutStream);
+                case TypeIds.InternalTransferable:
+                    SerializeTransferable(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:
@@ -964,17 +958,17 @@ namespace Coherence.Generated.Internal
                     break;
                 }
 
-                case TypeIds.InternalArchetypeComponent:
+                case TypeIds.InternalSessionBased:
                 {
-                    var syncData = entityManager.GetComponentData<ArchetypeComponent_Sync>(unityEntity);
+                    var syncData = entityManager.GetComponentData<SessionBased_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;
                 }
 
-                case TypeIds.InternalPersistence:
+                case TypeIds.InternalTransferable:
                 {
-                    var syncData = entityManager.GetComponentData<Persistence_Sync>(unityEntity);
+                    var syncData = entityManager.GetComponentData<Transferable_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;

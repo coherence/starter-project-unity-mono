@@ -63,31 +63,21 @@ public class MessageSerializers
 
 			
 				var converted_radius = coherenceToUnityConverters.FromUnityfloat(data.radius);
-				bitstream.WriteFixedPoint(converted_radius, 24, 2400);
+				bitstream.WriteFixedPoint(converted_radius, 24, 40000);
 			
 
 	}
 
-	public void ArchetypeComponent(IOutBitStream bitstream, ArchetypeComponent data)
+	public void SessionBased(IOutBitStream bitstream, SessionBased data)
 	{
-
-			
-				bitstream.WriteIntegerRange(data.index, 15, -9999);
-			
 
 	}
 
-	public void Persistence(IOutBitStream bitstream, Persistence data)
+	public void Transferable(IOutBitStream bitstream, Transferable data)
 	{
 
 			
-				var converted_uuid = coherenceToUnityConverters.FromUnityFixedString64(data.uuid);
-				bitstream.WriteShortString(converted_uuid);
-			
-
-			
-				var converted_expiry = coherenceToUnityConverters.FromUnityFixedString64(data.expiry);
-				bitstream.WriteShortString(converted_expiry);
+				bitstream.WriteIntegerRange(data.participant, 15, -9999);
 			
 
 	}
@@ -207,7 +197,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -217,7 +207,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -227,7 +217,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -237,7 +227,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -247,7 +237,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -257,7 +247,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -267,7 +257,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -277,7 +267,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -287,7 +277,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -297,7 +287,7 @@ public class MessageSerializers
 
 			
 				var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
-				bitstream.WriteFixedPoint(converted_number, 24, 2400);
+				bitstream.WriteFixedPoint(converted_number, 24, 40000);
 			
 
 	}
@@ -427,40 +417,27 @@ public class MessageSerializers
 
 			
 				var converted_paramFloat1 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat1);
-				bitstream.WriteFixedPoint(converted_paramFloat1, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat1, 24, 40000);
 			
 
 			
 				var converted_paramFloat2 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat2);
-				bitstream.WriteFixedPoint(converted_paramFloat2, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat2, 24, 40000);
 			
 
 			
 				var converted_paramFloat3 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat3);
-				bitstream.WriteFixedPoint(converted_paramFloat3, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat3, 24, 40000);
 			
 
 			
 				var converted_paramFloat4 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat4);
-				bitstream.WriteFixedPoint(converted_paramFloat4, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat4, 24, 40000);
 			
 
 			
 				var converted_paramString = coherenceToUnityConverters.FromUnityFixedString64(data.paramString);
 				bitstream.WriteShortString(converted_paramString);
-			
-
-	}
-
-	public void TransferAction(IOutBitStream bitstream, TransferAction data)
-	{
-
-			
-				bitstream.WriteIntegerRange(data.participant, 15, -9999);
-			
-
-			
-				bitstream.WriteBool(data.accepted);
 			
 
 	}
@@ -503,22 +480,22 @@ public class MessageSerializers
 
 			
 				var converted_paramFloat1 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat1);
-				bitstream.WriteFixedPoint(converted_paramFloat1, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat1, 24, 40000);
 			
 
 			
 				var converted_paramFloat2 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat2);
-				bitstream.WriteFixedPoint(converted_paramFloat2, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat2, 24, 40000);
 			
 
 			
 				var converted_paramFloat3 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat3);
-				bitstream.WriteFixedPoint(converted_paramFloat3, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat3, 24, 40000);
 			
 
 			
 				var converted_paramFloat4 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat4);
-				bitstream.WriteFixedPoint(converted_paramFloat4, 24, 2400);
+				bitstream.WriteFixedPoint(converted_paramFloat4, 24, 40000);
 			
 
 			

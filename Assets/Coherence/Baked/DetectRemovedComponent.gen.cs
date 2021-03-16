@@ -111,7 +111,7 @@ namespace Coherence.Generated.Internal
                 });
             }).ScheduleParallel();
 
-			Entities.WithNone<global::Coherence.Generated.ArchetypeComponent>().ForEach((Entity entity, ref ArchetypeComponent_Sync sync, in Simulated sim) =>
+			Entities.WithNone<global::Coherence.Generated.SessionBased>().ForEach((Entity entity, ref SessionBased_Sync sync, in Simulated sim) =>
             {
                 if (sync.deleteHasBeenSerialized)
                 {
@@ -126,13 +126,13 @@ namespace Coherence.Generated.Internal
                 localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
                 {
                     entity = entity,
-                    componentType = TypeIds.InternalArchetypeComponent,
+                    componentType = TypeIds.InternalSessionBased,
                     mask = 0,
                     resendMask = 0,
                 });
             }).ScheduleParallel();
 
-			Entities.WithNone<global::Coherence.Generated.Persistence>().ForEach((Entity entity, ref Persistence_Sync sync, in Simulated sim) =>
+			Entities.WithNone<global::Coherence.Generated.Transferable>().ForEach((Entity entity, ref Transferable_Sync sync, in Simulated sim) =>
             {
                 if (sync.deleteHasBeenSerialized)
                 {
@@ -147,7 +147,7 @@ namespace Coherence.Generated.Internal
                 localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
                 {
                     entity = entity,
-                    componentType = TypeIds.InternalPersistence,
+                    componentType = TypeIds.InternalTransferable,
                     mask = 0,
                     resendMask = 0,
                 });

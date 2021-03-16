@@ -15,7 +15,6 @@ namespace Coherence.Generated.Internal
     // TODO: Remove some of these imports
     using Message;
     using Message.Serializer.Serialize;
-    using MessageSync.Serialize;
     using Coherence.Brisk.Connect;
     using Coherence.Brook;
     using Coherence.Log;
@@ -27,17 +26,13 @@ namespace Coherence.Generated.Internal
     public class SendEventSystem : SystemBase
     {
         private bool isBooted;
-
-        private MessageSerializers messageSerializers;
-        private UnityMapper mapper;
-        private OutgoingCombinedChannel messageChannels;
+	    private Sender cachedSender;
+		private MessageSerializers messageSerializers;
 
         void BootUp()
         {
             var netSys = World.GetOrCreateSystem<NetworkSystem>();
 			messageSerializers = new MessageSerializers(netSys.Mapper);
-            mapper = netSys.Mapper;
-            messageChannels = netSys.MessageChannels;
         }
 
 	    protected override void OnUpdate()
@@ -48,35 +43,18 @@ namespace Coherence.Generated.Internal
 		        isBooted = true;
 	        }
 
+		    if (cachedSender == null)
+		    {
+			    cachedSender = World.GetExistingSystem<SyncSendSystem>().Sender;
+			    if (cachedSender == null)
+			    {
+				    return;
+			    }
+            }
 
-            // TransferAction
-            Entities
-                .WithAll<Simulated>()
-                .ForEach((Entity entity, in TransferAction eventComponent) =>
-                    {
-                        var foundEntity = mapper.ToCoherenceEntityId(entity, out var coherenceEntityId);
-                        if (!foundEntity)
-                        {
-                            Debug.LogError($"sending event, but can't find entity {entity} in coherence mapper");
-                            return;
-                        }
+            var burstSender = cachedSender;
+            var mapper = cachedSender.Mapper;
 
-                        var octetStream = new OctetWriter(512); // THIS MAGIC NUMBER IS TAKEN FROM COMMANDS CODE, HMM?!!
-                        var bitStream = new OutBitStream(octetStream);
-
-                        EntityIdSerializer.Serialize(coherenceEntityId, bitStream);
-
-                        var protocol = new Coherence.FieldStream.Serialize.Streams.OutBitStream(bitStream);
-
-                        // --------- Type Specific Part ---------------
-                        ComponentTypeIdSerializer.Serialize(TypeIds.InternalTransferAction, bitStream);
-                        messageSerializers.TransferAction(protocol, eventComponent);
-                        // --------------------------------------------
-
-                        bitStream.Flush();
-                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
-                        messageChannels.PushEntityEvent(payload);
-					}).WithoutBurst().Run();
 
 
         }
