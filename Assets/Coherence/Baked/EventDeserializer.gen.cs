@@ -27,6 +27,26 @@ namespace Coherence.Generated.Internal
                                  Coherence.Replication.Protocol.Definition.IInBitStream bitStream)
 		{
 
+			switch (eventTypeID)
+			{
+
+				case TypeIds.InternalTransferAction:
+				{
+                    // Field 'TransferAction'
+					var eventData = new TransferAction();
+					messageDeserializers.TransferAction(bitStream, ref eventData);                    
+
+                    if(!mgr.HasComponent<Simulated>(entity))
+                    {
+                        // Only add events on Entities we don't own
+                        // UnityEngine.Debug.Log($"Adding an event on {entity}: {eventData}");
+                        mgr.AddComponentData(entity, eventData);
+                    }
+					break;
+				}
+
+			}
+
 		}
 	}
 }

@@ -14,6 +14,15 @@ namespace Coherence.Generated
 	using Unity.Transforms;
 
 	
+	
+	// Event: InternalTransferAction
+	public struct TransferAction : IComponentData
+	{
+		public int participant;
+		public bool accepted;
+	}
+	
+	
 
 }
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   uploadToken: cfa582d9a2f2360893145d47569c8dc7aebff8659b
   port: 32001
   frequency: 60
-  schemaBakeFolderGuid: 43281ca4f03d34a988c9929748425acd
+  schemaBakeFolderGuid: 8ac6f3fb03df1470ca77564cb1886db5
   schemaBakeGenerateAsmdef: 0
   useToolkit: 1
   activeSchemas: []

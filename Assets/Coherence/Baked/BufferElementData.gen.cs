@@ -26,6 +26,18 @@ namespace Coherence.Generated
 	}
 
 	
+	// EcsComponentData: InternalInputClientCommandData
+	public struct InputClientCommand : IBufferElementData
+	{
+		public FixedString64 inputs;
+	}
+
+	public struct InputClientCommandRequest : IBufferElementData
+	{
+		public FixedString64 inputs;
+	}
+
+	
 	// EcsComponentData: InternalGenericCommandData
 	public struct GenericCommand : IBufferElementData
 	{
