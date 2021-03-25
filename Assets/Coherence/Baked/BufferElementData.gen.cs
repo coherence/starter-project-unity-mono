@@ -12,7 +12,6 @@ namespace Coherence.Generated
 	using Unity.Entities;
 	using Unity.Mathematics;
 	using Unity.Transforms;
-
 	
 	// EcsComponentData: InternalAuthorityTransferData
 	public struct AuthorityTransfer : IBufferElementData
@@ -24,19 +23,6 @@ namespace Coherence.Generated
 	{
 		public int participant;
 	}
-
-	
-	// EcsComponentData: InternalInputClientCommandData
-	public struct InputClientCommand : IBufferElementData
-	{
-		public FixedString64 inputs;
-	}
-
-	public struct InputClientCommandRequest : IBufferElementData
-	{
-		public FixedString64 inputs;
-	}
-
 	
 	// EcsComponentData: InternalGenericCommandData
 	public struct GenericCommand : IBufferElementData
@@ -66,12 +52,7 @@ namespace Coherence.Generated
 		public float paramFloat4;
 		public FixedString64 paramString;
 	}
-
-	
-
-
 }
-
 
 // ------------------ end of BufferElementData.cs -----------------
 #endregion

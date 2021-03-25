@@ -100,16 +100,6 @@ namespace Coherence.Generated.Internal
 					break;
 				}
 
-				case TypeIds.InternalInputClient:
-				{
-					var hasComponentData = entityManager.HasComponent<InputClient>(entity);
-					if (hasComponentData)
-					{
-						entityManager.RemoveComponent<InputClient>(entity);
-					}
-					break;
-				}
-
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference>(entity);
@@ -540,6 +530,7 @@ namespace Coherence.Generated.Internal
 				entityManager.RemoveComponent<LingerSimulated>(entity);
 				RemoveSyncComponents(entityManager, entity);
 				AddCommandBuffers(entityManager, entity);
+				AddInputBuffers(entityManager, entity);
 			}
 			else if (!hasComponentData && entityWithMeta.Ownership)
 			{
@@ -692,22 +683,6 @@ namespace Coherence.Generated.Internal
 					if (hasComponentData)
 					{
 						var syncData = entityManager.GetComponentData<Persistence_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalInputClient:
-				{
-					var hasComponentData = entityManager.HasComponent<InputClient_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<InputClient_Sync>(entity);
 
 						syncData.resendMask |= fieldMask;
 						entityManager.SetComponentData(entity, syncData);
@@ -1347,22 +1322,6 @@ namespace Coherence.Generated.Internal
 					break;
 				}
 
-				case TypeIds.InternalInputClient:
-				{
-					var hasComponentData = entityManager.HasComponent<InputClient_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<InputClient_Sync>(entity);
-						syncData.hasReceivedConstructor = true;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						// Ownership may have been lost since the packet was sent
-						Log.Trace($"Sync component has been destroyed: {entity} InputClient_Sync");
-					}
-					break;
-				}
-
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference_Sync>(entity);
@@ -1913,11 +1872,6 @@ namespace Coherence.Generated.Internal
 				entityManager.RemoveComponent<Persistence_Sync>(entity);
 			}
 
-			if (entityManager.HasComponent<InputClient_Sync>(entity))
-			{
-				entityManager.RemoveComponent<InputClient_Sync>(entity);
-			}
-
 			if (entityManager.HasComponent<GenericPrefabReference_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericPrefabReference_Sync>(entity);
@@ -2094,20 +2048,6 @@ namespace Coherence.Generated.Internal
 			}
 
 			{
-				var hasBuffer = entityManager.HasComponent<InputClientCommand>(entity);
-				if (!hasBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommand>(entity);
-				}
-
-				var hasRequestBuffer = entityManager.HasComponent<InputClientCommandRequest>(entity);
-				if (!hasRequestBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommandRequest>(entity);
-				}
-			}
-
-			{
 				var hasBuffer = entityManager.HasComponent<GenericCommand>(entity);
 				if (!hasBuffer)
 				{
@@ -2123,6 +2063,10 @@ namespace Coherence.Generated.Internal
 
 #endregion
 		}
+
+		public static void AddInputBuffers(EntityManager entityManager, Entity entity)
+		{
+		}		
 
 		private void RemoveInterpolationComponents(EntityManager entityManager, Entity entity)
 		{
@@ -2147,8 +2091,6 @@ namespace Coherence.Generated.Internal
 			{
 				entityManager.RemoveComponent<Sample_Rotation>(entity);
 			}
-
-
 
 
 

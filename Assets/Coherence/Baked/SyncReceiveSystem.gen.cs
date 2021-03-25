@@ -32,8 +32,9 @@ namespace Coherence.Generated.Internal
             var skipper = new DeserializeComponentsAndSkipWrapper(netSys.Mapper);
             var commandPerform = new PerformCommands(netSys.Mapper);
             var eventPerform = new PerformEvents(netSys.Mapper);
+            var inputPerform = new PerformInputs(netSys.Mapper);
             var receiveUpdate = new ReceiveUpdate(deserializeComponents, skipper, netSys.Mapper, netSys.DestroyedEntities);
-            receiver = new Receiver(World, netSys.Mapper, netSys.Connector, receiveUpdate, commandPerform, eventPerform, netSys.MessageChannels, netSys.SentPacketsCache);
+            receiver = new Receiver(World, netSys.Mapper, netSys.Connector, receiveUpdate, commandPerform, eventPerform, inputPerform, netSys.MessageChannels, netSys.SentPacketsCache);
         }
 
         private void ChangeClockSpeed(ClockSpeedFactor factor)

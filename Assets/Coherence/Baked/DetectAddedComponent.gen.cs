@@ -44,7 +44,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new LocalUser_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -53,7 +53,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new WorldPositionQuery_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -62,7 +62,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new ArchetypeComponent_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -71,16 +71,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new Persistence_Sync 
 				{
-					howImportantAreYou = 600
-				});
-			}).WithStructuralChanges().Run();
-
-            Entities.WithAll<global::Coherence.Generated.InputClient, Simulated>().WithNone<InputClient_Sync>().ForEach((Entity entity) =>
-			{
-
-				EntityManager.AddComponentData(entity, new InputClient_Sync 
-				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -89,7 +80,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericPrefabReference_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -98,7 +89,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericScale_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -107,7 +98,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt0_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -116,7 +107,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt1_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -125,7 +116,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt2_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -134,7 +125,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt3_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -143,7 +134,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt4_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -152,7 +143,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt5_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -161,7 +152,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt6_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -170,7 +161,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt7_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -179,7 +170,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt8_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -188,7 +179,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldInt9_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -197,7 +188,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat0_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -206,7 +197,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat1_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -215,7 +206,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat2_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -224,7 +215,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat3_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -233,7 +224,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat4_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -242,7 +233,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat5_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -251,7 +242,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat6_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -260,7 +251,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat7_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -269,7 +260,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat8_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -278,7 +269,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldFloat9_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -287,7 +278,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector0_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -296,7 +287,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector1_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -305,7 +296,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector2_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -314,7 +305,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldVector3_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -323,7 +314,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldString0_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -332,7 +323,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldString1_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -341,7 +332,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldString2_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -350,7 +341,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldString4_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 
@@ -359,7 +350,7 @@ namespace Coherence.Generated.Internal
 
 				EntityManager.AddComponentData(entity, new GenericFieldQuaternion0_Sync 
 				{
-					howImportantAreYou = 600
+					howImportantAreYou = 100
 				});
 			}).WithStructuralChanges().Run();
 

@@ -91,19 +91,6 @@ namespace Coherence.Generated.Internal
     }
 
 
-    public struct InputClient_Sync : IComponentData
-    {
-        public InputClient lastSentData;
-        public uint resendMask;
-        public uint howImportantAreYou;
-        public uint accumulatedPriority;
-        public long deletedAtTime;
-        public bool hasBeenSerialized;
-        public bool deleteHasBeenSerialized;
-        public bool hasReceivedConstructor;
-    }
-
-
     public struct GenericPrefabReference_Sync : IComponentData
     {
         public GenericPrefabReference lastSentData;

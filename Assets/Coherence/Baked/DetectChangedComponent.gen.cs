@@ -339,35 +339,6 @@ namespace Coherence.Generated.Internal
             }).ScheduleParallel();
 
 
-            Entities.ForEach((Entity entity, ref InputClient_Sync sync, in global::Coherence.Generated.InputClient data, in Simulated simulate) =>
-            {
-                uint mask = 0;
-                if (!sync.hasBeenSerialized)
-                {
-                    mask = 0xffffffff;
-                }
-
-
-                if (mask != 0 || sync.resendMask != 0)
-                {
-                    
-
-                    sync.accumulatedPriority += sync.howImportantAreYou;
-                    var componentChange = new ComponentChange
-                    {
-                        entity = entity,
-                        componentType = TypeIds.InternalInputClient,
-                        mask = mask,
-                        resendMask = sync.resendMask,
-                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
-                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
-                    };
-
-                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
-                }
-            }).ScheduleParallel();
-
-
             Entities.ForEach((Entity entity, ref GenericPrefabReference_Sync sync, in global::Coherence.Generated.GenericPrefabReference data, in Simulated simulate) =>
             {
                 uint mask = 0;

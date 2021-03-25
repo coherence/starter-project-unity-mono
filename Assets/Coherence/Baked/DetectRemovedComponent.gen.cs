@@ -153,27 +153,6 @@ namespace Coherence.Generated.Internal
                 });
             }).ScheduleParallel();
 
-			Entities.WithNone<global::Coherence.Generated.InputClient>().ForEach((Entity entity, ref InputClient_Sync sync, in Simulated sim) =>
-            {
-                if (sync.deleteHasBeenSerialized)
-                {
-                    return;
-                }
-                
-                if (sync.deletedAtTime == default)
-                {
-                    sync.deletedAtTime = (long)simulationFrame;
-                }
-
-                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
-                {
-                    entity = entity,
-                    componentType = TypeIds.InternalInputClient,
-                    mask = 0,
-                    resendMask = 0,
-                });
-            }).ScheduleParallel();
-
 			Entities.WithNone<global::Coherence.Generated.GenericPrefabReference>().ForEach((Entity entity, ref GenericPrefabReference_Sync sync, in Simulated sim) =>
             {
                 if (sync.deleteHasBeenSerialized)

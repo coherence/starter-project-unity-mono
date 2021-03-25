@@ -35,10 +35,6 @@ namespace Coherence.Toolkit
 			CoherenceSync.GetGenericScaleType = GetGenericScaleType;
 			CoherenceSync.IsAuthorityRequestRejected = IsAuthorityRequestRejected;
   			CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
-			CoherenceSync.InitServerInput = InitServerInput;
-			CoherenceSync.SendClientInputButton = SendClientInputButton;
-			CoherenceSync.SendClientInputJoystick = SendClientInputJoystick;
-			CoherenceSync.SendClientInputMouse = SendClientInputMouse;	
 		}
 
 		private static void CreateECSRepresentation(CoherenceSync self)
@@ -88,66 +84,6 @@ namespace Coherence.Toolkit
 					break;
 				case AuthorityTransferType.NotTransferable:
 					break;
-			}
-
-			switch (coherenceSync.simulationType)
-			{
-				case SimulationType.SimulationServerWithClientInput:
-					entityManager.AddComponent<InputClient>(entity);
-					entityManager.AddComponent<LocalInputClient>(entity);	
-					break;
-				default:
-					break;
-			}
-		}
-
-		private static void InitServerInput(CoherenceSync self)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-            {
-                var inputServer = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputServerSystem>();
-                if (inputServer != null && inputServer.Enabled)
-                {
-                    inputServer.OnButtonInputEvent += self.ReceiveButtonInputEvent;
-                    inputServer.OnJoystickInputEvent += self.ReceiveJoystickInputEvent;
-                    inputServer.OnMouseInputEvent += self.ReceiveMouseInputEvent;
-                }
-            }
-		}
-
-		private static void SendClientInputButton(CoherenceSync self, KeyCode id, bool state)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnKeyInput(self.entity, id, state);
-				}
-			}
-		}
-
-		private static void SendClientInputJoystick(CoherenceSync self, short id, Vector2 value)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnStickInput(self.entity, id, value);
-				}
-			}
-		}	
-		
-		private static void SendClientInputMouse(CoherenceSync self, Vector2 value)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnMouseInput(self.entity, value);
-				}
 			}
 		}
 
