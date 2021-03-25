@@ -43,20 +43,6 @@ namespace Coherence.Generated.Internal
 					break;
 				}
 
-				case TypeIds.InternalInputClientCommand:
-				{
-					var hasRequestBuffer = mgr.HasComponent<InputClientCommand>(entity);
-					if (!hasRequestBuffer)
-					{
-						mgr.AddBuffer<InputClientCommand>(entity);
-					}
-					var buffer = mgr.GetBuffer<InputClientCommand>(entity);
-					var data = new InputClientCommand();
-					messageDeserializers.InputClientCommand(bitStream, ref data);
-					buffer.Add(data);
-					break;
-				}
-
 				case TypeIds.InternalGenericCommand:
 				{
 					var hasRequestBuffer = mgr.HasComponent<GenericCommand>(entity);

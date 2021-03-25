@@ -136,13 +136,6 @@ namespace Coherence.Generated.Internal
 
 		
 		
-		public void Write(in InputClient data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
-		{
-	
-	     }
-
-		
-		
 		public void Write(in GenericPrefabReference data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
 	

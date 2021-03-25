@@ -147,20 +147,6 @@ namespace Coherence.Generated.Internal
         }
         
 
-        private void SerializeInputClient(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
-        {
-
-            // Reset accumulated priority so the same component is not sent again next frame
-            var syncData = EntityManager.GetComponentData<InputClient_Sync>(entity);
-
-            syncData.accumulatedPriority = 0;
-
-            syncData.hasBeenSerialized = true;
-            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
-            EntityManager.SetComponentData(entity, syncData);
-        }
-        
-
         private void SerializeGenericPrefabReference(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
@@ -811,10 +797,6 @@ namespace Coherence.Generated.Internal
                     SerializePersistence(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
-                case TypeIds.InternalInputClient:
-                    SerializeInputClient(entityManager, unityEntity, fieldMask, protocolOutStream);
-                    break;
-
                 case TypeIds.InternalGenericPrefabReference:
                     SerializeGenericPrefabReference(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
@@ -993,14 +975,6 @@ namespace Coherence.Generated.Internal
                 case TypeIds.InternalPersistence:
                 {
                     var syncData = entityManager.GetComponentData<Persistence_Sync>(unityEntity);
-                    syncData.deleteHasBeenSerialized = true;
-                    entityManager.SetComponentData(unityEntity, syncData);
-                    break;
-                }
-
-                case TypeIds.InternalInputClient:
-                {
-                    var syncData = entityManager.GetComponentData<InputClient_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;

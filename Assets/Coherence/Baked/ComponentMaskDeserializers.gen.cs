@@ -133,15 +133,6 @@ public class UnityReaders
 	}
 
 	
-	public uint Read(ref InputClient data, IInBitStream bitstream)
-	{
-		var propertyMask = (uint)0;
-
-       
-		return propertyMask;
-	}
-
-	
 	public uint Read(ref GenericPrefabReference data, IInBitStream bitstream)
 	{
 		var propertyMask = (uint)0;

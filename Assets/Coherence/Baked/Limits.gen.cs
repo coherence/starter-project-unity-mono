@@ -104,10 +104,6 @@ namespace Coherence.Generated
 		
 	
 		
-		// Component name: InputClient
-		
-	
-		
 		// Component name: GenericPrefabReference
 		
 		// prefab : FixedString64

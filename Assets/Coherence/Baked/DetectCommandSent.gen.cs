@@ -92,48 +92,6 @@ namespace Coherence.Generated.Internal
 #endregion
 
 
-#region InputClientCommandRequest
-			// ------------  InputClientCommandRequest --------------
-            Entities
-                .ForEach((Entity entity, DynamicBuffer<InputClientCommandRequest> buffer) =>
-                    {
-                        if (buffer.Length == 0)
-                        {
-                            return;
-                        }
-                        
-                        var foundEntity = mapper.ToCoherenceEntityId(entity, out var coherenceEntityId);
-                        if (!foundEntity)
-                        {
-	                        Debug.LogError($"send command request. Can not find entity {entity}");
-	                        return;
-                        }
-                        
-                        var rawArray = buffer.Reinterpret<InputClientCommandRequest>();
-
-                        for (var i=0; i<rawArray.Length; i++)
-                        {
-	                        var item = rawArray[i];
-	                        var octetStream = new OctetWriter(512);
-	                        var bitStream = new OutBitStream(octetStream);
-	                        EntityIdSerializer.Serialize(coherenceEntityId, bitStream);
-	                        var protocol = new Coherence.FieldStream.Serialize.Streams.OutBitStream(bitStream);
-
-	                        // --------- Type Specific Part ---------------
-	                        ComponentTypeIdSerializer.Serialize(TypeIds.InternalInputClientCommand, bitStream);
-	                        messageSerializers.InputClientCommandRequest(protocol, item);
-	                        // --------------------------------------------
-
-	                        bitStream.Flush();
-	                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
-	                        messageChannels.PushEntityCommand(payload);
-                        }
-
-                        buffer.Clear();
-                    }).WithoutBurst().Run();
-#endregion
-
-
 #region GenericCommandRequest
 			// ------------  GenericCommandRequest --------------
             Entities

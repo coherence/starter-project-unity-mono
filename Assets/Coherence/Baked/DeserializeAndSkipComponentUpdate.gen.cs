@@ -60,12 +60,6 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
-		private void DeserializeInputClient(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
-		{
-            var ignored = new InputClient();
-            unityReaders.Read(ref ignored, protocolStream);
-		}
-		
 		private void DeserializeGenericPrefabReference(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericPrefabReference();
@@ -280,10 +274,6 @@ namespace Coherence.Generated.Internal
 
                 case TypeIds.InternalPersistence:
 					DeserializePersistence(inProtocolStream);
-                    break;
-
-                case TypeIds.InternalInputClient:
-					DeserializeInputClient(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:

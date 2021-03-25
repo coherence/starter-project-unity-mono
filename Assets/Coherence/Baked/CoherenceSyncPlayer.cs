@@ -83,16 +83,6 @@ namespace Coherence.Generated
 
 			entityManager.AddComponent<Simulated>(entity);
 
-			switch (coherenceSync.simulationType)
-			{
-				case SimulationType.SimulationServerWithClientInput:
-					entityManager.AddComponent<InputClient>(entity);
-					entityManager.AddComponent<LocalInputClient>(entity);
-					break;
-				default:
-					break;
-			}
-
 			componentsInitialized = true;
 		}
 
