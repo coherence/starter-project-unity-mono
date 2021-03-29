@@ -8,6 +8,7 @@
 			
 namespace Coherence.Generated
 {
+	using UnityEngine.Scripting;
 	using Unity.Collections;
 	using Unity.Entities;
 	using Unity.Mathematics;

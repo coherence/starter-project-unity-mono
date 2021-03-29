@@ -405,6 +405,216 @@ namespace Coherence.Generated.Internal
                 });
             }).ScheduleParallel();
 
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool0>().ForEach((Entity entity, ref GenericFieldBool0_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool0,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool1>().ForEach((Entity entity, ref GenericFieldBool1_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool1,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool2>().ForEach((Entity entity, ref GenericFieldBool2_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool2,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool3>().ForEach((Entity entity, ref GenericFieldBool3_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool3,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool4>().ForEach((Entity entity, ref GenericFieldBool4_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool4,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool5>().ForEach((Entity entity, ref GenericFieldBool5_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool5,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool6>().ForEach((Entity entity, ref GenericFieldBool6_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool6,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool7>().ForEach((Entity entity, ref GenericFieldBool7_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool7,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool8>().ForEach((Entity entity, ref GenericFieldBool8_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool8,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
+			Entities.WithNone<global::Coherence.Generated.GenericFieldBool9>().ForEach((Entity entity, ref GenericFieldBool9_Sync sync, in Simulated sim) =>
+            {
+                if (sync.deleteHasBeenSerialized)
+                {
+                    return;
+                }
+                
+                if (sync.deletedAtTime == default)
+                {
+                    sync.deletedAtTime = (long)simulationFrame;
+                }
+
+                localComponentChanges.Add(sync.accumulatedPriority, new ComponentChange
+                {
+                    entity = entity,
+                    componentType = TypeIds.InternalGenericFieldBool9,
+                    mask = 0,
+                    resendMask = 0,
+                });
+            }).ScheduleParallel();
+
 			Entities.WithNone<global::Coherence.Generated.GenericFieldFloat0>().ForEach((Entity entity, ref GenericFieldFloat0_Sync sync, in Simulated sim) =>
             {
                 if (sync.deleteHasBeenSerialized)

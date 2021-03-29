@@ -25,9 +25,9 @@ namespace Coherence.Generated
 		// value : float3
 		
 		
-		public static readonly float Translation_value_Min = -2400f;
-		public static readonly float Translation_value_Max = 2400f;
-		public static readonly float Translation_value_Epsilon = 0.000286102294921875f;
+		public static readonly float Translation_value_Min = -3000f;
+		public static readonly float Translation_value_Max = 3000f;
+		public static readonly float Translation_value_Epsilon = 0.00035762786865234375f;
 		
 		
 		
@@ -240,6 +240,96 @@ namespace Coherence.Generated
 		
 		public static readonly int GenericFieldInt9_number_Min = -9999;
 		public static readonly int GenericFieldInt9_number_Max = 9999;
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool0
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool1
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool2
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool3
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool4
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool5
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool6
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool7
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool8
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool9
+		
+		// number : bool
 		
 		
 		

@@ -30,7 +30,7 @@ public class UnityReaders
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadVector3f(24, 2400);
+			var coherenceField = bitstream.ReadVector3f(24, 3000);
 			     data.Value = coherenceToUnityConverters.ToUnityfloat3(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
@@ -317,6 +317,166 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool0 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool1 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool2 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool3 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool4 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool5 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool6 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool7 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool8 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
+			       data.number = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldBool9 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadBool();
 			       data.number = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}

@@ -24,7 +24,7 @@ namespace Coherence.Generated.Internal
 
 		public void Translation(IInBitStream bitstream, ref Translation data)
 		{
-			var value = bitstream.ReadVector3f(24, 2400);
+			var value = bitstream.ReadVector3f(24, 3000);
 			data.Value = coherenceToUnityConverters.ToUnityfloat3(value);     
 		}
 
@@ -120,6 +120,56 @@ namespace Coherence.Generated.Internal
 		public void GenericFieldInt9(IInBitStream bitstream, ref GenericFieldInt9 data)
 		{
 			data.number =  bitstream.ReadIntegerRange(15, -9999);     
+		}
+
+		public void GenericFieldBool0(IInBitStream bitstream, ref GenericFieldBool0 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool1(IInBitStream bitstream, ref GenericFieldBool1 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool2(IInBitStream bitstream, ref GenericFieldBool2 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool3(IInBitStream bitstream, ref GenericFieldBool3 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool4(IInBitStream bitstream, ref GenericFieldBool4 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool5(IInBitStream bitstream, ref GenericFieldBool5 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool6(IInBitStream bitstream, ref GenericFieldBool6 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool7(IInBitStream bitstream, ref GenericFieldBool7 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool8(IInBitStream bitstream, ref GenericFieldBool8 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool9(IInBitStream bitstream, ref GenericFieldBool9 data)
+		{
+			data.number =  bitstream.ReadBool();     
 		}
 
 		public void GenericFieldFloat0(IInBitStream bitstream, ref GenericFieldFloat0 data)

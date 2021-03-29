@@ -831,6 +831,396 @@ namespace Coherence.Generated.Internal
             }).ScheduleParallel();
 
 
+            Entities.ForEach((Entity entity, ref GenericFieldBool0_Sync sync, in global::Coherence.Generated.GenericFieldBool0 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool0,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool1_Sync sync, in global::Coherence.Generated.GenericFieldBool1 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool1,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool2_Sync sync, in global::Coherence.Generated.GenericFieldBool2 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool2,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool3_Sync sync, in global::Coherence.Generated.GenericFieldBool3 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool3,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool4_Sync sync, in global::Coherence.Generated.GenericFieldBool4 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool4,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool5_Sync sync, in global::Coherence.Generated.GenericFieldBool5 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool5,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool6_Sync sync, in global::Coherence.Generated.GenericFieldBool6 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool6,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool7_Sync sync, in global::Coherence.Generated.GenericFieldBool7 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool7,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool8_Sync sync, in global::Coherence.Generated.GenericFieldBool8 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool8,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
+            Entities.ForEach((Entity entity, ref GenericFieldBool9_Sync sync, in global::Coherence.Generated.GenericFieldBool9 data, in Simulated simulate) =>
+            {
+                uint mask = 0;
+                if (!sync.hasBeenSerialized)
+                {
+                    mask = 0xffffffff;
+                }
+
+
+                if (data.number != sync.lastSentData.number) mask |= 0b00000000000000000000000000000001;
+
+
+
+                if (mask != 0 || sync.resendMask != 0)
+                {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    sync.accumulatedPriority += sync.howImportantAreYou;
+                    var componentChange = new ComponentChange
+                    {
+                        entity = entity,
+                        componentType = TypeIds.InternalGenericFieldBool9,
+                        mask = mask,
+                        resendMask = sync.resendMask,
+                        entityHasReceivedConstructor = simulate.hasReceivedConstructor,
+                        componentHasReceivedConstructor = sync.hasReceivedConstructor,
+                    };
+
+                    localComponentChanges.Add(sync.accumulatedPriority, componentChange);
+                }
+            }).ScheduleParallel();
+
+
             Entities.ForEach((Entity entity, ref GenericFieldFloat0_Sync sync, in global::Coherence.Generated.GenericFieldFloat0 data, in Simulated simulate) =>
             {
                 uint mask = 0;

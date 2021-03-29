@@ -18,5 +18,5 @@ MonoBehaviour:
   schemaBakeFolderGuid: 8ac6f3fb03df1470ca77564cb1886db5
   schemaBakeGenerateAsmdef: 0
   useToolkit: 1
-  worldSize: 9999
+  worldSize: 3000
   activeSchemas: []

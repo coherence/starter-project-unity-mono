@@ -111,6 +111,66 @@ namespace Coherence.Generated
 		public int number;
 	}
 	
+	// EcsComponentData: InternalGenericFieldBool0Data
+	public struct GenericFieldBool0 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool1Data
+	public struct GenericFieldBool1 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool2Data
+	public struct GenericFieldBool2 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool3Data
+	public struct GenericFieldBool3 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool4Data
+	public struct GenericFieldBool4 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool5Data
+	public struct GenericFieldBool5 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool6Data
+	public struct GenericFieldBool6 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool7Data
+	public struct GenericFieldBool7 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool8Data
+	public struct GenericFieldBool8 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool9Data
+	public struct GenericFieldBool9 : IComponentData
+	{
+		public bool number;
+	}
+	
 	// EcsComponentData: InternalGenericFieldFloat0Data
 	public struct GenericFieldFloat0 : IComponentData
 	{

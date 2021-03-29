@@ -8,190 +8,126 @@
 			
 namespace Coherence.Generated
 {
-	using UnityEngine;
-	using Unity.Collections;
-	using Unity.Entities;
-	using Unity.Mathematics;
-	using Unity.Transforms;
-	using Coherence.Toolkit;
-	using Coherence.Replication.Client.Unity.Ecs;
-	using static Coherence.Toolkit.CoherenceSync;
-	using global::Coherence.Generated.Internal;
+    using UnityEngine;
+    using Unity.Collections;
+    using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Transforms;
+    using System;
+    using System.Reflection;
+    using Coherence.Toolkit;
+    using Coherence.Replication.Client.Unity.Ecs;
+    using static Coherence.Toolkit.CoherenceSync;
+    using global::Coherence.Generated.Internal;
+    using System.Linq;
 
-	public class CoherenceSyncPlayer : CoherenceSyncBaked
-	{
-		private CoherenceSync coherenceSync;
-		private EntityManager entityManager;
-		private bool componentsInitialized = false;
+    public class CoherenceSyncPlayer : CoherenceSyncBaked
+    {
+        private CoherenceSync coherenceSync;
+        private EntityManager entityManager;
+        private bool componentsInitialized = false;
 
-		// Cached references to MonoBehaviours on this GameObject
-		
+        // Cached references to MonoBehaviours on this GameObject
 
-		protected void Awake()
-		{
-			entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-			coherenceSync = GetComponent<CoherenceSync>();
-			coherenceSync.usingReflection = false;
+        protected void Awake()
+        {
+            entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            coherenceSync = GetComponent<CoherenceSync>();
+            coherenceSync.usingReflection = false;
 
-			
+            coherenceSync.OnSpawnFromNetwork += OnSpawnFromNetwork;
+        }
 
-			
+        private void OnSpawnFromNetwork()
+        {
+            InitializeComponents();
+            SyncEcsBaked();
+        }
 
-			coherenceSync.OnSpawnFromNetwork += OnSpawnFromNetwork;
-		}
+        public override void InitializeComponents()
+        {
+            var entity = coherenceSync.LinkedEntity;
 
-		private void OnSpawnFromNetwork()
-		{
-			InitializeComponents();
-			SyncEcsBaked();
-		}
+            if (coherenceSync.HasArchetype) 
+            {
+                entityManager.AddComponent<LastObservedLod>(entity);
+            }            
 
-		public override void InitializeComponents()
-		{
-			var entity = coherenceSync.LinkedEntity;
+            if (!coherenceSync.isSimulated) 
+            {
+                return;
+            }
 
-			if(coherenceSync.HasArchetype) {
-				entityManager.AddComponent<LastObservedLod>(entity);
-			}
 
-			if (!coherenceSync.isSimulated) return;
+            if (coherenceSync.HasArchetype)
+            {
+                int archetypeIndex = Archetype.IndexForName[coherenceSync.Archetype.ArchetypeName];
+                entityManager.AddComponentData(entity, new ArchetypeComponent { index = archetypeIndex });
+            }
 
-			entityManager.AddComponent<Translation>(entity);
-			entityManager.AddComponent<Rotation>(entity);
-			entityManager.AddComponent<GenericScale>(entity);
-			
+            if (coherenceSync.lifetimeType == CoherenceSync.LifetimeType.Persistent)
+            {
+                entityManager.AddComponentData(entity, new Persistence()
+                {
+                    uuid = coherenceSync.persistenceUUID,
+                    expiry = coherenceSync.GetPersistenceExpiryString()
+                });
+            }
 
-			if (coherenceSync.HasArchetype)
-			{
-				int archetypeIndex = Archetype.IndexForName[coherenceSync.Archetype.ArchetypeName];
-				entityManager.AddComponentData(entity, new ArchetypeComponent { index = archetypeIndex });
-			}
+            if (coherenceSync.authorityTransferType != CoherenceSync.AuthorityTransferType.NotTransferable)
+            {
+                entityManager.AddComponent<AuthorityTransfer>(entity);
+            }
 
-			if (coherenceSync.lifetimeType == CoherenceSync.LifetimeType.Persistent)
-			{
-				entityManager.AddComponentData(entity, new Persistence()
-				{
-					uuid = coherenceSync.persistenceUUID,
-					expiry = coherenceSync.GetPersistenceExpiryString()
-				});
-			}
+            entityManager.AddComponent<Simulated>(entity);
 
-			if (coherenceSync.authorityTransferType != CoherenceSync.AuthorityTransferType.NotTransferable)
-			{
-				entityManager.AddComponent<AuthorityTransfer>(entity);
-			}
+            componentsInitialized = true;
+        }
 
-			entityManager.AddComponent<Simulated>(entity);
+        void Update()
+        {
+            if (!coherenceSync.EcsEntityExists())
+            {
+                return;
+            }
 
-			componentsInitialized = true;
-		}
+            if (!componentsInitialized)
+            {
+                InitializeComponents();
+            }
 
-		void Update()
-		{
-			if (!coherenceSync.EcsEntityExists())
-			{
-				return;
-			}
+            SyncEcsBaked();
+        }
 
-			if (!componentsInitialized)
-			{
-				InitializeComponents();
-			}
+        static FixedString64 ObjectToFixedString64(object o)
+        {
+            return new FixedString64((string)o);
+        }
 
-			
+        static float3 Vector3ToFloat(object o)
+        {
+            Vector3 v = (Vector3)o;
+            return new float3(v.x, v.y, v.z);
+        }
 
-			SyncEcsBaked();
-		}
+        private void SyncEcsBaked()
+        {
+            var entity = coherenceSync.LinkedEntity;
 
-		
+            if (coherenceSync.isSimulated)
+            {
+            }
+            else
+            {
 
-		static FixedString64 ObjectToFixedString64(object o)
-		{
-			return new FixedString64((string)o);
-		}
-
-		static float3 Vector3ToFloat(object o)
-		{
-			Vector3 v = (Vector3)o;
-			return new float3(v.x, v.y, v.z);
-		}
-
-		private void SyncEcsBaked()
-		{
-			var entity = coherenceSync.LinkedEntity;
-
-			if (coherenceSync.isSimulated)
-			{
-				
-					  
-						entityManager.SetComponentData(entity, new Translation() {
-								
-								Value = transform.position,
-							});
-					  
-					
-					  
-						entityManager.SetComponentData(entity, new Rotation() {
-								
-								Value = transform.rotation,
-							});
-					  
-					
-					  
-						entityManager.SetComponentData(entity, new GenericScale() {
-								
-								Value = transform.localScale,
-							});
-					  
-					
-			}
-			else
-			{
-				
-					  
-						if (entityManager.HasComponent<Translation>(entity)) {
-							var data = entityManager.GetComponentData<Translation>(entity);
-						
-							
-							
-							transform.position = data.Value; // float3
-							
-						
-						}
-					  
-					
-					  
-						if (entityManager.HasComponent<Rotation>(entity)) {
-							var data = entityManager.GetComponentData<Rotation>(entity);
-						
-							
-							
-							transform.rotation = data.Value; // quaternion
-							
-						
-						}
-					  
-					
-					  
-						if (entityManager.HasComponent<GenericScale>(entity)) {
-							var data = entityManager.GetComponentData<GenericScale>(entity);
-						
-							
-							
-							transform.localScale = data.Value; // float3
-							
-						
-						}
-					  
-					
-
-				if(coherenceSync.HasArchetype) {
-					int level = entityManager.GetComponentData<LastObservedLod>(entity).Level;
-					coherenceSync.Archetype.SetObservedLodLevel(level);
-				}
-			}
-		}
-	}
+                if (coherenceSync.HasArchetype) 
+                {
+                    int level = entityManager.GetComponentData<LastObservedLod>(entity).Level;
+                    coherenceSync.Archetype.SetObservedLodLevel(level);
+                }
+            }
+        }
+    }
 }
 
 // ------------------ end of CoherenceSyncPlayer.cs -----------------

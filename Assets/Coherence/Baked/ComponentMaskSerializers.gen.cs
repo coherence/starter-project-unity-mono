@@ -31,7 +31,7 @@ namespace Coherence.Generated.Internal
 			{
 				
 					var v = coherenceToUnityConverters.FromUnityfloat3(data.Value);
-					bitstream.WriteVector3f(v, 24, 2400);
+					bitstream.WriteVector3f(v, 24, 3000);
 				
 			}
 			propertyMask >>= 1;
@@ -310,6 +310,156 @@ namespace Coherence.Generated.Internal
 			{
 				
 					bitstream.WriteIntegerRange(data.number, 15, -9999);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool0 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool1 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool2 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool3 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool4 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool5 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool6 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool7 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool8 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldBool9 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteBool(data.number);
 				
 			}
 			propertyMask >>= 1;

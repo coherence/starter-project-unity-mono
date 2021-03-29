@@ -234,6 +234,106 @@ namespace Coherence.Generated
 				entityManager.SetComponentData<GenericFieldInt9>(destination, data);
 			}
 
+            if (entityManager.HasComponent<GenericFieldBool0>(source))
+			{ 
+				// GenericFieldBool0 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool0>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool0>(destination, new GenericFieldBool0());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool0>(source);
+				entityManager.SetComponentData<GenericFieldBool0>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool1>(source))
+			{ 
+				// GenericFieldBool1 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool1>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool1>(destination, new GenericFieldBool1());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool1>(source);
+				entityManager.SetComponentData<GenericFieldBool1>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool2>(source))
+			{ 
+				// GenericFieldBool2 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool2>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool2>(destination, new GenericFieldBool2());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool2>(source);
+				entityManager.SetComponentData<GenericFieldBool2>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool3>(source))
+			{ 
+				// GenericFieldBool3 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool3>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool3>(destination, new GenericFieldBool3());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool3>(source);
+				entityManager.SetComponentData<GenericFieldBool3>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool4>(source))
+			{ 
+				// GenericFieldBool4 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool4>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool4>(destination, new GenericFieldBool4());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool4>(source);
+				entityManager.SetComponentData<GenericFieldBool4>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool5>(source))
+			{ 
+				// GenericFieldBool5 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool5>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool5>(destination, new GenericFieldBool5());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool5>(source);
+				entityManager.SetComponentData<GenericFieldBool5>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool6>(source))
+			{ 
+				// GenericFieldBool6 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool6>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool6>(destination, new GenericFieldBool6());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool6>(source);
+				entityManager.SetComponentData<GenericFieldBool6>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool7>(source))
+			{ 
+				// GenericFieldBool7 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool7>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool7>(destination, new GenericFieldBool7());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool7>(source);
+				entityManager.SetComponentData<GenericFieldBool7>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool8>(source))
+			{ 
+				// GenericFieldBool8 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool8>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool8>(destination, new GenericFieldBool8());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool8>(source);
+				entityManager.SetComponentData<GenericFieldBool8>(destination, data);
+			}
+
+            if (entityManager.HasComponent<GenericFieldBool9>(source))
+			{ 
+				// GenericFieldBool9 has fields, will copy it.			
+                if (!entityManager.HasComponent<GenericFieldBool9>(destination)) {
+                    entityManager.AddComponentData<GenericFieldBool9>(destination, new GenericFieldBool9());
+                }
+				var data = entityManager.GetComponentData<GenericFieldBool9>(source);
+				entityManager.SetComponentData<GenericFieldBool9>(destination, data);
+			}
+
             if (entityManager.HasComponent<GenericFieldFloat0>(source))
 			{ 
 				// GenericFieldFloat0 has fields, will copy it.			
