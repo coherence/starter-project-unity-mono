@@ -8,7 +8,7 @@ public class Cube : MonoBehaviour
     static Cube previousCube;
 
     CoherenceSync sync;
-    public CoherenceSync friend;
+    public GameObject friend;
 
     void Start()
     {

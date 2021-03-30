@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d16eb54b373439abaefd78ed03e3d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  friend: {fileID: 0}
 --- !u!114 &-1348251890569339445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,15 +131,6 @@ MonoBehaviour:
   OnAuthorityTransferRejected:
     m_PersistentCalls:
       m_Calls: []
-  OnKeyInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnJoystickInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMouseInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
   approveAuthorityTransferRequests: 1
   simulationType: 0
   authorityTransferType: 0
@@ -147,21 +139,43 @@ MonoBehaviour:
   persistenceUUID: 
   autoGeneratePersistenceUUID: 0
   persistenceExpirySeconds: 0
-  enabledScriptTogglesKeys: []
-  enabledScriptTogglesValues: 
-  fieldLinksKeys: []
-  fieldLinksValues: []
-  fieldTogglesKeys: []
-  fieldTogglesValues: 
-  fieldTypesKeys: []
-  fieldTypesValues: []
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
-  genericFieldCounter_Quaternion: 0
-  genericFieldCounter_String: 0
-  genericFieldCounter_Vector: 0
-  scriptTogglesKeys: []
-  scriptTogglesValues: 
+  binds:
+  - name: friend
+    memberKind: 1
+    memberAssemblyType: UnityEngine.GameObject, UnityEngine
+    parameterAssemblyTypes: []
+    returnAssemblyType: 
+    compatibility: -1
+    component: {fileID: 6965743703314511348}
+  customBinds:
+  - bindInfo:
+      name: position
+      displayName: 
+      monoAssemblyType: UnityEngine.Vector3, UnityEngine
+      networkAssemblyType: Unity.Transforms.Translation, Unity.Transforms
+      bakedGetter: position
+      bakedSetter: position
+      bakedComponent: WorldPosition
+      bakedComponentField: Value
+      bakedMemberName: 
+      schemaMemberName: value
+      extraData: 
+    component: {fileID: 3550374860027509758}
+    serializerAssemblyType: Coherence.Toolkit.TransformBindSerializer, Coherence.Toolkit
+  - bindInfo:
+      name: rotation
+      displayName: 
+      monoAssemblyType: UnityEngine.Quaternion, UnityEngine
+      networkAssemblyType: Unity.Transforms.Rotation, Unity.Transforms
+      bakedGetter: rotation
+      bakedSetter: rotation
+      bakedComponent: WorldOrientation
+      bakedComponentField: Value
+      bakedMemberName: 
+      schemaMemberName: value
+      extraData: 
+    component: {fileID: 3550374860027509758}
+    serializerAssemblyType: Coherence.Toolkit.TransformBindSerializer, Coherence.Toolkit
   onNetworkedInstantiation:
     m_PersistentCalls:
       m_Calls: []

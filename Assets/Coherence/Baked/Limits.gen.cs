@@ -246,6 +246,96 @@ namespace Coherence.Generated
 		
 	
 		
+		// Component name: GenericFieldBool0
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool1
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool2
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool3
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool4
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool5
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool6
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool7
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool8
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool9
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
 		// Component name: GenericFieldFloat0
 		
 		// number : float
@@ -471,6 +561,51 @@ namespace Coherence.Generated
 		
 		
 		public static readonly float GenericFieldQuaternion0_Value_Epsilon = 0.01f; // TODO!
+		
+		
+	
+		
+		// Component name: GenericFieldEntity0
+		
+		// Value : Entity
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity1
+		
+		// Value : Entity
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity2
+		
+		// Value : Entity
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity3
+		
+		// Value : Entity
+		
+		
+		
+		
+	
+		
+		// Component name: Cube_Cube
+		
+		// friend : Entity
+		
+		
 		
 		
 	

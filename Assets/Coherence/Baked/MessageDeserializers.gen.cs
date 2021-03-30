@@ -122,6 +122,56 @@ namespace Coherence.Generated.Internal
 			data.number =  bitstream.ReadIntegerRange(15, -9999);     
 		}
 
+		public void GenericFieldBool0(IInBitStream bitstream, ref GenericFieldBool0 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool1(IInBitStream bitstream, ref GenericFieldBool1 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool2(IInBitStream bitstream, ref GenericFieldBool2 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool3(IInBitStream bitstream, ref GenericFieldBool3 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool4(IInBitStream bitstream, ref GenericFieldBool4 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool5(IInBitStream bitstream, ref GenericFieldBool5 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool6(IInBitStream bitstream, ref GenericFieldBool6 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool7(IInBitStream bitstream, ref GenericFieldBool7 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool8(IInBitStream bitstream, ref GenericFieldBool8 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
+		public void GenericFieldBool9(IInBitStream bitstream, ref GenericFieldBool9 data)
+		{
+			data.number =  bitstream.ReadBool();     
+		}
+
 		public void GenericFieldFloat0(IInBitStream bitstream, ref GenericFieldFloat0 data)
 		{
 			var number = bitstream.ReadFixedPoint(24, 2400);
@@ -234,6 +284,36 @@ namespace Coherence.Generated.Internal
 		{
 			var Value = bitstream.ReadUnitRotation();
 			data.Value = coherenceToUnityConverters.ToUnityquaternion(Value);     
+		}
+
+		public void GenericFieldEntity0(IInBitStream bitstream, ref GenericFieldEntity0 data)
+		{
+			var Value = bitstream.ReadEntity();
+			data.Value = coherenceToUnityConverters.ToUnityEntity(Value);     
+		}
+
+		public void GenericFieldEntity1(IInBitStream bitstream, ref GenericFieldEntity1 data)
+		{
+			var Value = bitstream.ReadEntity();
+			data.Value = coherenceToUnityConverters.ToUnityEntity(Value);     
+		}
+
+		public void GenericFieldEntity2(IInBitStream bitstream, ref GenericFieldEntity2 data)
+		{
+			var Value = bitstream.ReadEntity();
+			data.Value = coherenceToUnityConverters.ToUnityEntity(Value);     
+		}
+
+		public void GenericFieldEntity3(IInBitStream bitstream, ref GenericFieldEntity3 data)
+		{
+			var Value = bitstream.ReadEntity();
+			data.Value = coherenceToUnityConverters.ToUnityEntity(Value);     
+		}
+
+		public void Cube_Cube(IInBitStream bitstream, ref Cube_Cube data)
+		{
+			var friend = bitstream.ReadEntity();
+			data.friend = coherenceToUnityConverters.ToUnityEntity(friend);     
 		}
 
 		public void AuthorityTransfer(IInBitStream bitstream, ref AuthorityTransfer data)

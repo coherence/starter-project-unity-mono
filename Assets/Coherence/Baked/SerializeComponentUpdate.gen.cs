@@ -387,6 +387,206 @@ namespace Coherence.Generated.Internal
         }
         
 
+        private void SerializeGenericFieldBool0(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool0>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool0_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool1(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool1>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool1_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool2(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool2>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool2_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool3(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool3>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool3_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool4(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool4>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool4_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool5(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool5>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool5_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool6(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool6>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool6_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool7(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool7>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool7_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool8(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool8>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool8_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldBool9(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldBool9>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldBool9_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
         private void SerializeGenericFieldFloat0(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
         {
 
@@ -767,6 +967,106 @@ namespace Coherence.Generated.Internal
         }
         
 
+        private void SerializeGenericFieldEntity0(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldEntity0>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldEntity0_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldEntity1(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldEntity1>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldEntity1_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldEntity2(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldEntity2>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldEntity2_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeGenericFieldEntity3(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<GenericFieldEntity3>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<GenericFieldEntity3_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
+        private void SerializeCube_Cube(EntityManager EntityManager, Entity entity, uint mask, IOutBitStream protocolOutStream)
+        {
+
+            // Write component changes to output stream
+            var componentData = EntityManager.GetComponentData<Cube_Cube>(entity);
+            unityWriters.Write(componentData, mask, protocolOutStream);
+
+            // Reset accumulated priority so the same component is not sent again next frame
+            var syncData = EntityManager.GetComponentData<Cube_Cube_Sync>(entity);
+
+            syncData.accumulatedPriority = 0;
+
+            syncData.lastSentData = componentData;
+
+            syncData.hasBeenSerialized = true;
+            syncData.resendMask &= ~mask;	// Clear serialized fields from resend mask
+            EntityManager.SetComponentData(entity, syncData);
+        }
+        
+
     
         public void SerializeComponent(EntityManager entityManager, Entity unityEntity, uint componentType, uint fieldMask, IOutBitStream protocolOutStream)
         {
@@ -845,6 +1145,46 @@ namespace Coherence.Generated.Internal
                     SerializeGenericFieldInt9(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
+                case TypeIds.InternalGenericFieldBool0:
+                    SerializeGenericFieldBool0(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool1:
+                    SerializeGenericFieldBool1(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool2:
+                    SerializeGenericFieldBool2(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool3:
+                    SerializeGenericFieldBool3(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool4:
+                    SerializeGenericFieldBool4(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool5:
+                    SerializeGenericFieldBool5(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool6:
+                    SerializeGenericFieldBool6(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool7:
+                    SerializeGenericFieldBool7(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool8:
+                    SerializeGenericFieldBool8(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool9:
+                    SerializeGenericFieldBool9(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
                 case TypeIds.InternalGenericFieldFloat0:
                     SerializeGenericFieldFloat0(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
@@ -919,6 +1259,26 @@ namespace Coherence.Generated.Internal
 
                 case TypeIds.InternalGenericFieldQuaternion0:
                     SerializeGenericFieldQuaternion0(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity0:
+                    SerializeGenericFieldEntity0(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity1:
+                    SerializeGenericFieldEntity1(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity2:
+                    SerializeGenericFieldEntity2(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity3:
+                    SerializeGenericFieldEntity3(entityManager, unityEntity, fieldMask, protocolOutStream);
+                    break;
+
+                case TypeIds.InternalCube_Cube:
+                    SerializeCube_Cube(entityManager, unityEntity, fieldMask, protocolOutStream);
                     break;
 
                 default:
@@ -1076,6 +1436,86 @@ namespace Coherence.Generated.Internal
                     break;
                 }
 
+                case TypeIds.InternalGenericFieldBool0:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool0_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool1:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool1_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool2:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool2_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool3:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool3_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool4:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool4_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool5:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool5_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool6:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool6_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool7:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool7_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool8:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool8_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldBool9:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldBool9_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
                 case TypeIds.InternalGenericFieldFloat0:
                 {
                     var syncData = entityManager.GetComponentData<GenericFieldFloat0_Sync>(unityEntity);
@@ -1223,6 +1663,46 @@ namespace Coherence.Generated.Internal
                 case TypeIds.InternalGenericFieldQuaternion0:
                 {
                     var syncData = entityManager.GetComponentData<GenericFieldQuaternion0_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldEntity0:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldEntity0_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldEntity1:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldEntity1_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldEntity2:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldEntity2_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalGenericFieldEntity3:
+                {
+                    var syncData = entityManager.GetComponentData<GenericFieldEntity3_Sync>(unityEntity);
+                    syncData.deleteHasBeenSerialized = true;
+                    entityManager.SetComponentData(unityEntity, syncData);
+                    break;
+                }
+
+                case TypeIds.InternalCube_Cube:
+                {
+                    var syncData = entityManager.GetComponentData<Cube_Cube_Sync>(unityEntity);
                     syncData.deleteHasBeenSerialized = true;
                     entityManager.SetComponentData(unityEntity, syncData);
                     break;

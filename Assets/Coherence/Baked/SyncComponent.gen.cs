@@ -247,6 +247,136 @@ namespace Coherence.Generated.Internal
     }
 
 
+    public struct GenericFieldBool0_Sync : IComponentData
+    {
+        public GenericFieldBool0 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool1_Sync : IComponentData
+    {
+        public GenericFieldBool1 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool2_Sync : IComponentData
+    {
+        public GenericFieldBool2 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool3_Sync : IComponentData
+    {
+        public GenericFieldBool3 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool4_Sync : IComponentData
+    {
+        public GenericFieldBool4 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool5_Sync : IComponentData
+    {
+        public GenericFieldBool5 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool6_Sync : IComponentData
+    {
+        public GenericFieldBool6 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool7_Sync : IComponentData
+    {
+        public GenericFieldBool7 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool8_Sync : IComponentData
+    {
+        public GenericFieldBool8 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldBool9_Sync : IComponentData
+    {
+        public GenericFieldBool9 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
     public struct GenericFieldFloat0_Sync : IComponentData
     {
         public GenericFieldFloat0 lastSentData;
@@ -484,6 +614,71 @@ namespace Coherence.Generated.Internal
     public struct GenericFieldQuaternion0_Sync : IComponentData
     {
         public GenericFieldQuaternion0 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldEntity0_Sync : IComponentData
+    {
+        public GenericFieldEntity0 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldEntity1_Sync : IComponentData
+    {
+        public GenericFieldEntity1 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldEntity2_Sync : IComponentData
+    {
+        public GenericFieldEntity2 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct GenericFieldEntity3_Sync : IComponentData
+    {
+        public GenericFieldEntity3 lastSentData;
+        public uint resendMask;
+        public uint howImportantAreYou;
+        public uint accumulatedPriority;
+        public long deletedAtTime;
+        public bool hasBeenSerialized;
+        public bool deleteHasBeenSerialized;
+        public bool hasReceivedConstructor;
+    }
+
+
+    public struct Cube_Cube_Sync : IComponentData
+    {
+        public Cube_Cube lastSentData;
         public uint resendMask;
         public uint howImportantAreYou;
         public uint accumulatedPriority;

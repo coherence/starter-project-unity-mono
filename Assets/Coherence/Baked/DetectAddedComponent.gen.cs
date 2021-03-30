@@ -183,6 +183,96 @@ namespace Coherence.Generated.Internal
 				});
 			}).WithStructuralChanges().Run();
 
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool0, Simulated>().WithNone<GenericFieldBool0_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool0_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool1, Simulated>().WithNone<GenericFieldBool1_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool1_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool2, Simulated>().WithNone<GenericFieldBool2_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool2_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool3, Simulated>().WithNone<GenericFieldBool3_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool3_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool4, Simulated>().WithNone<GenericFieldBool4_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool4_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool5, Simulated>().WithNone<GenericFieldBool5_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool5_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool6, Simulated>().WithNone<GenericFieldBool6_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool6_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool7, Simulated>().WithNone<GenericFieldBool7_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool7_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool8, Simulated>().WithNone<GenericFieldBool8_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool8_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldBool9, Simulated>().WithNone<GenericFieldBool9_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldBool9_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
             Entities.WithAll<global::Coherence.Generated.GenericFieldFloat0, Simulated>().WithNone<GenericFieldFloat0_Sync>().ForEach((Entity entity) =>
 			{
 
@@ -349,6 +439,51 @@ namespace Coherence.Generated.Internal
 			{
 
 				EntityManager.AddComponentData(entity, new GenericFieldQuaternion0_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldEntity0, Simulated>().WithNone<GenericFieldEntity0_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldEntity0_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldEntity1, Simulated>().WithNone<GenericFieldEntity1_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldEntity1_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldEntity2, Simulated>().WithNone<GenericFieldEntity2_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldEntity2_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.GenericFieldEntity3, Simulated>().WithNone<GenericFieldEntity3_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new GenericFieldEntity3_Sync 
+				{
+					howImportantAreYou = 100
+				});
+			}).WithStructuralChanges().Run();
+
+            Entities.WithAll<global::Coherence.Generated.Cube_Cube, Simulated>().WithNone<Cube_Cube_Sync>().ForEach((Entity entity) =>
+			{
+
+				EntityManager.AddComponentData(entity, new Cube_Cube_Sync 
 				{
 					howImportantAreYou = 100
 				});

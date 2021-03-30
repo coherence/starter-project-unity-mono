@@ -122,6 +122,56 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteIntegerRange(data.number, 15, -9999);
 		}
 	
+		public void GenericFieldBool0(IOutBitStream bitstream, GenericFieldBool0 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool1(IOutBitStream bitstream, GenericFieldBool1 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool2(IOutBitStream bitstream, GenericFieldBool2 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool3(IOutBitStream bitstream, GenericFieldBool3 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool4(IOutBitStream bitstream, GenericFieldBool4 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool5(IOutBitStream bitstream, GenericFieldBool5 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool6(IOutBitStream bitstream, GenericFieldBool6 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool7(IOutBitStream bitstream, GenericFieldBool7 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool8(IOutBitStream bitstream, GenericFieldBool8 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
+		public void GenericFieldBool9(IOutBitStream bitstream, GenericFieldBool9 data)
+		{
+			bitstream.WriteBool(data.number);
+		}
+	
 		public void GenericFieldFloat0(IOutBitStream bitstream, GenericFieldFloat0 data)
 		{
 			var converted_number = coherenceToUnityConverters.FromUnityfloat(data.number);
@@ -234,6 +284,36 @@ namespace Coherence.Generated.Internal
 		{
 			var converted_Value = coherenceToUnityConverters.FromUnityquaternion(data.Value);
 			bitstream.WriteUnitRotation(converted_Value);
+		}
+	
+		public void GenericFieldEntity0(IOutBitStream bitstream, GenericFieldEntity0 data)
+		{
+			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
+			bitstream.WriteEntity(converted_Value);
+		}
+	
+		public void GenericFieldEntity1(IOutBitStream bitstream, GenericFieldEntity1 data)
+		{
+			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
+			bitstream.WriteEntity(converted_Value);
+		}
+	
+		public void GenericFieldEntity2(IOutBitStream bitstream, GenericFieldEntity2 data)
+		{
+			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
+			bitstream.WriteEntity(converted_Value);
+		}
+	
+		public void GenericFieldEntity3(IOutBitStream bitstream, GenericFieldEntity3 data)
+		{
+			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
+			bitstream.WriteEntity(converted_Value);
+		}
+	
+		public void Cube_Cube(IOutBitStream bitstream, Cube_Cube data)
+		{
+			var converted_friend = coherenceToUnityConverters.FromUnityEntity(data.friend);
+			bitstream.WriteEntity(converted_friend);
 		}
 	
 		public void AuthorityTransfer(IOutBitStream bitstream, AuthorityTransfer data)

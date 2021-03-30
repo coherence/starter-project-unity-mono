@@ -111,6 +111,66 @@ namespace Coherence.Generated
 		public int number;
 	}
 	
+	// EcsComponentData: InternalGenericFieldBool0Data
+	public struct GenericFieldBool0 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool1Data
+	public struct GenericFieldBool1 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool2Data
+	public struct GenericFieldBool2 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool3Data
+	public struct GenericFieldBool3 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool4Data
+	public struct GenericFieldBool4 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool5Data
+	public struct GenericFieldBool5 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool6Data
+	public struct GenericFieldBool6 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool7Data
+	public struct GenericFieldBool7 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool8Data
+	public struct GenericFieldBool8 : IComponentData
+	{
+		public bool number;
+	}
+	
+	// EcsComponentData: InternalGenericFieldBool9Data
+	public struct GenericFieldBool9 : IComponentData
+	{
+		public bool number;
+	}
+	
 	// EcsComponentData: InternalGenericFieldFloat0Data
 	public struct GenericFieldFloat0 : IComponentData
 	{
@@ -223,6 +283,36 @@ namespace Coherence.Generated
 	public struct GenericFieldQuaternion0 : IComponentData
 	{
 		public quaternion Value;
+	}
+	
+	// EcsComponentData: InternalGenericFieldEntity0Data
+	public struct GenericFieldEntity0 : IComponentData
+	{
+		public Entity Value;
+	}
+	
+	// EcsComponentData: InternalGenericFieldEntity1Data
+	public struct GenericFieldEntity1 : IComponentData
+	{
+		public Entity Value;
+	}
+	
+	// EcsComponentData: InternalGenericFieldEntity2Data
+	public struct GenericFieldEntity2 : IComponentData
+	{
+		public Entity Value;
+	}
+	
+	// EcsComponentData: InternalGenericFieldEntity3Data
+	public struct GenericFieldEntity3 : IComponentData
+	{
+		public Entity Value;
+	}
+	
+	// EcsComponentData: InternalCube_CubeData
+	public struct Cube_Cube : IComponentData
+	{
+		public Entity friend;
 	}
 }
 // ------------------ end of ComponentData.cs -----------------
