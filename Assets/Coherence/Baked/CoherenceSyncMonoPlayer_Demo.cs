@@ -110,6 +110,24 @@ namespace Coherence.Generated
             return new float3(v.x, v.y, v.z);
         }
 
+        static Entity ObjectToEntity(GameObject from)
+        {
+            var fromSync = from.GetComponent<CoherenceSync>();
+
+            if(fromSync == null)
+            {
+                return default;
+            }
+
+            return fromSync.entity;
+        }
+
+        static GameObject EntityToObject(Entity from)
+        {
+            var toSync = CoherenceMonoBridge.Instance?.GetCoherenceSyncForEntity(from);
+            return toSync?.gameObject;
+        }
+
         private void SyncEcsBaked()
         {
             var entity = coherenceSync.LinkedEntity;

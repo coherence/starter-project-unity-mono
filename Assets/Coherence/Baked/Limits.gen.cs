@@ -608,6 +608,19 @@ namespace Coherence.Generated
 		
 		
 		
+		// s : FixedString64
+		
+		
+		
+		
+		// i : int
+		
+		public static readonly int Cube_Cube_i_Min = -9999;
+		public static readonly int Cube_Cube_i_Max = 9999;
+		
+		
+		
+		
 	
 	}
 }

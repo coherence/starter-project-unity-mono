@@ -313,6 +313,8 @@ namespace Coherence.Generated
 	public struct Cube_Cube : IComponentData
 	{
 		public Entity friend;
+		public FixedString64 s;
+		public int i;
 	}
 }
 // ------------------ end of ComponentData.cs -----------------

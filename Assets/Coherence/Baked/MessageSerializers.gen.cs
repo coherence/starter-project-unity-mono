@@ -314,6 +314,9 @@ namespace Coherence.Generated.Internal
 		{
 			var converted_friend = coherenceToUnityConverters.FromUnityEntity(data.friend);
 			bitstream.WriteEntity(converted_friend);
+			var converted_s = coherenceToUnityConverters.FromUnityFixedString64(data.s);
+			bitstream.WriteShortString(converted_s);
+			bitstream.WriteIntegerRange(data.i, 15, -9999);
 		}
 	
 		public void AuthorityTransfer(IOutBitStream bitstream, AuthorityTransfer data)

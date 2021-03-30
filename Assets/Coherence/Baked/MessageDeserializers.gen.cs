@@ -313,7 +313,10 @@ namespace Coherence.Generated.Internal
 		public void Cube_Cube(IInBitStream bitstream, ref Cube_Cube data)
 		{
 			var friend = bitstream.ReadEntity();
-			data.friend = coherenceToUnityConverters.ToUnityEntity(friend);     
+			data.friend = coherenceToUnityConverters.ToUnityEntity(friend);
+			var s = bitstream.ReadShortString();
+			data.s = coherenceToUnityConverters.ToUnityFixedString64(s);
+			data.i =  bitstream.ReadIntegerRange(15, -9999);     
 		}
 
 		public void AuthorityTransfer(IInBitStream bitstream, ref AuthorityTransfer data)

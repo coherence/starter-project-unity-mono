@@ -848,6 +848,23 @@ namespace Coherence.Generated.Internal
 			}
 			propertyMask >>= 1;
 	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityFixedString64(data.s);
+					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteIntegerRange(data.i, 15, -9999);
+				
+			}
+			propertyMask >>= 1;
+	
 	     }
 
 		

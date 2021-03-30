@@ -2167,11 +2167,33 @@ namespace Coherence.Generated.Internal
 
 
 
+				if (HasNoticeableDifference(data.s, sync.lastSentData.s) ) mask |= 0b00000000000000000000000000000010;
+
+
+
+                if (data.i != sync.lastSentData.i) mask |= 0b00000000000000000000000000000100;
+
+
+
                 if (mask != 0 || sync.resendMask != 0)
                 {
                     
                     
                     
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    CheckRange(data.i, CoherenceLimits.Cube_Cube_i_Min, CoherenceLimits.Cube_Cube_i_Max);
                     
                     
                     

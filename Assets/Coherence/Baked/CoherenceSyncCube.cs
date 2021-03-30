@@ -152,6 +152,8 @@ namespace Coherence.Generated
                 entityManager.SetComponentData(entity, new Cube_Cube() 
                 {
                     friend = ObjectToEntity(_cube.friend),
+                    s = _cube.s?? "",
+                    i = _cube.i,
                 });
             }
             else
@@ -170,6 +172,8 @@ namespace Coherence.Generated
                 {
                     var data = entityManager.GetComponentData<Cube_Cube>(entity);
                     _cube.friend = EntityToObject(data.friend); // Entity
+                    _cube.s = data.s.ToString(); // FixedString64
+                    _cube.i = data.i; // int
                 }
 
                 if (coherenceSync.HasArchetype) 

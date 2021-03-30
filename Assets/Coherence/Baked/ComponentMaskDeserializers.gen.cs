@@ -864,6 +864,20 @@ public class UnityReaders
 			     data.friend = coherenceToUnityConverters.ToUnityEntity(coherenceField);
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadShortString();
+			     data.s = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
+			propertyMask |= 0b00000000000000000000000000000010;
+		}
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
+			       data.i = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000100;
+		}
        
 		return propertyMask;
 	}
