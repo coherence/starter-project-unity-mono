@@ -117,6 +117,24 @@ namespace Coherence.Generated
             return new float3(v.x, v.y, v.z);
         }
 
+        static Entity ObjectToEntity(GameObject from)
+        {
+            var fromSync = from.GetComponent<CoherenceSync>();
+
+            if(fromSync == null)
+            {
+                return default;
+            }
+
+            return fromSync.entity;
+        }
+
+        static GameObject EntityToObject(Entity from)
+        {
+            var toSync = CoherenceMonoBridge.Instance?.GetCoherenceSyncForEntity(from);
+            return toSync?.gameObject;
+        }
+
         private void SyncEcsBaked()
         {
             var entity = coherenceSync.LinkedEntity;
@@ -133,7 +151,7 @@ namespace Coherence.Generated
                 });
                 entityManager.SetComponentData(entity, new Cube_Cube() 
                 {
-                    friend = _cube.friend,
+                    friend = ObjectToEntity(_cube.friend),
                 });
             }
             else
@@ -151,7 +169,7 @@ namespace Coherence.Generated
                 if (entityManager.HasComponent<Cube_Cube>(entity)) 
                 {
                     var data = entityManager.GetComponentData<Cube_Cube>(entity);
-                    _cube.friend = data.friend; // Entity
+                    _cube.friend = EntityToObject(data.friend); // Entity
                 }
 
                 if (coherenceSync.HasArchetype) 
