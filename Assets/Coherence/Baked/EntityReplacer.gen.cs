@@ -729,6 +729,18 @@ namespace Coherence.Generated
 				entityManager.GetBuffer<Player_Controller_FooRequest>(destination).CopyFrom(
 					entityManager.GetBuffer<Player_Controller_FooRequest>(source));
 			}
+			if (entityManager.HasComponent<Player_Controller_Boo>(source) &&
+				!entityManager.HasComponent<Player_Controller_Boo>(destination)) {
+				entityManager.AddBuffer<Player_Controller_Boo>(destination);
+				entityManager.GetBuffer<Player_Controller_Boo>(destination).CopyFrom(
+					entityManager.GetBuffer<Player_Controller_Boo>(source));
+			}			
+			if (entityManager.HasComponent<Player_Controller_BooRequest>(source) &&
+				!entityManager.HasComponent<Player_Controller_BooRequest>(destination)) {
+				entityManager.AddBuffer<Player_Controller_BooRequest>(destination);
+				entityManager.GetBuffer<Player_Controller_BooRequest>(destination).CopyFrom(
+					entityManager.GetBuffer<Player_Controller_BooRequest>(source));
+			}
 
 		}
 	}

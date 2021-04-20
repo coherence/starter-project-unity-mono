@@ -111,7 +111,7 @@ public class Controller : MonoBehaviour
                     if (ctrl.gameObject != this.gameObject)
                     {
                         Debug.Log("Sending command Foo");
-                        ctrl.coherenceSync.SendCommand(coherenceSync, "Controller.Foo", otherPlayer);
+                        ctrl.coherenceSync.SendCommand(coherenceSync, "Controller.Foo", ctrl.gameObject);
                         break;
                     }
                 }

@@ -397,6 +397,10 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteEntity(data.g);
 		}
 	
+		public void Player_Controller_Boo(IOutBitStream bitstream, Player_Controller_Boo data)
+		{
+		}
+	
 		public void TransferAction(IOutBitStream bitstream, TransferAction data)
 		{
 			bitstream.WriteIntegerRange(data.participant, 15, -9999);
@@ -440,6 +444,10 @@ namespace Coherence.Generated.Internal
 		public void Player_Controller_FooRequest(IOutBitStream bitstream, Player_Controller_FooRequest data)
 		{
 			bitstream.WriteEntity(data.g);
+		}
+		
+		public void Player_Controller_BooRequest(IOutBitStream bitstream, Player_Controller_BooRequest data)
+		{
 		}
 	}
 }

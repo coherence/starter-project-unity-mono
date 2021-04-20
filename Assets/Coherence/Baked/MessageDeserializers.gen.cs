@@ -397,6 +397,10 @@ namespace Coherence.Generated.Internal
 			data.g =  bitstream.ReadEntity();     
 		}
 
+		public void Player_Controller_Boo(IInBitStream bitstream, ref Player_Controller_Boo data)
+		{     
+		}
+
 		public void TransferAction(IInBitStream bitstream, ref TransferAction data)
 		{
 			data.participant =  bitstream.ReadIntegerRange(15, -9999);

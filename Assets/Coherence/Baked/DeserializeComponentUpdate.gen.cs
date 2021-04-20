@@ -1723,6 +1723,20 @@ namespace Coherence.Generated.Internal
 				}
 			}
 
+			{
+				var hasBuffer = entityManager.HasComponent<Player_Controller_Boo>(entity);
+				if (!hasBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_Boo>(entity);
+				}
+
+				var hasRequestBuffer = entityManager.HasComponent<Player_Controller_BooRequest>(entity);
+				if (!hasRequestBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_BooRequest>(entity);
+				}
+			}
+
 #endregion
 
 			switch (componentType)

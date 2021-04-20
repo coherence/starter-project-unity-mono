@@ -81,6 +81,15 @@ namespace Coherence.Generated
 	{
 		public SerializeEntityID g;
 	}
+	
+	// EcsComponentData: InternalPlayer_Controller_BooData
+	public struct Player_Controller_Boo : IBufferElementData
+	{
+	}
+
+	public struct Player_Controller_BooRequest : IBufferElementData
+	{
+	}
 }
 
 // ------------------ end of BufferElementData.cs -----------------

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7307341685530242376}
   - component: {fileID: 5786478719605280480}
   - component: {fileID: 7801017591147193571}
+  - component: {fileID: 9139204177111169113}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -207,6 +208,13 @@ MonoBehaviour:
     returnAssemblyType: System.Void, mscorlib
     compatibility: -1
     component: {fileID: 7307341685530242376}
+  - name: Boo
+    memberKind: 3
+    memberAssemblyType: 
+    parameterAssemblyTypes: []
+    returnAssemblyType: System.Void, mscorlib
+    compatibility: -1
+    component: {fileID: 7307341685530242376}
   customBindings:
   - descriptor:
       name: position
@@ -245,7 +253,19 @@ MonoBehaviour:
   destroyComponentOnly: 0
   remoteVersionPrefabName: Player
   selectedSynchronizedPrefabOption: 0
-  usingReflection: 1
+  usingReflection: 0
+--- !u!114 &9139204177111169113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7146494334328971405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81a3a95c04544b85b6ee63267f21bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8907122464205653916
 GameObject:
   m_ObjectHideFlags: 0

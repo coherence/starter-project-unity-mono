@@ -2577,6 +2577,19 @@ namespace Coherence.Generated.Internal
 					entityManager.AddBuffer<Player_Controller_FooRequest>(entity);
 				}
 			}
+			{
+				var hasBuffer = entityManager.HasComponent<Player_Controller_Boo>(entity);
+				if (!hasBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_Boo>(entity);
+				}
+
+				var hasRequestBuffer = entityManager.HasComponent<Player_Controller_BooRequest>(entity);
+				if (!hasRequestBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_BooRequest>(entity);
+				}
+			}
 #endregion
 		}
 

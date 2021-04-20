@@ -141,6 +141,8 @@ static class TypeIds
 
 	public const uint InternalPlayer_Controller_Foo = 2;
 
+	public const uint InternalPlayer_Controller_Boo = 3;
+
 	public const uint InternalTransferAction = 0;
 
 }

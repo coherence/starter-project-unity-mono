@@ -41,6 +41,8 @@ namespace Coherence.Generated
             _controller = GetComponent<Controller>();
             
             coherenceSync.AddCommandRequestDelegate("Controller.Foo", SendCommand_Player_Controller_Foo);
+            
+            coherenceSync.AddCommandRequestDelegate("Controller.Boo", SendCommand_Player_Controller_Boo);
 
             coherenceSync.OnSpawnFromNetwork += OnSpawnFromNetwork;
         }
@@ -105,6 +107,7 @@ namespace Coherence.Generated
                 InitializeComponents();
             }
             ReceiveCommand_Player_Controller_Foo();
+            ReceiveCommand_Player_Controller_Boo();
 
             SyncEcsBaked();
         }
@@ -140,6 +143,40 @@ namespace Coherence.Generated
             foreach (var cmd in buffer)
             {
                 target.Foo(CoherenceMonoBridge.EntityIdToGameObject(cmd.g));
+            }
+
+            buffer.Clear();
+        }
+        void SendCommand_Player_Controller_Boo(object[] args)
+        {
+            var entity = coherenceSync.LinkedEntity;
+
+            if(!entityManager.HasComponent<Player_Controller_BooRequest>(entity))
+            {
+                Debug.LogError($"Can't send command to {name}, it hasn't got a 'Player_Controller_BooRequest' component.");
+            }
+
+            var specificCommandRequest = new Player_Controller_BooRequest();
+
+            var buffer = entityManager.GetBuffer<Player_Controller_BooRequest>(entity);
+            buffer.Add(specificCommandRequest);
+        }
+
+        void ReceiveCommand_Player_Controller_Boo()
+        {
+            var entity = coherenceSync.LinkedEntity;
+
+            if(!entityManager.HasComponent<Player_Controller_Boo>(entity))
+            {
+                return;
+            }
+
+            var buffer = entityManager.GetBuffer<Player_Controller_Boo>(entity);
+            var target = GetComponent<Controller>();
+
+            foreach (var cmd in buffer)
+            {
+                target.Boo();
             }
 
             buffer.Clear();
