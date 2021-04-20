@@ -34,7 +34,7 @@ namespace Coherence.Toolkit
 			CoherenceSync.EcsEntityExistsImpl = EcsEntityExistsImpl;
 			CoherenceSync.GetGenericScaleType = GetGenericScaleType;
 			CoherenceSync.IsAuthorityRequestRejected = IsAuthorityRequestRejected;
-  			CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
+			CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
 		}
 
 		private static void CreateECSRepresentation(CoherenceSync self)
@@ -89,7 +89,7 @@ namespace Coherence.Toolkit
 
 		private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
 		{
-			var (paramInt, paramFloat, paramString) = TypeHelpers.ExtractTypedArraysFromObjects(args);
+			var (paramInt, paramFloat, paramBool, paramString, paramEntity) = TypeArrays.ExtractTypedArraysFromObjects(args);
 
 			var genericCommandRequest = new GenericCommandRequest
 			{
@@ -104,6 +104,16 @@ namespace Coherence.Toolkit
 				paramFloat2 = paramFloat[1],
 				paramFloat3 = paramFloat[2],
 				paramFloat4 = paramFloat[3],
+
+				paramBool1 = paramBool[0],
+				paramBool2 = paramBool[1],
+				paramBool3 = paramBool[2],
+				paramBool4 = paramBool[3],
+
+                paramEntity1 = CoherenceMonoBridge.UnknownObjectToEntityId(paramEntity[0]),
+                paramEntity2 = CoherenceMonoBridge.UnknownObjectToEntityId(paramEntity[1]),
+                paramEntity3 = CoherenceMonoBridge.UnknownObjectToEntityId(paramEntity[2]),
+                paramEntity4 = CoherenceMonoBridge.UnknownObjectToEntityId(paramEntity[3]),
 
 				paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
 			};
@@ -165,7 +175,13 @@ namespace Coherence.Toolkit
 		{
 			if (self.entityManager.HasComponent<TransferAction>(self.entity))
 			{
-				var ret = self.entityManager.GetComponentData<TransferAction>(self.entity);
+				var buffer = self.entityManager.GetBuffer<TransferAction>(self.entity);
+				if (buffer.Length == 0)
+				{
+					return false;
+				}
+
+				var ret = buffer[0];
 				return !ret.accepted;
 			}
 
@@ -180,8 +196,8 @@ namespace Coherence.Toolkit
 
 			var buffer = self.entityManager.GetBuffer<AuthorityTransfer>(self.entity);
 
-			TransferAction action = new TransferAction();
 			bool transfer = !buffer.IsEmpty;
+			TransferAction action = default;
 
 			foreach (var req in buffer)
 			{
@@ -201,7 +217,7 @@ namespace Coherence.Toolkit
 				if (self.isOrphaned) allowed = true; // auto-allow orphaned entities
 
 				if (self.simulationType == SimulationType.SimulationServerWithClientInput) allowed = true; // have to support it for client input
-				
+
 				action = new TransferAction
 				{
 					participant = req.participant,
@@ -218,7 +234,13 @@ namespace Coherence.Toolkit
 
 			if (transfer)
 			{
-				self.entityManager.AddComponentData(self.entity, action);
+				if (!self.entityManager.HasComponent<TransferAction>(self.entity))
+				{
+					self.entityManager.AddBuffer<TransferAction>(self.entity);
+				}
+
+				var authorityBuffer = self.entityManager.GetBuffer<TransferAction>(self.entity);
+				authorityBuffer.Add(action);
 			}
 		}
 
@@ -245,6 +267,11 @@ namespace Coherence.Toolkit
 				ParamFloat2 = command.paramFloat2,
 				ParamFloat3 = command.paramFloat3,
 				ParamFloat4 = command.paramFloat4,
+
+				ParamBool1 = command.paramBool1,
+				ParamBool2 = command.paramBool2,
+				ParamBool3 = command.paramBool3,
+				ParamBool4 = command.paramBool4,
 
 				ParamString = command.paramString.ToString(),
 			};

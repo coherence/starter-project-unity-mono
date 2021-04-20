@@ -60,6 +60,11 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteShortString(converted_expiry);
 		}
 	
+		public void ConnectedEntity(IOutBitStream bitstream, ConnectedEntity data)
+		{
+			bitstream.WriteEntity(data.value);
+		}
+	
 		public void GenericPrefabReference(IOutBitStream bitstream, GenericPrefabReference data)
 		{
 			var converted_prefab = coherenceToUnityConverters.FromUnityFixedString64(data.prefab);
@@ -274,6 +279,12 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteShortString(converted_name);
 		}
 	
+		public void GenericFieldString3(IOutBitStream bitstream, GenericFieldString3 data)
+		{
+			var converted_name = coherenceToUnityConverters.FromUnityFixedString64(data.name);
+			bitstream.WriteShortString(converted_name);
+		}
+	
 		public void GenericFieldString4(IOutBitStream bitstream, GenericFieldString4 data)
 		{
 			var converted_name = coherenceToUnityConverters.FromUnityFixedString64(data.name);
@@ -288,35 +299,64 @@ namespace Coherence.Generated.Internal
 	
 		public void GenericFieldEntity0(IOutBitStream bitstream, GenericFieldEntity0 data)
 		{
-			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
-			bitstream.WriteEntity(converted_Value);
+			bitstream.WriteEntity(data.Value);
 		}
 	
 		public void GenericFieldEntity1(IOutBitStream bitstream, GenericFieldEntity1 data)
 		{
-			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
-			bitstream.WriteEntity(converted_Value);
+			bitstream.WriteEntity(data.Value);
 		}
 	
 		public void GenericFieldEntity2(IOutBitStream bitstream, GenericFieldEntity2 data)
 		{
-			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
-			bitstream.WriteEntity(converted_Value);
+			bitstream.WriteEntity(data.Value);
 		}
 	
 		public void GenericFieldEntity3(IOutBitStream bitstream, GenericFieldEntity3 data)
 		{
-			var converted_Value = coherenceToUnityConverters.FromUnityEntity(data.Value);
-			bitstream.WriteEntity(converted_Value);
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity4(IOutBitStream bitstream, GenericFieldEntity4 data)
+		{
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity5(IOutBitStream bitstream, GenericFieldEntity5 data)
+		{
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity6(IOutBitStream bitstream, GenericFieldEntity6 data)
+		{
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity7(IOutBitStream bitstream, GenericFieldEntity7 data)
+		{
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity8(IOutBitStream bitstream, GenericFieldEntity8 data)
+		{
+			bitstream.WriteEntity(data.Value);
+		}
+	
+		public void GenericFieldEntity9(IOutBitStream bitstream, GenericFieldEntity9 data)
+		{
+			bitstream.WriteEntity(data.Value);
 		}
 	
 		public void Cube_Cube(IOutBitStream bitstream, Cube_Cube data)
 		{
-			var converted_friend = coherenceToUnityConverters.FromUnityEntity(data.friend);
-			bitstream.WriteEntity(converted_friend);
-			var converted_s = coherenceToUnityConverters.FromUnityFixedString64(data.s);
-			bitstream.WriteShortString(converted_s);
-			bitstream.WriteIntegerRange(data.i, 15, -9999);
+			bitstream.WriteEntity(data.friend);
+		}
+	
+		public void Player_Controller(IOutBitStream bitstream, Player_Controller data)
+		{
+			bitstream.WriteEntity(data.otherPlayer);
+			bitstream.WriteEntity(data.otherPlayerTransform);
+			bitstream.WriteEntity(data.otherPlayerSync);
 		}
 	
 		public void AuthorityTransfer(IOutBitStream bitstream, AuthorityTransfer data)
@@ -340,8 +380,21 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteFixedPoint(converted_paramFloat3, 24, 2400);
 			var converted_paramFloat4 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat4);
 			bitstream.WriteFixedPoint(converted_paramFloat4, 24, 2400);
+			bitstream.WriteBool(data.paramBool1);
+			bitstream.WriteBool(data.paramBool2);
+			bitstream.WriteBool(data.paramBool3);
+			bitstream.WriteBool(data.paramBool4);
+			bitstream.WriteEntity(data.paramEntity1);
+			bitstream.WriteEntity(data.paramEntity2);
+			bitstream.WriteEntity(data.paramEntity3);
+			bitstream.WriteEntity(data.paramEntity4);
 			var converted_paramString = coherenceToUnityConverters.FromUnityFixedString64(data.paramString);
 			bitstream.WriteShortString(converted_paramString);
+		}
+	
+		public void Player_Controller_Foo(IOutBitStream bitstream, Player_Controller_Foo data)
+		{
+			bitstream.WriteEntity(data.g);
 		}
 	
 		public void TransferAction(IOutBitStream bitstream, TransferAction data)
@@ -372,8 +425,21 @@ namespace Coherence.Generated.Internal
 			bitstream.WriteFixedPoint(converted_paramFloat3, 24, 2400);
 			var converted_paramFloat4 = coherenceToUnityConverters.FromUnityfloat(data.paramFloat4);
 			bitstream.WriteFixedPoint(converted_paramFloat4, 24, 2400);
+			bitstream.WriteBool(data.paramBool1);
+			bitstream.WriteBool(data.paramBool2);
+			bitstream.WriteBool(data.paramBool3);
+			bitstream.WriteBool(data.paramBool4);
+			bitstream.WriteEntity(data.paramEntity1);
+			bitstream.WriteEntity(data.paramEntity2);
+			bitstream.WriteEntity(data.paramEntity3);
+			bitstream.WriteEntity(data.paramEntity4);
 			var converted_paramString = coherenceToUnityConverters.FromUnityFixedString64(data.paramString);
 			bitstream.WriteShortString(converted_paramString);
+		}
+		
+		public void Player_Controller_FooRequest(IOutBitStream bitstream, Player_Controller_FooRequest data)
+		{
+			bitstream.WriteEntity(data.g);
 		}
 	}
 }

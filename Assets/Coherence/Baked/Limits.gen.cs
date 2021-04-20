@@ -104,6 +104,15 @@ namespace Coherence.Generated
 		
 	
 		
+		// Component name: ConnectedEntity
+		
+		// value : SerializeEntityID
+		
+		
+		
+		
+	
+		
 		// Component name: GenericPrefabReference
 		
 		// prefab : FixedString64
@@ -545,6 +554,15 @@ namespace Coherence.Generated
 		
 	
 		
+		// Component name: GenericFieldString3
+		
+		// name : FixedString64
+		
+		
+		
+		
+	
+		
 		// Component name: GenericFieldString4
 		
 		// name : FixedString64
@@ -567,7 +585,7 @@ namespace Coherence.Generated
 		
 		// Component name: GenericFieldEntity0
 		
-		// Value : Entity
+		// Value : SerializeEntityID
 		
 		
 		
@@ -576,7 +594,7 @@ namespace Coherence.Generated
 		
 		// Component name: GenericFieldEntity1
 		
-		// Value : Entity
+		// Value : SerializeEntityID
 		
 		
 		
@@ -585,7 +603,7 @@ namespace Coherence.Generated
 		
 		// Component name: GenericFieldEntity2
 		
-		// Value : Entity
+		// Value : SerializeEntityID
 		
 		
 		
@@ -594,7 +612,61 @@ namespace Coherence.Generated
 		
 		// Component name: GenericFieldEntity3
 		
-		// Value : Entity
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity4
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity5
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity6
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity7
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity8
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity9
+		
+		// Value : SerializeEntityID
 		
 		
 		
@@ -603,20 +675,26 @@ namespace Coherence.Generated
 		
 		// Component name: Cube_Cube
 		
-		// friend : Entity
+		// friend : SerializeEntityID
 		
 		
 		
 		
-		// s : FixedString64
+	
+		
+		// Component name: Player_Controller
+		
+		// otherPlayer : SerializeEntityID
 		
 		
 		
 		
-		// i : int
+		// otherPlayerTransform : SerializeEntityID
 		
-		public static readonly int Cube_Cube_i_Min = -9999;
-		public static readonly int Cube_Cube_i_Max = 9999;
+		
+		
+		
+		// otherPlayerSync : SerializeEntityID
 		
 		
 		

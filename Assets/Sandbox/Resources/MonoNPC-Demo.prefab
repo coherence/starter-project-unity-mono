@@ -162,15 +162,6 @@ MonoBehaviour:
   OnAuthorityTransferRejected:
     m_PersistentCalls:
       m_Calls: []
-  OnKeyInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnJoystickInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMouseInputEvent:
-    m_PersistentCalls:
-      m_Calls: []
   approveAuthorityTransferRequests: 1
   simulationType: 0
   authorityTransferType: 0
@@ -179,28 +170,24 @@ MonoBehaviour:
   persistenceUUID: 
   autoGeneratePersistenceUUID: 0
   persistenceExpirySeconds: 0
-  enabledScriptTogglesKeys:
-  - UnityEngine.BoxCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - NPCBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - RotationBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - ShowNameAndState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  enabledScriptTogglesValues: 0000000000
-  fieldLinksKeys: []
-  fieldLinksValues: []
-  fieldTogglesKeys: []
-  fieldTogglesValues: 
-  fieldTypesKeys: []
-  fieldTypesValues: []
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
-  genericFieldCounter_Quaternion: 0
-  genericFieldCounter_String: 0
-  genericFieldCounter_Vector: 0
-  scriptTogglesKeys: []
-  scriptTogglesValues: 
+  reflectionBindings: []
+  customBindings:
+  - descriptor:
+      name: position
+      displayName: 
+      monoAssemblyType: UnityEngine.Vector3, UnityEngine
+      dotsAssemblyType: Unity.Transforms.Translation, Unity.Transforms
+      bakedSyncScriptGetter: position
+      bakedSyncScriptSetter: position
+      bakedSyncScriptFieldName: 
+      bakedSyncScriptCSharpType: 
+      dotsComponentName: WorldPosition
+      dotsComponentFieldName: Value
+      schemaComponentFieldName: value
+      extraData: 
+      required: 1
+    component: {fileID: 2458160888634212484}
+    serializerAssemblyType: Coherence.Toolkit.TransformBindingSerializer, Coherence.Toolkit
   onNetworkedInstantiation:
     m_PersistentCalls:
       m_Calls: []

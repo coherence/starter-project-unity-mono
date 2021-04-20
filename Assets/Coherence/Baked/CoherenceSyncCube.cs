@@ -20,6 +20,7 @@ namespace Coherence.Generated
     using static Coherence.Toolkit.CoherenceSync;
     using global::Coherence.Generated.Internal;
     using System.Linq;
+    using Coherence.Ecs;
 
     public class CoherenceSyncCube : CoherenceSyncBaked
     {
@@ -63,7 +64,6 @@ namespace Coherence.Generated
             }
 
             entityManager.AddComponent<Translation>(entity);
-            entityManager.AddComponent<Rotation>(entity);
             entityManager.AddComponent<Cube_Cube>(entity);
 
             if (coherenceSync.HasArchetype)
@@ -117,24 +117,6 @@ namespace Coherence.Generated
             return new float3(v.x, v.y, v.z);
         }
 
-        static Entity ObjectToEntity(GameObject from)
-        {
-            var fromSync = from.GetComponent<CoherenceSync>();
-
-            if(fromSync == null)
-            {
-                return default;
-            }
-
-            return fromSync.entity;
-        }
-
-        static GameObject EntityToObject(Entity from)
-        {
-            var toSync = CoherenceMonoBridge.Instance?.GetCoherenceSyncForEntity(from);
-            return toSync?.gameObject;
-        }
-
         private void SyncEcsBaked()
         {
             var entity = coherenceSync.LinkedEntity;
@@ -143,17 +125,11 @@ namespace Coherence.Generated
             {
                 entityManager.SetComponentData(entity, new Translation() 
                 {
-                    Value = _unityengine_transform.position,
-                });
-                entityManager.SetComponentData(entity, new Rotation() 
-                {
-                    Value = _unityengine_transform.rotation,
+                    Value = (_unityengine_transform.position),
                 });
                 entityManager.SetComponentData(entity, new Cube_Cube() 
                 {
-                    friend = ObjectToEntity(_cube.friend),
-                    s = _cube.s?? "",
-                    i = _cube.i,
+                    friend = CoherenceMonoBridge.UnityObjectToEntityId(_cube.friend),
                 });
             }
             else
@@ -161,19 +137,12 @@ namespace Coherence.Generated
                 if (entityManager.HasComponent<Translation>(entity)) 
                 {
                     var data = entityManager.GetComponentData<Translation>(entity);
-                    _unityengine_transform.position = data.Value; // float3
-                }
-                if (entityManager.HasComponent<Rotation>(entity)) 
-                {
-                    var data = entityManager.GetComponentData<Rotation>(entity);
-                    _unityengine_transform.rotation = data.Value; // quaternion
+                    _unityengine_transform.position = (data.Value);
                 }
                 if (entityManager.HasComponent<Cube_Cube>(entity)) 
                 {
                     var data = entityManager.GetComponentData<Cube_Cube>(entity);
-                    _cube.friend = EntityToObject(data.friend); // Entity
-                    _cube.s = data.s.ToString(); // FixedString64
-                    _cube.i = data.i; // int
+                    _cube.friend = (GameObject)CoherenceMonoBridge.EntityIdToGameObject(data.friend);
                 }
 
                 if (coherenceSync.HasArchetype) 

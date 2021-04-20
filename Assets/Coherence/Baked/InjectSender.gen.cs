@@ -14,8 +14,7 @@ namespace Coherence.Generated.Internal
     using Unity.Entities;
 
     [AlwaysUpdateSystem]
-    [UpdateInGroup(typeof(PresentationSystemGroup))]
-    [UpdateBefore(typeof(DetectDeletedEntitiesSystem))]
+    [UpdateInGroup(typeof(GatherChangesGroup))]
     public class InjectSenderSystem : SystemBase
     {
         protected override void OnUpdate()
@@ -27,7 +26,7 @@ namespace Coherence.Generated.Internal
             
             var netSys = World.GetOrCreateSystem<NetworkSystem>();
             var wrapper = new SerializeComponentUpdatesWrapper(netSys.Mapper);
-            var sender = new Sender(World, netSys.Connector, netSys.Mapper, wrapper, netSys.MessageChannels, netSys.SentPacketsCache);
+            var sender = new Sender(World, netSys.Mapper, wrapper, netSys.MessageChannels);
             World.GetExistingSystem<SyncSendSystem>().Sender = sender;
         }
     }

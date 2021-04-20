@@ -60,6 +60,12 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
+		private void DeserializeConnectedEntity(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new ConnectedEntity();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
 		private void DeserializeGenericPrefabReference(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericPrefabReference();
@@ -294,6 +300,12 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
+		private void DeserializeGenericFieldString3(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldString3();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
 		private void DeserializeGenericFieldString4(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericFieldString4();
@@ -330,9 +342,51 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
+		private void DeserializeGenericFieldEntity4(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity4();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity5(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity5();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity6(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity6();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity7(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity7();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity8(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity8();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity9(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity9();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
 		private void DeserializeCube_Cube(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new Cube_Cube();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializePlayer_Controller(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new Player_Controller();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -364,6 +418,10 @@ namespace Coherence.Generated.Internal
 
                 case TypeIds.InternalPersistence:
 					DeserializePersistence(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalConnectedEntity:
+					DeserializeConnectedEntity(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:
@@ -522,6 +580,10 @@ namespace Coherence.Generated.Internal
 					DeserializeGenericFieldString2(inProtocolStream);
                     break;
 
+                case TypeIds.InternalGenericFieldString3:
+					DeserializeGenericFieldString3(inProtocolStream);
+                    break;
+
                 case TypeIds.InternalGenericFieldString4:
 					DeserializeGenericFieldString4(inProtocolStream);
                     break;
@@ -546,8 +608,36 @@ namespace Coherence.Generated.Internal
 					DeserializeGenericFieldEntity3(inProtocolStream);
                     break;
 
+                case TypeIds.InternalGenericFieldEntity4:
+					DeserializeGenericFieldEntity4(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity5:
+					DeserializeGenericFieldEntity5(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity6:
+					DeserializeGenericFieldEntity6(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity7:
+					DeserializeGenericFieldEntity7(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity8:
+					DeserializeGenericFieldEntity8(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity9:
+					DeserializeGenericFieldEntity9(inProtocolStream);
+                    break;
+
                 case TypeIds.InternalCube_Cube:
 					DeserializeCube_Cube(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalPlayer_Controller:
+					DeserializePlayer_Controller(inProtocolStream);
                     break;
 
 			}

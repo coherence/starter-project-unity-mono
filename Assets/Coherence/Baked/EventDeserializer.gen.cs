@@ -16,37 +16,36 @@ namespace Coherence.Generated.Internal
 
 	public class PerformEvents : IPerformEvent
 	{
-        private MessageDeserializers messageDeserializers;
+		private MessageDeserializers messageDeserializers;
 
-        public PerformEvents(UnityMapper mapper)
-        {
-            messageDeserializers = new MessageDeserializers(mapper);
-        }
+		public PerformEvents(UnityMapper mapper)
+		{
+			messageDeserializers = new MessageDeserializers(mapper);
+		}
 
 		public void PerformEvent(EntityManager mgr, Entity entity, uint eventTypeID,
-                                 Coherence.Replication.Protocol.Definition.IInBitStream bitStream)
+								 Coherence.Replication.Protocol.Definition.IInBitStream bitStream)
 		{
-
 			switch (eventTypeID)
 			{
-
 				case TypeIds.InternalTransferAction:
 				{
-                    // Field 'TransferAction'
 					var eventData = new TransferAction();
-					messageDeserializers.TransferAction(bitStream, ref eventData);                    
+					messageDeserializers.TransferAction(bitStream, ref eventData);
 
-                    if(!mgr.HasComponent<Simulated>(entity))
-                    {
-                        // Only add events on Entities we don't own
-                        // UnityEngine.Debug.Log($"Adding an event on {entity}: {eventData}");
-                        mgr.AddComponentData(entity, eventData);
-                    }
+					// Only add events on Entities we don't own
+					if(!mgr.HasComponent<Simulated>(entity))
+					{
+						if (!mgr.HasComponent<TransferAction>(entity))
+						{
+							mgr.AddBuffer<TransferAction>(entity);
+						}
+						var buffer = mgr.GetBuffer<TransferAction>(entity);
+						buffer.Add(eventData);
+					}
 					break;
 				}
-
 			}
-
 		}
 	}
 }

@@ -15,16 +15,41 @@ public class Cube : MonoBehaviour
     public string s;
     public int i;
 
-    void Start()
+    static int count = 0;
+
+    void Awake()
     {
         sync = GetComponent<CoherenceSync>();
         text = GetComponentInChildren<Text>();
+    }
+
+    public void SpawnedOverNetwork(CoherenceSync sync)
+    {
+        Debug.Log($"Spawned over network {sync.name}");
+        name = $"NetworkedCube{count++}";
+        text.color = Color.blue;
+        transform.position += new Vector3(3f, 0f, 0f);
     }
 
     void Update()
     {
         var who = (friend == null) ? "no one" : friend.name;
         text.text = $"I'm friends with {who}";
+
+        if(Input.GetKeyDown(KeyCode.Alpha1) && name == "Cube1")
+        {
+            Click();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && name == "Cube2")
+        {
+            Click();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && name == "Cube3")
+        {
+            Click();
+        }
     }
 
     private void OnGUI()
@@ -32,7 +57,7 @@ public class Cube : MonoBehaviour
         //GUI.Label()
     }
 
-    private void OnMouseDown()
+    private void Click()
     {
         //Debug.Log($"User clicked {name} (simulated = {sync.isSimulated})");
 

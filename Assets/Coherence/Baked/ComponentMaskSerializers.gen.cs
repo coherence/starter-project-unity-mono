@@ -136,6 +136,21 @@ namespace Coherence.Generated.Internal
 
 		
 		
+		public void Write(in ConnectedEntity data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
 		public void Write(in GenericPrefabReference data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
 	
@@ -740,6 +755,22 @@ namespace Coherence.Generated.Internal
 
 		
 		
+		public void Write(in GenericFieldString3 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					var v = coherenceToUnityConverters.FromUnityFixedString64(data.name);
+					bitstream.WriteShortString(v);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
 		public void Write(in GenericFieldString4 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
 		{
 	
@@ -778,8 +809,7 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityEntity(data.Value);
-					bitstream.WriteEntity(v);
+					bitstream.WriteEntity(data.Value);
 				
 			}
 			propertyMask >>= 1;
@@ -794,8 +824,7 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityEntity(data.Value);
-					bitstream.WriteEntity(v);
+					bitstream.WriteEntity(data.Value);
 				
 			}
 			propertyMask >>= 1;
@@ -810,8 +839,7 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityEntity(data.Value);
-					bitstream.WriteEntity(v);
+					bitstream.WriteEntity(data.Value);
 				
 			}
 			propertyMask >>= 1;
@@ -826,8 +854,97 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityEntity(data.Value);
-					bitstream.WriteEntity(v);
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity4 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity5 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity6 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity7 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity8 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in GenericFieldEntity9 data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.Value);
 				
 			}
 			propertyMask >>= 1;
@@ -842,8 +959,22 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityEntity(data.friend);
-					bitstream.WriteEntity(v);
+					bitstream.WriteEntity(data.friend);
+				
+			}
+			propertyMask >>= 1;
+	
+	     }
+
+		
+		
+		public void Write(in Player_Controller data, uint propertyMask, Coherence.Replication.Protocol.Definition.IOutBitStream bitstream)
+		{
+	
+			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
+			{
+				
+					bitstream.WriteEntity(data.otherPlayer);
 				
 			}
 			propertyMask >>= 1;
@@ -851,8 +982,7 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					var v = coherenceToUnityConverters.FromUnityFixedString64(data.s);
-					bitstream.WriteShortString(v);
+					bitstream.WriteEntity(data.otherPlayerTransform);
 				
 			}
 			propertyMask >>= 1;
@@ -860,7 +990,7 @@ namespace Coherence.Generated.Internal
 			if (bitstream.WriteMask((propertyMask & 0x01) != 0))
 			{
 				
-					bitstream.WriteIntegerRange(data.i, 15, -9999);
+					bitstream.WriteEntity(data.otherPlayerSync);
 				
 			}
 			propertyMask >>= 1;

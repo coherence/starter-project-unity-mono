@@ -20,6 +20,7 @@ namespace Coherence.Generated
     using static Coherence.Toolkit.CoherenceSync;
     using global::Coherence.Generated.Internal;
     using System.Linq;
+    using Coherence.Ecs;
 
     public class CoherenceSyncMonoNPC_Demo : CoherenceSyncBaked
     {
@@ -28,12 +29,14 @@ namespace Coherence.Generated
         private bool componentsInitialized = false;
 
         // Cached references to MonoBehaviours on this GameObject
+        private UnityEngine.Transform _unityengine_transform;
 
         protected void Awake()
         {
             entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             coherenceSync = GetComponent<CoherenceSync>();
             coherenceSync.usingReflection = false;
+            _unityengine_transform = GetComponent<UnityEngine.Transform>();
 
             coherenceSync.OnSpawnFromNetwork += OnSpawnFromNetwork;
         }
@@ -58,6 +61,7 @@ namespace Coherence.Generated
                 return;
             }
 
+            entityManager.AddComponent<Translation>(entity);
 
             if (coherenceSync.HasArchetype)
             {
@@ -110,33 +114,24 @@ namespace Coherence.Generated
             return new float3(v.x, v.y, v.z);
         }
 
-        static Entity ObjectToEntity(GameObject from)
-        {
-            var fromSync = from.GetComponent<CoherenceSync>();
-
-            if(fromSync == null)
-            {
-                return default;
-            }
-
-            return fromSync.entity;
-        }
-
-        static GameObject EntityToObject(Entity from)
-        {
-            var toSync = CoherenceMonoBridge.Instance?.GetCoherenceSyncForEntity(from);
-            return toSync?.gameObject;
-        }
-
         private void SyncEcsBaked()
         {
             var entity = coherenceSync.LinkedEntity;
 
             if (coherenceSync.isSimulated)
             {
+                entityManager.SetComponentData(entity, new Translation() 
+                {
+                    Value = (_unityengine_transform.position),
+                });
             }
             else
             {
+                if (entityManager.HasComponent<Translation>(entity)) 
+                {
+                    var data = entityManager.GetComponentData<Translation>(entity);
+                    _unityengine_transform.position = (data.Value);
+                }
 
                 if (coherenceSync.HasArchetype) 
                 {

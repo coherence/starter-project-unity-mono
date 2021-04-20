@@ -65,6 +65,24 @@ namespace Coherence.Generated.Internal
 					break;
 				}
 
+				case TypeIds.InternalPlayer_Controller_Foo:
+				{
+					var data = new Player_Controller_Foo();
+					messageDeserializers.Player_Controller_Foo(bitStream, ref data);
+
+					if (mgr.Exists(entity))
+					{
+						var hasRequestBuffer = mgr.HasComponent<Player_Controller_Foo>(entity);
+						if (!hasRequestBuffer)
+						{
+							mgr.AddBuffer<Player_Controller_Foo>(entity);
+						}
+						var buffer = mgr.GetBuffer<Player_Controller_Foo>(entity);					
+						buffer.Add(data);
+					}
+					break;
+				}
+
 			}
 
 		}

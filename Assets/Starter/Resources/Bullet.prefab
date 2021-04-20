@@ -110,25 +110,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff62c046a053f416a8dc48ad6483a25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabledScriptTogglesKeys:
-  - UnityEngine.SphereCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - Bullet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  enabledScriptTogglesValues: 000000
-  fieldLinksKeys: []
-  fieldLinksValues: []
-  fieldTogglesKeys: []
-  fieldTogglesValues: 
-  fieldTypesKeys: []
-  fieldTypesValues: []
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
-  genericFieldCounter_Quaternion: 0
-  genericFieldCounter_String: 0
-  genericFieldCounter_Vector: 0
-  scriptTogglesKeys: []
-  scriptTogglesValues: 
+  OnBeforeAuthorityTransfer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterAuthorityTransfer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAuthorityTransferRejected:
+    m_PersistentCalls:
+      m_Calls: []
+  approveAuthorityTransferRequests: 1
+  simulationType: 0
+  authorityTransferType: 0
+  orphanedBehavior: 0
+  lifetimeType: 0
+  persistenceUUID: 
+  autoGeneratePersistenceUUID: 0
+  persistenceExpirySeconds: 0
+  reflectionBindings: []
+  customBindings:
+  - descriptor:
+      name: position
+      displayName: 
+      monoAssemblyType: UnityEngine.Vector3, UnityEngine
+      dotsAssemblyType: Unity.Transforms.Translation, Unity.Transforms
+      bakedSyncScriptGetter: position
+      bakedSyncScriptSetter: position
+      bakedSyncScriptFieldName: 
+      bakedSyncScriptCSharpType: 
+      dotsComponentName: WorldPosition
+      dotsComponentFieldName: Value
+      schemaComponentFieldName: value
+      extraData: 
+      required: 1
+    component: {fileID: 3358817671780448854}
+    serializerAssemblyType: Coherence.Toolkit.TransformBindingSerializer, Coherence.Toolkit
+  onNetworkedInstantiation:
+    m_PersistentCalls:
+      m_Calls: []
+  onNetworkedDestruction:
+    m_PersistentCalls:
+      m_Calls: []
+  destroyComponentOnly: 0
   remoteVersionPrefabName: Bullet
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1

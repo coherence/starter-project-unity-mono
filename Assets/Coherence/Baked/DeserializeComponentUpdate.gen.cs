@@ -29,30 +29,40 @@ namespace Coherence.Generated.Internal
 
 		private void InterpolateTranslation(EntityManager entityManager, Entity entity, AbsoluteSimulationFrame simulationFrame, Translation tempComponentData)
 		{
+
 			// Ensure entities with interpolation also have Interpolation components and Sample components
-			if (!entityManager.HasComponent<InterpolationComponent_Translation>(entity))
+			if (!entityManager.HasComponent<InterpolationComponent_Translation_value>(entity))
 			{
-				entityManager.AddComponent<InterpolationComponent_Translation>(entity);
-				entityManager.AddComponent<Sample_Translation>(entity);
+				var interpolationData = new InterpolationComponent_Translation_value()
+				{
+					setupID = InterpolationSetupID.DefaultTranslation
+				};
+				entityManager.AddComponentData(entity, interpolationData);
+				entityManager.AddComponent<Sample_Translation_value>(entity);
 			}
 
 			// Append buffer for components that use interpolation
 			InterpolationSystem_Translation
-				.AppendBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
+				.AppendvalueBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
 		}
 
 		private void InterpolateRotation(EntityManager entityManager, Entity entity, AbsoluteSimulationFrame simulationFrame, Rotation tempComponentData)
 		{
+
 			// Ensure entities with interpolation also have Interpolation components and Sample components
-			if (!entityManager.HasComponent<InterpolationComponent_Rotation>(entity))
+			if (!entityManager.HasComponent<InterpolationComponent_Rotation_value>(entity))
 			{
-				entityManager.AddComponent<InterpolationComponent_Rotation>(entity);
-				entityManager.AddComponent<Sample_Rotation>(entity);
+				var interpolationData = new InterpolationComponent_Rotation_value()
+				{
+					setupID = InterpolationSetupID.DefaultRotation
+				};
+				entityManager.AddComponentData(entity, interpolationData);
+				entityManager.AddComponent<Sample_Rotation_value>(entity);
 			}
 
 			// Append buffer for components that use interpolation
 			InterpolationSystem_Rotation
-				.AppendBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
+				.AppendvalueBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
 		}
 
 		private void DeserializeWorldPosition(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
@@ -197,6 +207,29 @@ namespace Coherence.Generated.Internal
 			}
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<Persistence>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeConnectedEntity(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<ConnectedEntity>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'ConnectedEntity' to entity {entity}");
+				entityManager.AddComponent<ConnectedEntity>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new ConnectedEntity();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<ConnectedEntity>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
 		}
@@ -1098,6 +1131,29 @@ namespace Coherence.Generated.Internal
 			entityManager.SetComponentData(entity, componentData);
 		}
 
+		private void DeserializeGenericFieldString3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldString3>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString3' to entity {entity}");
+				entityManager.AddComponent<GenericFieldString3>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldString3();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldString3>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
 		private void DeserializeGenericFieldString4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
 			if (!entityManager.HasComponent<GenericFieldString4>(entity))
@@ -1236,6 +1292,144 @@ namespace Coherence.Generated.Internal
 			entityManager.SetComponentData(entity, componentData);
 		}
 
+		private void DeserializeGenericFieldEntity4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity4>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity4' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity4>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity4();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity4>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity5(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity5>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity5' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity5>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity5();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity5>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity6(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity6>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity6' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity6>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity6();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity6>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity7(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity7>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity7' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity7>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity7();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity7>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity8(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity8>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity8' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity8>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity8();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity8>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity9(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity9>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity9' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity9>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity9();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity9>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
 		private void DeserializeCube_Cube(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
 			if (!entityManager.HasComponent<Cube_Cube>(entity))
@@ -1255,6 +1449,29 @@ namespace Coherence.Generated.Internal
 			}
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<Cube_Cube>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializePlayer_Controller(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<Player_Controller>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'Player_Controller' to entity {entity}");
+				entityManager.AddComponent<Player_Controller>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new Player_Controller();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<Player_Controller>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
 		}
@@ -1288,6 +1505,9 @@ namespace Coherence.Generated.Internal
 				break;
 			case TypeIds.InternalPersistence:
 				DeserializePersistence(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalConnectedEntity:
+				DeserializeConnectedEntity(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 			case TypeIds.InternalGenericPrefabReference:
 				DeserializeGenericPrefabReference(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
@@ -1406,6 +1626,9 @@ namespace Coherence.Generated.Internal
 			case TypeIds.InternalGenericFieldString2:
 				DeserializeGenericFieldString2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
+			case TypeIds.InternalGenericFieldString3:
+				DeserializeGenericFieldString3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
 			case TypeIds.InternalGenericFieldString4:
 				DeserializeGenericFieldString4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
@@ -1424,8 +1647,29 @@ namespace Coherence.Generated.Internal
 			case TypeIds.InternalGenericFieldEntity3:
 				DeserializeGenericFieldEntity3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
+			case TypeIds.InternalGenericFieldEntity4:
+				DeserializeGenericFieldEntity4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity5:
+				DeserializeGenericFieldEntity5(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity6:
+				DeserializeGenericFieldEntity6(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity7:
+				DeserializeGenericFieldEntity7(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity8:
+				DeserializeGenericFieldEntity8(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity9:
+				DeserializeGenericFieldEntity9(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
 			case TypeIds.InternalCube_Cube:
 				DeserializeCube_Cube(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalPlayer_Controller:
+				DeserializePlayer_Controller(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
 			default:
 				Log.Warning("couldn't find component", "componentType", componentType);
@@ -1465,6 +1709,20 @@ namespace Coherence.Generated.Internal
 				}
 			}
 
+			{
+				var hasBuffer = entityManager.HasComponent<Player_Controller_Foo>(entity);
+				if (!hasBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_Foo>(entity);
+				}
+
+				var hasRequestBuffer = entityManager.HasComponent<Player_Controller_FooRequest>(entity);
+				if (!hasRequestBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_FooRequest>(entity);
+				}
+			}
+
 #endregion
 
 			switch (componentType)
@@ -1473,8 +1731,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Translation>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldPosition_Sync>(entity) && entityManager.GetComponentData<WorldPosition_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Translation());
 						justCreated = true;
@@ -1487,8 +1744,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Rotation>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldOrientation_Sync>(entity) && entityManager.GetComponentData<WorldOrientation_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Rotation());
 						justCreated = true;
@@ -1501,8 +1757,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<LocalUser>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<LocalUser_Sync>(entity) && entityManager.GetComponentData<LocalUser_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new LocalUser());
 						justCreated = true;
@@ -1515,8 +1770,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<WorldPositionQuery>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldPositionQuery_Sync>(entity) && entityManager.GetComponentData<WorldPositionQuery_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new WorldPositionQuery());
 						justCreated = true;
@@ -1529,8 +1783,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<ArchetypeComponent>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<ArchetypeComponent_Sync>(entity) && entityManager.GetComponentData<ArchetypeComponent_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new ArchetypeComponent());
 						justCreated = true;
@@ -1543,10 +1796,22 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Persistence>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<Persistence_Sync>(entity) && entityManager.GetComponentData<Persistence_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Persistence());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalConnectedEntity:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<ConnectedEntity>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new ConnectedEntity());
 						justCreated = true;
 					}
 
@@ -1557,8 +1822,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericPrefabReference_Sync>(entity) && entityManager.GetComponentData<GenericPrefabReference_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericPrefabReference());
 						justCreated = true;
@@ -1571,8 +1835,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericScale>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericScale_Sync>(entity) && entityManager.GetComponentData<GenericScale_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericScale());
 						justCreated = true;
@@ -1585,8 +1848,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt0_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt0());
 						justCreated = true;
@@ -1599,8 +1861,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt1_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt1());
 						justCreated = true;
@@ -1613,8 +1874,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt2_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt2());
 						justCreated = true;
@@ -1627,8 +1887,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt3_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt3());
 						justCreated = true;
@@ -1641,8 +1900,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt4_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt4());
 						justCreated = true;
@@ -1655,8 +1913,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt5>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt5_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt5_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt5());
 						justCreated = true;
@@ -1669,8 +1926,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt6>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt6_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt6_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt6());
 						justCreated = true;
@@ -1683,8 +1939,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt7>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt7_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt7_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt7());
 						justCreated = true;
@@ -1697,8 +1952,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt8>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt8_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt8_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt8());
 						justCreated = true;
@@ -1711,8 +1965,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt9>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt9_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt9_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt9());
 						justCreated = true;
@@ -1725,8 +1978,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool0_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool0());
 						justCreated = true;
@@ -1739,8 +1991,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool1_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool1());
 						justCreated = true;
@@ -1753,8 +2004,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool2_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool2());
 						justCreated = true;
@@ -1767,8 +2017,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool3_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool3());
 						justCreated = true;
@@ -1781,8 +2030,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool4_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool4());
 						justCreated = true;
@@ -1795,8 +2043,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool5>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool5_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool5_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool5());
 						justCreated = true;
@@ -1809,8 +2056,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool6>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool6_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool6_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool6());
 						justCreated = true;
@@ -1823,8 +2069,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool7>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool7_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool7_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool7());
 						justCreated = true;
@@ -1837,8 +2082,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool8>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool8_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool8_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool8());
 						justCreated = true;
@@ -1851,8 +2095,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldBool9>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldBool9_Sync>(entity) && entityManager.GetComponentData<GenericFieldBool9_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldBool9());
 						justCreated = true;
@@ -1865,8 +2108,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat0_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat0());
 						justCreated = true;
@@ -1879,8 +2121,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat1_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat1());
 						justCreated = true;
@@ -1893,8 +2134,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat2_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat2());
 						justCreated = true;
@@ -1907,8 +2147,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat3_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat3());
 						justCreated = true;
@@ -1921,8 +2160,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat4_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat4());
 						justCreated = true;
@@ -1935,8 +2173,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat5>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat5_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat5_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat5());
 						justCreated = true;
@@ -1949,8 +2186,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat6>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat6_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat6_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat6());
 						justCreated = true;
@@ -1963,8 +2199,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat7>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat7_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat7_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat7());
 						justCreated = true;
@@ -1977,8 +2212,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat8>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat8_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat8_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat8());
 						justCreated = true;
@@ -1991,8 +2225,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat9>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat9_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat9_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat9());
 						justCreated = true;
@@ -2005,8 +2238,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector0_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector0());
 						justCreated = true;
@@ -2019,8 +2251,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector1_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector1());
 						justCreated = true;
@@ -2033,8 +2264,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector2_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector2());
 						justCreated = true;
@@ -2047,8 +2277,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector3_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector3());
 						justCreated = true;
@@ -2061,8 +2290,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString0_Sync>(entity) && entityManager.GetComponentData<GenericFieldString0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString0());
 						justCreated = true;
@@ -2075,8 +2303,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString1_Sync>(entity) && entityManager.GetComponentData<GenericFieldString1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString1());
 						justCreated = true;
@@ -2089,10 +2316,22 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString2_Sync>(entity) && entityManager.GetComponentData<GenericFieldString2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString2());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldString3:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldString3>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldString3());
 						justCreated = true;
 					}
 
@@ -2103,8 +2342,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString4_Sync>(entity) && entityManager.GetComponentData<GenericFieldString4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString4());
 						justCreated = true;
@@ -2117,8 +2355,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldQuaternion0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldQuaternion0_Sync>(entity) && entityManager.GetComponentData<GenericFieldQuaternion0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldQuaternion0());
 						justCreated = true;
@@ -2131,8 +2368,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldEntity0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldEntity0_Sync>(entity) && entityManager.GetComponentData<GenericFieldEntity0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldEntity0());
 						justCreated = true;
@@ -2145,8 +2381,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldEntity1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldEntity1_Sync>(entity) && entityManager.GetComponentData<GenericFieldEntity1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldEntity1());
 						justCreated = true;
@@ -2159,8 +2394,7 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldEntity2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldEntity2_Sync>(entity) && entityManager.GetComponentData<GenericFieldEntity2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldEntity2());
 						justCreated = true;
@@ -2173,10 +2407,87 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldEntity3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldEntity3_Sync>(entity) && entityManager.GetComponentData<GenericFieldEntity3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldEntity3());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity4:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity4>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity4());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity5:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity5>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity5());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity6:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity6>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity6());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity7:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity7>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity7());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity8:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity8>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity8());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity9:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity9>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity9());
 						justCreated = true;
 					}
 
@@ -2187,10 +2498,22 @@ namespace Coherence.Generated.Internal
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Cube_Cube>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<Cube_Cube_Sync>(entity) && entityManager.GetComponentData<Cube_Cube_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Cube_Cube());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalPlayer_Controller:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<Player_Controller>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new Player_Controller());
 						justCreated = true;
 					}
 

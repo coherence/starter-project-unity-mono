@@ -16,18 +16,16 @@ namespace Coherence.Generated.Internal
     using Unity.Transforms;
     using UnityEngine;    
     
-    // ReSharper disable once ClassNeverInstantiated.Global
-    [UpdateInGroup(typeof(PresentationSystemGroup))]
-    [UpdateBefore(typeof(SyncSendSystem))]
+    [UpdateInGroup(typeof(GatherChangesGroup))]
     public class DetectEntityCreateSystem : SystemBase
     {
         protected override void OnUpdate()
         {
             if (World.GetExistingSystem<SyncSendSystem>().Sender == null)
             {
-                Debug.LogWarning("No sender");
                 return;
             }
+
             var mapper = World.GetExistingSystem<SyncSendSystem>().Sender.Mapper;
             
             Entities.WithNone<Mapped>().ForEach((Entity entity, int entityInQueryIndex, in Simulated simulate) =>

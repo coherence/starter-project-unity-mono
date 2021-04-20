@@ -133,6 +133,22 @@ public class UnityReaders
 	}
 
 	
+	public uint Read(ref ConnectedEntity data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
 	public uint Read(ref GenericPrefabReference data, IInBitStream bitstream)
 	{
 		var propertyMask = (uint)0;
@@ -757,6 +773,22 @@ public class UnityReaders
 	}
 
 	
+	public uint Read(ref GenericFieldString3 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadShortString();
+			     data.name = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
 	public uint Read(ref GenericFieldString4 data, IInBitStream bitstream)
 	{
 		var propertyMask = (uint)0;
@@ -797,7 +829,7 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadEntity();
-			     data.Value = coherenceToUnityConverters.ToUnityEntity(coherenceField);
+			       data.Value = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
        
@@ -813,7 +845,7 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadEntity();
-			     data.Value = coherenceToUnityConverters.ToUnityEntity(coherenceField);
+			       data.Value = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
        
@@ -829,7 +861,7 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadEntity();
-			     data.Value = coherenceToUnityConverters.ToUnityEntity(coherenceField);
+			       data.Value = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
        
@@ -845,7 +877,103 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadEntity();
-			     data.Value = coherenceToUnityConverters.ToUnityEntity(coherenceField);
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity4 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity5 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity6 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity7 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity8 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref GenericFieldEntity9 data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.Value = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
        
@@ -861,21 +989,37 @@ public class UnityReaders
 		if (bitstream.ReadMask()) 
 		{
 			var coherenceField = bitstream.ReadEntity();
-			     data.friend = coherenceToUnityConverters.ToUnityEntity(coherenceField);
+			       data.friend = coherenceField;
+			propertyMask |= 0b00000000000000000000000000000001;
+		}
+       
+		return propertyMask;
+	}
+
+	
+	public uint Read(ref Player_Controller data, IInBitStream bitstream)
+	{
+		var propertyMask = (uint)0;
+
+
+		if (bitstream.ReadMask()) 
+		{
+			var coherenceField = bitstream.ReadEntity();
+			       data.otherPlayer = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000001;
 		}
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadShortString();
-			     data.s = coherenceToUnityConverters.ToUnityFixedString64(coherenceField);
+			var coherenceField = bitstream.ReadEntity();
+			       data.otherPlayerTransform = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000010;
 		}
 
 		if (bitstream.ReadMask()) 
 		{
-			var coherenceField = bitstream.ReadIntegerRange(15, -9999);
-			       data.i = coherenceField;
+			var coherenceField = bitstream.ReadEntity();
+			       data.otherPlayerSync = coherenceField;
 			propertyMask |= 0b00000000000000000000000000000100;
 		}
        

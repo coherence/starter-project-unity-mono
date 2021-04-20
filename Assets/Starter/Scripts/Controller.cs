@@ -32,6 +32,10 @@ public class Controller : MonoBehaviour
     private Vector3 velocity;
     private CoherenceSync coherenceSync;
 
+    public GameObject otherPlayer;
+    public Transform otherPlayerTransform;
+    public CoherenceSync otherPlayerSync;
+
     private void OnValidate()
     {
         if (gun)
@@ -56,10 +60,76 @@ public class Controller : MonoBehaviour
     private void Awake()
     {
         coherenceSync = GetComponent<CoherenceSync>();
+        //otherPlayer = null;
+        //otherPlayerTransform = null;
+        //otherPlayerSync = null;
+    }
+
+    public void Foo(GameObject g)
+    {
+        Debug.Log($"Got command Foo, g = {g}");
+    }
+
+    public void Boo()
+    {
+        Debug.Log($"Got command Boo");
     }
 
     private void Update()
     {
+        if(coherenceSync.isSimulated)
+        {
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                otherPlayer = null;
+                otherPlayerTransform = null;
+                otherPlayerSync = null;
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                otherPlayer = this.gameObject;
+                otherPlayerTransform = this.transform;
+                otherPlayerSync = this.coherenceSync;
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                foreach(var ctrl in FindObjectsOfType<Controller>())
+                {
+                    if(ctrl.gameObject != this.gameObject)
+                    {
+                        otherPlayer = ctrl.gameObject;
+                        otherPlayerTransform = ctrl.transform;
+                        otherPlayerSync = ctrl.coherenceSync;
+                        break;
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                foreach (var ctrl in FindObjectsOfType<Controller>())
+                {
+                    if (ctrl.gameObject != this.gameObject)
+                    {
+                        Debug.Log("Sending command Foo");
+                        ctrl.coherenceSync.SendCommand(coherenceSync, "Controller.Foo", otherPlayer);
+                        break;
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                foreach (var ctrl in FindObjectsOfType<Controller>())
+                {
+                    if (ctrl.gameObject != this.gameObject)
+                    {
+                        Debug.Log("Sending command Boo");
+                        ctrl.coherenceSync.SendCommand(coherenceSync, "Controller.Boo");
+                        break;
+                    }
+                }
+            }
+        }
+
         if (useGun != gun.gameObject.activeSelf)
         {
             gun.gameObject.SetActive(useGun);
@@ -112,5 +182,10 @@ public class Controller : MonoBehaviour
     public void Hit()
     {
         velocity -= Physics.gravity.normalized * Mathf.Sqrt(Mathf.Abs(2f * 8f * Physics.gravity.magnitude));
+    }
+
+    public void OnSpawn(CoherenceSync sync)
+    {
+        name = name + " (networked)";
     }
 }

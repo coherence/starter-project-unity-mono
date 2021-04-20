@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -18.38, y: 13.95}
+  m_SizeDelta: {x: 196.76535, y: 57.909584}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7951136273304752306
 CanvasRenderer:
@@ -67,18 +67,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 15
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 93
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: I'm friends with ?
+  m_Text: I'm friends with NetworkedCube1
 --- !u!1 &5937695755887215947
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   persistenceUUID: 
   autoGeneratePersistenceUUID: 0
   persistenceExpirySeconds: 0
-  binds:
+  reflectionBindings:
   - name: friend
     memberKind: 1
     memberAssemblyType: UnityEngine.GameObject, UnityEngine
@@ -229,52 +229,38 @@ MonoBehaviour:
     returnAssemblyType: 
     compatibility: -1
     component: {fileID: 6965743703314511348}
-  - name: s
-    memberKind: 1
-    memberAssemblyType: System.String, mscorlib
-    parameterAssemblyTypes: []
-    returnAssemblyType: 
-    compatibility: -1
-    component: {fileID: 6965743703314511348}
-  - name: i
-    memberKind: 1
-    memberAssemblyType: System.Int32, mscorlib
-    parameterAssemblyTypes: []
-    returnAssemblyType: 
-    compatibility: -1
-    component: {fileID: 6965743703314511348}
-  customBinds:
-  - bindInfo:
+  customBindings:
+  - descriptor:
       name: position
       displayName: 
       monoAssemblyType: UnityEngine.Vector3, UnityEngine
-      networkAssemblyType: Unity.Transforms.Translation, Unity.Transforms
-      bakedGetter: position
-      bakedSetter: position
-      bakedComponent: WorldPosition
-      bakedComponentField: Value
-      bakedMemberName: 
-      schemaMemberName: value
+      dotsAssemblyType: Unity.Transforms.Translation, Unity.Transforms
+      bakedSyncScriptGetter: position
+      bakedSyncScriptSetter: position
+      bakedSyncScriptFieldName: 
+      bakedSyncScriptCSharpType: 
+      dotsComponentName: WorldPosition
+      dotsComponentFieldName: Value
+      schemaComponentFieldName: value
       extraData: 
+      required: 1
     component: {fileID: 3550374860027509758}
-    serializerAssemblyType: Coherence.Toolkit.TransformBindSerializer, Coherence.Toolkit
-  - bindInfo:
-      name: rotation
-      displayName: 
-      monoAssemblyType: UnityEngine.Quaternion, UnityEngine
-      networkAssemblyType: Unity.Transforms.Rotation, Unity.Transforms
-      bakedGetter: rotation
-      bakedSetter: rotation
-      bakedComponent: WorldOrientation
-      bakedComponentField: Value
-      bakedMemberName: 
-      schemaMemberName: value
-      extraData: 
-    component: {fileID: 3550374860027509758}
-    serializerAssemblyType: Coherence.Toolkit.TransformBindSerializer, Coherence.Toolkit
+    serializerAssemblyType: Coherence.Toolkit.TransformBindingSerializer, Coherence.Toolkit
   onNetworkedInstantiation:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6965743703314511348}
+        m_TargetAssemblyTypeName: Cube, Assembly-CSharp
+        m_MethodName: SpawnedOverNetwork
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onNetworkedDestruction:
     m_PersistentCalls:
       m_Calls: []
