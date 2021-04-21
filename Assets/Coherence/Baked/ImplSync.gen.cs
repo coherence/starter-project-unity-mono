@@ -110,10 +110,10 @@ namespace Coherence.Toolkit
 				paramBool3 = paramBool[2],
 				paramBool4 = paramBool[3],
 
-                paramEntity1 = paramEntity[0],
-                paramEntity2 = paramEntity[1],
-                paramEntity3 = paramEntity[2],
-                paramEntity4 = paramEntity[3],
+				paramEntity1 = paramEntity[0],
+				paramEntity2 = paramEntity[1],
+				paramEntity3 = paramEntity[2],
+				paramEntity4 = paramEntity[3],
 
 				paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
 			};
@@ -273,7 +273,7 @@ namespace Coherence.Toolkit
 				ParamBool3 = command.paramBool3,
 				ParamBool4 = command.paramBool4,
 
-                ParamEntity1 = command.paramEntity1,
+				ParamEntity1 = command.paramEntity1,
 				ParamEntity2 = command.paramEntity2,
 				ParamEntity3 = command.paramEntity3,
 				ParamEntity4 = command.paramEntity4,
