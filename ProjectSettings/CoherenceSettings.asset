@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b58ca8e478745dfab801a85671962e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uploadToken: 
+  portalToken: 
+  playToken: 
   port: 32001
   frequency: 60
   schemaBakeFolderGuid: 8ac6f3fb03df1470ca77564cb1886db5
