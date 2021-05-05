@@ -72,13 +72,13 @@ public class Controller : MonoBehaviour
     {
         var sender = coherenceSync;
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(sender.isSimulated && Input.GetKeyDown(KeyCode.Space))
         {
             foreach(var controller in FindObjectsOfType<Controller>())
             {
                 var sync = controller.coherenceSync;
                 Debug.Log($"Sending command 'Controller.Blaj' to '{sync.name}'");
-                sync.SendCommand(sender, "Controller.Blaj", Time.frameCount);
+                sync.SendCommand("Controller.Blaj", Time.frameCount);
             }
         }
 

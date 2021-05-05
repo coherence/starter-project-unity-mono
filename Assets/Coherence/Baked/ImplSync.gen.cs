@@ -121,8 +121,7 @@ namespace Coherence.Toolkit
 			return genericCommandRequest;
 		}
 
-		private static void SendCommandImpl(CoherenceSync self, CoherenceSync sender,
-											string commandName, params object[] args)
+		private static void SendCommandImpl(CoherenceSync self, string commandName, params object[] args)
 		{
 			if (self.entityManager.HasComponent<GenericCommandRequest>(self.entity))
 			{
