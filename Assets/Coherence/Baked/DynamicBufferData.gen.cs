@@ -12,11 +12,7 @@ namespace Coherence.Generated
 	using Unity.Entities;
 	using Unity.Mathematics;
 	using Unity.Transforms;
-
-	
-
 }
-
 
 // ------------------ end of DynamicBufferData.cs -----------------
 #endregion

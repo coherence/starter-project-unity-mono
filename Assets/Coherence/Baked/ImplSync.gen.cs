@@ -34,11 +34,7 @@ namespace Coherence.Toolkit
 			CoherenceSync.EcsEntityExistsImpl = EcsEntityExistsImpl;
 			CoherenceSync.GetGenericScaleType = GetGenericScaleType;
 			CoherenceSync.IsAuthorityRequestRejected = IsAuthorityRequestRejected;
-  			CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
-			CoherenceSync.InitServerInput = InitServerInput;
-			CoherenceSync.SendClientInputButton = SendClientInputButton;
-			CoherenceSync.SendClientInputJoystick = SendClientInputJoystick;
-			CoherenceSync.SendClientInputMouse = SendClientInputMouse;	
+			CoherenceSync.GetPersistenceUuid = GetPersistenceUuid;
 		}
 
 		private static void CreateECSRepresentation(CoherenceSync self)
@@ -89,71 +85,11 @@ namespace Coherence.Toolkit
 				case AuthorityTransferType.NotTransferable:
 					break;
 			}
-
-			switch (coherenceSync.simulationType)
-			{
-				case SimulationType.SimulationServerWithClientInput:
-					entityManager.AddComponent<InputClient>(entity);
-					entityManager.AddComponent<LocalInputClient>(entity);	
-					break;
-				default:
-					break;
-			}
-		}
-
-		private static void InitServerInput(CoherenceSync self)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-            {
-                var inputServer = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputServerSystem>();
-                if (inputServer != null && inputServer.Enabled)
-                {
-                    inputServer.OnButtonInputEvent += self.ReceiveButtonInputEvent;
-                    inputServer.OnJoystickInputEvent += self.ReceiveJoystickInputEvent;
-                    inputServer.OnMouseInputEvent += self.ReceiveMouseInputEvent;
-                }
-            }
-		}
-
-		private static void SendClientInputButton(CoherenceSync self, KeyCode id, bool state)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnKeyInput(self.entity, id, state);
-				}
-			}
-		}
-
-		private static void SendClientInputJoystick(CoherenceSync self, short id, Vector2 value)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnStickInput(self.entity, id, value);
-				}
-			}
-		}	
-		
-		private static void SendClientInputMouse(CoherenceSync self, Vector2 value)
-		{
-			if (self.simulationType == SimulationType.SimulationServerWithClientInput)
-			{
-				var inputClient = World.DefaultGameObjectInjectionWorld.GetExistingSystem<InputClientSystem>();
-				if (inputClient != null && inputClient.Enabled)
-				{
-					inputClient.OnMouseInput(self.entity, value);
-				}
-			}
 		}
 
 		private static GenericCommandRequest GenericCommandRequestFromObjects(string commandName, object[] args)
 		{
-			var (paramInt, paramFloat, paramString) = TypeHelpers.ExtractTypedArraysFromObjects(args);
+			var (paramInt, paramFloat, paramBool, paramString, paramEntity) = TypeArrays.ExtractTypedArraysFromObjects(args);
 
 			var genericCommandRequest = new GenericCommandRequest
 			{
@@ -168,6 +104,16 @@ namespace Coherence.Toolkit
 				paramFloat2 = paramFloat[1],
 				paramFloat3 = paramFloat[2],
 				paramFloat4 = paramFloat[3],
+
+				paramBool1 = paramBool[0],
+				paramBool2 = paramBool[1],
+				paramBool3 = paramBool[2],
+				paramBool4 = paramBool[3],
+
+				paramEntity1 = paramEntity[0],
+				paramEntity2 = paramEntity[1],
+				paramEntity3 = paramEntity[2],
+				paramEntity4 = paramEntity[3],
 
 				paramString = String.IsNullOrEmpty(paramString[0]) ? "" : paramString[0],
 			};
@@ -194,8 +140,8 @@ namespace Coherence.Toolkit
 			}
 			else {
 				// Local Entity
-				var command = GenericNetworkCommandArgs.FromObjects(commandName, args);
-				self.ProcessGenericNetworkCommand(commandName, command);
+				var (method, receiver) = self.GetMethodAndReceiverMemoized(commandName);
+				method.Invoke(receiver, args);
 			}
 		}
 
@@ -229,7 +175,13 @@ namespace Coherence.Toolkit
 		{
 			if (self.entityManager.HasComponent<TransferAction>(self.entity))
 			{
-				var ret = self.entityManager.GetComponentData<TransferAction>(self.entity);
+				var buffer = self.entityManager.GetBuffer<TransferAction>(self.entity);
+				if (buffer.Length == 0)
+				{
+					return false;
+				}
+
+				var ret = buffer[0];
 				return !ret.accepted;
 			}
 
@@ -244,8 +196,8 @@ namespace Coherence.Toolkit
 
 			var buffer = self.entityManager.GetBuffer<AuthorityTransfer>(self.entity);
 
-			TransferAction action = new TransferAction();
 			bool transfer = !buffer.IsEmpty;
+			TransferAction action = default;
 
 			foreach (var req in buffer)
 			{
@@ -265,7 +217,7 @@ namespace Coherence.Toolkit
 				if (self.isOrphaned) allowed = true; // auto-allow orphaned entities
 
 				if (self.simulationType == SimulationType.SimulationServerWithClientInput) allowed = true; // have to support it for client input
-				
+
 				action = new TransferAction
 				{
 					participant = req.participant,
@@ -282,14 +234,20 @@ namespace Coherence.Toolkit
 
 			if (transfer)
 			{
-				self.entityManager.AddComponentData(self.entity, action);
+				if (!self.entityManager.HasComponent<TransferAction>(self.entity))
+				{
+					self.entityManager.AddBuffer<TransferAction>(self.entity);
+				}
+
+				var authorityBuffer = self.entityManager.GetBuffer<TransferAction>(self.entity);
+				authorityBuffer.Add(action);
 			}
 		}
 
 		private static void RequestAuthorityTransfer(CoherenceSync self)
 		{
 			var connectionId =
-			World.DefaultGameObjectInjectionWorld.GetExistingSystem<NetworkSystem>().Connector.ConnectionId;
+			World.DefaultGameObjectInjectionWorld.GetExistingSystem<NetworkSystem>().Connection.ConnectionId;
 			var buffer = self.entityManager.GetBuffer<AuthorityTransferRequest>(self.entity);
 			buffer.Add(new AuthorityTransferRequest {participant = connectionId});
 		}
@@ -309,6 +267,16 @@ namespace Coherence.Toolkit
 				ParamFloat2 = command.paramFloat2,
 				ParamFloat3 = command.paramFloat3,
 				ParamFloat4 = command.paramFloat4,
+
+				ParamBool1 = command.paramBool1,
+				ParamBool2 = command.paramBool2,
+				ParamBool3 = command.paramBool3,
+				ParamBool4 = command.paramBool4,
+
+				ParamEntity1 = command.paramEntity1,
+				ParamEntity2 = command.paramEntity2,
+				ParamEntity3 = command.paramEntity3,
+				ParamEntity4 = command.paramEntity4,
 
 				ParamString = command.paramString.ToString(),
 			};

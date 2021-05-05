@@ -157,58 +157,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff62c046a053f416a8dc48ad6483a25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabledScriptTogglesKeys:
-  - UnityEngine.CharacterController, UnityEngine.PhysicsModule, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  - UnityEngine.Rigidbody, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - Controller, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - ColorizeBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - Coherence.Generated.FirstProject.CoherenceSyncPlayer, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  enabledScriptTogglesValues: 0000000000
-  fieldLinksKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*localScale
-  fieldLinksValues:
-  - GenericFieldVector0
-  - GenericFieldQuaternion0
-  - GenericFieldVector1
-  fieldTogglesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*localScale
-  fieldTogglesValues: 010101
-  fieldTypesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*position
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*rotation
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null*localScale
-  fieldTypesValues:
-  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  - UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  genericFieldCounter_Float: 0
-  genericFieldCounter_Int: 0
-  genericFieldCounter_Quaternion: 1
-  genericFieldCounter_String: 0
-  genericFieldCounter_Vector: 2
-  scriptTogglesKeys:
-  - UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  scriptTogglesValues: 01
+  OnBeforeAuthorityTransfer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterAuthorityTransfer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAuthorityTransferRejected:
+    m_PersistentCalls:
+      m_Calls: []
+  approveAuthorityTransferRequests: 1
+  simulationType: 0
+  authorityTransferType: 0
+  orphanedBehavior: 0
+  lifetimeType: 0
+  persistenceUUID: 
+  autoGeneratePersistenceUUID: 0
+  persistenceExpirySeconds: 0
+  reflectionBindings:
+  - name: Blaj
+    memberKind: 3
+    memberAssemblyType: 
+    parameterAssemblyTypes:
+    - System.Int32, mscorlib
+    returnAssemblyType: System.Void, mscorlib
+    compatibility: -1
+    component: {fileID: 7307341685530242376}
+  customBindings:
+  - descriptor:
+      name: position
+      displayName: 
+      monoAssemblyType: UnityEngine.Vector3, UnityEngine
+      dotsAssemblyType: Unity.Transforms.Translation, Unity.Transforms
+      bakedSyncScriptGetter: position
+      bakedSyncScriptSetter: position
+      bakedSyncScriptFieldName: 
+      bakedSyncScriptCSharpType: 
+      dotsComponentName: WorldPosition
+      dotsComponentFieldName: Value
+      schemaComponentFieldName: value
+      extraData: 
+      required: 1
+    component: {fileID: 7146494334328979313}
+    serializerAssemblyType: Coherence.Toolkit.TransformBindingSerializer, Coherence.Toolkit
+  onNetworkedInstantiation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7307341685530242376}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: OnRemoteInstantiate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onNetworkedDestruction:
+    m_PersistentCalls:
+      m_Calls: []
+  destroyComponentOnly: 0
   remoteVersionPrefabName: Player
   selectedSynchronizedPrefabOption: 0
   usingReflection: 1

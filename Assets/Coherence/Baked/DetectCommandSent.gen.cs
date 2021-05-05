@@ -15,14 +15,11 @@ namespace Coherence.Generated.Internal
     using Message;
     using Message.Serializer.Serialize;
     using MessageSync.Serialize;
-    using Coherence.Brisk.Connect;
     using Coherence.Brook;
-    using Coherence.Log;
     using Replication.Client.Unity.Ecs;
     using Replication.Unity;
 
-    // ReSharper disable once ClassNeverInstantiated.Global
-    [UpdateInGroup(typeof(PresentationSystemGroup))]
+    [UpdateInGroup(typeof(GatherChangesGroup))]
     [AlwaysUpdateSystem]
     public class DetectCommandsSentSystem : SystemBase
     {
@@ -92,48 +89,6 @@ namespace Coherence.Generated.Internal
 #endregion
 
 
-#region InputClientCommandRequest
-			// ------------  InputClientCommandRequest --------------
-            Entities
-                .ForEach((Entity entity, DynamicBuffer<InputClientCommandRequest> buffer) =>
-                    {
-                        if (buffer.Length == 0)
-                        {
-                            return;
-                        }
-                        
-                        var foundEntity = mapper.ToCoherenceEntityId(entity, out var coherenceEntityId);
-                        if (!foundEntity)
-                        {
-	                        Debug.LogError($"send command request. Can not find entity {entity}");
-	                        return;
-                        }
-                        
-                        var rawArray = buffer.Reinterpret<InputClientCommandRequest>();
-
-                        for (var i=0; i<rawArray.Length; i++)
-                        {
-	                        var item = rawArray[i];
-	                        var octetStream = new OctetWriter(512);
-	                        var bitStream = new OutBitStream(octetStream);
-	                        EntityIdSerializer.Serialize(coherenceEntityId, bitStream);
-	                        var protocol = new Coherence.FieldStream.Serialize.Streams.OutBitStream(bitStream);
-
-	                        // --------- Type Specific Part ---------------
-	                        ComponentTypeIdSerializer.Serialize(TypeIds.InternalInputClientCommand, bitStream);
-	                        messageSerializers.InputClientCommandRequest(protocol, item);
-	                        // --------------------------------------------
-
-	                        bitStream.Flush();
-	                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
-	                        messageChannels.PushEntityCommand(payload);
-                        }
-
-                        buffer.Clear();
-                    }).WithoutBurst().Run();
-#endregion
-
-
 #region GenericCommandRequest
 			// ------------  GenericCommandRequest --------------
             Entities
@@ -164,6 +119,48 @@ namespace Coherence.Generated.Internal
 	                        // --------- Type Specific Part ---------------
 	                        ComponentTypeIdSerializer.Serialize(TypeIds.InternalGenericCommand, bitStream);
 	                        messageSerializers.GenericCommandRequest(protocol, item);
+	                        // --------------------------------------------
+
+	                        bitStream.Flush();
+	                        var payload = new BitSerializedMessage(octetStream.Octets, bitStream.Tell);
+	                        messageChannels.PushEntityCommand(payload);
+                        }
+
+                        buffer.Clear();
+                    }).WithoutBurst().Run();
+#endregion
+
+
+#region Player_Controller_BlajRequest
+			// ------------  Player_Controller_BlajRequest --------------
+            Entities
+                .ForEach((Entity entity, DynamicBuffer<Player_Controller_BlajRequest> buffer) =>
+                    {
+                        if (buffer.Length == 0)
+                        {
+                            return;
+                        }
+                        
+                        var foundEntity = mapper.ToCoherenceEntityId(entity, out var coherenceEntityId);
+                        if (!foundEntity)
+                        {
+	                        Debug.LogError($"send command request. Can not find entity {entity}");
+	                        return;
+                        }
+                        
+                        var rawArray = buffer.Reinterpret<Player_Controller_BlajRequest>();
+
+                        for (var i=0; i<rawArray.Length; i++)
+                        {
+	                        var item = rawArray[i];
+	                        var octetStream = new OctetWriter(512);
+	                        var bitStream = new OutBitStream(octetStream);
+	                        EntityIdSerializer.Serialize(coherenceEntityId, bitStream);
+	                        var protocol = new Coherence.FieldStream.Serialize.Streams.OutBitStream(bitStream);
+
+	                        // --------- Type Specific Part ---------------
+	                        ComponentTypeIdSerializer.Serialize(TypeIds.InternalPlayer_Controller_Blaj, bitStream);
+	                        messageSerializers.Player_Controller_BlajRequest(protocol, item);
 	                        // --------------------------------------------
 
 	                        bitStream.Flush();

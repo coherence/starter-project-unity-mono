@@ -58,8 +58,30 @@ public class Controller : MonoBehaviour
         coherenceSync = GetComponent<CoherenceSync>();
     }
 
+    public void OnRemoteInstantiate(CoherenceSync sync)
+    {
+        name = name + "_NETWORKED";
+    }
+
+    public void Blaj(int frame)
+    {
+        Debug.Log($"Got command 'Blaj' with frame {frame}.");
+    }
+
     private void Update()
     {
+        var sender = coherenceSync;
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(var controller in FindObjectsOfType<Controller>())
+            {
+                var sync = controller.coherenceSync;
+                Debug.Log($"Sending command 'Controller.Blaj' to '{sync.name}'");
+                sync.SendCommand(sender, "Controller.Blaj", Time.frameCount);
+            }
+        }
+
         if (useGun != gun.gameObject.activeSelf)
         {
             gun.gameObject.SetActive(useGun);

@@ -27,78 +27,46 @@ namespace Coherence.Generated.Internal
 			unityReaders = new UnityReaders(mapper);
 		}
 
-
-
-
 		private void InterpolateTranslation(EntityManager entityManager, Entity entity, AbsoluteSimulationFrame simulationFrame, Translation tempComponentData)
 		{
+
 			// Ensure entities with interpolation also have Interpolation components and Sample components
-			if (!entityManager.HasComponent<InterpolationComponent_Translation>(entity))
+			if (!entityManager.HasComponent<InterpolationComponent_Translation_value>(entity))
 			{
-				entityManager.AddComponent<InterpolationComponent_Translation>(entity);
-				entityManager.AddComponent<Sample_Translation>(entity);
+				var interpolationData = new InterpolationComponent_Translation_value()
+				{
+					setupID = InterpolationSetupID.DefaultTranslation
+				};
+				entityManager.AddComponentData(entity, interpolationData);
+				entityManager.AddComponent<Sample_Translation_value>(entity);
 			}
 
 			// Append buffer for components that use interpolation
 			InterpolationSystem_Translation
-				.AppendBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
+				.AppendvalueBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
 		}
 
 		private void InterpolateRotation(EntityManager entityManager, Entity entity, AbsoluteSimulationFrame simulationFrame, Rotation tempComponentData)
 		{
+
 			// Ensure entities with interpolation also have Interpolation components and Sample components
-			if (!entityManager.HasComponent<InterpolationComponent_Rotation>(entity))
+			if (!entityManager.HasComponent<InterpolationComponent_Rotation_value>(entity))
 			{
-				entityManager.AddComponent<InterpolationComponent_Rotation>(entity);
-				entityManager.AddComponent<Sample_Rotation>(entity);
+				var interpolationData = new InterpolationComponent_Rotation_value()
+				{
+					setupID = InterpolationSetupID.DefaultRotation
+				};
+				entityManager.AddComponentData(entity, interpolationData);
+				entityManager.AddComponent<Sample_Rotation_value>(entity);
 			}
 
 			// Append buffer for components that use interpolation
 			InterpolationSystem_Rotation
-				.AppendBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
+				.AppendvalueBuffer(entity, tempComponentData, entityManager.World, (ulong) simulationFrame.Frame);
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		private void DeserializeWorldPosition(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<Translation>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'Translation' to entity {entity}");
@@ -114,8 +82,6 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			var tempComponentData = new Translation();
 			unityReaders.Read(ref tempComponentData, protocolStream);
 			if (justCreated) // Hack
@@ -124,13 +90,10 @@ namespace Coherence.Generated.Internal
 			}
 
 			InterpolateTranslation(entityManager, entity, simulationFrame, tempComponentData);
-	
-
 		}
 
 		private void DeserializeWorldOrientation(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<Rotation>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'Rotation' to entity {entity}");
@@ -146,8 +109,6 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			var tempComponentData = new Rotation();
 			unityReaders.Read(ref tempComponentData, protocolStream);
 			if (justCreated) // Hack
@@ -156,13 +117,10 @@ namespace Coherence.Generated.Internal
 			}
 
 			InterpolateRotation(entityManager, entity, simulationFrame, tempComponentData);
-	
-
 		}
 
 		private void DeserializeLocalUser(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<LocalUser>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'LocalUser' to entity {entity}");
@@ -178,19 +136,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<LocalUser>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeWorldPositionQuery(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<WorldPositionQuery>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'WorldPositionQuery' to entity {entity}");
@@ -206,19 +159,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<WorldPositionQuery>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeArchetypeComponent(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<ArchetypeComponent>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'ArchetypeComponent' to entity {entity}");
@@ -234,19 +182,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<ArchetypeComponent>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializePersistence(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<Persistence>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'Persistence' to entity {entity}");
@@ -262,30 +205,37 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<Persistence>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
-		private void DeserializeInputClient(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		private void DeserializeConnectedEntity(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
-			// No need to read empty components, just ensure that it's there
-			if (!entityManager.HasComponent<InputClient>(entity))
+			if (!entityManager.HasComponent<ConnectedEntity>(entity))
 			{
-				entityManager.AddComponent<InputClient>(entity);
+				// UnityEngine.Debug.Log($"Had to add component 'ConnectedEntity' to entity {entity}");
+				entityManager.AddComponent<ConnectedEntity>(entity);
 			}
 
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new ConnectedEntity();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<ConnectedEntity>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
 		}
 
 		private void DeserializeGenericPrefabReference(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericPrefabReference>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericPrefabReference' to entity {entity}");
@@ -301,19 +251,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericPrefabReference>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericScale(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericScale>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericScale' to entity {entity}");
@@ -329,19 +274,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericScale>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt0>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt0' to entity {entity}");
@@ -357,19 +297,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt0>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt1>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt1' to entity {entity}");
@@ -385,19 +320,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt1>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt2>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt2' to entity {entity}");
@@ -413,19 +343,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt2>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt3>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt3' to entity {entity}");
@@ -441,19 +366,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt3>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt4>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt4' to entity {entity}");
@@ -469,19 +389,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt4>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt5(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt5>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt5' to entity {entity}");
@@ -497,19 +412,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt5>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt6(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt6>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt6' to entity {entity}");
@@ -525,19 +435,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt6>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt7(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt7>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt7' to entity {entity}");
@@ -553,19 +458,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt7>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt8(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt8>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt8' to entity {entity}");
@@ -581,19 +481,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt8>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldInt9(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldInt9>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldInt9' to entity {entity}");
@@ -609,19 +504,244 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldInt9>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
+		}
 
+		private void DeserializeGenericFieldBool0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool0>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool0' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool0>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool0();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool0>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool1>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool1' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool1>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool1();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool1>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool2>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool2' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool2>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool2();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool2>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool3>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool3' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool3>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool3();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool3>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool4>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool4' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool4>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool4();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool4>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool5(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool5>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool5' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool5>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool5();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool5>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool6(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool6>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool6' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool6>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool6();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool6>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool7(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool7>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool7' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool7>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool7();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool7>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool8(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool8>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool8' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool8>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool8();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool8>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldBool9(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldBool9>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldBool9' to entity {entity}");
+				entityManager.AddComponent<GenericFieldBool9>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldBool9();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldBool9>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
 		}
 
 		private void DeserializeGenericFieldFloat0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat0>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat0' to entity {entity}");
@@ -637,19 +757,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat0>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat1>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat1' to entity {entity}");
@@ -665,19 +780,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat1>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat2>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat2' to entity {entity}");
@@ -693,19 +803,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat2>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat3>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat3' to entity {entity}");
@@ -721,19 +826,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat3>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat4>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat4' to entity {entity}");
@@ -749,19 +849,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat4>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat5(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat5>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat5' to entity {entity}");
@@ -777,19 +872,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat5>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat6(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat6>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat6' to entity {entity}");
@@ -805,19 +895,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat6>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat7(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat7>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat7' to entity {entity}");
@@ -833,19 +918,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat7>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat8(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat8>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat8' to entity {entity}");
@@ -861,19 +941,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat8>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldFloat9(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldFloat9>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldFloat9' to entity {entity}");
@@ -889,19 +964,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldFloat9>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldVector0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldVector0>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldVector0' to entity {entity}");
@@ -917,19 +987,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldVector0>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldVector1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldVector1>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldVector1' to entity {entity}");
@@ -945,19 +1010,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldVector1>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldVector2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldVector2>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldVector2' to entity {entity}");
@@ -973,19 +1033,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldVector2>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldVector3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldVector3>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldVector3' to entity {entity}");
@@ -1001,19 +1056,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldVector3>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldString0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldString0>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString0' to entity {entity}");
@@ -1029,19 +1079,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldString0>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldString1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldString1>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString1' to entity {entity}");
@@ -1057,19 +1102,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldString1>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldString2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldString2>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString2' to entity {entity}");
@@ -1085,19 +1125,37 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldString2>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
+		}
 
+		private void DeserializeGenericFieldString3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldString3>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString3' to entity {entity}");
+				entityManager.AddComponent<GenericFieldString3>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldString3();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldString3>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
 		}
 
 		private void DeserializeGenericFieldString4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldString4>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldString4' to entity {entity}");
@@ -1113,19 +1171,14 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldString4>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
 		private void DeserializeGenericFieldQuaternion0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
 		{
-
 			if (!entityManager.HasComponent<GenericFieldQuaternion0>(entity))
 			{
 				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldQuaternion0' to entity {entity}");
@@ -1141,17 +1194,241 @@ namespace Coherence.Generated.Internal
 				unityReaders.Read(ref temp, protocolStream);
 				return;
 			}
-
-	
 			// Overwrite components that don't use interpolation
 			var componentData = entityManager.GetComponentData<GenericFieldQuaternion0>(entity);
 			unityReaders.Read(ref componentData, protocolStream);
 			entityManager.SetComponentData(entity, componentData);
-	
-
 		}
 
+		private void DeserializeGenericFieldEntity0(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity0>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity0' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity0>(entity);
+			}
 
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity0();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity0>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity1(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity1>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity1' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity1>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity1();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity1>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity2(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity2>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity2' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity2>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity2();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity2>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity3(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity3>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity3' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity3>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity3();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity3>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity4(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity4>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity4' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity4>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity4();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity4>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity5(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity5>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity5' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity5>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity5();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity5>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity6(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity6>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity6' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity6>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity6();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity6>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity7(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity7>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity7' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity7>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity7();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity7>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity8(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity8>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity8' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity8>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity8();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity8>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
+
+		private void DeserializeGenericFieldEntity9(EntityManager entityManager, Entity entity, bool componentOwnership, AbsoluteSimulationFrame simulationFrame, Coherence.Replication.Protocol.Definition.IInBitStream protocolStream, bool justCreated, IInBitStream bitStream)
+		{
+			if (!entityManager.HasComponent<GenericFieldEntity9>(entity))
+			{
+				// UnityEngine.Debug.Log($"Had to add component 'GenericFieldEntity9' to entity {entity}");
+				entityManager.AddComponent<GenericFieldEntity9>(entity);
+			}
+
+			// If we own the entity, don't overwrite with downstream data from server
+			// TODO: Server should never send downstream to the simulating client
+			if (componentOwnership)
+			{
+				// Read and discard data (the stream must always be read)
+				var temp = new GenericFieldEntity9();
+				unityReaders.Read(ref temp, protocolStream);
+				return;
+			}
+			// Overwrite components that don't use interpolation
+			var componentData = entityManager.GetComponentData<GenericFieldEntity9>(entity);
+			unityReaders.Read(ref componentData, protocolStream);
+			entityManager.SetComponentData(entity, componentData);
+		}
 
 		public void ReadComponentDataUpdate(EntityManager entityManager, Entity entity, uint componentType, AbsoluteSimulationFrame simulationFrame, IInBitStream bitStream)
 		{
@@ -1165,160 +1442,183 @@ namespace Coherence.Generated.Internal
 			var inProtocolStream = new Coherence.FieldStream.Deserialize.Streams.InBitStream(bitStream);
 			switch (componentType)
 			{
-				
 			case TypeIds.InternalWorldPosition:
 				DeserializeWorldPosition(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalWorldOrientation:
 				DeserializeWorldOrientation(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalLocalUser:
 				DeserializeLocalUser(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalWorldPositionQuery:
 				DeserializeWorldPositionQuery(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalArchetypeComponent:
 				DeserializeArchetypeComponent(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalPersistence:
 				DeserializePersistence(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
-			case TypeIds.InternalInputClient:
-				DeserializeInputClient(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+			case TypeIds.InternalConnectedEntity:
+				DeserializeConnectedEntity(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericPrefabReference:
 				DeserializeGenericPrefabReference(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericScale:
 				DeserializeGenericScale(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt0:
 				DeserializeGenericFieldInt0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt1:
 				DeserializeGenericFieldInt1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt2:
 				DeserializeGenericFieldInt2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt3:
 				DeserializeGenericFieldInt3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt4:
 				DeserializeGenericFieldInt4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt5:
 				DeserializeGenericFieldInt5(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt6:
 				DeserializeGenericFieldInt6(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt7:
 				DeserializeGenericFieldInt7(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt8:
 				DeserializeGenericFieldInt8(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldInt9:
 				DeserializeGenericFieldInt9(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
+			case TypeIds.InternalGenericFieldBool0:
+				DeserializeGenericFieldBool0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool1:
+				DeserializeGenericFieldBool1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool2:
+				DeserializeGenericFieldBool2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool3:
+				DeserializeGenericFieldBool3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool4:
+				DeserializeGenericFieldBool4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool5:
+				DeserializeGenericFieldBool5(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool6:
+				DeserializeGenericFieldBool6(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool7:
+				DeserializeGenericFieldBool7(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool8:
+				DeserializeGenericFieldBool8(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldBool9:
+				DeserializeGenericFieldBool9(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
 			case TypeIds.InternalGenericFieldFloat0:
 				DeserializeGenericFieldFloat0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat1:
 				DeserializeGenericFieldFloat1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat2:
 				DeserializeGenericFieldFloat2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat3:
 				DeserializeGenericFieldFloat3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat4:
 				DeserializeGenericFieldFloat4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat5:
 				DeserializeGenericFieldFloat5(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat6:
 				DeserializeGenericFieldFloat6(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat7:
 				DeserializeGenericFieldFloat7(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat8:
 				DeserializeGenericFieldFloat8(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldFloat9:
 				DeserializeGenericFieldFloat9(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldVector0:
 				DeserializeGenericFieldVector0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldVector1:
 				DeserializeGenericFieldVector1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldVector2:
 				DeserializeGenericFieldVector2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldVector3:
 				DeserializeGenericFieldVector3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldString0:
 				DeserializeGenericFieldString0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldString1:
 				DeserializeGenericFieldString1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldString2:
 				DeserializeGenericFieldString2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
+			case TypeIds.InternalGenericFieldString3:
+				DeserializeGenericFieldString3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
 			case TypeIds.InternalGenericFieldString4:
 				DeserializeGenericFieldString4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
 			case TypeIds.InternalGenericFieldQuaternion0:
 				DeserializeGenericFieldQuaternion0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
 				break;
-				
-
+			case TypeIds.InternalGenericFieldEntity0:
+				DeserializeGenericFieldEntity0(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity1:
+				DeserializeGenericFieldEntity1(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity2:
+				DeserializeGenericFieldEntity2(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity3:
+				DeserializeGenericFieldEntity3(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity4:
+				DeserializeGenericFieldEntity4(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity5:
+				DeserializeGenericFieldEntity5(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity6:
+				DeserializeGenericFieldEntity6(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity7:
+				DeserializeGenericFieldEntity7(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity8:
+				DeserializeGenericFieldEntity8(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
+			case TypeIds.InternalGenericFieldEntity9:
+				DeserializeGenericFieldEntity9(entityManager, entity, componentOwnership, simulationFrame, inProtocolStream, justCreated, bitStream);
+				break;
 			default:
 				Log.Warning("couldn't find component", "componentType", componentType);
 				break;
@@ -1344,20 +1644,6 @@ namespace Coherence.Generated.Internal
 			}
 
 			{
-				var hasBuffer = entityManager.HasComponent<InputClientCommand>(entity);
-				if (!hasBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommand>(entity);
-				}
-
-				var hasRequestBuffer = entityManager.HasComponent<InputClientCommandRequest>(entity);
-				if (!hasRequestBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommandRequest>(entity);
-				}
-			}
-
-			{
 				var hasBuffer = entityManager.HasComponent<GenericCommand>(entity);
 				if (!hasBuffer)
 				{
@@ -1371,17 +1657,29 @@ namespace Coherence.Generated.Internal
 				}
 			}
 
+			{
+				var hasBuffer = entityManager.HasComponent<Player_Controller_Blaj>(entity);
+				if (!hasBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_Blaj>(entity);
+				}
+
+				var hasRequestBuffer = entityManager.HasComponent<Player_Controller_BlajRequest>(entity);
+				if (!hasRequestBuffer)
+				{
+					entityManager.AddBuffer<Player_Controller_BlajRequest>(entity);
+				}
+			}
+
 #endregion
 
 			switch (componentType)
 			{
-
 				case TypeIds.InternalWorldPosition:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Translation>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldPosition_Sync>(entity) && entityManager.GetComponentData<WorldPosition_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Translation());
 						justCreated = true;
@@ -1390,13 +1688,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalWorldOrientation:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Rotation>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldOrientation_Sync>(entity) && entityManager.GetComponentData<WorldOrientation_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Rotation());
 						justCreated = true;
@@ -1405,13 +1701,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalLocalUser:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<LocalUser>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<LocalUser_Sync>(entity) && entityManager.GetComponentData<LocalUser_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new LocalUser());
 						justCreated = true;
@@ -1420,13 +1714,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalWorldPositionQuery:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<WorldPositionQuery>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<WorldPositionQuery_Sync>(entity) && entityManager.GetComponentData<WorldPositionQuery_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new WorldPositionQuery());
 						justCreated = true;
@@ -1435,13 +1727,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalArchetypeComponent:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<ArchetypeComponent>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<ArchetypeComponent_Sync>(entity) && entityManager.GetComponentData<ArchetypeComponent_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new ArchetypeComponent());
 						justCreated = true;
@@ -1450,13 +1740,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalPersistence:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<Persistence>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<Persistence_Sync>(entity) && entityManager.GetComponentData<Persistence_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new Persistence());
 						justCreated = true;
@@ -1465,28 +1753,24 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
-				case TypeIds.InternalInputClient:
+				case TypeIds.InternalConnectedEntity:
 				{
 					var justCreated = false;
-					var hasComponentData = entityManager.HasComponent<InputClient>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<InputClient_Sync>(entity) && entityManager.GetComponentData<InputClient_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					var hasComponentData = entityManager.HasComponent<ConnectedEntity>(entity);
+					if (!hasComponentData)
 					{
-						entityManager.AddComponentData(entity, new InputClient());
+						entityManager.AddComponentData(entity, new ConnectedEntity());
 						justCreated = true;
 					}
 
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericPrefabReference_Sync>(entity) && entityManager.GetComponentData<GenericPrefabReference_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericPrefabReference());
 						justCreated = true;
@@ -1495,13 +1779,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericScale:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericScale>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericScale_Sync>(entity) && entityManager.GetComponentData<GenericScale_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericScale());
 						justCreated = true;
@@ -1510,13 +1792,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt0:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt0_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt0());
 						justCreated = true;
@@ -1525,13 +1805,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt1:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt1_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt1());
 						justCreated = true;
@@ -1540,13 +1818,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt2:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt2_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt2());
 						justCreated = true;
@@ -1555,13 +1831,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt3:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt3_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt3());
 						justCreated = true;
@@ -1570,13 +1844,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt4:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt4_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt4());
 						justCreated = true;
@@ -1585,13 +1857,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt5:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt5>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt5_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt5_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt5());
 						justCreated = true;
@@ -1600,13 +1870,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt6:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt6>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt6_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt6_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt6());
 						justCreated = true;
@@ -1615,13 +1883,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt7:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt7>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt7_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt7_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt7());
 						justCreated = true;
@@ -1630,13 +1896,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt8:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt8>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt8_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt8_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt8());
 						justCreated = true;
@@ -1645,13 +1909,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt9:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt9>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldInt9_Sync>(entity) && entityManager.GetComponentData<GenericFieldInt9_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldInt9());
 						justCreated = true;
@@ -1660,13 +1922,141 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
+				case TypeIds.InternalGenericFieldBool0:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool0>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool0());
+						justCreated = true;
+					}
 
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool1:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool1>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool1());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool2:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool2>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool2());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool3:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool3>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool3());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool4:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool4>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool4());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool5:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool5>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool5());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool6:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool6>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool6());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool7:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool7>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool7());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool8:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool8>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool8());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool9:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool9>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldBool9());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
 				case TypeIds.InternalGenericFieldFloat0:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat0_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat0());
 						justCreated = true;
@@ -1675,13 +2065,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat1:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat1_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat1());
 						justCreated = true;
@@ -1690,13 +2078,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat2:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat2_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat2());
 						justCreated = true;
@@ -1705,13 +2091,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat3:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat3_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat3());
 						justCreated = true;
@@ -1720,13 +2104,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat4:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat4_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat4());
 						justCreated = true;
@@ -1735,13 +2117,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat5:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat5>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat5_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat5_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat5());
 						justCreated = true;
@@ -1750,13 +2130,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat6:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat6>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat6_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat6_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat6());
 						justCreated = true;
@@ -1765,13 +2143,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat7:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat7>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat7_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat7_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat7());
 						justCreated = true;
@@ -1780,13 +2156,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat8:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat8>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat8_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat8_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat8());
 						justCreated = true;
@@ -1795,13 +2169,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat9:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat9>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldFloat9_Sync>(entity) && entityManager.GetComponentData<GenericFieldFloat9_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldFloat9());
 						justCreated = true;
@@ -1810,13 +2182,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector0:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector0_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector0());
 						justCreated = true;
@@ -1825,13 +2195,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector1:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector1_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector1());
 						justCreated = true;
@@ -1840,13 +2208,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector2:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector2_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector2());
 						justCreated = true;
@@ -1855,13 +2221,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector3:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector3>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldVector3_Sync>(entity) && entityManager.GetComponentData<GenericFieldVector3_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldVector3());
 						justCreated = true;
@@ -1870,13 +2234,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString0:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString0_Sync>(entity) && entityManager.GetComponentData<GenericFieldString0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString0());
 						justCreated = true;
@@ -1885,13 +2247,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString1:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString1>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString1_Sync>(entity) && entityManager.GetComponentData<GenericFieldString1_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString1());
 						justCreated = true;
@@ -1900,13 +2260,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString2:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString2>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString2_Sync>(entity) && entityManager.GetComponentData<GenericFieldString2_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString2());
 						justCreated = true;
@@ -1915,13 +2273,24 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
+				case TypeIds.InternalGenericFieldString3:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldString3>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldString3());
+						justCreated = true;
+					}
 
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
 				case TypeIds.InternalGenericFieldString4:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldString4>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldString4_Sync>(entity) && entityManager.GetComponentData<GenericFieldString4_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldString4());
 						justCreated = true;
@@ -1930,13 +2299,11 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldQuaternion0:
 				{
 					var justCreated = false;
 					var hasComponentData = entityManager.HasComponent<GenericFieldQuaternion0>(entity);
-					var componentHasBeenRemoved = entityManager.HasComponent<GenericFieldQuaternion0_Sync>(entity) && entityManager.GetComponentData<GenericFieldQuaternion0_Sync>(entity).deletedAtTime > 0;
-					if (!hasComponentData && !componentHasBeenRemoved)
+					if (!hasComponentData)
 					{
 						entityManager.AddComponentData(entity, new GenericFieldQuaternion0());
 						justCreated = true;
@@ -1945,7 +2312,136 @@ namespace Coherence.Generated.Internal
 					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
 					break;
 				}
+				case TypeIds.InternalGenericFieldEntity0:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity0>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity0());
+						justCreated = true;
+					}
 
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity1:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity1>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity1());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity2:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity2>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity2());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity3:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity3>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity3());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity4:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity4>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity4());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity5:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity5>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity5());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity6:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity6>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity6());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity7:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity7>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity7());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity8:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity8>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity8());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity9:
+				{
+					var justCreated = false;
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity9>(entity);
+					if (!hasComponentData)
+					{
+						entityManager.AddComponentData(entity, new GenericFieldEntity9());
+						justCreated = true;
+					}
+
+					ReadComponentDataUpdateEx(entityManager, entity, componentType, simulationFrame, bitStream, justCreated);
+					break;
+				}
 				default:
 				{
 					Log.Warning("can not create component type");
@@ -1974,7 +2470,6 @@ namespace Coherence.Generated.Internal
 			deserializeComponentUpdateGenerated.ReadComponentDataUpdate(entityManager, entity, componentType, simulationFrame, bitStream);
 		}
 	}
-
 }
 
 // ------------------ end of DeserializeComponentUpdate.cs -----------------

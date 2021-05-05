@@ -22,7 +22,7 @@ namespace Coherence.Toolkit
 		{
 			CoherenceMonoBridge.CreateEntityQueryRemote = CreateEntityQueryRemote;
 			CoherenceMonoBridge.CreateEntityQueryLocal = CreateEntityQueryLocal;
-			CoherenceMonoBridge.GetPrefabName = GetPrefabName;
+			CoherenceMonoBridge.GetSpawnInfo = GetSpawnInfo;
 			CoherenceMonoBridge.GetPersistenceUuid = GetPersistenceUuid;
 		}
 
@@ -53,8 +53,22 @@ namespace Coherence.Toolkit
 					typeof(Simulated));
 		}
 
-		static FixedString64 GetPrefabName(EntityManager entityManager, Entity entity) {
-			return entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
+		static CoherenceMonoBridge.SpawnInfo GetSpawnInfo(EntityManager entityManager, Entity entity) 
+		{
+			var info = new CoherenceMonoBridge.SpawnInfo();
+			info.prefabName = entityManager.GetComponentData<GenericPrefabReference>(entity).prefab;
+			info.position = entityManager.GetComponentData<Translation>(entity).Value;
+
+			if (entityManager.HasComponent<Rotation>(entity))
+			{
+				info.rotation = entityManager.GetComponentData<Rotation>(entity).Value;
+			}
+			else 
+			{
+				info.rotation = Quaternion.identity;
+			}
+
+			return info;
 		}
 	}
 }
