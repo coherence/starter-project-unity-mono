@@ -31,43 +31,37 @@ namespace Coherence.Generated.Internal
 
 				case TypeIds.InternalAuthorityTransfer:
 				{
-					var hasRequestBuffer = mgr.HasComponent<AuthorityTransfer>(entity);
-					if (!hasRequestBuffer)
-					{
-						mgr.AddBuffer<AuthorityTransfer>(entity);
-					}
-					var buffer = mgr.GetBuffer<AuthorityTransfer>(entity);
 					var data = new AuthorityTransfer();
 					messageDeserializers.AuthorityTransfer(bitStream, ref data);
-					buffer.Add(data);
-					break;
-				}
 
-				case TypeIds.InternalInputClientCommand:
-				{
-					var hasRequestBuffer = mgr.HasComponent<InputClientCommand>(entity);
-					if (!hasRequestBuffer)
+					if (mgr.Exists(entity))
 					{
-						mgr.AddBuffer<InputClientCommand>(entity);
+						var hasRequestBuffer = mgr.HasComponent<AuthorityTransfer>(entity);
+						if (!hasRequestBuffer)
+						{
+							mgr.AddBuffer<AuthorityTransfer>(entity);
+						}
+						var buffer = mgr.GetBuffer<AuthorityTransfer>(entity);					
+						buffer.Add(data);
 					}
-					var buffer = mgr.GetBuffer<InputClientCommand>(entity);
-					var data = new InputClientCommand();
-					messageDeserializers.InputClientCommand(bitStream, ref data);
-					buffer.Add(data);
 					break;
 				}
 
 				case TypeIds.InternalGenericCommand:
 				{
-					var hasRequestBuffer = mgr.HasComponent<GenericCommand>(entity);
-					if (!hasRequestBuffer)
-					{
-						mgr.AddBuffer<GenericCommand>(entity);
-					}
-					var buffer = mgr.GetBuffer<GenericCommand>(entity);
 					var data = new GenericCommand();
 					messageDeserializers.GenericCommand(bitStream, ref data);
-					buffer.Add(data);
+
+					if (mgr.Exists(entity))
+					{
+						var hasRequestBuffer = mgr.HasComponent<GenericCommand>(entity);
+						if (!hasRequestBuffer)
+						{
+							mgr.AddBuffer<GenericCommand>(entity);
+						}
+						var buffer = mgr.GetBuffer<GenericCommand>(entity);					
+						buffer.Add(data);
+					}
 					break;
 				}
 

@@ -10,27 +10,18 @@
 namespace Coherence.Generated.Internal
 {
 	using global::Coherence.Generated;
-	using Coherence.Replication.Client.Unity.Ecs;
 	using Unity.Entities;
-	using Unity.Transforms;
 
 	[AlwaysUpdateSystem]
-	[UpdateInGroup(typeof(CoherenceSimulationSystemGroup))]
-	[UpdateAfter(typeof(TransferEntitySystem))]
+	[UpdateInGroup(typeof(CleanupChangesGroup))]
 	public class DeleteEventSystem : SystemBase
 	{
 		protected override void OnUpdate()
 		{
-
-			Entities
-			   .WithAll<global::Coherence.Generated.TransferAction>()
-			   .ForEach((Entity entity) =>
+			Entities.ForEach((Entity entity, DynamicBuffer<TransferAction> buffer) =>
 			{
-
-				EntityManager.RemoveComponent<TransferAction>(entity);
-			}).WithStructuralChanges().Run();
-
-			Dependency.Complete();
+				buffer.Clear();
+			}).ScheduleParallel();
 		}
 	}
 }

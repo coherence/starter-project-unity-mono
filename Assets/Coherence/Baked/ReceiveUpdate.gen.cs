@@ -13,7 +13,6 @@ namespace Coherence.Generated.Internal
 	using Coherence.Replication.Unity;
 	using Coherence.Replication.Client.Unity.Ecs;
 	using global::Unity.Transforms;
-	using global::Unity.Collections;
 	using global::Unity.Entities;
 	using Coherence.Brook;
 	using Coherence.Log;
@@ -25,21 +24,18 @@ namespace Coherence.Generated.Internal
 		private readonly ISchemaSpecificComponentDeserialize componentDeserialize;
 		private UnityMapper mapper;
 		private readonly ISchemaSpecificComponentDeserializerAndSkip componentSkip;
-		private NativeHashMap<Entity, DetectedEntityDeletion> destroyedEntities;
 
-		public ReceiveUpdate(ISchemaSpecificComponentDeserialize componentDeserialize,  ISchemaSpecificComponentDeserializerAndSkip componentSkip, UnityMapper mapper, NativeHashMap<Entity, DetectedEntityDeletion> destroyedEntities)
+		public ReceiveUpdate(ISchemaSpecificComponentDeserialize componentDeserialize,  ISchemaSpecificComponentDeserializerAndSkip componentSkip, UnityMapper mapper)
 		{
 			this.componentDeserialize = componentDeserialize;
 			this.componentSkip = componentSkip;
 			this.mapper = mapper;
-			this.destroyedEntities = destroyedEntities;
 		}
 
 		private void DestroyComponentData(EntityManager entityManager, Entity entity, uint componentType)
 		{
 			switch (componentType)
 			{
-
 				case TypeIds.InternalWorldPosition:
 				{
 					var hasComponentData = entityManager.HasComponent<Translation>(entity);
@@ -49,7 +45,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalWorldOrientation:
 				{
 					var hasComponentData = entityManager.HasComponent<Rotation>(entity);
@@ -59,7 +54,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalLocalUser:
 				{
 					var hasComponentData = entityManager.HasComponent<LocalUser>(entity);
@@ -69,7 +63,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalWorldPositionQuery:
 				{
 					var hasComponentData = entityManager.HasComponent<WorldPositionQuery>(entity);
@@ -79,7 +72,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalArchetypeComponent:
 				{
 					var hasComponentData = entityManager.HasComponent<ArchetypeComponent>(entity);
@@ -89,7 +81,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalPersistence:
 				{
 					var hasComponentData = entityManager.HasComponent<Persistence>(entity);
@@ -99,17 +90,15 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
-				case TypeIds.InternalInputClient:
+				case TypeIds.InternalConnectedEntity:
 				{
-					var hasComponentData = entityManager.HasComponent<InputClient>(entity);
+					var hasComponentData = entityManager.HasComponent<ConnectedEntity>(entity);
 					if (hasComponentData)
 					{
-						entityManager.RemoveComponent<InputClient>(entity);
+						entityManager.RemoveComponent<ConnectedEntity>(entity);
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference>(entity);
@@ -119,7 +108,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericScale:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericScale>(entity);
@@ -129,7 +117,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt0>(entity);
@@ -139,7 +126,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt1>(entity);
@@ -149,7 +135,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt2>(entity);
@@ -159,7 +144,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt3>(entity);
@@ -169,7 +153,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt4>(entity);
@@ -179,7 +162,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt5:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt5>(entity);
@@ -189,7 +171,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt6:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt6>(entity);
@@ -199,7 +180,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt7:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt7>(entity);
@@ -209,7 +189,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt8:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt8>(entity);
@@ -219,7 +198,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt9:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt9>(entity);
@@ -229,7 +207,96 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldBool0:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool0>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool0>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool1:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool1>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool1>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool2:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool2>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool2>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool3>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool3>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool4:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool4>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool4>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool5:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool5>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool5>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool6:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool6>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool6>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool7:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool7>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool7>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool8:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool8>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool8>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool9:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool9>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldBool9>(entity);
+					}
+					break;
+				}
 				case TypeIds.InternalGenericFieldFloat0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat0>(entity);
@@ -239,7 +306,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat1>(entity);
@@ -249,7 +315,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat2>(entity);
@@ -259,7 +324,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat3>(entity);
@@ -269,7 +333,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat4>(entity);
@@ -279,7 +342,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat5:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat5>(entity);
@@ -289,7 +351,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat6:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat6>(entity);
@@ -299,7 +360,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat7:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat7>(entity);
@@ -309,7 +369,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat8:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat8>(entity);
@@ -319,7 +378,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat9:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat9>(entity);
@@ -329,7 +387,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector0>(entity);
@@ -339,7 +396,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector1>(entity);
@@ -349,7 +405,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector2>(entity);
@@ -359,7 +414,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector3>(entity);
@@ -369,7 +423,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString0>(entity);
@@ -379,7 +432,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString1>(entity);
@@ -389,7 +441,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString2>(entity);
@@ -399,7 +450,15 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldString3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldString3>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldString3>(entity);
+					}
+					break;
+				}
 				case TypeIds.InternalGenericFieldString4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString4>(entity);
@@ -409,7 +468,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldQuaternion0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldQuaternion0>(entity);
@@ -419,7 +477,96 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldEntity0:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity0>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity0>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity1:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity1>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity1>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity2:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity2>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity2>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity3>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity3>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity4:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity4>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity4>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity5:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity5>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity5>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity6:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity6>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity6>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity7:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity7>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity7>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity8:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity8>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity8>(entity);
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity9:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity9>(entity);
+					if (hasComponentData)
+					{
+						entityManager.RemoveComponent<GenericFieldEntity9>(entity);
+					}
+					break;
+				}
 				default:
 				{
 					Log.Warning($"Unknown component", "component", componentType);
@@ -472,16 +619,6 @@ namespace Coherence.Generated.Internal
 				var entity = mapper.ToUnityEntity(entityWithMeta.EntityId);
 
 				var wasSimulated = entity != default && entityManager.Exists(entity) && entityManager.HasComponent<Simulated>(entity);
-
-				// Skip locally destroyed entities
-				if (destroyedEntities.ContainsKey(entity))
-				{
-					if (!entityWithMeta.IsDeleted)
-					{
-						DeserializeComponentSkip.SkipComponents(componentSkip, bitStream);
-					}
-					continue;
-				}
 
 				// Meta information concerns entity creation, destruction and ownership
 				if (entityWithMeta.HasMeta)
@@ -540,11 +677,13 @@ namespace Coherence.Generated.Internal
 				entityManager.RemoveComponent<LingerSimulated>(entity);
 				RemoveSyncComponents(entityManager, entity);
 				AddCommandBuffers(entityManager, entity);
+				AddInputBuffers(entityManager, entity);
 			}
 			else if (!hasComponentData && entityWithMeta.Ownership)
 			{
 				entityManager.AddComponentData(entity, new Simulated());
 				RemoveInterpolationComponents(entityManager, entity);
+				AddCleanSyncComponents(entityManager, entity);
 			}
 
 			// Entities IsOrphan determines iff they should have Orphan
@@ -570,6 +709,7 @@ namespace Coherence.Generated.Internal
 						{
 							mapper.Remove(entityWithMeta.EntityId); // This internally requires entity to exist...
 							entityManager.RemoveComponent<LingerSimulated>(entity);
+							CleanupConnected(entityManager, entity);
 							entityManager.DestroyEntity(entity);    // ...so this must be executed afterwards ...
 						}
 						else
@@ -593,648 +733,50 @@ namespace Coherence.Generated.Internal
 			return entity;
 		}
 
-		public void UpdateResendMask(EntityManager entityManager, Coherence.Ecs.SerializeEntityID entityId, uint componentTypeId, uint fieldMask)
+		private void CleanupConnected(EntityManager entityManager, Entity entity)
 		{
-			var entity = mapper.ToUnityEntity(entityId);
 
-			if (!entityManager.Exists(entity))
+			if (entityManager.HasComponent<ConnectedInitialized>(entity))
 			{
-				Log.Warning($"Entity does not exist: {entity} ComponentTypeId: {componentTypeId}");
-				return;
+				var comp = entityManager.GetComponentData<ConnectedEntity>(entity);
+				var init = entityManager.GetComponentData<ConnectedInitialized>(entity);
+				var parent = mapper.ToUnityEntity(comp.value);
+				if (entityManager.HasComponent<ChildBufferElement>(parent))
+				{
+					var buffer = entityManager.GetBuffer<ChildBufferElement>(parent).Reinterpret<Entity>();
+					buffer.RemoveAt(init.Index);
+				}
 			}
 
-			switch (componentTypeId)
+			if (entityManager.HasComponent<ChildBufferElement>(entity))
 			{
-
-				case TypeIds.InternalWorldPosition:
+				var buffer = entityManager.GetBuffer<ChildBufferElement>(entity).Reinterpret<Entity>();
+				var entityList = new Entity[buffer.Length];
+				for (int i = 0; i < buffer.Length; i++)
 				{
-					var hasComponentData = entityManager.HasComponent<WorldPosition_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<WorldPosition_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
+					entityList[i] = buffer[i];
 				}
-
-				case TypeIds.InternalWorldOrientation:
+				foreach(var child in entityList)
 				{
-					var hasComponentData = entityManager.HasComponent<WorldOrientation_Sync>(entity);
-					if (hasComponentData)
+					if (!entityManager.HasComponent<Simulated>(child))
 					{
-						var syncData = entityManager.GetComponentData<WorldOrientation_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
+						SerializeEntityID id;
+						if (mapper.ToCoherenceEntityId(child, out id)) {
+							mapper.Remove(id);
+						}
+						entityManager.RemoveComponent<LingerSimulated>(entity);
+						entityManager.DestroyEntity(child);
 					}
-					break;
-				}
-
-				case TypeIds.InternalLocalUser:
-				{
-					var hasComponentData = entityManager.HasComponent<LocalUser_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<LocalUser_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalWorldPositionQuery:
-				{
-					var hasComponentData = entityManager.HasComponent<WorldPositionQuery_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<WorldPositionQuery_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalArchetypeComponent:
-				{
-					var hasComponentData = entityManager.HasComponent<ArchetypeComponent_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<ArchetypeComponent_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalPersistence:
-				{
-					var hasComponentData = entityManager.HasComponent<Persistence_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<Persistence_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalInputClient:
-				{
-					var hasComponentData = entityManager.HasComponent<InputClient_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<InputClient_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericPrefabReference:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericPrefabReference_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericPrefabReference_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericScale:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericScale_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericScale_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt0:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt0_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt0_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt1:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt1_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt1_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt2:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt2_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt2_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt3:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt3_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt3_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt4:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt4_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt4_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt5:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt5_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt5_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt6:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt6_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt6_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt7:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt7_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt7_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt8:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt8_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt8_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldInt9:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldInt9_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldInt9_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat0:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat0_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat0_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat1:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat1_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat1_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat2:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat2_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat2_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat3:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat3_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat3_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat4:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat4_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat4_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat5:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat5_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat5_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat6:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat6_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat6_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat7:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat7_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat7_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat8:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat8_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat8_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldFloat9:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldFloat9_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldFloat9_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldVector0:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldVector0_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldVector0_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldVector1:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldVector1_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldVector1_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldVector2:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldVector2_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldVector2_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldVector3:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldVector3_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldVector3_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldString0:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldString0_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldString0_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldString1:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldString1_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldString1_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldString2:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldString2_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldString2_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldString4:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldString4_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldString4_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				case TypeIds.InternalGenericFieldQuaternion0:
-				{
-					var hasComponentData = entityManager.HasComponent<GenericFieldQuaternion0_Sync>(entity);
-					if (hasComponentData)
-					{
-						var syncData = entityManager.GetComponentData<GenericFieldQuaternion0_Sync>(entity);
-
-						syncData.resendMask |= fieldMask;
-						entityManager.SetComponentData(entity, syncData);
-					} else
-					{
-						Log.Warning($"Entity or component has been destroyed: {entity} ComponentTypeId: {componentTypeId}");
-					}
-					break;
-				}
-
-				default:
-				{
-					Log.Warning($"Unknown component", "component", componentTypeId);
-					break;
 				}
 			}
 		}
 
-		public void UpdateHasReceivedConstructor(EntityManager entityManager, Coherence.Ecs.SerializeEntityID entityId, uint componentTypeId)
+		public void UpdateHasReceivedConstructor(EntityManager entityManager, Entity entity, uint componentTypeId)
 		{
-			var entity = mapper.ToUnityEntity(entityId);
-
-			// The entity has been deleted since the packet was sent
-			if (destroyedEntities.ContainsKey(entity))
-			{
-				return;
-			}
-
 			if (!entityManager.Exists(entity))
 			{
-				Log.Warning($"Entity does not exist: {entity} ComponentTypeId: {componentTypeId}");
+				// Entity may have been destroyed since the packet was sent
+				Log.Trace($"Entity does not exist: {entity} ComponentTypeId: {componentTypeId}");
 				return;
 			}
 
@@ -1247,10 +789,10 @@ namespace Coherence.Generated.Internal
 
 			var sim = entityManager.GetComponentData<Simulated>(entity);
 			sim.hasReceivedConstructor = true;
+			entityManager.SetComponentData(entity, sim);
 
 			switch (componentTypeId)
 			{
-
 				case TypeIds.InternalWorldPosition:
 				{
 					var hasComponentData = entityManager.HasComponent<WorldPosition_Sync>(entity);
@@ -1266,7 +808,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalWorldOrientation:
 				{
 					var hasComponentData = entityManager.HasComponent<WorldOrientation_Sync>(entity);
@@ -1282,7 +823,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalLocalUser:
 				{
 					var hasComponentData = entityManager.HasComponent<LocalUser_Sync>(entity);
@@ -1298,7 +838,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalWorldPositionQuery:
 				{
 					var hasComponentData = entityManager.HasComponent<WorldPositionQuery_Sync>(entity);
@@ -1314,7 +853,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalArchetypeComponent:
 				{
 					var hasComponentData = entityManager.HasComponent<ArchetypeComponent_Sync>(entity);
@@ -1330,7 +868,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalPersistence:
 				{
 					var hasComponentData = entityManager.HasComponent<Persistence_Sync>(entity);
@@ -1346,23 +883,21 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
-				case TypeIds.InternalInputClient:
+				case TypeIds.InternalConnectedEntity:
 				{
-					var hasComponentData = entityManager.HasComponent<InputClient_Sync>(entity);
+					var hasComponentData = entityManager.HasComponent<ConnectedEntity_Sync>(entity);
 					if (hasComponentData)
 					{
-						var syncData = entityManager.GetComponentData<InputClient_Sync>(entity);
+						var syncData = entityManager.GetComponentData<ConnectedEntity_Sync>(entity);
 						syncData.hasReceivedConstructor = true;
 						entityManager.SetComponentData(entity, syncData);
 					} else
 					{
 						// Ownership may have been lost since the packet was sent
-						Log.Trace($"Sync component has been destroyed: {entity} InputClient_Sync");
+						Log.Trace($"Sync component has been destroyed: {entity} ConnectedEntity_Sync");
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericPrefabReference:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericPrefabReference_Sync>(entity);
@@ -1378,7 +913,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericScale:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericScale_Sync>(entity);
@@ -1394,7 +928,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt0_Sync>(entity);
@@ -1410,7 +943,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt1_Sync>(entity);
@@ -1426,7 +958,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt2_Sync>(entity);
@@ -1442,7 +973,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt3_Sync>(entity);
@@ -1458,7 +988,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt4_Sync>(entity);
@@ -1474,7 +1003,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt5:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt5_Sync>(entity);
@@ -1490,7 +1018,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt6:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt6_Sync>(entity);
@@ -1506,7 +1033,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt7:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt7_Sync>(entity);
@@ -1522,7 +1048,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt8:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt8_Sync>(entity);
@@ -1538,7 +1063,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldInt9:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldInt9_Sync>(entity);
@@ -1554,7 +1078,156 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldBool0:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool0_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool0_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool0_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool1:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool1_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool1_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool1_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool2:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool2_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool2_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool2_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool3_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool3_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool3_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool4:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool4_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool4_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool4_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool5:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool5_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool5_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool5_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool6:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool6_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool6_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool6_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool7:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool7_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool7_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool7_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool8:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool8_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool8_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool8_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldBool9:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldBool9_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldBool9_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldBool9_Sync");
+					}
+					break;
+				}
 				case TypeIds.InternalGenericFieldFloat0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat0_Sync>(entity);
@@ -1570,7 +1243,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat1_Sync>(entity);
@@ -1586,7 +1258,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat2_Sync>(entity);
@@ -1602,7 +1273,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat3_Sync>(entity);
@@ -1618,7 +1288,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat4_Sync>(entity);
@@ -1634,7 +1303,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat5:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat5_Sync>(entity);
@@ -1650,7 +1318,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat6:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat6_Sync>(entity);
@@ -1666,7 +1333,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat7:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat7_Sync>(entity);
@@ -1682,7 +1348,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat8:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat8_Sync>(entity);
@@ -1698,7 +1363,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldFloat9:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldFloat9_Sync>(entity);
@@ -1714,7 +1378,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector0_Sync>(entity);
@@ -1730,7 +1393,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector1_Sync>(entity);
@@ -1746,7 +1408,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector2_Sync>(entity);
@@ -1762,7 +1423,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldVector3:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldVector3_Sync>(entity);
@@ -1778,7 +1438,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString0_Sync>(entity);
@@ -1794,7 +1453,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString1:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString1_Sync>(entity);
@@ -1810,7 +1468,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldString2:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString2_Sync>(entity);
@@ -1826,7 +1483,21 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldString3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldString3_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldString3_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldString3_Sync");
+					}
+					break;
+				}
 				case TypeIds.InternalGenericFieldString4:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldString4_Sync>(entity);
@@ -1842,7 +1513,6 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
 				case TypeIds.InternalGenericFieldQuaternion0:
 				{
 					var hasComponentData = entityManager.HasComponent<GenericFieldQuaternion0_Sync>(entity);
@@ -1858,7 +1528,156 @@ namespace Coherence.Generated.Internal
 					}
 					break;
 				}
-
+				case TypeIds.InternalGenericFieldEntity0:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity0_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity0_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity0_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity1:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity1_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity1_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity1_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity2:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity2_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity2_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity2_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity3:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity3_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity3_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity3_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity4:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity4_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity4_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity4_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity5:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity5_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity5_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity5_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity6:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity6_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity6_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity6_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity7:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity7_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity7_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity7_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity8:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity8_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity8_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity8_Sync");
+					}
+					break;
+				}
+				case TypeIds.InternalGenericFieldEntity9:
+				{
+					var hasComponentData = entityManager.HasComponent<GenericFieldEntity9_Sync>(entity);
+					if (hasComponentData)
+					{
+						var syncData = entityManager.GetComponentData<GenericFieldEntity9_Sync>(entity);
+						syncData.hasReceivedConstructor = true;
+						entityManager.SetComponentData(entity, syncData);
+					} else
+					{
+						// Ownership may have been lost since the packet was sent
+						Log.Trace($"Sync component has been destroyed: {entity} GenericFieldEntity9_Sync");
+					}
+					break;
+				}
 				default:
 				{
 					Log.Warning($"Unknown component", "component", componentTypeId);
@@ -1867,218 +1686,784 @@ namespace Coherence.Generated.Internal
 			}
 		}
 
-		public void UpdateResendDestroyed(EntityManager entityManager, Coherence.Ecs.SerializeEntityID entityId, AbsoluteSimulationFrame simulationFrame)
-		{
-			var entity = mapper.ToUnityEntity(entityId);
-			if (entity == default)
-			{
-				Log.Warning($"Destroyed entity {entityId} missing from mapper");
-				return;
-			}
-
-			// Flag this entity destruction to be resent
-			destroyedEntities[entity] = new DetectedEntityDeletion { Entity = entity, simulationFrame = (ulong)simulationFrame.Frame, serialized = false };
-		}
-
 		public static void RemoveSyncComponents(EntityManager entityManager, Entity entity)
 		{
-
 			if (entityManager.HasComponent<WorldPosition_Sync>(entity))
 			{
 				entityManager.RemoveComponent<WorldPosition_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<WorldOrientation_Sync>(entity))
 			{
 				entityManager.RemoveComponent<WorldOrientation_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<LocalUser_Sync>(entity))
 			{
 				entityManager.RemoveComponent<LocalUser_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<WorldPositionQuery_Sync>(entity))
 			{
 				entityManager.RemoveComponent<WorldPositionQuery_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<ArchetypeComponent_Sync>(entity))
 			{
 				entityManager.RemoveComponent<ArchetypeComponent_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<Persistence_Sync>(entity))
 			{
 				entityManager.RemoveComponent<Persistence_Sync>(entity);
 			}
-
-			if (entityManager.HasComponent<InputClient_Sync>(entity))
+			if (entityManager.HasComponent<ConnectedEntity_Sync>(entity))
 			{
-				entityManager.RemoveComponent<InputClient_Sync>(entity);
+				entityManager.RemoveComponent<ConnectedEntity_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericPrefabReference_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericPrefabReference_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericScale_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericScale_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt0_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt0_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt1_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt1_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt2_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt2_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt3_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt3_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt4_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt4_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt5_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt5_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt6_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt6_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt7_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt7_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt8_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt8_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldInt9_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldInt9_Sync>(entity);
 			}
-
+			if (entityManager.HasComponent<GenericFieldBool0_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool0_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool1_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool1_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool2_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool2_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool3_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool3_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool4_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool4_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool5_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool5_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool6_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool6_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool7_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool7_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool8_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool8_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldBool9_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldBool9_Sync>(entity);
+			}
 			if (entityManager.HasComponent<GenericFieldFloat0_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat0_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat1_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat1_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat2_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat2_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat3_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat3_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat4_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat4_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat5_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat5_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat6_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat6_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat7_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat7_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat8_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat8_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldFloat9_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldFloat9_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldVector0_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldVector0_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldVector1_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldVector1_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldVector2_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldVector2_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldVector3_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldVector3_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldString0_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldString0_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldString1_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldString1_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldString2_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldString2_Sync>(entity);
 			}
-
+			if (entityManager.HasComponent<GenericFieldString3_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldString3_Sync>(entity);
+			}
 			if (entityManager.HasComponent<GenericFieldString4_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldString4_Sync>(entity);
 			}
-
 			if (entityManager.HasComponent<GenericFieldQuaternion0_Sync>(entity))
 			{
 				entityManager.RemoveComponent<GenericFieldQuaternion0_Sync>(entity);
 			}
+			if (entityManager.HasComponent<GenericFieldEntity0_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity0_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity1_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity1_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity2_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity2_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity3_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity3_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity4_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity4_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity5_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity5_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity6_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity6_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity7_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity7_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity8_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity8_Sync>(entity);
+			}
+			if (entityManager.HasComponent<GenericFieldEntity9_Sync>(entity))
+			{
+				entityManager.RemoveComponent<GenericFieldEntity9_Sync>(entity);
+			}
+		}
 
+		public static void AddCleanSyncComponents(EntityManager entityManager, Entity entity)
+		{
+			if (entityManager.HasComponent<Translation>(entity))
+			{
+				entityManager.AddComponentData(entity, new WorldPosition_Sync
+				{
+					howImportantAreYou = 1000,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<Translation>(entity)
+				});
+			}
+			if (entityManager.HasComponent<Rotation>(entity))
+			{
+				entityManager.AddComponentData(entity, new WorldOrientation_Sync
+				{
+					howImportantAreYou = 1000,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<Rotation>(entity)
+				});
+			}
+			if (entityManager.HasComponent<LocalUser>(entity))
+			{
+				entityManager.AddComponentData(entity, new LocalUser_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<LocalUser>(entity)
+				});
+			}
+			if (entityManager.HasComponent<WorldPositionQuery>(entity))
+			{
+				entityManager.AddComponentData(entity, new WorldPositionQuery_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<WorldPositionQuery>(entity)
+				});
+			}
+			if (entityManager.HasComponent<ArchetypeComponent>(entity))
+			{
+				entityManager.AddComponentData(entity, new ArchetypeComponent_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<ArchetypeComponent>(entity)
+				});
+			}
+			if (entityManager.HasComponent<Persistence>(entity))
+			{
+				entityManager.AddComponentData(entity, new Persistence_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<Persistence>(entity)
+				});
+			}
+			if (entityManager.HasComponent<ConnectedEntity>(entity))
+			{
+				entityManager.AddComponentData(entity, new ConnectedEntity_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<ConnectedEntity>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericPrefabReference>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericPrefabReference_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericPrefabReference>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericScale>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericScale_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericScale>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt4>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt4_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt4>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt5>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt5_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt5>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt6>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt6_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt6>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt7>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt7_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt7>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt8>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt8_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt8>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldInt9>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldInt9_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldInt9>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool4>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool4_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool4>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool5>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool5_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool5>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool6>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool6_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool6>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool7>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool7_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool7>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool8>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool8_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool8>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldBool9>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldBool9_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldBool9>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat4>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat4_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat4>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat5>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat5_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat5>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat6>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat6_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat6>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat7>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat7_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat7>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat8>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat8_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat8>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldFloat9>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldFloat9_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldFloat9>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldVector0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldVector0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldVector0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldVector1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldVector1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldVector1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldVector2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldVector2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldVector2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldVector3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldVector3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldVector3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldString0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldString0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldString0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldString1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldString1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldString1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldString2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldString2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldString2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldString3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldString3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldString3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldString4>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldString4_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldString4>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldQuaternion0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldQuaternion0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldQuaternion0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity0>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity0_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity0>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity1>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity1_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity1>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity2>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity2_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity2>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity3>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity3_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity3>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity4>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity4_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity4>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity5>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity5_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity5>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity6>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity6_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity6>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity7>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity7_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity7>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity8>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity8_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity8>(entity)
+				});
+			}
+			if (entityManager.HasComponent<GenericFieldEntity9>(entity))
+			{
+				entityManager.AddComponentData(entity, new GenericFieldEntity9_Sync
+				{
+					howImportantAreYou = 100,
+					hasBeenSerialized = true,
+					lastSentData = entityManager.GetComponentData<GenericFieldEntity9>(entity)
+				});
+			}
 		}
 
 		public static void AddCommandBuffers(EntityManager entityManager, Entity entity)
 		{
 #region Commands
-
 			{
 				var hasBuffer = entityManager.HasComponent<AuthorityTransfer>(entity);
 				if (!hasBuffer)
@@ -2092,21 +2477,6 @@ namespace Coherence.Generated.Internal
 					entityManager.AddBuffer<AuthorityTransferRequest>(entity);
 				}
 			}
-
-			{
-				var hasBuffer = entityManager.HasComponent<InputClientCommand>(entity);
-				if (!hasBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommand>(entity);
-				}
-
-				var hasRequestBuffer = entityManager.HasComponent<InputClientCommandRequest>(entity);
-				if (!hasRequestBuffer)
-				{
-					entityManager.AddBuffer<InputClientCommandRequest>(entity);
-				}
-			}
-
 			{
 				var hasBuffer = entityManager.HasComponent<GenericCommand>(entity);
 				if (!hasBuffer)
@@ -2120,107 +2490,31 @@ namespace Coherence.Generated.Internal
 					entityManager.AddBuffer<GenericCommandRequest>(entity);
 				}
 			}
-
 #endregion
+		}
+
+		public static void AddInputBuffers(EntityManager entityManager, Entity entity)
+		{
 		}
 
 		private void RemoveInterpolationComponents(EntityManager entityManager, Entity entity)
 		{
-
-
-			if (entityManager.HasComponent<InterpolationComponent_Translation>(entity))
+			if (entityManager.HasComponent<InterpolationComponent_Translation_value>(entity))
 			{
-				entityManager.RemoveComponent<InterpolationComponent_Translation>(entity);
+				entityManager.RemoveComponent<InterpolationComponent_Translation_value>(entity);
 			}
-			if (entityManager.HasComponent<Sample_Translation>(entity))
+			if (entityManager.HasComponent<Sample_Translation_value>(entity))
 			{
-				entityManager.RemoveComponent<Sample_Translation>(entity);
+				entityManager.RemoveComponent<Sample_Translation_value>(entity);
 			}
-
-
-
-			if (entityManager.HasComponent<InterpolationComponent_Rotation>(entity))
+			if (entityManager.HasComponent<InterpolationComponent_Rotation_value>(entity))
 			{
-				entityManager.RemoveComponent<InterpolationComponent_Rotation>(entity);
+				entityManager.RemoveComponent<InterpolationComponent_Rotation_value>(entity);
 			}
-			if (entityManager.HasComponent<Sample_Rotation>(entity))
+			if (entityManager.HasComponent<Sample_Rotation_value>(entity))
 			{
-				entityManager.RemoveComponent<Sample_Rotation>(entity);
+				entityManager.RemoveComponent<Sample_Rotation_value>(entity);
 			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		}
 	}
 }

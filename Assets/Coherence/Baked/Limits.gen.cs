@@ -104,7 +104,12 @@ namespace Coherence.Generated
 		
 	
 		
-		// Component name: InputClient
+		// Component name: ConnectedEntity
+		
+		// value : SerializeEntityID
+		
+		
+		
 		
 	
 		
@@ -244,6 +249,96 @@ namespace Coherence.Generated
 		
 		public static readonly int GenericFieldInt9_number_Min = -9999;
 		public static readonly int GenericFieldInt9_number_Max = 9999;
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool0
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool1
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool2
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool3
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool4
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool5
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool6
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool7
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool8
+		
+		// number : bool
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldBool9
+		
+		// number : bool
 		
 		
 		
@@ -459,6 +554,15 @@ namespace Coherence.Generated
 		
 	
 		
+		// Component name: GenericFieldString3
+		
+		// name : FixedString64
+		
+		
+		
+		
+	
+		
 		// Component name: GenericFieldString4
 		
 		// name : FixedString64
@@ -475,6 +579,96 @@ namespace Coherence.Generated
 		
 		
 		public static readonly float GenericFieldQuaternion0_Value_Epsilon = 0.01f; // TODO!
+		
+		
+	
+		
+		// Component name: GenericFieldEntity0
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity1
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity2
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity3
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity4
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity5
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity6
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity7
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity8
+		
+		// Value : SerializeEntityID
+		
+		
+		
+		
+	
+		
+		// Component name: GenericFieldEntity9
+		
+		// Value : SerializeEntityID
+		
+		
 		
 		
 	

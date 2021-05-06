@@ -8,11 +8,12 @@
 			
 namespace Coherence.Generated
 {
+	using Coherence.Ecs;
+	using UnityEngine.Scripting;
 	using Unity.Collections;
 	using Unity.Entities;
 	using Unity.Mathematics;
 	using Unity.Transforms;
-
 	
 	// EcsComponentData: InternalAuthorityTransferData
 	public struct AuthorityTransfer : IBufferElementData
@@ -24,19 +25,6 @@ namespace Coherence.Generated
 	{
 		public int participant;
 	}
-
-	
-	// EcsComponentData: InternalInputClientCommandData
-	public struct InputClientCommand : IBufferElementData
-	{
-		public FixedString64 inputs;
-	}
-
-	public struct InputClientCommandRequest : IBufferElementData
-	{
-		public FixedString64 inputs;
-	}
-
 	
 	// EcsComponentData: InternalGenericCommandData
 	public struct GenericCommand : IBufferElementData
@@ -50,6 +38,14 @@ namespace Coherence.Generated
 		public float paramFloat2;
 		public float paramFloat3;
 		public float paramFloat4;
+		public bool paramBool1;
+		public bool paramBool2;
+		public bool paramBool3;
+		public bool paramBool4;
+		public SerializeEntityID paramEntity1;
+		public SerializeEntityID paramEntity2;
+		public SerializeEntityID paramEntity3;
+		public SerializeEntityID paramEntity4;
 		public FixedString64 paramString;
 	}
 
@@ -64,14 +60,17 @@ namespace Coherence.Generated
 		public float paramFloat2;
 		public float paramFloat3;
 		public float paramFloat4;
+		public bool paramBool1;
+		public bool paramBool2;
+		public bool paramBool3;
+		public bool paramBool4;
+		public SerializeEntityID paramEntity1;
+		public SerializeEntityID paramEntity2;
+		public SerializeEntityID paramEntity3;
+		public SerializeEntityID paramEntity4;
 		public FixedString64 paramString;
 	}
-
-	
-
-
 }
-
 
 // ------------------ end of BufferElementData.cs -----------------
 #endregion

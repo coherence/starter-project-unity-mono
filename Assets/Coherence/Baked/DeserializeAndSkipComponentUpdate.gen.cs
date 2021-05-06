@@ -60,9 +60,9 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
-		private void DeserializeInputClient(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		private void DeserializeConnectedEntity(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
-            var ignored = new InputClient();
+            var ignored = new ConnectedEntity();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -135,6 +135,66 @@ namespace Coherence.Generated.Internal
 		private void DeserializeGenericFieldInt9(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericFieldInt9();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool0(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool0();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool1(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool1();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool2(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool2();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool3(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool3();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool4(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool4();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool5(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool5();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool6(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool6();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool7(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool7();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool8(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool8();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldBool9(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldBool9();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -240,6 +300,12 @@ namespace Coherence.Generated.Internal
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
+		private void DeserializeGenericFieldString3(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldString3();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
 		private void DeserializeGenericFieldString4(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericFieldString4();
@@ -249,6 +315,66 @@ namespace Coherence.Generated.Internal
 		private void DeserializeGenericFieldQuaternion0(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
 		{
             var ignored = new GenericFieldQuaternion0();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity0(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity0();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity1(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity1();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity2(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity2();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity3(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity3();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity4(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity4();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity5(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity5();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity6(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity6();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity7(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity7();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity8(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity8();
+            unityReaders.Read(ref ignored, protocolStream);
+		}
+		
+		private void DeserializeGenericFieldEntity9(Coherence.Replication.Protocol.Definition.IInBitStream protocolStream)
+		{
+            var ignored = new GenericFieldEntity9();
             unityReaders.Read(ref ignored, protocolStream);
 		}
 		
@@ -282,8 +408,8 @@ namespace Coherence.Generated.Internal
 					DeserializePersistence(inProtocolStream);
                     break;
 
-                case TypeIds.InternalInputClient:
-					DeserializeInputClient(inProtocolStream);
+                case TypeIds.InternalConnectedEntity:
+					DeserializeConnectedEntity(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericPrefabReference:
@@ -332,6 +458,46 @@ namespace Coherence.Generated.Internal
 
                 case TypeIds.InternalGenericFieldInt9:
 					DeserializeGenericFieldInt9(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool0:
+					DeserializeGenericFieldBool0(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool1:
+					DeserializeGenericFieldBool1(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool2:
+					DeserializeGenericFieldBool2(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool3:
+					DeserializeGenericFieldBool3(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool4:
+					DeserializeGenericFieldBool4(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool5:
+					DeserializeGenericFieldBool5(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool6:
+					DeserializeGenericFieldBool6(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool7:
+					DeserializeGenericFieldBool7(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool8:
+					DeserializeGenericFieldBool8(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldBool9:
+					DeserializeGenericFieldBool9(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericFieldFloat0:
@@ -402,12 +568,56 @@ namespace Coherence.Generated.Internal
 					DeserializeGenericFieldString2(inProtocolStream);
                     break;
 
+                case TypeIds.InternalGenericFieldString3:
+					DeserializeGenericFieldString3(inProtocolStream);
+                    break;
+
                 case TypeIds.InternalGenericFieldString4:
 					DeserializeGenericFieldString4(inProtocolStream);
                     break;
 
                 case TypeIds.InternalGenericFieldQuaternion0:
 					DeserializeGenericFieldQuaternion0(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity0:
+					DeserializeGenericFieldEntity0(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity1:
+					DeserializeGenericFieldEntity1(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity2:
+					DeserializeGenericFieldEntity2(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity3:
+					DeserializeGenericFieldEntity3(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity4:
+					DeserializeGenericFieldEntity4(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity5:
+					DeserializeGenericFieldEntity5(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity6:
+					DeserializeGenericFieldEntity6(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity7:
+					DeserializeGenericFieldEntity7(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity8:
+					DeserializeGenericFieldEntity8(inProtocolStream);
+                    break;
+
+                case TypeIds.InternalGenericFieldEntity9:
+					DeserializeGenericFieldEntity9(inProtocolStream);
                     break;
 
 			}
